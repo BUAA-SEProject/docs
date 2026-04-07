@@ -1,0 +1,10 @@
+# 产品与需求
+
+本部分描述系统做什么、给谁用、为什么做，以及核心模块之间如何协同。
+
+推荐顺序：
+
+1. 阅读 [系统概述](system-overview.md)
+2. 阅读 [用户角色与使用场景](user-roles-and-scenarios.md)
+3. 确认 [核心需求清单](core-requirements.md)
+4. 在 [模块地图](module-map.md) 中建立需求、设计和实现的对应关系
