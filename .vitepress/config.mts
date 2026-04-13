@@ -6,7 +6,7 @@ export default defineConfig({
   lang: 'zh-CN',
   title: '在线教学与实训平台文档中心',
   description: '在线教学与实训平台项目文档，使用 VitePress 构建并发布到 GitHub Pages。',
-  base: '/docs/',
+  base: '/',
   cleanUrls: true,
   lastUpdated: true,
   srcExclude: ['README.md', 'SUMMARY.md'],
