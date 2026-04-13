@@ -1,21 +1,62 @@
-# [占位] 作业与实验接口
+# 任务、提交与评测接口
 
-> [占位] 当前文档尚未进入正式编写阶段。本页仅保留结构化草案，不可直接作为课程提交稿、开发依据或答辩材料使用。
-
-## 接口清单
+## 1. 接口清单
 
 | 方法 | 路径 | 说明 | 权限 |
 | --- | --- | --- | --- |
-| GET | `/courses/{id}/assignments` | 查看课程作业/实验 | 已登录 |
-| POST | `/courses/{id}/assignments` | 创建作业/实验 | 教师 |
-| GET | `/assignments/{id}` | 查看作业/实验详情 | 已登录 |
-| PUT | `/assignments/{id}` | 更新作业/实验 | 教师 |
-| POST | `/assignments/{id}/submissions` | 提交作业/实验 | 学生 |
-| GET | `/assignments/{id}/submissions` | 查看提交记录 | 已登录 |
-| POST | `/submissions/{id}/rejudge` | 重新评测 | 教师 |
+| GET | `/courses/:courseId/tasks` | 课程任务列表 | 已登录 |
+| POST | `/courses/:courseId/tasks` | 创建任务 | 教师 |
+| GET | `/tasks/:taskId` | 任务详情 | 已登录 |
+| PATCH | `/tasks/:taskId` | 更新任务 | 教师 |
+| POST | `/tasks/:taskId/publish` | 发布任务 | 教师 |
+| POST | `/tasks/:taskId/submissions` | 创建提交 | 学员 |
+| GET | `/tasks/:taskId/submissions` | 我的提交列表 / 课程提交列表 | 已登录 |
+| GET | `/submissions/:submissionId` | 提交详情 | 已登录 |
+| POST | `/submissions/:submissionId/rejudge` | 重新评测 | 教师 / 管理员 |
 
-## 待补充内容
+## 2. 创建任务
 
-- 提交次数限制
-- 截止时间与迟交策略
-- 评测触发与状态回传
+请求体关键字段：
+
+```json
+{
+  "type": "programming",
+  "title": "实验一：排序算法",
+  "contentMd": "请完成快速排序",
+  "openAt": "2026-04-20T08:00:00Z",
+  "dueAt": "2026-04-27T15:59:59Z",
+  "submissionLimit": 10,
+  "gradingMode": "hybrid"
+}
+```
+
+## 3. 创建提交
+
+支持两种提交方式：
+
+- `sourceText`：在线编辑器代码
+- `files[]`：上传文件
+
+响应字段：
+
+- `submissionId`
+- `submitNo`
+- `status`
+- `acceptedAt`
+
+## 4. 提交详情
+
+返回字段：
+
+- 提交元信息
+- 文件列表
+- 当前评测状态
+- 当前评测结果摘要
+- 历史评测记录
+
+## 5. 重新评测
+
+业务规则：
+
+- 仅教师或管理员可触发。
+- 会追加新的评测记录，不覆盖旧记录。

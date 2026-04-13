@@ -1,23 +1,70 @@
-# [占位] 认证与用户接口
+# 认证与会话接口
 
-> [占位] 当前文档尚未进入正式编写阶段。本页仅保留结构化草案，不可直接作为课程提交稿、开发依据或答辩材料使用。
-
-## 目标
-
-支持教师与学生登录、身份校验和基础资料管理。
-
-## 接口清单
+## 1. 接口清单
 
 | 方法 | 路径 | 说明 | 权限 |
 | --- | --- | --- | --- |
 | POST | `/auth/login` | 登录 | 公开 |
 | POST | `/auth/logout` | 退出登录 | 已登录 |
-| GET | `/users/me` | 获取当前用户 | 已登录 |
-| PUT | `/users/me` | 更新个人资料 | 已登录 |
+| GET | `/auth/me` | 获取当前用户 | 已登录 |
+| POST | `/auth/change-password` | 修改密码 | 已登录 |
 
-## 待补充字段
+## 2. 登录
 
-- 登录请求体
-- Token 返回结构
-- 角色信息字段
-- 权限校验失败示例
+`POST /api/v1/auth/login`
+
+请求体：
+
+```json
+{
+  "username": "teacher01",
+  "password": "Password123"
+}
+```
+
+响应体：
+
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "user": {
+      "id": "u_001",
+      "displayName": "张老师",
+      "platformRole": "teacher"
+    }
+  }
+}
+```
+
+## 3. 当前用户
+
+`GET /api/v1/auth/me`
+
+返回字段：
+
+- `id`
+- `username`
+- `displayName`
+- `platformRole`
+- `courseRoles`
+- `status`
+
+## 4. 修改密码
+
+`POST /api/v1/auth/change-password`
+
+请求体：
+
+```json
+{
+  "oldPassword": "Password123",
+  "newPassword": "NewPassword123"
+}
+```
+
+业务规则：
+
+- 新密码长度不少于 8 位。
+- 修改成功后要求重新登录。
