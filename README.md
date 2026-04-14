@@ -1,4 +1,4 @@
-# 在线教学与实训平台文档中心
+# AUBB（Academic Unified Builder Bench）文档中心
 
 本目录已经迁移为基于 VitePress 的文档站，推送到 `main` 后会通过 GitHub Actions 自动构建并发布到 GitHub Pages。
 

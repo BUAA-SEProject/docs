@@ -4,8 +4,8 @@ import { buildNav, buildSidebar } from './navigation';
 
 export default defineConfig({
   lang: 'zh-CN',
-  title: '在线教学与实训平台文档中心',
-  description: '在线教学与实训平台项目文档，使用 VitePress 构建并发布到 GitHub Pages。',
+  title: 'AUBB 文档中心',
+  description: 'AUBB（Academic Unified Builder Bench）项目文档，使用 VitePress 构建并发布到 GitHub Pages。',
   base: '/',
   cleanUrls: true,
   lastUpdated: true,

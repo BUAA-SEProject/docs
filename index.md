@@ -2,8 +2,8 @@
 layout: home
 
 hero:
-  name: 在线教学与实训平台
-  text: 项目文档中心
+  name: AUBB
+  text: Academic Unified Builder Bench
   tagline: 面向课程大作业交付的完整文档基线，覆盖需求、设计、接口、测试、部署与协作。
   actions:
     - theme: brand

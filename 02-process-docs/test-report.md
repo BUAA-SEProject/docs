@@ -2,10 +2,10 @@
 
 ## 1. 文档信息
 
-- 文档名称：在线教学与实训平台测试报告
-- 版本：v1.0
+- 文档名称：AUBB（Academic Unified Builder Bench）测试报告
+- 版本：v1.1
 - 状态：验证基线稿，待结合实现结果补实测证据
-- 更新日期：2026-04-13
+- 更新日期：2026-04-14
 - 编写依据：SRS、概要设计、详细设计、测试策略
 - 参考标准：ISO/IEC/IEEE 29119 系列
 
@@ -33,8 +33,8 @@
 | 项目 | 基线 |
 | --- | --- |
 | 前端 | `platform-web`，生产构建版 |
-| 后端 | `platform-api`，开发或预发配置 |
-| 判题 | `judge-worker` + `go-judge` |
+| 后端 | `platform-api`，Spring Boot 3 / Java 21，开发或预发配置 |
+| 判题 | `judge-worker`（Spring Boot） + `go-judge` |
 | 数据库 | PostgreSQL 16 |
 | 缓存 / 队列 | Redis 7 |
 | 对象存储 | MinIO |

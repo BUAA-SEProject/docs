@@ -4,7 +4,7 @@
 
 - 基础路径：`/api/v1`
 - 数据格式：JSON，文件上传使用 `multipart/form-data`
-- 鉴权方式：Session Cookie
+- 鉴权方式：Spring Security Session Cookie
 - 时间格式：ISO 8601
 - 编码：UTF-8
 
@@ -41,7 +41,7 @@
 | --- | --- |
 | `Content-Type` | 请求体类型 |
 | `X-Request-Id` | 可选，客户端传入便于链路追踪 |
-| `X-CSRF-Token` | 可选，若启用 CSRF 防护则写操作必须携带 |
+| `X-CSRF-Token` | 写操作建议携带，配合 Spring Security CSRF 防护 |
 
 ## 5. 分页与筛选
 

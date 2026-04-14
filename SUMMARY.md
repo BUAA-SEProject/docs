@@ -1,6 +1,6 @@
 # Table of contents
 
-* [在线教学与实训平台文档中心](index.md)
+* [AUBB（Academic Unified Builder Bench）文档中心](index.md)
 * [项目概览](01-overview/index.md)
   * [课程大作业要求](01-overview/course-project-requirements.md)
   * [项目章程](01-overview/project-charter.md)
