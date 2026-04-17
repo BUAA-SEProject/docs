@@ -34,6 +34,13 @@
     "displayName": "张老师",
     "primaryOrgUnitId": 401,
     "accountStatus": "ACTIVE",
+    "academicProfile": {
+      "academicId": "T2026001",
+      "realName": "张老师",
+      "identityType": "TEACHER",
+      "profileStatus": "ACTIVE",
+      "phone": "13800000001"
+    },
     "identities": [
       {
         "roleCode": "CLASS_ADMIN",
@@ -51,6 +58,7 @@
 - 登录成功后服务端返回访问令牌，不再建立服务端 Session。
 - 访问令牌默认有效期为 2 小时。
 - 连续 5 次登录失败后，账号锁定 30 分钟。
+- `DISABLED`、`LOCKED`、`EXPIRED` 账号不得成功登录。
 
 ## 3. 当前用户
 
@@ -69,6 +77,7 @@ Authorization: Bearer <access-token>
 - `displayName`
 - `primaryOrgUnitId`
 - `accountStatus`
+- `academicProfile`
 - `identities`
 
 ## 4. 退出登录
@@ -79,3 +88,10 @@ Authorization: Bearer <access-token>
 
 - 当前实现为无状态 JWT，退出接口用于记录审计并通知客户端丢弃令牌。
 - 当前版本不提供服务端撤销列表。
+
+## 5. 常见拒绝结果
+
+- `INVALID_CREDENTIALS`：用户名或密码错误
+- `ACCOUNT_LOCKED`：账号处于锁定期
+- `ACCOUNT_DISABLED`：账号已停用
+- `ACCOUNT_EXPIRED`：账号已失效

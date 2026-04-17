@@ -3,10 +3,10 @@
 ## 1. 文档信息
 
 - 文档名称：AUBB（Academic Unified Builder Bench）软件详细设计说明书
-- 版本：v1.2
+- 版本：v1.3
 - 状态：设计基线
-- 更新日期：2026-04-14
-- 编写依据：SRS v4.1、概要设计说明书 v1.2、模块地图、API 设计草案
+- 更新日期：2026-04-15
+- 编写依据：SRS v4.4、概要设计说明书 v1.3、模块地图、API 设计草案
 - 参考标准：IEEE 1016-2009
 
 ## 2. 代码仓与目录建议
@@ -28,13 +28,9 @@ seproject/
   docs/
 ```
 
-### 2.1 Maven 多模块建议
+### 2.1 当前仓库实现
 
-| 模块 | 作用 |
-| --- | --- |
-| `backend/common` | 公共枚举、错误码、工具类、基类、事件模型 |
-| `backend/platform-api` | 对外 REST API、认证、核心业务模块 |
-| `backend/judge-worker` | 运行 / 评测消息消费、`go-judge` 适配、结果回写 |
+当前后端仓库以单模块 `AUBB-Server` 为主，围绕 `com.aubb.server.modules.<module>` 组织业务代码，模块内部继续采用 `api / application / domain / infrastructure` 四层；共享能力保留在 `common`、`config` 和 `infrastructure.persistence`。课程域与 `judge-worker` 仍作为后续扩展位保留在系统级设计中。
 
 ## 3. 前端详细设计
 
@@ -87,67 +83,33 @@ seproject/
 
 | 服务 | 技术栈 | 责任 |
 | --- | --- | --- |
-| `platform-api` | Spring Boot 3、Spring MVC、Spring Security、MyBatis-Plus | 对外 API、权限、事务、业务编排 |
-| `judge-worker` | Spring Boot 3、Spring Data Redis、定时调度 | 消费运行 / 评测消息、调用 `go-judge`、归一化结果 |
+| `platform-api` | Spring Boot 4、Spring MVC、Spring Security、MyBatis-Plus | 对外 API、权限、事务、业务编排 |
+| `judge-worker` | Spring Boot 4、Spring Data Redis、定时调度 | 消费运行 / 评测消息、调用 `go-judge`、归一化结果 |
 
 ### 4.2 包结构设计
 
 ```text
-com.seproject.platform
-  ├─ config
-  ├─ common
-  │   ├─ enums
-  │   ├─ exception
-  │   ├─ response
-  │   └─ util
-  ├─ security
-  │   ├─ filter
-  │   ├─ handler
-  │   ├─ service
-  │   └─ context
+com.aubb.server
   ├─ modules
-  │   ├─ auth
-  │   ├─ admin
-  │   ├─ course
-  │   ├─ task
-  │   ├─ ide
-  │   ├─ submission
-  │   ├─ judge
-  │   ├─ grade
-  │   ├─ notification
-  │   └─ analytics
-  └─ integration
-      ├─ storage
-      ├─ gojudge
-      ├─ keycloak
-      └─ redisstream
+  │   ├─ identityaccess
+  │   ├─ organization
+  │   ├─ platformconfig
+  │   └─ audit
+  ├─ common
+  ├─ config
+  ├─ infrastructure
+  │   └─ persistence
 ```
 
 ### 4.3 模块内部分层
 
-每个业务模块统一采用如下结构：
-
-```text
-modules/task/
-  controller/
-  dto/
-  vo/
-  app/
-  domain/
-  mapper/
-  entity/
-  convert/
-```
-
 | 层次 | 职责 | 说明 |
 | --- | --- | --- |
-| `controller` | 接口定义、参数接收、响应输出 | 只做协议转换，不承载业务逻辑 |
-| `dto` / `vo` | 入参与出参模型 | 与数据库实体分离 |
-| `app` | 应用服务 | 编排事务、调用领域服务、发布消息 |
-| `domain` | 领域服务 | 核心规则、状态流转、权限判定 |
-| `mapper` | MyBatis Mapper | 数据访问 |
-| `entity` | 持久化对象 | 对应数据库表 |
-| `convert` | MapStruct 转换器 | DTO / Entity / VO 映射 |
+| `modules.<module>.api` | 接口定义、参数接收、响应输出 | 只做协议转换，不承载业务逻辑 |
+| `modules.<module>.application` | 应用服务 | 编排事务、调用领域规则、执行作用域授权 |
+| `modules.<module>.domain` | 领域规则 | 密码、角色、组织层级等核心规则 |
+| `modules.<module>.infrastructure` | Mapper 与实体 | 数据访问、持久化与模块内外部适配 |
+| `common / config / infrastructure.persistence` | 共享基础设施 | 承载跨模块通用配置、错误模型、请求上下文和持久化公共适配 |
 
 ### 4.4 请求处理链路
 
@@ -180,7 +142,7 @@ Nginx
 #### 4.5.3 统一认证扩展
 
 - 若启用 Keycloak，则采用 OIDC code flow。
-- `user_identities` 维护平台用户与外部身份主体的映射。
+- 外部身份映射表属于后续统一认证扩展位，当前 Phase 2 不进入落库实现。
 - 外部身份登录成功后，仍要回填平台内角色与组织信息，不直接信任外部系统的课程权限。
 
 ### 4.6 数据访问设计
@@ -274,22 +236,26 @@ Nginx
 | --- | --- |
 | `SecurityConfig` | Security 过滤链配置 |
 | `JwtTokenService` | 访问令牌签发与解析 |
-| `CurrentUserService` | 获取当前登录用户上下文 |
-| `AuthAppService` | 登录、退出、令牌相关编排 |
+| `AuthenticationApplicationService` | 登录、退出、账号状态校验与主用户上下文装配 |
+| `JwtPrincipalAuthenticationConverter` | 将 JWT 声明转换为认证主体 |
 
 ### 5.2 平台治理模块
 
 - `PlatformConfigAppService` 负责当前平台配置读取与即时更新。
 - `OrgUnitAppService` 负责学校/学院/课程/班级组织树维护和层级校验。
-- `UserAppService` 负责用户导入、作用域身份变更、账号状态管理。
-- 导入接口采用“先解析 Excel -> 行级校验 -> 批量写库 -> 输出结果报告”的处理模式。
+- `UserAdministrationApplicationService` 负责用户导入、分页查询、详情、作用域身份变更与账号状态管理。
+- 用户系统当前已实现“基础资料 + 教务画像 + 组织成员关系 + 平台治理身份”；课程成员角色由 `course_members` 在课程域承接。
+- 导入接口采用“先解析 CSV -> 行级校验 -> 行级事务写库 / 局部成功 -> 输出结果报告”的处理模式。
 
 ### 5.3 课程与任务模块
 
 #### 5.3.1 课程管理
 
-- 创建课程时自动写入负责人成员关系。
-- 邀请码生成规则在 `InviteCodeDomainService` 中集中维护。
+- 当前课程第一切片围绕 `course_catalogs -> course_offerings -> teaching_classes -> course_members` 展开。
+- 创建开课实例时自动创建 COURSE 组织节点，并写入负责教师成员关系。
+- 教学班创建时自动创建 CLASS 组织节点。
+- 学生当前不能自主选课；课程成员仅允许教师批量添加或导入既有系统用户。
+- 助教权限当前采用固定边界：可查看授权教学班成员，不可批量加人或修改班级功能开关。
 - 课程归档后禁止新提交，但保留查询历史成绩和提交记录。
 
 #### 5.3.2 任务管理
