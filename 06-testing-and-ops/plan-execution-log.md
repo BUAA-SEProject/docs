@@ -286,3 +286,11 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `web/` | `src/tests/e2e/full-fixtures.ts` | 当前 diff 将全量用户列表查询改为按用户名分页查询，并把 `userId(...)` 改为 async；这可降低历史 E2E 数据膨胀导致固定 `pageSize=100` 找不到账号的风险。该文件在本轮开始时已经 dirty，未纳入本轮提交 |
 
 上述归因不改变文件状态；剩余 dirty 文件仍需后续由用户或明确任务确认后再决定提交、保留或回滚。
+
+### 2026-05-17 Dockerfile 构建尝试
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd server && docker build -f Dockerfile -t aubb-server:dirty-check .` | 未完成；构建在拉取/解析 `maven:3.9.11-eclipse-temurin-25` 与 `eclipse-temurin:25-jre` 基础镜像 metadata 阶段超过 2 分钟无进展 |
+
+该构建是为验证剩余 dirty `server/Dockerfile` 的可构建性而启动的临时检查；未运行容器、未删除 volumes。随后只终止了该 `docker build`/`buildx` 验证进程，并确认 `docker ps` 无运行容器。该项不能作为 Dockerfile 构建通过证据。
