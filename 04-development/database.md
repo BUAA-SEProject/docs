@@ -369,17 +369,9 @@
 | `output` | 输出 |
 | `status` | 运行状态 |
 
-### 6.3 `grade_appeals`
+### 6.3 成绩册读模型
 
-| 字段 | 说明 |
-| --- | --- |
-| `id` | 申诉主键 |
-| `submission_id` | 关联提交 |
-| `answer_id` | 关联答案 |
-| `student_user_id` | 学生 |
-| `reason` | 申诉理由 |
-| `status` | 申诉状态 |
-| `review_comment` | 教师评语 |
+当前 V48 后不再保留独立 `grade_appeals`、`grade_publish_snapshot_batches`、`grade_publish_snapshots` 或 assignment 级 `grade_weight`。成绩册和统计报告直接聚合 `assignments / submissions / submission_answers / course_members`，成绩发布状态仍由 `assignments.grade_published_at` 与 `assignments.grade_published_by_user_id` 表达。
 
 ## 7. 实验表
 

@@ -10,6 +10,9 @@
 | 环境与部署基线 | 规定不同环境的差异与上线前检查 |
 | 可观测性 | 规定日志、指标、仪表盘和告警 |
 | 验收清单 | 规定答辩前最终核对项 |
+| 计划执行记录 | 记录本轮文档同步、审计、修复和联调进度 |
+| 全栈审计报告 | 记录前端、后端、文档和测试的主要问题与修复 |
+| 按钮级 E2E 验证报告 | 记录真实浏览器按钮级验收范围、证据和阻塞 |
 
 ## 使用顺序
 
@@ -17,3 +20,4 @@
 2. 环境准备时阅读 [环境与部署基线](environments-and-deployment.md)。
 3. 观测与排障时阅读 [可观测性](observability.md)。
 4. 提交前和答辩前使用 [验收清单](acceptance-checklist.md)。
+5. 本轮交付核对阅读 [计划执行记录](plan-execution-log.md)、[全栈审计报告](full-stack-audit-report.md) 和 [按钮级 E2E 验证报告](button-level-e2e-verification-report.md)。

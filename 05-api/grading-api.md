@@ -44,8 +44,8 @@
 
 ```json
 {
-  "manualScore": 30,
-  "commentText": "边界条件处理不完整"
+  "score": 30,
+  "feedbackText": "边界条件处理不完整"
 }
 ```
 

@@ -66,7 +66,7 @@ DB  MinIO  RabbitMQ  go-judge
 - `modules.course`：学期、课程模板、开课实例、教学班、课程成员、班级功能开关
 - `modules.assignment`：作业创建、列表、详情、状态流转、题库管理、结构化试卷快照
 - `modules.submission`：正式提交受理、分题答案、评分摘要、提交附件
-- `modules.grading`：人工批改、成绩发布、成绩册、申诉
+- `modules.grading`：人工批改、成绩发布、成绩册、导入导出、统计与排名
 - `modules.judge`：评测作业入队、go-judge 适配、评测结果回写、评测报告
 - `modules.lab`：教学班级实验、实验报告、对象存储附件
 - `modules.notification`：站内通知、收件状态、未读数、关键教学事件入箱
