@@ -343,3 +343,14 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 常见 shell 配置 | `$HOME/.zshenv`、`$HOME/.zprofile`、`$HOME/.zshrc`、`$HOME/.profile`、`$HOME/.bash_profile`、`$HOME/.bashrc` 中未检出这四个变量名 |
 
 本次只检查变量是否存在或变量名是否出现，没有读取、打印或落盘任何密码值。当前证据说明阻塞不是单纯的 `launchctl` 到 shell 传播问题；在本执行环境可见范围内，四个真实 E2E 密码变量尚未配置。
+
+### 2026-05-17 E2E 环境加载入口排查
+
+| 检查项 | 当前证据 |
+| --- | --- |
+| 仓库内变量名来源 | 仅 `plan.md`、本执行日志、`web/src/tests/e2e/README.md`、`web/src/tests/e2e/real-backend.ts` 命中四个密码变量名 |
+| 本地 env 模板 | `server/deploy/.env.uat.example`、`.env.staging.example`、`.env.production.example` 存在，但未作为 E2E 密码变量模板 |
+| 自动加载入口 | 根目录、`server/`、`web/`、`docs/` 下未发现 `.envrc`、Justfile、项目级 Makefile 或 mise 配置 |
+| E2E README | 明确真实密码必须从环境变量提供，默认账号标识为 `U-SA1`、`U-TA1`、`U-ST1` |
+
+本次仍只记录路径和变量名命中情况，没有读取或打印任何密码值。当前可见仓库内容没有提供替代的本地加载机制；真实服务启动链路仍等待四个 `AUBB_E2E_*_PASSWORD` 进入当前执行环境。
