@@ -294,3 +294,12 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `cd server && docker build -f Dockerfile -t aubb-server:dirty-check .` | 未完成；构建在拉取/解析 `maven:3.9.11-eclipse-temurin-25` 与 `eclipse-temurin:25-jre` 基础镜像 metadata 阶段超过 2 分钟无进展 |
 
 该构建是为验证剩余 dirty `server/Dockerfile` 的可构建性而启动的临时检查；未运行容器、未删除 volumes。随后只终止了该 `docker build`/`buildx` 验证进程，并确认 `docker ps` 无运行容器。该项不能作为 Dockerfile 构建通过证据。
+
+### 2026-05-17 Compose 静态配置补充
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd server && docker compose config --quiet` | 通过，退出码 0 |
+| `cd server && docker compose --profile app config --quiet` | 通过，退出码 0 |
+
+该验证只检查 `server/compose.yaml` 可解析性，不创建或启动容器；真实依赖、后端 readiness 和 OpenAPI 仍需 E2E 密码变量可用后重新启动验证。
