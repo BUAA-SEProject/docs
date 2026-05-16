@@ -322,3 +322,14 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `cd docs && git diff --check` | 通过，退出码 0 |
 
 该检查仅覆盖当前工作区 diff 的空白和补丁格式问题；不替代真实服务或浏览器验证。
+
+### 2026-05-17 恢复后阻塞复核
+
+| 检查项 | 当前证据 |
+| --- | --- |
+| `server/` dirty | `M Dockerfile`，仍为本轮开始时已记录的既有 dirty 文件 |
+| `web/` dirty | `M next.config.ts`、`M src/tests/e2e/full-fixtures.ts`，仍为本轮开始时已记录的既有 dirty 文件 |
+| `docs/` dirty | 追加本段前为 clean；追加本段后仅包含本审计记录 |
+| E2E 密码变量 | `AUBB_E2E_ADMIN_PASSWORD`、`AUBB_E2E_TEACHER_PASSWORD`、`AUBB_E2E_STUDENT_PASSWORD`、`AUBB_E2E_TEMP_USER_PASSWORD` 均为 `MISSING` |
+
+本次只执行变量存在性检查，没有打印任何密码值。由于四个真实 E2E 密码变量仍不可见，继续遵守计划硬门禁：不启动 `127.0.0.1:18080` 后端、不启动 `127.0.0.1:3000` 前端、不启动 Docker 依赖、不运行真实浏览器 E2E。
