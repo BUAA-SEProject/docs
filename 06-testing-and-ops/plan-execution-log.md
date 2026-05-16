@@ -312,3 +312,13 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `cd server && docker build --check --progress=plain -f Dockerfile .` | 未完成；同样卡在 Docker Hub 基础镜像 metadata 阶段，随后终止该临时验证进程 |
 
 因此当前仍没有 `server/Dockerfile` 构建通过证据；已知限制是基础镜像未缓存且 registry metadata 请求无进展。
+
+### 2026-05-17 Diff 格式检查补充
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd server && git diff --check` | 通过，退出码 0 |
+| `cd web && git diff --check` | 通过，退出码 0 |
+| `cd docs && git diff --check` | 通过，退出码 0 |
+
+该检查仅覆盖当前工作区 diff 的空白和补丁格式问题；不替代真实服务或浏览器验证。
