@@ -267,3 +267,12 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `cd web && AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npm run build` | 通过；Next.js 16.2.4 Turbopack 编译、TypeScript、30 个静态页面生成和路由优化均完成 |
 
 该构建验证不启动本地后端；真实 API 代理、三角色登录和真实浏览器 E2E 仍需在四个 E2E 密码变量可用后重新执行。
+
+### 2026-05-17 E2E Mock 与权限脚本静态补充
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd web && rg -n "\\b(page|context|browserContext)\\.route\\b|route\\(" src/tests/e2e` | 无命中，退出码 1；未发现 Playwright E2E 中使用 route mock 后端响应 |
+| `cd server && python3 scripts/api-tests/permission/e2e_permission_realrun_test.py` | `Ran 1 test`，`OK` |
+
+该补充仅覆盖静态 mock 扫描和权限脚本单元测试；真实权限 HTTP 脚本仍需本地后端 `127.0.0.1:18080` 与 E2E 密码变量可用后重新执行。
