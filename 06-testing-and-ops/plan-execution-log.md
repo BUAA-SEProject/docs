@@ -354,3 +354,14 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | E2E README | 明确真实密码必须从环境变量提供，默认账号标识为 `U-SA1`、`U-TA1`、`U-ST1` |
 
 本次仍只记录路径和变量名命中情况，没有读取或打印任何密码值。当前可见仓库内容没有提供替代的本地加载机制；真实服务启动链路仍等待四个 `AUBB_E2E_*_PASSWORD` 进入当前执行环境。
+
+### 2026-05-17 Playwright 环境加载确认
+
+| 检查项 | 当前证据 |
+| --- | --- |
+| `web/package.json` | `test:e2e` 直接执行 `playwright test` |
+| `web/playwright.config.ts` | 通过 `process.env.AUBB_E2E_REAL_BACKEND` 和 `process.env.PLAYWRIGHT_TEST_BASE_URL` 读取环境 |
+| dotenv / loadEnv | `package.json`、`playwright.config.ts` 和 `web/src/tests/e2e` 中未发现 dotenv 或自定义 env 文件加载逻辑 |
+| E2E 密码读取 | `web/src/tests/e2e/real-backend.ts` 的 `requiredEnv(...)` 直接从 `process.env` 读取四个密码变量 |
+
+因此真实 E2E 运行前，四个 `AUBB_E2E_*_PASSWORD` 必须已经存在于当前命令环境；当前仓库代码不会自动从本地文件加载它们。
