@@ -276,3 +276,13 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `cd server && python3 scripts/api-tests/permission/e2e_permission_realrun_test.py` | `Ran 1 test`，`OK` |
 
 该补充仅覆盖静态 mock 扫描和权限脚本单元测试；真实权限 HTTP 脚本仍需本地后端 `127.0.0.1:18080` 与 E2E 密码变量可用后重新执行。
+
+### 2026-05-17 剩余 Dirty 文件归因补充
+
+| 仓库 | 文件 | 只读归因 |
+| --- | --- | --- |
+| `server/` | `Dockerfile` | 当前 diff 移除 BuildKit cache mount，并在 runtime stage 安装 `curl`；`server/compose.yaml` 的 `app` healthcheck 使用 `curl -fsS http://localhost:8080/actuator/health/readiness`。该文件在本轮开始时已经 dirty，未纳入本轮提交，不能在未确认归属前提交或回滚 |
+| `web/` | `next.config.ts` | 当前 diff 增加 `allowedDevOrigins: ["127.0.0.1"]`，与本计划固定使用 `127.0.0.1:3000` 的本地真实浏览器验证相关。该文件在本轮开始时已经 dirty，未纳入本轮提交 |
+| `web/` | `src/tests/e2e/full-fixtures.ts` | 当前 diff 将全量用户列表查询改为按用户名分页查询，并把 `userId(...)` 改为 async；这可降低历史 E2E 数据膨胀导致固定 `pageSize=100` 找不到账号的风险。该文件在本轮开始时已经 dirty，未纳入本轮提交 |
+
+上述归因不改变文件状态；剩余 dirty 文件仍需后续由用户或明确任务确认后再决定提交、保留或回滚。
