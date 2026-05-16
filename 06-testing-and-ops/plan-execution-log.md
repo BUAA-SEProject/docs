@@ -212,3 +212,22 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `server/` | `main...origin/main`，6 个已修改文件 | `6 files changed, 89 insertions(+), 8 deletions(-)` |
 | `web/` | `main...origin/main`，7 个已修改文件，6 个新增 full E2E 文件未跟踪 | tracked diff 为 `7 files changed, 385 insertions(+), 82 deletions(-)`；新增文件为 `full-admin.spec.ts`、`full-assignment-judge.spec.ts`、`full-course.spec.ts`、`full-fixtures.ts`、`full-grading-lab-notification.spec.ts`、`full-navigation-permission.spec.ts` |
 | `docs/` | `main...origin/main`，3 个已修改报告文件 | `3 files changed, 338 insertions(+), 100 deletions(-)` |
+
+## 8. 2026-05-17 继续执行审计
+
+本段记录上下文恢复后的实际状态校验。此前 Task 11 的 Git 摘要记录的是提交前状态；本段以当前工作区命令输出为准。
+
+| 检查项 | 当前证据 |
+| --- | --- |
+| 当前提交：`server/` | `32aea14 fix(authz): 补强真实权限验证修复` |
+| 当前提交：`web/` | `f9b0245 test(e2e): 补全真实权限场景` |
+| 当前提交：`docs/` | `7105a31 docs(testing): 记录真实权限验证` |
+| 剩余 dirty：`server/` | `M Dockerfile`，属于本轮开始时已记录的既有 dirty 文件，未纳入本次功能提交 |
+| 剩余 dirty：`web/` | `M next.config.ts`、`M src/tests/e2e/full-fixtures.ts`，属于本轮开始时已记录的既有 dirty 文件，未纳入本次功能提交 |
+| 剩余 dirty：`docs/` | 追加本段前为 clean；追加本段后仅包含本审计记录 |
+| 运行时 OpenAPI 快照 | 服务停止前检查为 `3.1.0 124` |
+| 服务停止 | `docker compose down` 后残留 `app`、`judge-worker` 占用 `server_default`，随后执行 `docker compose stop app judge-worker && docker compose rm -f app judge-worker && docker compose down`；未删除 volumes |
+| 最终服务状态 | `docker compose ps -a` 仅输出表头；`127.0.0.1:18080` 和 `127.0.0.1:3000` 均连接失败 |
+| 当前阻塞 | 恢复后的当前 shell、`zsh -lc` 与 `launchctl` 均看不到四个 `AUBB_E2E_*_PASSWORD` 变量，因此不能重新运行真实登录基线或 full regression |
+
+本段不记录密码、token、cookie、JWT、私钥或真实连接串。
