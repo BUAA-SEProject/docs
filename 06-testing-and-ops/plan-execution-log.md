@@ -303,3 +303,12 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `cd server && docker compose --profile app config --quiet` | 通过，退出码 0 |
 
 该验证只检查 `server/compose.yaml` 可解析性，不创建或启动容器；真实依赖、后端 readiness 和 OpenAPI 仍需 E2E 密码变量可用后重新启动验证。
+
+### 2026-05-17 Dockerfile 静态检查补充
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd server && docker image inspect maven:3.9.11-eclipse-temurin-25 eclipse-temurin:25-jre` | 基础镜像本地不存在 |
+| `cd server && docker build --check --progress=plain -f Dockerfile .` | 未完成；同样卡在 Docker Hub 基础镜像 metadata 阶段，随后终止该临时验证进程 |
+
+因此当前仍没有 `server/Dockerfile` 构建通过证据；已知限制是基础镜像未缓存且 registry metadata 请求无进展。
