@@ -259,3 +259,11 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `cd web && npm run test` | 11 个测试文件、24 个测试通过 |
 
 `mvn verify` 使用 Testcontainers 隔离依赖，结束后已检查 `docker ps` 无运行容器、`docker compose ps -a` 仅输出表头。该补充仍不替代 `plan.md` 要求的真实本地服务、三角色登录基线和真实浏览器 E2E；这些仍因四个 `AUBB_E2E_*_PASSWORD` 变量缺失而阻塞。
+
+### 2026-05-17 前端构建补充
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd web && AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npm run build` | 通过；Next.js 16.2.4 Turbopack 编译、TypeScript、30 个静态页面生成和路由优化均完成 |
+
+该构建验证不启动本地后端；真实 API 代理、三角色登录和真实浏览器 E2E 仍需在四个 E2E 密码变量可用后重新执行。
