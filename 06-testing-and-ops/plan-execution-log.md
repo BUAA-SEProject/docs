@@ -333,3 +333,13 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | E2E 密码变量 | `AUBB_E2E_ADMIN_PASSWORD`、`AUBB_E2E_TEACHER_PASSWORD`、`AUBB_E2E_STUDENT_PASSWORD`、`AUBB_E2E_TEMP_USER_PASSWORD` 均为 `MISSING` |
 
 本次只执行变量存在性检查，没有打印任何密码值。由于四个真实 E2E 密码变量仍不可见，继续遵守计划硬门禁：不启动 `127.0.0.1:18080` 后端、不启动 `127.0.0.1:3000` 前端、不启动 Docker 依赖、不运行真实浏览器 E2E。
+
+### 2026-05-17 E2E 变量来源排查
+
+| 检查项 | 当前证据 |
+| --- | --- |
+| 当前 shell | 四个 `AUBB_E2E_*_PASSWORD` 变量均为 `ENV_MISSING` |
+| `launchctl getenv` | 四个变量均为 `LAUNCHCTL_MISSING` |
+| 常见 shell 配置 | `$HOME/.zshenv`、`$HOME/.zprofile`、`$HOME/.zshrc`、`$HOME/.profile`、`$HOME/.bash_profile`、`$HOME/.bashrc` 中未检出这四个变量名 |
+
+本次只检查变量是否存在或变量名是否出现，没有读取、打印或落盘任何密码值。当前证据说明阻塞不是单纯的 `launchctl` 到 shell 传播问题；在本执行环境可见范围内，四个真实 E2E 密码变量尚未配置。
