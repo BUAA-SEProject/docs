@@ -250,3 +250,12 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `cd server && bash ./mvnw spotless:check` | `BUILD SUCCESS`；Spotless 检查 531 个 Java 文件，0 个文件需要修改 |
 
 该验证不依赖 E2E 密码变量；真实服务启动、后端 full regression 和真实浏览器 E2E 仍等待四个 `AUBB_E2E_*_PASSWORD` 变量进入当前执行环境。
+
+### 2026-05-17 后端与前端单元回归补充
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd server && bash ./mvnw verify` | `BUILD SUCCESS`；Tests run: 318，Failures: 0，Errors: 0，Skipped: 0 |
+| `cd web && npm run test` | 11 个测试文件、24 个测试通过 |
+
+`mvn verify` 使用 Testcontainers 隔离依赖，结束后已检查 `docker ps` 无运行容器、`docker compose ps -a` 仅输出表头。该补充仍不替代 `plan.md` 要求的真实本地服务、三角色登录基线和真实浏览器 E2E；这些仍因四个 `AUBB_E2E_*_PASSWORD` 变量缺失而阻塞。
