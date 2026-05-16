@@ -231,3 +231,14 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 当前阻塞 | 恢复后的当前 shell、`zsh -lc` 与 `launchctl` 均看不到四个 `AUBB_E2E_*_PASSWORD` 变量，因此不能重新运行真实登录基线或 full regression |
 
 本段不记录密码、token、cookie、JWT、私钥或真实连接串。
+
+### 2026-05-17 继续执行补充
+
+在 E2E 密码变量仍缺失、真实服务不得启动的状态下，补充执行不依赖真实后端的前端静态验证：
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd web && npm run typecheck` | 通过，退出码 0 |
+| `cd web && npm run lint` | 通过，退出码 0 |
+
+该验证仅说明当前 `web/` 剩余 dirty 文件未造成 TypeScript 或 ESLint 失败；不能替代真实后端、真实依赖和真实浏览器 E2E 门禁。
