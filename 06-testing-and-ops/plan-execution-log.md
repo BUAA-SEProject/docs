@@ -242,3 +242,11 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `cd web && npm run lint` | 通过，退出码 0 |
 
 该验证仅说明当前 `web/` 剩余 dirty 文件未造成 TypeScript 或 ESLint 失败；不能替代真实后端、真实依赖和真实浏览器 E2E 门禁。
+
+### 2026-05-17 后端静态门禁补充
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd server && bash ./mvnw spotless:check` | `BUILD SUCCESS`；Spotless 检查 531 个 Java 文件，0 个文件需要修改 |
+
+该验证不依赖 E2E 密码变量；真实服务启动、后端 full regression 和真实浏览器 E2E 仍等待四个 `AUBB_E2E_*_PASSWORD` 变量进入当前执行环境。
