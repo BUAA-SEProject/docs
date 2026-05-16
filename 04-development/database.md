@@ -8,7 +8,7 @@
 4. 状态字段显式建模，避免用隐含布尔值拼接业务状态。
 5. 平台治理身份与课程成员关系分开建模。
 
-## 2. 当前已实现的治理表
+## 2. 平台治理表
 
 ### 2.1 `org_units`
 
@@ -52,11 +52,6 @@
 | `profile_status` | `ACTIVE / SUSPENDED / GRADUATED / LEFT` |
 | `phone` | 画像手机号，可为空 |
 
-说明：
-
-- 画像字段用于承接学校主数据与教务身份，不替代账号基础字段。
-- 当前实现允许用户基础手机号与画像手机号并存，前者偏账号联系信息，后者偏教务画像口径。
-
 ### 2.4 `user_org_memberships`
 
 | 字段 | 说明 |
@@ -70,11 +65,6 @@
 | `start_at` | 起始时间 |
 | `end_at` | 结束时间 |
 
-说明：
-
-- 成员关系用于表达“学生在班级中”“教师在课程中”等业务归属。
-- 成员关系不等于治理权限，治理权限仍由 `user_scope_roles` 承担。
-
 ### 2.5 `user_scope_roles`
 
 | 字段 | 说明 |
@@ -84,12 +74,6 @@
 | `scope_org_unit_id` | 作用域组织 |
 | `role_code` | `SCHOOL_ADMIN / COLLEGE_ADMIN / COURSE_ADMIN / CLASS_ADMIN` |
 | `created_at` | 创建时间 |
-
-说明：
-
-- 一个用户可拥有多个平台治理身份。
-- 每个治理身份必须绑定一个组织节点。
-- 教师在当前治理阶段临时通过 `CLASS_ADMIN` 表达，不作为课程域最终角色模型。
 
 ### 2.6 `platform_configs`
 
@@ -106,11 +90,6 @@
 | `module_flags` | 模块开关 JSON |
 | `updated_by_user_id` | 最近更新人 |
 
-说明：
-
-- 当前只保留一份生效配置。
-- 配置修改后立即生效，不再引入草稿、发布、回退和历史表。
-
 ### 2.7 `audit_logs`
 
 | 字段 | 说明 |
@@ -126,7 +105,21 @@
 | `metadata` | 扩展上下文 JSON |
 | `created_at` | 创建时间 |
 
-### 2.8 `academic_terms`
+### 2.8 `auth_sessions`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 会话主键 |
+| `user_id` | 用户主键 |
+| `sid` | 会话标识，JWT 中携带 |
+| `refresh_token_hash` | refresh token 哈希 |
+| `status` | 会话状态 |
+| `created_at` | 创建时间 |
+| `expires_at` | 过期时间 |
+
+## 3. 课程主数据表
+
+### 3.1 `academic_terms`
 
 | 字段 | 说明 |
 | --- | --- |
@@ -139,7 +132,7 @@
 | `end_date` | 结束日期 |
 | `status` | `PLANNING / ONGOING / ENDED / ARCHIVED` |
 
-### 2.9 `course_catalogs`
+### 3.2 `course_catalogs`
 
 | 字段 | 说明 |
 | --- | --- |
@@ -153,7 +146,7 @@
 | `description` | 课程描述 |
 | `status` | `ACTIVE / DISABLED` |
 
-### 2.10 `course_offerings`
+### 3.3 `course_offerings`
 
 | 字段 | 说明 |
 | --- | --- |
@@ -171,12 +164,7 @@
 | `status` | `DRAFT / PUBLISHED / ONGOING / FROZEN / ENDED / ARCHIVED` |
 | `start_at` / `end_at` | 开课起止时间 |
 
-说明：
-
-- `course_offerings` 是课程域第一切片的主业务边界。
-- 后续任务、实验、评测和成绩都应围绕 `offering_id` 挂接。
-
-### 2.11 `course_offering_college_maps`
+### 3.4 `course_offering_college_maps`
 
 | 字段 | 说明 |
 | --- | --- |
@@ -185,11 +173,7 @@
 | `college_unit_id` | 共同管理学院 |
 | `relation_type` | `PRIMARY / SECONDARY / CROSS_LISTED` |
 
-说明：
-
-- 用于表达课程可被多个学院共同管理。
-
-### 2.12 `teaching_classes`
+### 3.5 `teaching_classes`
 
 | 字段 | 说明 |
 | --- | --- |
@@ -197,7 +181,7 @@
 | `offering_id` | 所属开课实例 |
 | `class_code` | 班级编码，课程内大小写不敏感唯一 |
 | `class_name` | 班级名称 |
-| `entry_year` | 入学年份，如 2024、2025 |
+| `entry_year` | 入学年份 |
 | `org_class_unit_id` | 对应组织树中的 CLASS 节点 |
 | `capacity` | 班级容量 |
 | `status` | `ACTIVE / FROZEN / ARCHIVED` |
@@ -207,11 +191,7 @@
 | `lab_enabled` | 实验功能开关 |
 | `assignment_enabled` | 作业功能开关 |
 
-说明：
-
-- 一个开课实例可拥有多个不同年份教学班。
-
-### 2.13 `course_members`
+### 3.6 `course_members`
 
 | 字段 | 说明 |
 | --- | --- |
@@ -225,80 +205,258 @@
 | `remark` | 备注 |
 | `joined_at` / `left_at` | 加入和离开时间 |
 
-说明：
+## 4. 作业与题库表
 
-- 课程成员角色与平台治理身份分离建模。
-- 当前学生不能自主选课，成员仅允许教师批量添加或导入既有系统用户。
+### 4.1 `assignments`
 
-## 3. 当前索引约定
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 作业主键 |
+| `offering_id` | 所属开课实例 |
+| `title` | 作业标题 |
+| `status` | `DRAFT / PUBLISHED / CLOSED` |
+| 其他字段 | 截止时间、提交限制、评分模式等 |
 
-- `org_units`：
-  - `lower(code)` 唯一索引
-  - `parent_id + sort_order + id`
-- `users`：
-  - `lower(username)` 唯一索引
-  - `lower(email)` 唯一索引
-  - `primary_org_unit_id`
-  - `account_status`
-- `academic_profiles`：
-  - `user_id` 唯一索引
-  - `lower(academic_id)` 唯一索引
-  - `identity_type + profile_status`
-- `user_org_memberships`：
-  - `user_id + org_unit_id + membership_type` 唯一索引
-  - `user_id`
-  - `org_unit_id`
-- `user_scope_roles`：
-  - `user_id + scope_org_unit_id + role_code` 唯一索引
-  - `user_id`
-  - `scope_org_unit_id`
-- `academic_terms`：
-  - `lower(term_code)` 唯一索引
-- `course_catalogs`：
-  - `lower(course_code)` 唯一索引
-  - `department_unit_id`
-- `course_offerings`：
-  - `lower(offering_code)` 唯一索引
-  - `catalog_id`
-  - `term_id`
-  - `primary_college_unit_id`
-  - `status`
-- `course_offering_college_maps`：
-  - `offering_id + college_unit_id` 唯一索引
-  - `college_unit_id`
-- `teaching_classes`：
-  - `offering_id + lower(class_code)` 唯一索引
-  - `offering_id`
-  - `org_class_unit_id`
-- `course_members`：
-  - `offering_id`
-  - `teaching_class_id`
-  - `user_id`
-  - `member_role + member_status`
-  - `INSTRUCTOR` 按 `offering_id + user_id` 唯一
-  - `STUDENT` 按 `offering_id + user_id` 唯一
-  - `TA` 按 `offering_id + user_id + teaching_class_id` 唯一
-- `audit_logs`：
-  - `actor_user_id + created_at`
-  - `action + created_at`
-  - `target_type + created_at`
+### 4.2 `question_bank_questions`
 
-## 4. 设计边界
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 题目主键 |
+| `offering_id` | 所属开课实例 |
+| `question_type` | 题型 |
+| `content` | 题目内容 |
+| `config_json` | 题目配置（含编程题隐藏测试点） |
+| `category` | 分类/标签 |
+
+### 4.3 `question_bank_question_options`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 选项主键 |
+| `question_id` | 所属题目 |
+| `option_content` | 选项内容 |
+| `is_correct` | 是否正确答案 |
+
+### 4.4 `assignment_sections`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 大题主键 |
+| `assignment_id` | 所属作业 |
+| `section_name` | 大题名称 |
+| `sort_order` | 排序号 |
+
+### 4.5 `assignment_questions`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 试卷题目主键 |
+| `section_id` | 所属大题 |
+| `question_bank_question_id` | 关联题库题目 |
+| `score` | 分值 |
+| `sort_order` | 排序号 |
+| `config_json` | 题目配置快照 |
+
+### 4.6 `assignment_question_options`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 选项主键 |
+| `assignment_question_id` | 所属试卷题目 |
+| `option_content` | 选项内容 |
+| `is_correct` | 是否正确答案 |
+
+### 4.7 `assignment_judge_profiles`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 评测配置主键 |
+| `assignment_id` | 所属作业 |
+| 评测脚本、语言、环境等配置 | |
+
+### 4.8 `assignment_judge_cases`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 测试用例主键 |
+| `judge_profile_id` | 所属评测配置 |
+| `input` | 输入 |
+| `expected_output` | 期望输出 |
+| `score` | 分值 |
+
+## 5. 提交与工作区表
+
+### 5.1 `submissions`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 提交主键 |
+| `assignment_id` | 所属作业 |
+| `user_id` | 提交用户 |
+| `submit_no` | 提交序号 |
+| `status` | 提交状态 |
+| `accepted_at` | 受理时间 |
+
+### 5.2 `submission_answers`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 答案主键 |
+| `submission_id` | 所属提交 |
+| `assignment_question_id` | 对应试卷题目 |
+| `answer_content` | 答案内容 |
+| `auto_score` | 客观题自动评分 |
+| `manual_score` | 人工评分 |
+| `final_score` | 最终评分 |
+
+### 5.3 `submission_artifacts`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 附件主键 |
+| `submission_id` | 所属提交 |
+| `file_name` | 文件名 |
+| `storage_key` | 对象存储键 |
+| `file_size` | 文件大小 |
+
+### 5.4 `programming_workspaces`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 工作区主键 |
+| `user_id` | 用户 |
+| `assignment_id` | 所属作业 |
+| `assignment_question_id` | 所属编程题 |
+| `language` | 编程语言 |
+| `files_snapshot` | 目录树源码快照 |
+| `latest_input` | 最近一次标准输入 |
+
+### 5.5 `programming_workspace_revisions`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 修订主键 |
+| `workspace_id` | 所属工作区 |
+| `revision_no` | 修订序号 |
+| `revision_kind` | 修订类型 |
+| `files_snapshot` | 源码快照 |
+
+## 6. 评测与成绩表
+
+### 6.1 `judge_jobs`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 评测作业主键 |
+| `submission_answer_id` | 关联分题答案（结构化题） |
+| `assignment_id` | 关联作业（legacy） |
+| `submission_id` | 关联提交 |
+| `status` | 评测状态 |
+| `result_json` | 评测结果 |
+| `report_storage_key` | 详细报告对象存储键 |
+
+### 6.2 `programming_sample_runs`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 样例试运行主键 |
+| `user_id` | 用户 |
+| `assignment_id` | 所属作业 |
+| `assignment_question_id` | 所属编程题 |
+| `workspace_id` | 关联工作区 |
+| `revision_id` | 关联修订 |
+| `input` | 输入 |
+| `output` | 输出 |
+| `status` | 运行状态 |
+
+### 6.3 `grade_appeals`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 申诉主键 |
+| `submission_id` | 关联提交 |
+| `answer_id` | 关联答案 |
+| `student_user_id` | 学生 |
+| `reason` | 申诉理由 |
+| `status` | 申诉状态 |
+| `review_comment` | 教师评语 |
+
+## 7. 实验表
+
+### 7.1 `labs`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 实验主键 |
+| `teaching_class_id` | 所属教学班 |
+| `title` | 实验标题 |
+| `description` | 实验说明 |
+| `status` | `DRAFT / PUBLISHED / CLOSED` |
+| `open_at` / `due_at` | 开放和截止时间 |
+
+### 7.2 `lab_reports`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 实验报告主键 |
+| `lab_id` | 所属实验 |
+| `user_id` | 学生 |
+| `content` | 报告内容 |
+| `status` | `DRAFT / SUBMITTED / REVIEWED / PUBLISHED` |
+| `review_comment` | 教师评语 |
+| `review_score` | 教师评分 |
+
+### 7.3 `lab_report_attachments`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 附件主键 |
+| `report_id` | 所属报告 |
+| `file_name` | 文件名 |
+| `storage_key` | 对象存储键 |
+| `file_size` | 文件大小 |
+
+## 8. 通知表
+
+### 8.1 `notifications`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 通知主键 |
+| `type` | 通知类型 |
+| `title` | 通知标题 |
+| `content` | 通知内容 |
+| `created_at` | 创建时间 |
+
+### 8.2 `notification_receipts`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 收件记录主键 |
+| `notification_id` | 关联通知 |
+| `user_id` | 收件用户 |
+| `is_read` | 是否已读 |
+| `read_at` | 阅读时间 |
+
+## 9. 索引约定
+
+- `org_units`：`lower(code)` 唯一索引、`parent_id + sort_order + id`
+- `users`：`lower(username)` 唯一索引、`lower(email)` 唯一索引
+- `academic_profiles`：`user_id` 唯一索引、`lower(academic_id)` 唯一索引
+- `user_org_memberships`：`user_id + org_unit_id + membership_type` 唯一索引
+- `user_scope_roles`：`user_id + scope_org_unit_id + role_code` 唯一索引
+- `academic_terms`：`lower(term_code)` 唯一索引
+- `course_catalogs`：`lower(course_code)` 唯一索引
+- `course_offerings`：`lower(offering_code)` 唯一索引
+- `course_offering_college_maps`：`offering_id + college_unit_id` 唯一索引
+- `teaching_classes`：`offering_id + lower(class_code)` 唯一索引
+- `course_members`：`INSTRUCTOR` 按 `offering_id + user_id` 唯一、`STUDENT` 按 `offering_id + user_id` 唯一
+- `audit_logs`：`actor_user_id + created_at`、`action + created_at`
+
+## 10. 设计边界
 
 - 平台治理身份只解决平台配置、组织、用户、审计等后台治理问题。
 - 教师、助教、学员等课程业务角色不落在 `users` 或 `user_scope_roles` 的全局字段上。
 - 学号/工号和成员关系已落到独立表，不再把这类业务信息塞进 `users` 主表。
-- 课程系统当前通过 `course_catalogs`、`course_offerings`、`teaching_classes` 和 `course_members` 表达课程主数据、班级和成员关系。
-- 如未来引入统一认证，可新增外部身份映射表，但不应破坏当前基础资料与治理身份边界。
-
-## 5. 后续课程域扩展位
-
-后续课程域建议新增但当前未实现的表包括：
-
-- `course_resources`
-- `tasks`
-- `submissions`
-- `judge_runs`
-- `grades`
-
-这些表应围绕课程主链路独立建模，不回写为平台级全局角色。
+- 成绩册聚合继续挂接在 `assignments / submissions / submission_answers / course_members`，当前不引入独立成绩表。
+- 当前实现明确禁止学生自主选课；课程成员仅由教师批量添加或导入既有系统用户。

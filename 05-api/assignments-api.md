@@ -1,28 +1,42 @@
-# 任务、提交与评测接口
+# 作业与题库接口
 
 ## 1. 接口清单
 
+### 1.1 教师端
+
 | 方法 | 路径 | 说明 | 权限 |
 | --- | --- | --- | --- |
-| GET | `/courses/:courseId/tasks` | 课程任务列表 | 已登录 |
-| POST | `/courses/:courseId/tasks` | 创建任务 | 教师 |
-| GET | `/tasks/:taskId` | 任务详情 | 已登录 |
-| PATCH | `/tasks/:taskId` | 更新任务 | 教师 |
-| POST | `/tasks/:taskId/publish` | 发布任务 | 教师 |
-| POST | `/tasks/:taskId/submissions` | 创建提交 | 学员 |
-| GET | `/tasks/:taskId/submissions` | 我的提交列表 / 课程提交列表 | 已登录 |
-| GET | `/submissions/:submissionId` | 提交详情 | 已登录 |
-| POST | `/submissions/:submissionId/rejudge` | 重新评测 | 教师 / 管理员 |
+| POST | `/teacher/course-offerings/{offeringId}/assignments` | 创建作业 | 教师 |
+| GET | `/teacher/course-offerings/{offeringId}/assignments` | 作业列表 | 教师 |
+| GET | `/teacher/assignments/{assignmentId}` | 作业详情 | 教师 |
+| PUT | `/teacher/assignments/{assignmentId}` | 更新作业 | 教师 |
+| PUT | `/teacher/assignments/{assignmentId}/paper` | 更新试卷 | 教师 |
+| POST | `/teacher/assignments/{assignmentId}/publish` | 发布作业 | 教师 |
+| POST | `/teacher/assignments/{assignmentId}/close` | 关闭作业 | 教师 |
+| POST | `/teacher/course-offerings/{offeringId}/question-bank/questions` | 创建题库题目 | 教师 |
+| GET | `/teacher/course-offerings/{offeringId}/question-bank/questions` | 题库题目列表 | 教师 |
+| GET | `/teacher/course-offerings/{offeringId}/question-bank/categories` | 题库分类列表 | 教师 |
+| GET | `/teacher/question-bank/questions/{questionId}` | 题目详情 | 教师 |
+| PUT | `/teacher/question-bank/questions/{questionId}` | 更新题目 | 教师 |
+| POST | `/teacher/question-bank/questions/{questionId}/archive` | 归档题目 | 教师 |
 
-## 2. 创建任务
+### 1.2 学生端
+
+| 方法 | 路径 | 说明 | 权限 |
+| --- | --- | --- | --- |
+| GET | `/me/assignments` | 我的作业列表 | 已登录 |
+| GET | `/me/assignments/{assignmentId}` | 作业详情 | 已登录 |
+
+## 2. 创建作业
+
+`POST /api/v1/teacher/course-offerings/{offeringId}/assignments`
 
 请求体关键字段：
 
 ```json
 {
-  "type": "programming",
   "title": "实验一：排序算法",
-  "contentMd": "请完成快速排序",
+  "description": "请完成快速排序",
   "openAt": "2026-04-20T08:00:00Z",
   "dueAt": "2026-04-27T15:59:59Z",
   "submissionLimit": 10,
@@ -30,33 +44,21 @@
 }
 ```
 
-## 3. 创建提交
+## 3. 作业状态流转
 
-支持两种提交方式：
+作业状态为：`DRAFT` -> `PUBLISHED` -> `CLOSED`
 
-- `sourceText`：在线编辑器代码
-- `files[]`：上传文件
+- `POST /teacher/assignments/{assignmentId}/publish`：发布作业
+- `POST /teacher/assignments/{assignmentId}/close`：关闭作业
 
-响应字段：
+## 4. 题库管理
 
-- `submissionId`
-- `submitNo`
-- `status`
-- `acceptedAt`
+支持五种题型建模，题目存储在题库中，通过试卷快照挂接到作业。
 
-## 4. 提交详情
+## 5. 教师查看提交
 
-返回字段：
-
-- 提交元信息
-- 文件列表
-- 当前评测状态
-- 当前评测结果摘要
-- 历史评测记录
-
-## 5. 重新评测
-
-业务规则：
-
-- 仅教师或管理员可触发。
-- 会追加新的评测记录，不覆盖旧记录。
+| 方法 | 路径 | 说明 | 权限 |
+| --- | --- | --- | --- |
+| GET | `/teacher/assignments/{assignmentId}/submissions` | 按作业查看提交列表 | 教师 |
+| GET | `/teacher/submissions/{submissionId}` | 提交详情 | 教师 |
+| GET | `/teacher/submission-artifacts/{artifactId}/download` | 下载提交附件 | 教师 |

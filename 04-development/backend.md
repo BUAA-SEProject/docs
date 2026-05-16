@@ -4,8 +4,10 @@
 
 - 运行时：Spring Boot 4 + Java 25
 - 持久化：PostgreSQL + Flyway + MyBatis-Plus
-- 认证：Spring Security + JWT Resource Server
-- 目标基础设施：RabbitMQ、Redis
+- 认证：Spring Security + JWT Bearer access token + opaque refresh token
+- 消息队列：RabbitMQ（评测队列第一阶段）
+- 对象存储：MinIO
+- 评测执行：go-judge（集成在应用内）
 - 测试：JUnit 5 + MockMvc + Testcontainers
 
 ## 2. 当前推荐包结构
@@ -19,6 +21,12 @@ com.aubb.server
   │   │   ├─ domain
   │   │   └─ infrastructure
   │   ├─ course
+  │   ├─ assignment
+  │   ├─ submission
+  │   ├─ grading
+  │   ├─ judge
+  │   ├─ lab
+  │   ├─ notification
   │   ├─ organization
   │   ├─ platformconfig
   │   └─ audit
@@ -40,38 +48,40 @@ com.aubb.server
 
 ## 4. 当前核心模块
 
-- `identityaccess`：登录、退出、当前用户、JWT、用户、账号状态、平台治理身份、作用域授权
+- `identityaccess`：登录、退出、当前用户、JWT、用户创建/导入/查询/详情/状态管理、教务画像与组织成员关系、平台治理身份、密码策略、作用域授权
 - `course`：学期、课程模板、开课实例、教学班、课程成员、班级功能开关
+- `assignment`：作业创建、列表、详情、状态流转、题库管理、结构化试卷快照、脚本型自动评测配置
+- `submission`：正式提交受理、分题答案与评分摘要、提交附件上传/关联/下载
+- `grading`：人工批改、成绩发布、学生侧人工评分可见性控制、教师侧与学生侧成绩册、申诉
+- `judge`：评测作业入队、go-judge 适配、RabbitMQ 队列、评测结果回写、评测报告、教师重排队
+- `lab`：教学班级实验定义、实验报告草稿/提交/评阅/发布、实验报告附件
+- `notification`：站内通知入箱、收件状态与未读数、关键教学事件 fan-out
 - `organization`：学校/学院/课程/班级组织树维护与查询
-- `platformconfig`：单份平台配置读取与即时更新
+- `platformconfig`：单份即时生效的平台配置读取与更新
 - `audit`：关键治理动作审计写入与查询
 
 ## 5. 认证与授权约定
 
-- 当前后端使用无状态 JWT，不再使用服务端 Session。
+- 当前后端使用 JWT Bearer access token，受保护请求除验签外还会按 `sid` 回查 `auth_sessions` 与当前用户状态。
+- refresh token 使用 opaque token，仅保存 hash。
 - 平台治理身份使用作用域模型：
   - `SCHOOL_ADMIN`
   - `COLLEGE_ADMIN`
   - `COURSE_ADMIN`
   - `CLASS_ADMIN`
 - 教师在平台治理阶段仍可临时映射为 `CLASS_ADMIN`。
-- 课程成员角色已在课程域单独建模，不与平台治理身份混用。
+- 课程成员角色已在课程域单独建模（`course_members`），不与平台治理身份混用。
+- `logout`、`/api/v1/auth/revoke`、管理员强制失效和账号停用都会让旧会话即时失效。
 
 ## 6. 用户系统边界
 
 当前用户系统由三部分组成：
 
-1. 用户基础资料：登录标识、显示名、邮箱、手机号、默认归属组织、账号生命周期字段。
-2. 平台治理身份：按组织作用域分配的管理员身份。
-3. 课程成员角色：由课程域承接教师、助教、学员关系。
-
-当前管理接口应支持：
-
-- 用户分页列表
-- 用户详情
-- 默认归属组织摘要
-- 生命周期信息：启用、停用、锁定、失效、最近登录
-- 治理身份查看与更新
+1. 用户基础资料（`users`）：登录标识、显示名、邮箱、手机号、默认归属组织、账号生命周期字段。
+2. 教务画像（`academic_profiles`）：学号/工号、真实姓名、画像状态与身份类型。
+3. 组织成员关系（`user_org_memberships`）：业务成员归属。
+4. 平台治理身份（`user_scope_roles`）：按组织作用域分配的管理员身份。
+5. 课程成员角色（`course_members`）：教师、助教、学员等课程域角色。
 
 ## 7. 横切实现约束
 
