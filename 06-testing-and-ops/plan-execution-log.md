@@ -365,3 +365,84 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | E2E 密码读取 | `web/src/tests/e2e/real-backend.ts` 的 `requiredEnv(...)` 直接从 `process.env` 读取四个密码变量 |
 
 因此真实 E2E 运行前，四个 `AUBB_E2E_*_PASSWORD` 必须已经存在于当前命令环境；当前仓库代码不会自动从本地文件加载它们。
+
+### 2026-05-17 基线 Step 2 阻塞复核
+
+| 检查项 | 当前证据 |
+| --- | --- |
+| 当前 shell | `AUBB_E2E_ADMIN_PASSWORD`、`AUBB_E2E_TEACHER_PASSWORD`、`AUBB_E2E_STUDENT_PASSWORD`、`AUBB_E2E_TEMP_USER_PASSWORD` 均为 `MISSING`；检查命令退出码 1 |
+| `launchctl getenv` 判断 | 对存在变量名和不存在变量名均返回退出码 0，因此不能用退出码判断变量存在性；捕获输出并只判断是否为空后，四个 `AUBB_E2E_*_PASSWORD` 变量仍为 `MISSING` |
+| `server/` dirty | `M Dockerfile`，为本轮恢复时已存在改动，未回滚、未提交 |
+| `web/` dirty | `M next.config.ts`、`M src/tests/e2e/full-fixtures.ts`，为本轮恢复时已存在改动，未回滚、未提交 |
+| `docs/` dirty | `M 06-testing-and-ops/plan-execution-log.md`，来自本阻塞记录 |
+| 服务状态 | `127.0.0.1:18080`、`127.0.0.1:3000` 均 `NOT_LISTENING`；`docker ps` 无运行容器 |
+
+本次只检查变量是否存在，没有打印、写入或提交任何密码值。由于 `plan.md` 的真实环境启动与基线 Step 2 仍未满足，继续暂停真实执行：不启动 Docker 依赖、不启动后端 `127.0.0.1:18080`、不启动前端 `127.0.0.1:3000`、不运行真实 Playwright E2E。该阻塞不能作为完成证据，目标未达到生产上线门禁。
+
+### 2026-05-17 当前会话 Step 2 阻塞复核
+
+| 检查项 | 当前证据 |
+| --- | --- |
+| 执行计划与约束 | 已重新读取 `plan.md`、`server/AGENTS.md`、`web/AGENTS.md`，继续使用 `superpowers:executing-plans`；当前仍停在真实环境启动与基线 Step 2 |
+| 子仓库 dirty | `server/`: `M Dockerfile`；`web/`: `M next.config.ts`、`M src/tests/e2e/full-fixtures.ts`；`docs/`: `M 06-testing-and-ops/plan-execution-log.md` |
+| E2E 密码变量 | `AUBB_E2E_ADMIN_PASSWORD`、`AUBB_E2E_TEACHER_PASSWORD`、`AUBB_E2E_STUDENT_PASSWORD`、`AUBB_E2E_TEMP_USER_PASSWORD` 均为 `MISSING`；检查命令退出码 1 |
+| 服务状态 | `127.0.0.1:18080` 和 `127.0.0.1:3000` 均无监听；`docker ps` 无运行容器 |
+
+本次只检查变量存在性，没有打印、写入或提交任何密码值。由于四个真实 E2E 密码变量仍未进入当前命令环境，继续按硬门禁暂停：不启动 Docker 依赖、不启动后端、不启动前端、不运行真实 Playwright E2E。
+
+### 2026-05-17 文档构建补充验证
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd docs && npm run docs:build` | 通过；最新复跑 VitePress `build complete in 2.21s` |
+
+该验证只证明当前 `docs/` 文档站仍可构建，不能替代真实依赖、真实后端、真实前端和真实浏览器 E2E 门禁。
+
+### 2026-05-17 前端静态与单元回归复跑
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd web && npm run lint` | 通过，退出码 0 |
+| `cd web && npm run typecheck` | 通过，退出码 0 |
+| `cd web && npm run test` | 通过；Vitest `11 passed` test files，`24 passed` tests |
+| `cd web && AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npm run build` | 通过；Next.js 编译、TypeScript、30 个静态页面生成均成功 |
+
+该验证只覆盖前端静态检查与单元测试；真实后端 Playwright、真实依赖和三角色登录基线仍等待 E2E 密码变量进入当前命令环境。
+
+### 2026-05-17 后端回归复跑
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd server && python3 scripts/api-tests/permission/e2e_permission_realrun_test.py` | 通过；`Ran 1 test`，`OK` |
+| `cd server && bash ./mvnw spotless:check` | `BUILD SUCCESS`；Spotless 检查 531 个 Java 文件，0 个文件需要修改 |
+| `cd server && bash ./mvnw verify` | `BUILD SUCCESS`；Tests run: 318，Failures: 0，Errors: 0，Skipped: 0 |
+
+`mvn verify` 使用 Testcontainers 启动了临时 PostgreSQL、MinIO、RabbitMQ、go-judge 与 Ryuk 容器；命令结束后等待 Ryuk 自动清理，`docker ps` 仅输出表头。`127.0.0.1:18080` 和 `127.0.0.1:3000` 仍无监听。本段验证不包含真实本地前端、三角色登录基线或 Playwright E2E。
+
+### 2026-05-17 工作区 diff 质量检查
+
+| 仓库 | 命令 | 结果 |
+| --- | --- | --- |
+| `server/` | `git diff --check` | 通过，退出码 0 |
+| `web/` | `git diff --check` | 通过，退出码 0 |
+| `docs/` | `git diff --check` | 通过，退出码 0 |
+
+### 2026-05-17 Playwright mock 禁用静态复核
+
+| 命令 | 结果 |
+| --- | --- |
+| `cd web && rg -n "page\\.route\\(|context\\.route\\(|browserContext\\.route\\(|route\\.fulfill\\(|route\\.abort\\(|route\\.continue\\(" src/tests/e2e \|\| true` | 无命中 |
+| `cd web && rg -n "mock|msw|route\\.fulfill|page\\.route|context\\.route" src/tests/e2e \|\| true` | 无命中 |
+| `cd web && npx playwright test --list --project=chromium` | 可发现 10 个 E2E spec 文件、36 个测试标题 |
+
+该复核只证明当前 E2E 源码未使用 Playwright 网络拦截或明显 mock 关键字；真实后端 E2E 仍需在 E2E 密码变量注入后连接本地 `127.0.0.1:18080` 与 `127.0.0.1:3000` 重跑。
+
+### 2026-05-17 dirty 文件敏感词计数复核
+
+| 仓库 | 命令范围 | 结果 |
+| --- | --- | --- |
+| `server/` | 对当前 dirty 文件运行敏感关键词计数，不打印匹配行 | 无命中 |
+| `web/` | 对当前 dirty 文件运行敏感关键词计数，不打印匹配行 | `src/tests/e2e/full-fixtures.ts` 有 3 处关键词命中 |
+| `docs/` | 对当前 dirty 文件运行敏感关键词计数，不打印匹配行 | 当前执行日志有 42 处关键词命中 |
+
+该复核只输出文件名和计数，不打印、写入或提交任何密码、token、cookie、JWT、私钥或真实连接串。命中来自测试变量名、认证术语和“不要记录敏感值”的执行记录；真实 E2E 密码变量仍未注入当前命令环境。
