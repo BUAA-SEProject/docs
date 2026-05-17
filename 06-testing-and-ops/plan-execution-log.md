@@ -567,3 +567,52 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `docs/` diff check | `git diff --check` 通过；当前 `main...origin/main [ahead 18]`，本轮追加三份报告并清理过期收尾记录 |
 | 文档构建 | `cd docs && npm run docs:build` 通过；VitePress build 完成 |
 | 敏感词文件级复核 | 对 `docs/` 当前 dirty 文件只输出文件名和计数；命中来自 `password`/`token`/`cookie`/`JWT` 等审计说明和环境变量名，未打印或写入任何真实凭据值 |
+
+## 10. 2026-05-17 作业结构化答题闭环补齐
+
+本段记录作业功能专项收敛，目标是补齐教师组卷、学生结构化作答、自动评分、人工评分和真实浏览器 E2E 中缺失的题型与交互证据。
+
+### 后端变更
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 填空题题型 | 新增 `FILL_BLANK` 到 `AssignmentQuestionType`，并追加 Flyway 迁移 `V49__fill_blank_question_type.sql` |
+| 组卷校验 | `StructuredQuestionSupport` 要求填空题无选项且必须配置 `referenceAnswer` |
+| 自动评分 | `SubmissionAnswerApplicationService` 对填空题执行 trim 后精确匹配；大小写保持敏感；命中得满分，否则 0；反馈为“填空题自动判分完成” |
+| API 安全 | 学生侧作业详情不暴露填空题 `referenceAnswer` |
+| 集成测试 | `StructuredAssignmentIntegrationTests#fillBlankQuestionUsesTrimmedExactMatchAutoScoring` 覆盖题库创建、发布作业、学生提交、trim 命中、错误答案 0 分和参考答案不可见 |
+
+### 前端变更
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 学生作业详情 | 从仅依赖作业列表数据改为读取 `/api/v1/me/assignments/{assignmentId}`，按结构化试卷渲染专用控件 |
+| 专用答题控件 | 单选 radio、多选 checkbox、填空输入框、Markdown 简答编辑/预览、文件题格式/大小/数量提示与上传、编程题跳转在线 IDE |
+| 草稿与提交 | 非编程题按题目自动写入 localStorage，刷新后恢复；提交前做必填校验；提交时自动附加当前编程工作区快照 |
+| 教师组卷 | `PaperEditor` 支持选择填空题、配置参考答案，并补齐文件上传题限制配置 |
+| Multipart 上传 | `postForm` 不再手工固定 multipart `Content-Type`，改由浏览器/运行时写入 boundary |
+| 类型与缓存 | OpenAPI 生成类型、assignment API、query key 与 hooks 已同步 `FILL_BLANK` 和学生作业详情接口 |
+
+### 真实验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| 后端专项集成测试 | `StructuredAssignmentIntegrationTests` 共 `12 passed` |
+| 前端结构化单元测试 | `src/tests/unit/submission/structured-answer-form.test.tsx`、`structured-submission.test.ts` 和 `api/http-form.contract.test.ts` 共 `6` 个测试通过 |
+| 前端静态门禁 | `npm run typecheck`、`npm run lint` 均通过 |
+| 前端生产构建 | `AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npm run build` 通过 |
+| 作业真实后端 E2E | 已执行完整 `npm run test:e2e`，`36 passed`；其中 `full-assignment-judge.spec.ts` 覆盖学生通过真实 UI 完成单选、多选、填空、Markdown 简答、文件题提交、草稿恢复、提交历史、提交详情、附件下载、编程工作区、样例运行、正式判题、教师评分和重判 |
+
+### 提交前复核说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 当前 shell E2E 变量 | `AUBB_E2E_ADMIN_PASSWORD`、`AUBB_E2E_TEACHER_PASSWORD`、`AUBB_E2E_STUDENT_PASSWORD`、`AUBB_E2E_ASSISTANT_PASSWORD` 当前未设置 |
+| 后端专项验证 | `cd server && bash ./mvnw -Dtest=StructuredAssignmentIntegrationTests test` 通过；Tests run: `12`，Failures: `0`，Errors: `0`，Skipped: `0` |
+| 后端全量验证 | `cd server && bash ./mvnw verify` 通过；Tests run: `319`，Failures: `0`，Errors: `0`，Skipped: `0`；V49 迁移在 Testcontainers schema 中被多次校验 |
+| 前端静态验证 | `cd web && npm run typecheck`、`cd web && npm run lint` 均通过，退出码 0 |
+| 前端单元验证 | `cd web && npm run test` 通过；`14` 个 test files / `30` tests 全部通过 |
+| 前端构建验证 | `cd web && AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npm run build` 通过；Next.js 编译、TypeScript、30 个静态页面生成均完成 |
+| 文档验证 | `cd docs && npm run docs:build` 通过；`git diff --check` 通过 |
+| 当前处理策略 | 当前 shell 未重跑真实浏览器 E2E；真实浏览器 E2E 以本段已有执行证据记录，不伪造重跑结果 |
+| 残余风险 | 文件上传题的超大文件真实上传、浏览器 file chooser 交互和成绩发布后的所有学生展示路径仍依赖更长时间的真实浏览器扩展套件持续覆盖 |
