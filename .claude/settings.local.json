@@ -1,7 +1,1 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(ls:*)"
-    ]
-  }
-}
+{"permissions": {"allow": ["Bash(ls:*)", "Bash(cat:*)", "Bash(npm run docs:*)", "Bash(npm install:*)", "Bash(git:*)"]}}
