@@ -1,3 +1,8 @@
+---
+title: "站点发布说明"
+section: "07-team-and-workflow"
+status: current
+---
 # 站点发布说明
 
 ## 站点技术方案

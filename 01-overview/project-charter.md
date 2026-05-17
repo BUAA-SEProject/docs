@@ -1,3 +1,8 @@
+---
+title: "项目章程"
+section: "01-overview"
+status: current
+---
 # 项目章程
 
 ## 1. 文档信息
@@ -72,11 +77,11 @@
 
 | 层次 | 推荐方案 | 说明 |
 | --- | --- | --- |
-| Web 前端 | Vue 3 + TypeScript + Vite + Pinia + Vue Router | 统一教师、学员、管理员三类界面 |
-| 组件与图表 | Element Plus + Monaco Editor + ECharts | 支撑表单、表格、在线编码与仪表盘 |
-| 业务后端 | NestJS + TypeScript | 以模块化单体承载业务 API |
+| Web 前端 | Next.js 16 + React 19 + TypeScript + Tailwind CSS 4 | 统一教师、学员、管理员三类界面 |
+| 组件与图表 | shadcn/ui + Monaco Editor + Lucide React | 支撑表单、表格、在线编码与数据展示 |
+| 业务后端 | Spring Boot 4 + Java 25 | 以模块化单体承载业务 API |
 | 数据层 | PostgreSQL + Redis + MinIO | 分别承载事务数据、缓存/队列、对象存储 |
-| 判题层 | Judge0 CE 或等效 Docker 沙箱 + 异步 Worker | 采用开源判题能力，平台保留统一结果模型 |
+| 判题层 | go-judge + RabbitMQ 异步队列 | 采用开源判题能力，平台保留统一结果模型 |
 | 观测层 | Prometheus + Grafana + Loki/结构化日志 | 支撑课程要求中的可观测性加分项 |
 | 部署 | Docker Compose 起步，保留私有化部署能力 | 适合课程环境与演示环境 |
 

@@ -1,3 +1,8 @@
+---
+title: "认证接口"
+section: "05-api"
+status: current
+---
 # 认证接口
 
 ## 1. 接口清单

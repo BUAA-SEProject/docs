@@ -1,3 +1,8 @@
+---
+title: "数据库设计"
+section: "04-development"
+status: current
+---
 # 数据库设计
 
 ## 1. 当前设计原则

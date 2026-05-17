@@ -1,3 +1,8 @@
+---
+title: "批改与成绩接口"
+section: "05-api"
+status: current
+---
 # 批改与成绩接口
 
 ## 1. 接口清单

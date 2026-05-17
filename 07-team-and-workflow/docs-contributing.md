@@ -1,3 +1,8 @@
+---
+title: "文档协作规范"
+section: "07-team-and-workflow"
+status: current
+---
 # 文档协作规范
 
 ## 1. 基本原则

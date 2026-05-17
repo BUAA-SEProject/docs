@@ -1,3 +1,8 @@
+---
+title: "总体架构"
+section: "04-development"
+status: current
+---
 # 总体架构
 
 ## 1. 当前技术栈

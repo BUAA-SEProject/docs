@@ -1,3 +1,8 @@
+---
+title: "课程接口"
+section: "05-api"
+status: current
+---
 # 课程接口
 
 ## 1. 接口清单

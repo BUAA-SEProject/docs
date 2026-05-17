@@ -1,3 +1,8 @@
+---
+title: "错误码规范"
+section: "05-api"
+status: current
+---
 # 错误码规范
 
 ## 1. 设计原则

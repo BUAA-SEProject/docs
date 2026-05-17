@@ -1,3 +1,8 @@
+---
+title: "验收清单"
+section: "06-testing-and-ops"
+status: current
+---
 # 验收清单
 
 ## 1. 文档验收

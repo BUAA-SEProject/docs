@@ -1,3 +1,8 @@
+---
+title: "软件需求规格说明书"
+section: "02-process-docs"
+status: current
+---
 # 软件需求规格说明书
 
 ## 1. 文档概述

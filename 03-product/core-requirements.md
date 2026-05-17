@@ -1,3 +1,8 @@
+---
+title: "核心需求清单"
+section: "03-product"
+status: current
+---
 # 核心需求清单
 
 ## 1. 文档定位

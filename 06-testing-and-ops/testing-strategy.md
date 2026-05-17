@@ -1,3 +1,8 @@
+---
+title: "测试策略"
+section: "06-testing-and-ops"
+status: current
+---
 # 测试策略
 
 ## 1. 目标

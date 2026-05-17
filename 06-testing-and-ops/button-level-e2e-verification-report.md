@@ -1,3 +1,8 @@
+---
+title: "按钮级 E2E 验证报告"
+section: "06-testing-and-ops"
+status: current
+---
 # 按钮级 E2E 验证报告
 
 更新日期：2026-05-16

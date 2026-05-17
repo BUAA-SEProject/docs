@@ -1,3 +1,8 @@
+---
+title: "可观测性"
+section: "06-testing-and-ops"
+status: current
+---
 # 可观测性
 
 ## 1. 目标

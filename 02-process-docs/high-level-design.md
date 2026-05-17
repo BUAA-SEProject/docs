@@ -1,3 +1,8 @@
+---
+title: "软件概要设计说明书"
+section: "02-process-docs"
+status: current
+---
 # 软件概要设计说明书
 
 ## 1. 文档信息

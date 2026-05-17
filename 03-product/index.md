@@ -1,3 +1,8 @@
+---
+title: "产品与需求"
+section: "03-product"
+status: current
+---
 # 产品与需求
 
 本部分从产品视角对系统定位、目标用户、核心场景、需求优先级和模块边界进行整理，是 [软件需求规格说明书](../02-process-docs/software-requirements-specification.md) 的产品化摘要和阅读入口。
