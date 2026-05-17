@@ -119,3 +119,83 @@
 | 前端 `3000` | Task 11 已停止；`curl --max-time 2 -sS http://127.0.0.1:3000/login` 连接失败 |
 | 后端 `18080` | Task 11 已停止；`curl --max-time 2 -sS http://127.0.0.1:18080/actuator/health/readiness` 连接失败 |
 | Docker compose | `docker compose down` 已执行；`docker compose ps` 无运行服务 |
+
+## 9. 2026-05-17 本轮按钮级验证重启记录
+
+本节重新开启当前会话的按钮级验证，不直接沿用上一轮“已通过”状态。
+
+| 输入 | 当前证据 | 用途 |
+| --- | --- | --- |
+| 源码控件扫描 | `rg -n "Button|button|onClick|type=\"submit\"|Dialog|Dropdown|Switch|FileUpload|Download|下载|上传|保存|创建|新增|编辑|删除|发布|关闭|归档|撤销|导入|导出|刷新|搜索|筛选|恢复|重置" src/app src/features src/shared` 返回 1112 行命中 | 建立按钮、链接、表单提交、弹窗、上传下载、切换和刷新操作源清单 |
+| 页面清单 | `find src/app -name page.tsx` 返回 45 个业务页面 | 确定待打开的真实浏览器页面 |
+| E2E 资产 | `find src/tests/e2e -type f` 返回 auth、admin、course、assignment、grading/lab/notification、navigation full suites 和 helper | 后续真实 Playwright 验证的起点 |
+| 运行门禁 | 根目录 `plan.md` 第 0、1、3、5 节 | 真实前端、真实后端和真实依赖；禁止 Playwright mock；桌面和移动视口；成功/失败/权限负例/刷新状态 |
+
+### 9.1 当前待验证按钮域
+
+| 域 | 代表页面/操作 | 当前状态 |
+| --- | --- | --- |
+| Auth/session | 登录、错误登录、刷新、退出、角色守卫 | 待本轮真实后端与前端启动后验证 |
+| Admin | 平台配置、组织、用户/CSV、学期、模板、开课、审计、权限解释 | 待本轮真实 Playwright 验证 |
+| Teacher course/content | 课程、班级、成员、公告、资源、讨论、题库、判题环境 | 待本轮真实 Playwright 验证 |
+| Assignment/submission/judge | 作业创建/编辑/发布/关闭、学生提交、workspace、样例运行、正式判题、重判/下载 | 待本轮真实 Playwright 验证 |
+| Grading/lab/notification | 成绩导出/导入/发布、实验附件/评阅、通知已读/SSE | 待本轮真实 Playwright 验证 |
+| Navigation/responsive | 三角色侧边栏、快捷入口、顶栏搜索、用户菜单、移动菜单 | 待本轮真实 Playwright 验证 |
+
+### 9.2 下一步
+
+启动本地依赖、后端、前端后，先执行 `auth.spec.ts` 三角色登录基线，再按 full suites 收敛按钮矩阵。本节后续只记录当前会话运行结果。
+
+### 9.3 认证按钮基线结果
+
+| 页面/操作 | 当前命令 | 结果 |
+| --- | --- | --- |
+| `/login` 错误/正确登录入口和三角色落点 | `AUBB_E2E_REAL_BACKEND=1 ... npx playwright test src/tests/e2e/auth.spec.ts --project=chromium` | `5 passed` |
+| 退出登录菜单项 | 同上 | 已覆盖，退出后回到登录页 |
+| 学生访问管理员工作区 | 同上 | 已覆盖权限负例 |
+
+本轮已确认认证 smoke 连接真实前端 `3000` 和真实后端 `18080`，没有使用 Playwright route mock。
+
+### 9.4 2026-05-17 Full Suite 按钮覆盖结果
+
+| 按钮/操作域 | 当前 suite | 结果 |
+| --- | --- | --- |
+| 管理端平台配置、组织、用户/CSV、课程治理、审计、权限解释 | `full-admin.spec.ts` | `5 passed` |
+| 教师课程班级、成员、资源上传下载、讨论锁定、题库、判题环境 | `full-course.spec.ts` | `5 passed` |
+| 作业创建/编辑/发布/关闭、学生提交、workspace、判题、重判 | `full-assignment-judge.spec.ts` | `3 passed` |
+| 成绩导出/导入/发布、实验附件与评阅、通知已读 | `full-grading-lab-notification.spec.ts` | `3 passed` |
+| 三角色导航、顶栏搜索、用户菜单、权限负例、桌面/移动操作 | `full-navigation-permission.spec.ts` | `3 passed` |
+
+本轮 full suite 小计 `19 passed`。剩余验证：完整 `npm run test:e2e`、前端/后端/文档门禁、最终报告和 git 摘要。
+
+### 9.5 完整按钮级门禁收敛
+
+| 验证项 | 当前证据 | 结果 |
+| --- | --- | --- |
+| 完整真实后端 E2E | `AUBB_E2E_REAL_BACKEND=1 AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 PLAYWRIGHT_TEST_BASE_URL=http://127.0.0.1:3000 ... npm run test:e2e` | `36 passed` |
+| E2E mock 静态复核 | `rg` 检查 `page.route`、`context.route`、`route.fulfill`、`route.abort`、`route.continue`、`mock`、`msw` | 无命中 |
+| 前端静态门禁 | `npm run lint`、`npm run typecheck`、`npm run test`、`npm run build` | 全部通过；unit/contract `24` tests 通过；build 生成 `30` 个静态页面 |
+| 后端门禁 | `run_permission_e2e.sh`、`spotless:check`、`mvn verify` | 权限 `22/22`；Spotless `BUILD SUCCESS`；verify `318` tests，0 failures / 0 errors |
+
+### 9.6 最终按钮覆盖状态
+
+| 域 | 最终状态 |
+| --- | --- |
+| Auth/session | 已真实验证：错误登录、三角色正确登录、退出、refresh/revoke、无 token、学生越权 |
+| Admin | 已真实验证：平台配置、组织子节点、用户创建/搜索/详情/状态/会话、CSV、学期、模板、开课、审计、权限解释 |
+| Teacher course/content | 已真实验证：班级、成员、功能开关、资源上传/改名/下载/删除、讨论锁定、题库、判题环境 |
+| Assignment/submission/judge | 已真实验证：作业创建/编辑/发布/关闭、学生提交、附件下载、workspace、样例运行、正式判题、重判 |
+| Grading/lab/notification | 已真实验证：成绩查询/导出/导入/发布、实验附件/评阅、通知未读/已读/SSE |
+| Navigation/responsive | 已真实验证：三角色侧边栏、顶栏搜索、用户菜单、权限负例，桌面和移动关键操作 |
+
+### 9.7 边界
+
+本报告的“按钮级”指当前业务主操作、页面入口、上传/下载、发布/关闭、权限负例、刷新后状态、桌面和移动视口均有真实运行证据。部分复杂写入准备动作通过 API helper 建立前置数据，不表示每个表单字段都由鼠标键盘逐项填写。E2E 过程只记录环境变量名，不记录密码、token、cookie、JWT 或私钥值。
+
+### 9.8 收尾状态
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 前端 `3000` | Next dev server 已停止；`curl --max-time 2 http://127.0.0.1:3000/login` 连接失败 |
+| 后端 `18080` | Spring Boot 已停止；`curl --max-time 2 http://127.0.0.1:18080/actuator/health/readiness` 连接失败 |
+| Docker compose | `docker compose down` 已执行；`docker compose ps` 无运行服务；未删除 volumes |

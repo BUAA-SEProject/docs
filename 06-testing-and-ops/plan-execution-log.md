@@ -457,3 +457,113 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 服务状态 | `curl --max-time 2 -fsS` 检查 `127.0.0.1:18080` 和 `127.0.0.1:3000` | 后端和前端均不可访问；本轮未启动 Docker、后端、前端或 Playwright |
 
 本段是阻塞期间可执行的非账号、非真实服务门禁补充。真实依赖、真实后端、真实前端、三角色登录基线和 `AUBB_E2E_REAL_BACKEND=1 npm run test:e2e` 仍必须等待用户确认 `环境变量已注入` 后再执行；当前 goal 不能标记完成。
+
+## 2026-05-17 本轮 plan.md 重新执行记录
+
+### Phase 0：重新读取计划与初始 Git 状态
+
+| 检查项 | 当前证据 |
+| --- | --- |
+| 计划来源 | 已完整读取根目录 `/Users/moorefoss/Code/AUBB/plan.md`，共 785 行；本轮以该文件的 0-5 阶段、19 个任务和完成门禁为主规范 |
+| 仓库边界 | 根目录不是 Git 仓库；`find . -maxdepth 3 -name .git -type d` 仅发现 `./server/.git`、`./web/.git`、`./docs/.git` |
+| `server/` 初始状态 | `main...origin/main [ahead 1]`；`M Dockerfile`；当前 HEAD `32aea14` |
+| `web/` 初始状态 | `main...origin/main [ahead 1]`；`M next.config.ts`、`D plan.md`、`M src/tests/e2e/full-fixtures.ts`、`D todo.md`；当前 HEAD `f9b0245` |
+| `docs/` 初始状态 | `main...origin/main [ahead 18]`；本轮修改前 `git status --short --branch` 无未提交条目；当前 HEAD `3683991` |
+| 旧报告处理 | 2026-05-16 和更早执行记录仅作为线索；本轮结论必须来自当前命令、当前代码和当前运行结果 |
+
+### Phase 1：结构、技术栈、命令与测试资产重新核验
+
+| 核验项 | 命令 / 文件 | 当前事实 |
+| --- | --- | --- |
+| 后端规范 | `server/AGENTS.md` | 默认中文；修改前记录 Git 状态；完成前必须有真实验证证据；commit summary 使用中文 |
+| 前端规范 | `web/AGENTS.md` | Next.js 16 项目；UI 改动需遵守现有设计约束；真实问题优先系统化排查和验证 |
+| 后端技术栈 | `server/pom.xml`、`./mvnw -v` | Spring Boot `4.0.5`、Java `25.0.3`、Maven `3.9.14`、MyBatis-Plus、Flyway、PostgreSQL、RabbitMQ、Redis、MinIO、go-judge |
+| 前端技术栈 | `web/package.json` | Next.js `16.2.4`、React `19.2.4`、TypeScript、Tailwind、Vitest、Playwright |
+| 文档技术栈 | `docs/package.json` | VitePress；命令为 `docs:dev`、`docs:build`、`docs:preview` |
+| 依赖服务 | `server/compose.yaml` | PostgreSQL、RabbitMQ、MinIO、Redis、go-judge；可选 app/judge-worker profile |
+| 后端配置 | `server/src/main/resources/application.yaml` | readiness 包含 `db`、`redisEnhancement`、`minioStorage`、`goJudge`、`judgeQueue`；JWT secret 必须来自环境变量 |
+| Playwright 配置 | `web/playwright.config.ts` | `AUBB_E2E_REAL_BACKEND=1` 时 `workers=1`、单测超时 `90_000`，默认 baseURL 为 `http://127.0.0.1:3000` |
+| E2E 说明 | `web/src/tests/e2e/README.md` | 真实 E2E 连接本地后端 `18080`、前端 `3000` 和本地 Docker 依赖；报告中不得记录 token/cookie/JWT/密码值 |
+| fixture 密码策略 | 根目录 `plan.md` Step 2 | 本轮按计划使用本地固定 fixture 用户 `U-SA1`、`U-TA1`、`U-ST1`，测试密码固定为计划内本地值；不再沿用旧执行记录中“等待外部密码变量”的阻塞判断 |
+
+### Phase 2：当前代码事实扫描
+
+| 清单 | 命令 | 当前结果 |
+| --- | --- | --- |
+| 前端业务页面 | `find src/app -name page.tsx \| sort` | 45 个 `page.tsx`，覆盖公共/认证、管理员、教师、学生四类路由 |
+| 后端 Controller | `rg --files src/main/java/com/aubb/server/modules \| rg '/api/.*Controller\\.java$'` | 33 个 Controller |
+| 前端 API 封装 | `find src/features -path '*/api/*' -type f \| sort` | 20 个领域 API 文件 |
+| 后端测试资产 | `find src/test/java/com/aubb/server -type f -name '*Test*.java' -o -name '*Tests.java'` | 覆盖 auth、权限、课程、作业、提交、判题、成绩、实验、通知、Redis、MinIO、go-judge 等集成/单元测试 |
+| 前端测试资产 | `find src/tests -type f \| sort` | 10 个 E2E spec/fixture/helper 文件，11 个 unit/contract 测试文件 |
+| 控件源码线索 | `rg -n "Button|button|onClick|type=\"submit\"|Dialog|Dropdown|Switch|FileUpload|Download|下载|上传|保存|创建|新增|编辑|删除|发布|关闭|归档|撤销|导入|导出|刷新|搜索|筛选|恢复|重置" src/app src/features src/shared` | 当前扫描返回 1112 行命中，作为按钮级测试矩阵的源码输入；后续以真实 DOM 与 Playwright 结果收敛 |
+
+### 下一步
+
+启动真实 Docker 依赖、真实后端 `127.0.0.1:18080` 和真实前端 `127.0.0.1:3000`，然后执行 readiness、OpenAPI、权限 fixture 和三角色登录基线。所有敏感值只在命令环境中使用，不写入报告。
+
+### Phase 3：真实依赖、后端、前端与登录基线
+
+| 验证项 | 命令 / 操作 | 当前结果 |
+| --- | --- | --- |
+| 端口预检 | `lsof -nP -iTCP:18080 -sTCP:LISTEN`、`lsof -nP -iTCP:3000 -sTCP:LISTEN` | 启动前均无监听 |
+| Docker 依赖启动 | `cd server && docker compose up -d postgres rabbitmq minio redis go-judge && docker compose ps` | PostgreSQL、RabbitMQ、MinIO、Redis 均 healthy，go-judge running |
+| 后端第一次启动 | 按 `plan.md` 使用 `AUBB_BOOTSTRAP_SCHOOL_CODE=S1` 启动 | 失败；根因是本地持久化数据库已有唯一学校根节点 `SCH-REALRUN`，bootstrap 保护逻辑拒绝改为 `S1` |
+| 根因复核 | 查询 `org_units` 和 `users`；读取 `PlatformBootstrapApplicationService` | `org_units` 现有根节点为 `SCH-REALRUN`；当配置 code 与现有根节点不一致时会抛出 `IllegalStateException`；没有清库或删除数据 |
+| 后端第二次启动 | 保持本地 Docker 依赖，改用现有根节点 code `SCH-REALRUN` 启动 bootstrap | 成功；Tomcat 监听 `18080`，Flyway 48 个迁移已验证，bootstrap 完成且未重复创建根节点 |
+| 后端 readiness | `curl -fsS http://127.0.0.1:18080/actuator/health/readiness` | `status=UP`；components 包含 `db`、`goJudge`、`judgeQueue`、`minioStorage`、`readinessState`、`redisEnhancement` |
+| OpenAPI | `curl -fsS http://127.0.0.1:18080/v3/api-docs \| python3 -c ...` | OpenAPI `3.1.0`，`124` 个 paths |
+| 权限 fixture | `BASE_URL=http://127.0.0.1:18080 ADMIN_USERNAME=U-SA1 ADMIN_PASSWORD=... bash scripts/api-tests/permission/run_permission_e2e.sh` | 通过；`caseCount=22`、`passedCount=22`、`failedCount=0`；报告只记录变量名，不记录密码值 |
+| 前端启动 | `AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npm run dev -- --hostname 127.0.0.1 --port 3000` | Next.js 16.2.4 dev server 就绪，监听 `127.0.0.1:3000` |
+| 登录页探针 | `curl -fsS -o /tmp/aubb-login.html -w '%{http_code} ...' http://127.0.0.1:3000/login` | HTTP `200` |
+| 三角色登录基线 | `AUBB_E2E_REAL_BACKEND=1 ... npx playwright test src/tests/e2e/auth.spec.ts --project=chromium` | Chromium 5 个真实后端用例全部通过；管理员、教师、学生登录、退出、学生访问管理员页面负例通过 |
+
+偏差说明：`plan.md` 指定 bootstrap school code 为 `S1`，但当前本地 PostgreSQL volume 已有 `SCH-REALRUN` 学校根节点。为遵守“不覆盖用户未提交变更/不破坏本地数据”，本轮没有清空 volume，而是按当前数据库事实改用既有根节点 code 启动 bootstrap；该偏差将在最终报告中列为本地环境偏差。
+
+### Phase 4：全量清单、契约和按钮级 full suites
+
+| 验证项 | 命令 / 证据 | 当前结果 |
+| --- | --- | --- |
+| OpenAPI 路径枚举 | 从当前 `http://127.0.0.1:18080/v3/api-docs` 保存 `/tmp/aubb-openapi.json` 后枚举 | OpenAPI `3.1.0`、`124` paths；覆盖 admin、auth、me、teacher、actuator 路径族 |
+| Playwright mock 静态复核 | `rg -n "page\\.route\\(|context\\.route\\(|browserContext\\.route\\(|route\\.fulfill\\(|route\\.abort\\(|route\\.continue\\(|mock|msw" src/tests/e2e \|\| true` | 无命中 |
+| Playwright 测试发现 | `npx playwright test --list --project=chromium` | 10 个 spec 文件，36 个测试标题 |
+| 管理端 full suite | `AUBB_E2E_REAL_BACKEND=1 ... npx playwright test src/tests/e2e/full-admin.spec.ts --project=chromium` | `5 passed`；覆盖 auth refresh/revoke、平台配置、组织、用户治理/CSV、学期/模板/开课、审计、权限解释 |
+| 课程 full suite | `... npx playwright test src/tests/e2e/full-course.spec.ts --project=chromium` | `5 passed`；覆盖教学班、成员、功能开关、资源上传下载、讨论锁定、题库、判题环境 |
+| 作业/提交/判题 full suite | `... npx playwright test src/tests/e2e/full-assignment-judge.spec.ts --project=chromium` | `3 passed`；覆盖作业生命周期、学生提交、附件下载、workspace、样例运行、正式判题、教师评分和重判 |
+| 成绩/实验/通知 full suite | `... npx playwright test src/tests/e2e/full-grading-lab-notification.spec.ts --project=chromium` | `3 passed`；覆盖成绩导出/导入/发布、实验附件/评阅、通知已读 |
+| 导航/权限/响应式 full suite | `... npx playwright test src/tests/e2e/full-navigation-permission.spec.ts --project=chromium` | `3 passed`；覆盖三角色导航、顶栏搜索、用户菜单、路由守卫、401/403、桌面和移动关键操作 |
+
+当前 full suite 小计：`19 passed`。下一步运行完整真实后端 Playwright 套件 `npm run test:e2e`，同时覆盖 smoke specs。
+
+### Phase 5：完整门禁与收尾结果
+
+| 验证项 | 命令 / 证据 | 当前结果 |
+| --- | --- | --- |
+| 完整真实后端 Playwright | `cd web && AUBB_E2E_REAL_BACKEND=1 AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 PLAYWRIGHT_TEST_BASE_URL=http://127.0.0.1:3000 ... npm run test:e2e` | `36 passed`，约 2.4 分钟；覆盖 10 个 E2E spec；报告只记录账号变量名，不记录密码值 |
+| 前端 lint | `cd web && npm run lint` | 通过，退出码 0 |
+| 前端 typecheck | `cd web && npm run typecheck` | 通过，退出码 0 |
+| 前端 unit/contract | `cd web && npm run test` | `11` 个 test files / `24` tests 全部通过 |
+| 前端生产构建 | `cd web && AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npm run build` | 通过；Next.js 编译、TypeScript、30 个静态页面生成均成功 |
+| 后端 permission realrun | `cd server && scripts/api-tests/permission/run_permission_e2e.sh` | `caseCount=22`、`passedCount=22`、`failedCount=0` |
+| 后端格式门禁 | `cd server && bash ./mvnw spotless:check` | `BUILD SUCCESS` |
+| 后端全量 verify | `cd server && bash ./mvnw verify` | `BUILD SUCCESS`；Tests run: `318`，Failures: `0`，Errors: `0`，Skipped: `0`；总耗时 `05:24 min` |
+| 文档构建 | `cd docs && npm run docs:build` | 通过；VitePress build 完成 |
+
+本轮真实环境偏差：`plan.md` 的示例 bootstrap school code 为 `S1`，但当前本地 PostgreSQL volume 已存在唯一学校根节点 `SCH-REALRUN`。本轮未清库、未删除 volume，而是按现有根节点 code 启动后端；这是为了避免破坏本地持久化数据。
+
+### Phase 6：本地服务清理
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 后端 `18080` | `spring-boot:run` 会话已退出；收尾时 Maven `BUILD SUCCESS`；`curl --max-time 2 http://127.0.0.1:18080/actuator/health/readiness` 连接失败 |
+| 前端 `3000` | Next dev server 会话已退出；`curl --max-time 2 http://127.0.0.1:3000/login` 连接失败 |
+| Docker compose | `cd server && docker compose down` 已执行；`docker compose ps` 无运行服务；未删除 volumes |
+
+### Phase 7：最终工作区复核
+
+| 复核项 | 当前结果 |
+| --- | --- |
+| `server/` diff check | `git diff --check` 通过；当前 `main...origin/main [ahead 1]`，保留 `Dockerfile` 中容器 healthcheck 所需的 `curl` 安装，恢复 BuildKit cache 行 |
+| `web/` diff check | `git diff --check` 通过；当前 `main...origin/main [ahead 1]`，保留 `next.config.ts` 的本地 dev origin 配置和 `src/tests/e2e/full-fixtures.ts` 的用户分页查询修正；已恢复不必要删除的 `plan.md` 与 `todo.md` |
+| `docs/` diff check | `git diff --check` 通过；当前 `main...origin/main [ahead 18]`，本轮追加三份报告并清理过期收尾记录 |
+| 文档构建 | `cd docs && npm run docs:build` 通过；VitePress build 完成 |
+| 敏感词文件级复核 | 对 `docs/` 当前 dirty 文件只输出文件名和计数；命中来自 `password`/`token`/`cookie`/`JWT` 等审计说明和环境变量名，未打印或写入任何真实凭据值 |

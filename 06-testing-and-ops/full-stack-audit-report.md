@@ -235,3 +235,97 @@
 | Task 9 | `full-navigation-permission.spec.ts` | `npx playwright test src/tests/e2e/full-navigation-permission.spec.ts --project=chromium` | `3 passed` | 登录后进入角色首页；侧边栏限定 `navigation`；按当前路由守卫和按钮文案更新断言 |
 
 本节命令均使用 `AUBB_E2E_REAL_BACKEND=1`、`AUBB_SERVER_ORIGIN=http://127.0.0.1:18080` 和测试账号密码环境变量。报告只记录变量名，不记录变量值。
+
+## 16. 2026-05-17 当前代码事实复核
+
+本节为当前会话重新扫描结果，不直接采信 2026-05-16 的结论。旧报告仅作为线索。
+
+| 类别 | 当前证据 | 结论 |
+| --- | --- | --- |
+| 仓库边界 | 根目录 `git status` 返回 `fatal: not a git repository`；`find . -maxdepth 3 -name .git -type d` 仅列出 `server/`、`web/`、`docs/` | 根目录不是 Git 仓库，后续 diff、commit、status 必须分子仓库处理 |
+| 技术栈 | `server/pom.xml`、`web/package.json`、`docs/package.json` | 后端为 Spring Boot 4.0.5 / Java 25 / Maven；前端为 Next.js 16.2.4 / React 19.2.4 / TypeScript；文档为 VitePress |
+| 前端路由 | `find src/app -name page.tsx \| sort` | 当前 45 个业务页面，覆盖 plan 中列出的公共、管理员、教师、学生路由 |
+| 后端 API | `rg --files src/main/java/com/aubb/server/modules \| rg '/api/.*Controller\\.java$'` | 当前 33 个 Controller，覆盖认证、治理、课程、作业、提交、判题、成绩、实验、通知 |
+| 前端 API 封装 | `find src/features -path '*/api/*' -type f \| sort` | 当前 20 个领域 API 文件，可映射到后端 Controller 域 |
+| 测试资产 | `find src/test/java/com/aubb/server ...`、`find src/tests -type f` | 后端具备覆盖主要域的集成/单元测试；前端具备 full E2E、smoke E2E 和 unit/contract 测试 |
+| 控件清单输入 | 控件关键词 `rg` 扫描 | 当前返回 1112 行源码命中；后续按钮级报告以源码命中、真实 DOM 和 Playwright 用例共同收敛 |
+
+### 16.1 当前前后端域映射
+
+| 功能域 | 前端入口 | 前端 API | 后端 Controller |
+| --- | --- | --- | --- |
+| Auth/session | `/login`、`/`、`/unauthorized` | `src/features/auth/api/auth-api.ts` | `AuthController` |
+| Admin governance | `/admin/platform-config`、`/admin/org-units`、`/admin/users/**`、`/admin/audit-logs`、`/admin/auth-explain` | `src/features/admin/api/*.ts` | `PlatformConfigAdminController`、`OrganizationAdminController`、`UserAdminController`、`AuthzGroupAdminController`、`AuditLogAdminController` |
+| Course administration | `/admin/academic-terms`、`/admin/course-catalogs`、`/admin/course-offerings/**` | `src/features/admin/api/course-admin-api.ts` | `AcademicTermAdminController`、`CourseCatalogAdminController`、`CourseOfferingAdminController` |
+| Course teaching/content | `/teacher/courses/**`、`/student/courses/**` | `src/features/course/api/*.ts` | `CourseTeachingController`、公告/资源/讨论 teacher 和 me Controllers |
+| Assignment/question bank | `/teacher/assignments/**`、`/teacher/question-bank`、学生作业页 | `src/features/assignment/api/*.ts` | `AssignmentTeacherController`、`MyAssignmentsController`、`QuestionBankTeacherController` |
+| Submission/workspace/judge | 学生 workspace、学生/教师提交详情 | `src/features/submission/api/*.ts`、`src/features/judge/api/*.ts` | `MySubmissionController`、`TeacherSubmissionController`、`MyProgrammingWorkspaceController`、Judge Controllers |
+| Grading/lab/notification | 成绩、实验、通知各角色页面 | `src/features/grading/api/grading-api.ts`、`src/features/lab/api/lab-api.ts`、`src/features/notification/api/*.ts` | Gradebook/Grading、Lab、Notification Controllers |
+
+### 16.2 本轮待验证状态
+
+当前已完成静态事实复核，尚未在本轮启动真实依赖、真实后端、真实前端或运行真实 Playwright。下一阶段必须用当前命令输出覆盖本节“待验证”状态。
+
+## 17. 2026-05-17 真实运行基线
+
+| 项目 | 当前证据 | 结论 |
+| --- | --- | --- |
+| Docker 依赖 | `docker compose up -d postgres rabbitmq minio redis go-judge && docker compose ps` | PostgreSQL、RabbitMQ、MinIO、Redis 为 healthy，go-judge running |
+| 后端启动 | `bash ./mvnw spring-boot:run`，端口 `18080` | 成功；第一次按 `S1` bootstrap 失败，原因是本地库已有 `SCH-REALRUN` 根节点；第二次改用当前根节点 code 后成功 |
+| 后端健康 | `curl /actuator/health/readiness` | `status=UP`，包含 db、goJudge、judgeQueue、minioStorage、readinessState、redisEnhancement |
+| OpenAPI | `curl /v3/api-docs` | OpenAPI `3.1.0`，`124` paths |
+| 权限 fixture | `scripts/api-tests/permission/run_permission_e2e.sh` | `22/22` 真实 HTTP 权限场景通过 |
+| 前端启动 | `AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npm run dev -- --hostname 127.0.0.1 --port 3000` | Next dev server 监听 `127.0.0.1:3000`，`/login` HTTP 200 |
+| 登录基线 | `npx playwright test src/tests/e2e/auth.spec.ts --project=chromium` with real backend env | Chromium `5 passed`，覆盖三角色登录、退出、学生访问管理员页面负例 |
+
+当前结论：真实依赖、真实后端、真实前端和基础认证路径已在本轮重新验证通过。后续仍需运行 full suites、静态/构建/文档门禁，并更新按钮级矩阵。
+
+## 18. 2026-05-17 Full Suites 结果
+
+| Suite | 用例数 | 覆盖域 | 当前结果 |
+| --- | ---: | --- | --- |
+| `full-admin.spec.ts` | 5 | 认证、平台配置、组织、用户治理、CSV、学期、课程模板、开课、审计、权限解释 | `5 passed` |
+| `full-course.spec.ts` | 5 | 教学班、成员、资源上传下载、讨论、题库、判题环境 | `5 passed` |
+| `full-assignment-judge.spec.ts` | 3 | 作业生命周期、提交附件、编程工作区、样例运行、正式判题、重判 | `3 passed` |
+| `full-grading-lab-notification.spec.ts` | 3 | 成绩册、导出/导入/发布、实验生命周期、附件、通知 | `3 passed` |
+| `full-navigation-permission.spec.ts` | 3 | 三角色导航、搜索、用户菜单、权限负例、桌面/移动关键操作 | `3 passed` |
+
+本轮 full suites 小计 `19 passed`，均连接真实本地前端 `3000` 和真实本地后端 `18080`。E2E 源码静态复核未发现 Playwright route mock 或 `msw`。
+
+## 19. 2026-05-17 最终门禁与结论
+
+| 门禁 | 当前证据 | 结果 |
+| --- | --- | --- |
+| 真实依赖 | `docker compose up -d postgres rabbitmq minio redis go-judge` | PostgreSQL、RabbitMQ、MinIO、Redis healthy，go-judge running |
+| 后端运行 | `spring-boot:run` on `127.0.0.1:18080` | readiness `UP`，components 包含 `db`、`goJudge`、`judgeQueue`、`minioStorage`、`readinessState`、`redisEnhancement` |
+| 运行时契约 | `GET /v3/api-docs` | OpenAPI `3.1.0`，`124` paths |
+| 权限真实 API | `scripts/api-tests/permission/run_permission_e2e.sh` | `22/22` 通过 |
+| 前端运行 | Next dev server on `127.0.0.1:3000` | `/login` HTTP `200`，E2E 通过真实前端和真实后端 |
+| Playwright 完整套件 | `AUBB_E2E_REAL_BACKEND=1 ... npm run test:e2e` | `36 passed`，无 Playwright route mock / `msw` 命中 |
+| 前端静态/构建 | `npm run lint`、`npm run typecheck`、`npm run test`、`AUBB_SERVER_ORIGIN=... npm run build` | 全部通过；unit/contract 为 `24` tests，通过；build 生成 `30` 个静态页面 |
+| 后端全量验证 | `bash ./mvnw spotless:check`、`bash ./mvnw verify` | Spotless `BUILD SUCCESS`；verify `318` tests，0 failures / 0 errors / 0 skipped |
+| 文档站 | `cd docs && npm run docs:build` | VitePress build 通过 |
+
+### 19.1 当前覆盖结论
+
+本轮按根目录 `plan.md` 从当前代码重新扫描 45 个前端业务页面、33 个后端 Controller、20 个前端 API 封装和 36 个 Playwright 测试标题；随后用真实 Docker 依赖、真实 Spring Boot 后端、真实 Next dev server 和 Chromium Playwright 执行验证。当前未发现新的独立路由/API 覆盖缺口。
+
+按钮级结论与边界保持不变：关键页面入口、主按钮、上传/下载、发布/关闭、权限负例、导航、桌面和移动视口都已有真实运行证据；部分复杂写入准备动作仍通过 API helper 完成，不等同于每个表单字段都由鼠标键盘逐项填写。
+
+### 19.2 环境偏差与残余风险
+
+| 项目 | 说明 |
+| --- | --- |
+| bootstrap code | `plan.md` 示例为 `S1`，但本地持久化 PostgreSQL 已有唯一学校根节点 `SCH-REALRUN`；本轮未清库，改用现有根节点 code 启动后端 |
+| 本地数据残留 | E2E 会新增 `E2E-*` 用户、组织、课程、作业、实验、判题和审计记录；当前业务无统一删除 API，未执行破坏性清理 |
+| SSE | SSE 事件探针直连本地后端；浏览器通知页仍通过真实前端验证列表、未读数和已读操作 |
+| OTLP 日志 | 后端运行期间本地 `localhost:4318` OTLP receiver 未启动，出现 metrics publish connection refused 警告；不影响 readiness、业务 E2E 或 `mvn verify` 结果 |
+| 结论范围 | 结论只针对 2026-05-17 当前工作区、本地 Docker 依赖、`18080` 后端、`3000` 前端和当前种子/残留数据 |
+
+### 19.3 收尾状态
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 后端 | `spring-boot:run` 会话已退出；`curl --max-time 2 http://127.0.0.1:18080/actuator/health/readiness` 连接失败 |
+| 前端 | Next dev server 会话已退出；`curl --max-time 2 http://127.0.0.1:3000/login` 连接失败 |
+| Docker compose | `docker compose down` 已执行；`docker compose ps` 无运行服务；未删除 volumes |
