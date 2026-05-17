@@ -446,3 +446,14 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | `docs/` | 对当前 dirty 文件运行敏感关键词计数，不打印匹配行 | 当前执行日志有 42 处关键词命中 |
 
 该复核只输出文件名和计数，不打印、写入或提交任何密码、token、cookie、JWT、私钥或真实连接串。命中来自测试变量名、认证术语和“不要记录敏感值”的执行记录；真实 E2E 密码变量仍未注入当前命令环境。
+
+### 2026-05-17 当前恢复轮补充复核
+
+| 检查项 | 命令 / 证据 | 结果 |
+| --- | --- | --- |
+| 文档构建 | `cd docs && npm run docs:build` | 通过；VitePress `build complete in 2.24s` |
+| 前端生产构建 | `cd web && AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npm run build` | 通过；Next.js 编译、TypeScript、30 个静态页面生成均成功 |
+| 工作区状态 | `git status --short --branch` 分别在 `server/`、`web/`、`docs/` 执行 | `server/` 仍仅 `M Dockerfile`；`web/` 仍仅 `M next.config.ts`、`M src/tests/e2e/full-fixtures.ts`；`docs/` 在追加本段前为 clean |
+| 服务状态 | `curl --max-time 2 -fsS` 检查 `127.0.0.1:18080` 和 `127.0.0.1:3000` | 后端和前端均不可访问；本轮未启动 Docker、后端、前端或 Playwright |
+
+本段是阻塞期间可执行的非账号、非真实服务门禁补充。真实依赖、真实后端、真实前端、三角色登录基线和 `AUBB_E2E_REAL_BACKEND=1 npm run test:e2e` 仍必须等待用户确认 `环境变量已注入` 后再执行；当前 goal 不能标记完成。
