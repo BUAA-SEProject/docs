@@ -621,3 +621,59 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 文档验证 | `cd docs && npm run docs:build` 通过；`git diff --check` 通过 |
 | 当前处理策略 | 当前 shell 未重跑真实浏览器 E2E；真实浏览器 E2E 以本段已有执行证据记录，不伪造重跑结果 |
 | 残余风险 | 文件上传题的超大文件真实上传、浏览器 file chooser 交互和成绩发布后的所有学生展示路径仍依赖更长时间的真实浏览器扩展套件持续覆盖 |
+
+## 11. 2026-05-18 WebIDE 真实全流程验证
+
+本段记录 WebIDE 专项真实闭环执行。目标是使用本地 Docker 依赖、后端 `127.0.0.1:18080`、前端 `127.0.0.1:3000` 和真实浏览器完成教师创建/发布编程题作业、学生 WebIDE 编辑保存、历史查看、样例运行和正式提交判题。全程未使用 Playwright route mock 或 MSW；API 仅用于 fixture 准备与后验核验。
+
+### 环境与数据
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 环境加载 | `scripts/aubb-env.sh` 已兼容 zsh sourced 场景；`zsh -lc 'source scripts/aubb-env.sh && load_aubb_env ...'` 可正确解析 `/Users/moorefoss/Code/AUBB` 并加载 E2E 变量 |
+| 健康检查 | `just healthcheck-strict` 通过；确认 Docker 工具、`env/e2e.env`、后端 `18080`、前端 `3000`、后端 readiness/OpenAPI 与前端登录页可用 |
+| fixture 数据 | 使用现有真实后端 helper 创建动态 E2E 学生/教学班/作业；教师端 UI 新增 Python3 判题环境配置；保留本地 `E2E-*` 残留记录 |
+
+### 修复项
+
+| 问题 | 修复 |
+| --- | --- |
+| zsh 下 `load_aubb_env` 无法加载变量 | `scripts/aubb-env.sh` 不再只依赖 `BASH_SOURCE[0]`；zsh sourced 时使用 zsh source path 计算工作区根目录 |
+| 教师创建结构化编程题作业返回 400 | 创建/编辑页默认不再提交空的 assignment 级 `judgeConfig`；空白 `judgeConfig JSON` 解析为 `undefined`，避免与结构化 `paper` 冲突 |
+| `datetime-local` 原始值导致后端反序列化失败 | 创建/编辑页统一将 `datetime-local` 转为 ISO datetime 后提交 |
+| PaperEditor 切换编程题会回退为单选题 | 题型切换改为一次性更新 question 对象，并补单元测试覆盖 |
+| 教师端缺少编程题关键 UI 配置字段 | PaperEditor 补齐样例试运行、样例输入/期望输出、源码文件约束、Python3、入口文件、测试用例、模板文件等配置 |
+| 学生 WebIDE 题目内容偶发不显示 | 工作区页面改为读取 `/api/v1/me/assignments/{assignmentId}` 详情，而不是依赖作业列表摘要 |
+| 判题环境表格分页导致新增项不可见 | E2E 仍通过 UI 新增配置，保存后用真实后端列表做后验确认 |
+
+### 真实验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| WebIDE 真实闭环 | `cd web && source ../scripts/aubb-env.sh && load_aubb_env && AUBB_E2E_REAL_BACKEND=1 PLAYWRIGHT_TEST_BASE_URL=http://127.0.0.1:3000 AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 npx playwright test src/tests/e2e/webide-real-flow.spec.ts --project=chromium --reporter=list` 通过；`1 passed` |
+| 作业回归真实 E2E | 同环境执行 `npx playwright test src/tests/e2e/full-assignment-judge.spec.ts --project=chromium --reporter=list` 通过；`3 passed` |
+| 前端 lint | `cd web && npm run lint` 通过，退出码 0 |
+| 前端 typecheck | `cd web && npm run typecheck` 通过，退出码 0 |
+| 前端目标单测 | `cd web && npm test -- src/tests/unit/assignment/assignment-form.test.ts src/tests/unit/api/mappers.contract.test.ts src/tests/unit/assignment/paper-editor.test.tsx` 通过；`3` 个 test files / `10` tests |
+| 后端目标测试 | `cd server && bash ./mvnw -Dtest=JwtTokenServiceTests,AuthApiIntegrationTests test` 通过；Tests run: `14`，Failures: `0`，Errors: `0`，Skipped: `0` |
+| 权限脚本语法 | `cd server && python3 -m py_compile scripts/api-tests/permission/e2e_permission_realrun.py` 通过 |
+
+### 已验证用户流程
+
+| 流程 | 证据 |
+| --- | --- |
+| 教师判题环境配置 | 真实页面填写 profileCode、配置名称、Python3、runCommand 并点击“新增配置”；toast 成功后真实后端列表确认 profile 存在 |
+| 教师创建并发布编程题作业 | 真实页面选择课程/教学班，填写标题、说明、时间、提交次数，添加编程题、样例、测试用例、模板文件，点击“创建作业”，随后在作业列表点击发布 |
+| 学生进入 WebIDE | 真实页面打开 `/student/assignments/{assignmentId}/workspace/{questionId}`，确认题干、文件浏览器、Monaco、状态栏和 `main.py` |
+| 编辑与保存 | 通过页面 Monaco model 更新编辑器内容，点击真实“保存”按钮；后端 workspace 轮询确认 `main.py` 持久化为新代码 |
+| 历史与重置 | 点击“历史”并确认历史版本按钮可见；点击“重置”打开弹窗后取消，未破坏最终提交 |
+| 样例运行 | 在“运行结果”填写样例输入/期望输出，点击“运行自测”；真实 go-judge 返回 `SUCCEEDED` / `ACCEPTED`，stdout 为 `3` |
+| 正式提交 | 点击“提交”并确认弹窗；跳转提交详情页，真实 submission 与 judge job 完成，判题结果为 `ACCEPTED` 且得分等于满分 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 密钥处理 | 日志仅记录环境变量名和命令形态，未记录任何密码、token 或 cookie 值 |
+| 本地数据 | 本轮按计划创建 `E2E-*` 残留业务记录，未清理本地数据库 |
+| Monaco 交互 | 真实浏览器中仍通过页面编辑器状态修改代码并点击真实“保存”；为避免 Monaco 隐藏 textarea/逐字符输入抖动，测试使用 Monaco model 一次性设值 |
