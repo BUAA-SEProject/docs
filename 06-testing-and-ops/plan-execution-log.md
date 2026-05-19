@@ -677,3 +677,49 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 密钥处理 | 日志仅记录环境变量名和命令形态，未记录任何密码、token 或 cookie 值 |
 | 本地数据 | 本轮按计划创建 `E2E-*` 残留业务记录，未清理本地数据库 |
 | Monaco 交互 | 真实浏览器中仍通过页面编辑器状态修改代码并点击真实“保存”；为避免 Monaco 隐藏 textarea/逐字符输入抖动，测试使用 Monaco model 一次性设值 |
+
+## 12. 2026-05-19 组织架构与课程成员作用域真实验证
+
+本段记录学校层级组织架构专项真实闭环执行。目标是在本地 Docker 依赖、后端 `127.0.0.1:18080`、前端 `127.0.0.1:3000` 和真实 Chromium 中，使用前端界面完成学院、学期、课程模板、跨学院开课、教学班和课程成员作用域验证。全程未使用 Playwright route mock 或 MSW；API 仅用于登录、动态测试用户准备和后验断言。
+
+### 修复项
+
+| 问题 | 修复 |
+| --- | --- |
+| 开课管理缺少共同管理学院输入 | 管理端开课表单新增“共同管理学院”多选，并提交 `secondaryCollegeUnitIds` |
+| 开课详情缺少跨学院与成员范围信息 | 开课详情展示主开课学院、共同管理学院和授课团队作用域说明 |
+| 成员管理只暴露部分角色 | 成员页支持 `INSTRUCTOR`、`OFFERING_TA`、`CLASS_INSTRUCTOR`、`TA`、`STUDENT` 五类角色 |
+| 成员角色与教学班绑定规则不清晰 | 整课角色禁用并清空教学班；班级角色和学生必须选择教学班，并在前端显示校验错误 |
+| 班级下拉缺少唯一编码且长选项会覆盖按钮 | 教学班选项显示“名称 (编码)”，并给成员表单网格和 select 加入收缩约束 |
+| 列表新增后依赖第一页可见 | 真实 E2E 改为等待 UI POST 成功，再按唯一编码调用真实 API 回查 |
+| `datetime-local` 直接提交导致后端反序列化失败 | 开课创建/编辑提交前将本地 datetime-local 值转换为 ISO datetime |
+| 无参数 query key 失效无法刷新活跃列表 | `queryKeys.admin.*()` 支持返回列表前缀 key，用于 mutation 后刷新匹配查询 |
+
+### 真实验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| 环境门禁 | `just healthcheck-strict` 通过；确认 Docker、本地后端 `18080`、本地前端 `3000`、readiness、OpenAPI 与登录页可用 |
+| 组织架构真实 E2E | `cd web && set -a; source ../env/e2e.env; set +a; AUBB_E2E_REAL_BACKEND=1 AUBB_SERVER_ORIGIN=http://127.0.0.1:18080 PLAYWRIGHT_TEST_BASE_URL=http://127.0.0.1:3000 npx playwright test src/tests/e2e/full-organization-structure.spec.ts --project=chromium` 通过；`1 passed (11.6s)` |
+| 前端静态门禁 | `cd web && npm run typecheck`、`cd web && npm run lint` 均通过 |
+| 前端目标单测 | `cd web && npm test -- src/tests/unit/admin/course-offering-form.test.ts src/tests/unit/api/mappers.contract.test.ts src/tests/unit/api/query-keys.contract.test.ts src/tests/unit/course/member-role-binding.test.ts` 通过；`4` 个 test files / `13` tests |
+| 后端全量回归 | `cd server && bash ./mvnw test` 通过；Tests run: `320`，Failures: `0`，Errors: `0`，Skipped: `0` |
+| 工作区总门禁 | `just verify` 通过；后端 `320` tests / `0` failures / `0` errors，Web lint/typecheck 通过，Docs build 通过 |
+
+### 已验证用户流程
+
+| 流程 | 证据 |
+| --- | --- |
+| 管理员创建组织与教学基础数据 | 真实页面创建两个学院、学期、课程模板和跨学院开课；开课详情确认主学院、共同管理学院和初始主讲教师 |
+| 教师创建教学班 | 初始主讲教师登录真实前端，在课程工作台创建两个教学班 |
+| 教师成员管理 | 真实成员页添加整课教师、整课助教、班级教师、班级助教和学生，并用后端成员列表确认角色和教学班绑定 |
+| 前端校验 | 学生未选教学班时前端阻止添加并显示“当前角色必须选择教学班”；整课教师切换后教学班下拉禁用并清空 |
+| 后端边界 | 真实 API 验证缺班级、整课角色误带班级、跨开课教学班绑定、重复成员均返回明确失败原因；跨开课教学班返回“教学班不属于当前课程” |
+| 作用域验证 | 整课教师可管理两个教学班，整课助教可读不可改；班级教师只看见并管理本班，班级助教只读本班，学生不能访问教师班级接口 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 密钥处理 | 日志仅记录环境变量名和命令形态，未记录任何密码、token、cookie 或 JWT 值 |
+| 本地数据 | 本轮创建 `E2E-*` 学院、学期、课程模板、开课、教学班和临时用户；当前无通用删除 API，数据作为审计残留保留 |
