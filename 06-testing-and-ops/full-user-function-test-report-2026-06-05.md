@@ -240,7 +240,7 @@ status: in-progress
 | /teacher/courses/1/question-bank | 教师 | 类型筛选下拉框 | select | 选择 PROGRAMMING | 筛选结果 | 只显示 1 个 PROGRAMMING 题目 | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 查询按钮 | button | 点击查询 | 返回筛选结果 | 返回结果 | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 分类管理按钮 | button | — | — | 可见 | — | 受阻未测 | — |
-| /teacher/courses/1/question-bank | 教师 | 新增题目按钮 | button | — | — | 可见 | — | 受阻未测 | — |
+| /teacher/courses/1/question-bank | 教师 | 新增题目按钮 | button | 填写标题/内容→点击新增题目 | 题目创建成功 | Toast"题目已入库"，新题目出现在列表 | 刷新后仍可见 | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 编辑题目按钮 | button | 点击编辑 | 弹出编辑对话框 | 无反应（无对话框弹出） | — | 已真实操作失败 | BUG-20260605-006 |
 | /teacher/courses/1/question-bank | 教师 | 归档按钮 | button | 点击归档 | 题目归档 | Toast"题目已归档" | — | 已真实操作通过 | — |
 
