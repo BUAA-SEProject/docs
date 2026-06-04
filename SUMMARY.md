@@ -46,6 +46,7 @@
   * [全栈审计报告](06-testing-and-ops/full-stack-audit-report.md)
   * [按钮级 E2E 验证报告](06-testing-and-ops/button-level-e2e-verification-report.md)
   * [前端 Playwright MCP 全面审计报告](06-testing-and-ops/frontend-audit-2026-06-01.md)
+  * [全量用户侧功能测试矩阵](06-testing-and-ops/full-user-function-test-matrix-2026-06-04.md)
 * [团队协作](07-team-and-workflow/index.md)
   * [团队分工](07-team-and-workflow/roles-and-responsibilities.md)
   * [项目 Todo](07-team-and-workflow/project-todo.md)
