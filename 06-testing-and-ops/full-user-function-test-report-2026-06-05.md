@@ -410,12 +410,12 @@ status: in-progress
 
 | 缺陷编号 | 严重级别 | 页面 | 问题摘要 | 状态 |
 |----------|----------|------|----------|------|
-| BUG-20260605-001 | P2 | /admin/org-units | UI 创建 COLLEGE 类型节点失败（缺 parentId） | 已记录 |
+| BUG-20260605-001 | P2 | /admin/org-units | UI 创建 COLLEGE 类型节点失败（缺 parentId） | 已修复 |
 | BUG-20260605-002 | P1 | /admin/course-offerings | UI 创建开课失败（无网络请求，缺必填字段提示） | 已修复 |
 | BUG-20260605-003 | P3 | /admin/audit-logs | 审计日志筛选中文操作类型无结果（列表显示中文但筛选需英文） | 已记录 |
 | BUG-20260605-004 | P2 | /admin/auth-explain | 权限诊断返回 403 Forbidden（API /api/v1/admin/auth/explain） | 已记录 |
 | BUG-20260605-005 | P2 | /admin/auth-explain | 创建授权组返回 404 Not Found（API /api/v1/admin/auth/groups 不存在） | 已记录 |
-| BUG-20260605-006 | P2 | /teacher/courses/1/question-bank | 编辑题目按钮点击无反应（无对话框弹出） | 已记录 |
+| BUG-20260605-006 | P2 | /teacher/courses/1/question-bank | 编辑题目按钮点击无反应（无对话框弹出） | 已修复 |
 | BUG-20260605-007 | P1 | /student/labs | 学生实验报告保存草稿失败（API /api/v1/me/labs/18/report 返回 404/400） | 已修复 |
 
 ## 12. 修复计划
