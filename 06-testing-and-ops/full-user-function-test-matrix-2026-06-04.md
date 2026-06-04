@@ -9,16 +9,28 @@ status: current
 
 ## 1. 环境基线
 
-| 项目 | 状态 |
-|------|------|
-| 日期 | 2026-06-04 |
-| server/ 分支 | main，clean |
-| web/ 分支 | main，clean |
-| docs/ 分支 | main，clean |
-| env/e2e.env | 存在 |
-| 前端页面数 | 48 个 page.tsx |
-| 后端 Controller 数 | 34 个 |
-| 现有 E2E spec | 12 个 |
+| 项目 | 2026-06-04 初始 | 2026-06-05 验证 |
+|------|------|------|
+| 日期 | 2026-06-04 | 2026-06-05 |
+| server/ 分支 | main，clean | main，clean |
+| web/ 分支 | main，clean | main，clean |
+| docs/ 分支 | main，clean | main，clean |
+| env/e2e.env | 存在 | 存在，含 8 个 E2E 变量 |
+| 前端页面数 | 48 个 page.tsx | 45 个 page.tsx |
+| 后端 Controller 数 | 34 个 | 33 个 |
+| 现有 E2E spec | 12 个 | 12 个 |
+| 后端 readiness | — | UP（db/goJudge/judgeQueue/minioStorage/redisEnhancement） |
+| OpenAPI | — | 3.1.0，124 个 paths |
+
+### Playwright MCP 真实页面验证（2026-06-05）
+
+| 角色 | 账号 | 跳转 URL | 侧边栏入口 | 数据状态 |
+|------|------|----------|-----------|---------|
+| 管理员 | U-SA1 | /admin | 治理概览、平台配置、组织架构、用户管理、学期管理、课程模板、开课管理、审计日志、权限解释（9 个） | 平台配置摘要已接入，治理模块全部接通 |
+| 教师 | U-TA1 | /teacher | 教学概览、我的课程、作业管理、提交管理、成绩册、题库中心、实验中心、通知公告（8 个） | 19 个课程、26 个未读通知，已接通模块全部显示 |
+| 学生 | U-ST1 | /student | 学习中心、我的课程、作业任务、实验项目、我的成绩、站内通知（6 个） | 当前无可见课程，需数据准备 |
+
+console error: 仅 favicon.ico 404，无业务错误。
 
 ## 2. 功能覆盖矩阵
 
