@@ -227,10 +227,10 @@ status: in-progress
 | /teacher/courses/1/resources | 教师 | 页面加载 | — | 打开页面 | 显示资源列表 | 4 个资源文件，含文件名/大小/时间 | — | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 下载按钮 | button | 点击下载 | 文件下载成功 | 文件 e2e-fullrun-ml2-resource.txt 下载（41B） | 文件内容正确 | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 重命名按钮 | button | 点击→修改标题→保存 | 标题更新 | 弹出"编辑资源标题"对话框→修改为"E2E-FULLRUN 重命名测试资源"→保存成功 | 刷新后标题仍为新值 | 已真实操作通过 | — |
-| /teacher/courses/1/resources | 教师 | 删除按钮 | button | — | — | 可见 | — | 受阻未测 | — |
-| /teacher/courses/1/resources | 教师 | 资源标题输入框 | input | — | — | 可见 | — | 只读/无副作用已验证 | — |
-| /teacher/courses/1/resources | 教师 | 选择文件区域 | upload | — | — | 可见，提示"选择文件或拖拽到此处" | — | 只读/无副作用已验证 | — |
-| /teacher/courses/1/resources | 教师 | 开始上传按钮 | button | — | — | 可见（disabled，需先选择文件） | — | 受阻未测 | — |
+| /teacher/courses/1/resources | 教师 | 删除按钮 | button | 点击删除→确认 | 资源删除 | 弹出确认弹窗→确认后 Toast"资源已删除" | 刷新后资源不在列表 | 已真实操作通过 | — |
+| /teacher/courses/1/resources | 教师 | 资源标题输入框 | input | 输入"E2E-FULLRUN 上传测试资源" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
+| /teacher/courses/1/resources | 教师 | 选择文件区域 | upload | 选择 e2e-upload-test.txt | 文件选择成功 | 显示文件名和大小 | — | 已真实操作通过 | — |
+| /teacher/courses/1/resources | 教师 | 开始上传按钮 | button | 点击上传 | 上传成功 | Toast"资源已上传"，新资源出现在列表 | 刷新后仍可见 | 已真实操作通过 | — |
 
 ### 5.13 教师 - 题库
 
