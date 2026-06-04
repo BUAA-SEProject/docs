@@ -358,10 +358,10 @@ status: in-progress
 | /student/assignments/9 | 学生 | 提交答案按钮 | button | — | — | 可见（disabled，作业已截止） | — | 只读/无副作用已验证 | — |
 | /student/assignments/9/workspace/23 | 学生 | 页面加载 | — | 打开页面 | 显示编程工作区 | 显示工作区，但"无权访问此编程工作区"（403） | — | 已真实操作通过 | — |
 | /student/assignments/9/workspace/23 | 学生 | 保存按钮 | button | — | — | 可见（disabled） | — | 只读/无副作用已验证 | — |
-| /student/assignments/9/workspace/23 | 学生 | 重置按钮 | button | — | — | 可见 | — | 受阻未测 | — |
-| /student/assignments/9/workspace/23 | 学生 | 历史按钮 | button | — | — | 可见 | — | 受阻未测 | — |
+| /student/assignments/9/workspace/23 | 学生 | 重置按钮 | button | — | — | 可见（作业已过期，工作区 403） | — | 受阻未测（作业过期） | — |
+| /student/assignments/9/workspace/23 | 学生 | 历史按钮 | button | — | — | 可见（作业已过期） | — | 受阻未测（作业过期） | — |
 | /student/assignments/9/workspace/23 | 学生 | 运行自测按钮 | button | — | — | 可见（disabled） | — | 只读/无副作用已验证 | — |
-| /student/assignments/9/workspace/23 | 学生 | 提交按钮 | button | — | — | 可见 | — | 受阻未测 | — |
+| /student/assignments/9/workspace/23 | 学生 | 提交按钮 | button | — | — | 可见（作业已过期，工作区 403） | — | 受阻未测（作业过期） | — |
 
 ### 5.26 学生 - 实验项目
 
