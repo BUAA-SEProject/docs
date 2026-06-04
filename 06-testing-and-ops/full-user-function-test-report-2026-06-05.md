@@ -50,11 +50,11 @@ status: in-progress
 |------|------|----------|----------|----------|----------|----------|------------|------|----------|
 | /admin/platform-config | 管理员 | 平台名称输入框 | input | 修改为"E2E-FULLRUN-ML1 修改后平台" | 输入框值变化 | 值已变化 | — | 已真实操作通过 | — |
 | /admin/platform-config | 管理员 | 保存配置按钮 | button | 点击保存 | 保存成功 | 保存成功 | 刷新后值仍为修改后值 | 已真实操作通过 | — |
-| /admin/platform-config | 管理员 | 取消重置按钮 | button | 点击重置 | 表单恢复原值 | — | — | 受阻未测 | — |
+| /admin/platform-config | 管理员 | 取消重置按钮 | button | 修改平台名称→点击取消重置 | 表单恢复原值 | 平台名称恢复为 "Realrun School" | — | 已真实操作通过 | — |
 | /admin/platform-config | 管理员 | 平台简称输入框 | input | — | — | 显示 SCH-REALRUN | — | 只读/无副作用已验证 | — |
 | /admin/platform-config | 管理员 | Logo URL 输入框 | input | — | — | 显示空 | — | 只读/无副作用已验证 | — |
 | /admin/platform-config | 管理员 | 页脚文字输入框 | input | — | — | 显示 E2E 历史值 | — | 只读/无副作用已验证 | — |
-| /admin/platform-config | 管理员 | 清空按钮 | button | — | — | — | — | 受阻未测 | — |
+| /admin/platform-config | 管理员 | 清空按钮 | button | 点击清空 | 页脚文字清空 | 页脚文字输入框清空 | — | 已真实操作通过 | — |
 | /admin/platform-config | 管理员 | 默认首页路径输入框 | input | — | — | 显示 /admin | — | 只读/无副作用已验证 | — |
 | /admin/platform-config | 管理员 | 主题键输入框 | input | — | — | 显示 aubb-light | — | 只读/无副作用已验证 | — |
 | /admin/platform-config | 管理员 | 登录公告文本框 | textarea | — | — | 显示空 | — | 只读/无副作用已验证 | — |
