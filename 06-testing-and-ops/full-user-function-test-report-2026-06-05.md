@@ -239,7 +239,7 @@ status: in-progress
 | /teacher/courses/1/question-bank | 教师 | 页面加载 | — | 打开页面 | 显示题库列表 | 5 个题目（SHORT_ANSWER, MULTIPLE_CHOICE, SINGLE_CHOICE, PROGRAMMING） | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 类型筛选下拉框 | select | 选择 PROGRAMMING | 筛选结果 | 只显示 1 个 PROGRAMMING 题目 | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 查询按钮 | button | 点击查询 | 返回筛选结果 | 返回结果 | — | 已真实操作通过 | — |
-| /teacher/courses/1/question-bank | 教师 | 分类管理按钮 | button | — | — | 可见 | — | 受阻未测 | — |
+| /teacher/courses/1/question-bank | 教师 | 分类管理按钮 | button | 点击分类管理 | 弹出分类管理对话框 | 无明显反应（无对话框弹出） | — | 已真实操作失败 | BUG-20260605-008 |
 | /teacher/courses/1/question-bank | 教师 | 新增题目按钮 | button | 填写标题/内容→点击新增题目 | 题目创建成功 | Toast"题目已入库"，新题目出现在列表 | 刷新后仍可见 | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 编辑题目按钮 | button | 点击编辑 | 弹出编辑对话框 | 无反应（无对话框弹出） | — | 已真实操作失败 | BUG-20260605-006 |
 | /teacher/courses/1/question-bank | 教师 | 归档按钮 | button | 点击归档 | 题目归档 | Toast"题目已归档" | — | 已真实操作通过 | — |
@@ -425,6 +425,7 @@ status: in-progress
 | BUG-20260605-005 | P3 | /admin/auth-explain | 创建授权组返回 404（模板不存在，需先创建模板） | 非缺陷，预期行为 |
 | BUG-20260605-006 | P2 | /teacher/courses/1/question-bank | 编辑题目按钮点击无反应（无对话框弹出） | 已修复 |
 | BUG-20260605-007 | P1 | /student/labs | 学生实验报告保存草稿失败（API /api/v1/me/labs/18/report 返回 404/400） | 已修复 |
+| BUG-20260605-008 | P2 | /teacher/courses/1/question-bank | 分类管理按钮点击无反应（无对话框弹出） | 已记录 |
 
 ## 12. 修复计划
 
