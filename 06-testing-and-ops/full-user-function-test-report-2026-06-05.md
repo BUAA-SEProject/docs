@@ -100,7 +100,7 @@ status: in-progress
 | /admin/users | 管理员 | 搜索按钮 | button | 点击搜索 | 筛选结果 | 搜索到 U-TA1 | — | 已真实操作通过 | — |
 | /admin/users | 管理员 | 用户行链接 | link | 点击 U-TA1 行 | 跳转详情页 | 跳转到 /admin/users/4 | 详情页显示完整信息 | 已真实操作通过 | — |
 | /admin/users | 管理员 | 批量导入按钮 | button | — | — | — | — | 受阻未测 | — |
-| /admin/users | 管理员 | 重置按钮 | button | — | — | — | — | 受阻未测 | — |
+| /admin/users | 管理员 | 重置按钮 | button | 输入关键词→点击重置 | 搜索条件清空 | 关键词输入框清空，列表恢复完整 | — | 已真实操作通过 | — |
 
 ### 5.4 管理员 - 学期管理
 
