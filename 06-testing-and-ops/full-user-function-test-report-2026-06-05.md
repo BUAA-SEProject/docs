@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 02:56 CST，审计日志 Request ID 复制反馈、详情按钮可访问名称和元数据中文说明已完成 Playwright MCP 真实浏览器回归；`just e2e-real` 38/38 通过。
+- 最新补充：2026-06-06 04:44 CST，教师作业创建 / 编辑 / 发布链路已完成 Playwright MCP 真实浏览器回归；题库引用提交载荷和列表总分未知态缺陷已修复；`just e2e-real` 38/38 通过。
 
 ## 2. 环境与账号
 
@@ -355,7 +355,13 @@ status: in-progress
 | 页面 | 角色 | 控件名称 | 控件类型 | 用户动作 | 预期结果 | 实际结果 | 持久化校验 | 状态 | 缺陷编号 |
 |------|------|----------|----------|----------|----------|----------|------------|------|----------|
 | /teacher/assignments | 教师 | 选择课程下拉框 | select | 选择"数据结构 2025 秋" | 选中成功 | 选中成功，查询按钮启用 | — | 已真实操作通过 | — |
-| /teacher/assignments | 教师 | 查询按钮 | button | 点击查询 | 返回作业列表 | 返回 10 页作业数据 | — | 已真实操作通过 | — |
+| /teacher/assignments | 教师 | 查询按钮 | button | 点击查询 | 返回作业列表 | 返回 20 页作业数据 | `GET /api/v1/teacher/course-offerings/1/assignments?page=1&pageSize=20` 返回 200 | 已真实操作通过 | — |
+| /teacher/assignments | 教师 | 创建作业按钮 | link/button | 点击创建作业 | 打开创建表单并保留当前课程 | 跳转 `/teacher/assignments/create?offeringId=1` | — | 已真实操作通过 | — |
+| /teacher/assignments/create?offeringId=1 | 教师 | 题库题目加入试卷 | select/button | 选择 `MCP-QUESTION-0606-0402 / 简答题 / 13 分` 后点击加入试卷 | 试卷显示 1 个分区 / 总分 13 | 页面显示 `1 个分区 / 总分 13`，包含题目 `MCP-QUESTION-0606-0402` | — | 已真实操作通过 | — |
+| /teacher/assignments/create?offeringId=1 | 教师 | 创建作业按钮 | button | 填写标题、说明、教学班 A1、开放/截止时间、提交次数后提交 | 创建成功并返回列表 | 修复后 `POST /api/v1/teacher/course-offerings/1/assignments` 返回 201，列表出现 `MCP 作业回归 0606-0413` id=402 草稿 | 请求体中题库引用仅包含 `bankQuestionId=167` 和 `score=13`；201 响应 `paper.totalScore=13` | 已真实操作通过 | BUG-20260606-004 |
+| /teacher/assignments | 教师 | 总分列 | table cell | 查看新建作业列表行 | 列表接口未返回试卷详情时不显示误导性 0 分 | 列表行总分显示 `暂无`；详情/创建/发布响应中的试卷总分仍为 13 | 列表响应 `paper=null`，前端使用未知态占位 | 已真实操作通过 | BUG-20260606-005 |
+| /teacher/assignments/402/edit | 教师 | 保存作业按钮 | button | 将标题改为 `MCP 作业回归 0606-0413-编辑` 后保存 | 保存成功并返回列表 | `PUT /api/v1/teacher/assignments/402` 返回 200，列表标题更新 | PUT 请求体中题库引用仅包含 `bankQuestionId=167` 和 `score=13`；响应 `paper.totalScore=13` | 已真实操作通过 | BUG-20260606-004 |
+| /teacher/assignments | 教师 | 发布作业按钮 | button | 点击发布→确认发布 | 作业状态变为已发布，发布按钮禁用，关闭按钮启用 | `POST /api/v1/teacher/assignments/402/publish` 返回 200；列表显示已发布 | DOM 校验 `publishDisabled=true`、`closeDisabled=false`，响应含 `publishedAt` | 已真实操作通过 | — |
 | /teacher/assignments | 教师 | 关闭作业按钮 | button | 点击关闭 | 作业关闭 | Toast"作业已关闭" | — | 已真实操作通过 | — |
 
 ### 5.22 教师 - 提交管理
@@ -423,7 +429,7 @@ status: in-progress
 |---|----------|------|------|------|
 | ML-1 | 管理员初始化 | 平台配置✅ 组织架构⚠️ 用户✅ 学期✅ 课程模板✅ 开课✅ 用户详情✅ | 部分通过 | 见 5.1-5.7 |
 | ML-2 | 教师教学准备 | 公告✅ 讨论✅ 资源下载✅ 资源重命名✅ 资源空标题校验✅ 通知已读✅ 题库筛选✅ 题库新增自动刷新✅ 关闭作业✅ 资源上传✅ 资源删除✅ 讨论锁定✅ 讨论解锁✅ | 部分通过 | 见 5.10-5.25 |
-| ML-3 | 教师创建作业 | 关闭作业✅ 查看提交✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 关闭实验✅ | 部分通过 | 见 5.20-5.24 |
+| ML-3 | 教师创建作业 | 创建作业✅ 编辑作业✅ 发布作业✅ 关闭作业✅ 查看提交✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 关闭实验✅；提交级重判 / 答案重判、成绩册批量能力仍按风险项补测 | 部分通过 | 见 5.20-5.24 |
 | ML-4 | 学生答题 | 作业列表✅ 作业详情✅ 编程工作区（403）⚠️ 实验报告✅ | 部分通过 | 见 5.25-5.26 |
 | ML-5 | 评测批改 | 人工批改✅ 下载报告✅ | 部分通过 | 见 5.22 |
 | ML-6 | 学生查看成绩 | 选择课程✅ 导出成绩✅ | 部分通过 | 见 5.18 |
@@ -482,6 +488,8 @@ status: in-progress
 | BUG-20260606-001 | P1 | /admin/users/[userId] | 用户详情页学籍/教籍资料只读，“保存学籍资料”不可完成真实编辑 | 已修复 |
 | BUG-20260606-002 | P2 | /teacher/courses/[offeringId]/members | 添加成员成功后结果提示随弹窗关闭，用户看不到批量结果 | 已修复 |
 | BUG-20260606-003 | P2 | /teacher/courses/1/question-bank | 新增题目成功后题库列表、分类、标签筛选未自动刷新 | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-004 | P1 | /teacher/assignments/create, /teacher/assignments/[assignmentId]/edit | 引用题库题目创建 / 编辑作业时提交了题干、题型、配置等多余字段，后端返回 400 `ASSIGNMENT_QUESTION_BANK_REFERENCE_INVALID` | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-005 | P3 | /teacher/assignments | 作业列表接口未返回 `paper` 时总分列误显示 0，容易被误认为作业 0 分 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 
 ## 12. 修复计划
 
@@ -490,7 +498,6 @@ status: in-progress
 ## 13. 未覆盖项与风险
 
 - 教师：题库"编辑题目"按钮已修复并通过真实浏览器复核
-- 教师：作业"创建作业"、"编辑作业"、"发布作业"功能未测试
 - 教师：提交"提交级重判"、"答案重判"功能未测试
 - 教师：成绩册"批量调整"、"导入"、"发布"功能未测试
 - 教师：实验"创建实验"、"编辑"、"发布"、"报告查看"功能未测试
@@ -507,7 +514,7 @@ status: in-progress
 |------|------|
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
 | just status | server/main clean；web/main 与 docs/main dirty（前端整改、测试和报告更新） |
-| just e2e-real | 38 个真实后端 Playwright E2E 全部通过（含 full-organization-structure 与 teacher-course 公告负例） |
+| just e2e-real | 2026-06-06 04:44 CST 复跑通过，38 个真实后端 Playwright E2E 全部通过，耗时约 3.3 分钟 |
 | cd web && npm run lint | 通过 |
 | cd web && npm run typecheck | 通过 |
 | cd web && npm test -- src/tests/unit/admin/audit-logs-page.test.tsx | 1 文件 / 2 测试通过 |
@@ -526,3 +533,5 @@ status: in-progress
 | Playwright MCP 审计日志中文筛选回归 | 管理员真实会话选择“登录成功”操作类型，下拉值提交 `LOGIN_SUCCESS`，`GET /api/v1/admin/audit-logs?action=LOGIN_SUCCESS&page=1&pageSize=20` 返回 200，表格显示“登录成功”记录 |
 | Playwright MCP 权限解释回归 | 管理员真实会话完成权限允许 / 拒绝 / 非法编码错误态、有效模板创建授权组、添加成员、无效模板 404 预期错误；`/admin/auth/explain` 200/200/400，`/admin/auth/groups` 201/404，`/admin/auth/groups/1/members` 201 |
 | Playwright MCP 题库新增自动刷新回归 | 教师真实会话创建 `MCP-QUESTION-0606-0402`，`POST /api/v1/teacher/course-offerings/1/question-bank/questions` 返回 201，随后自动拉取 questions/categories/tags，当前列表显示新题且标签筛选出现 `autorefresh` |
+| npm test -- src/tests/unit/api/mappers.contract.test.ts src/tests/unit/assignment/assignment-form.test.ts | 2 文件 / 10 测试通过 |
+| Playwright MCP 作业创建 / 编辑 / 发布回归 | 教师真实会话先复现题库引用作业创建 400 `ASSIGNMENT_QUESTION_BANK_REFERENCE_INVALID`；修复后创建 `MCP 作业回归 0606-0413` id=402 成功，`POST /api/v1/teacher/course-offerings/1/assignments` 返回 201；编辑标题后 `PUT /api/v1/teacher/assignments/402` 返回 200；确认发布后 `POST /api/v1/teacher/assignments/402/publish` 返回 200，列表显示已发布，发布按钮禁用、关闭按钮启用 |
