@@ -276,7 +276,7 @@ status: in-progress
 | /teacher/courses/1/question-bank | 教师 | 类型筛选下拉框 | select | 选择 PROGRAMMING | 筛选结果 | 只显示 1 个 PROGRAMMING 题目 | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 查询按钮 | button | 点击查询 | 返回筛选结果 | 返回结果 | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 分类管理入口 | button | 检查是否存在假入口 | 不保留无契约支撑的空功能按钮 | 后端稳定 API 仅提供分类/标签字典读取，分类通过题目创建/编辑时的 `categoryName` 自动维护；当前页面不再保留“分类管理”假按钮 | API 契约核对：`stable-api.md` 仅列出题目 CRUD 与分类列表读取 | 非缺陷，入口已清理 | BUG-20260605-008 |
-| /teacher/courses/1/question-bank | 教师 | 新增题目按钮 | button | 填写标题/内容→点击新增题目 | 题目创建成功 | Toast"题目已入库"，新题目出现在列表 | 刷新后仍可见 | 已真实操作通过 | — |
+| /teacher/courses/1/question-bank | 教师 | 新增题目按钮 | button | 填写标题/题干/分值/分类/标签→点击创建 | 题目创建成功并刷新题库列表、分类、标签 | 创建 `MCP-QUESTION-0606-0402` 后页面无需手动查询即显示新题，标签筛选新增 `autorefresh` | `POST /api/v1/teacher/course-offerings/1/question-bank/questions` 返回 201，随后自动触发 questions/categories/tags GET 200；刷新后 `MCP-QUESTION-0606-0356` 仍可见 | 已真实操作通过 | BUG-20260606-003 |
 | /teacher/courses/1/question-bank | 教师 | 编辑题目按钮 | button | 点击编辑 | 弹出编辑对话框 | 点击“编辑题目 E2E-FULLRUN 新增测试题目”后打开“编辑题目”Dialog，并带入原题目标题和分值 | Playwright MCP DOM 读取 Dialog 标题、描述、`#question-title` 与 `#question-score` | 已真实操作通过 | BUG-20260605-006 |
 | /teacher/courses/1/question-bank | 教师 | 编辑 / 归档行操作名称 | button | 读取题目列表行操作名称 | 每个按钮都能区分对应题目 | 前 3 行按钮均具备“编辑题目 <标题> / 归档题目 <标题>”的 `aria-label` 与 `title` | Playwright MCP DOM 读取 `main table button` 的 `aria-label` / `title`；单元测试覆盖“二叉树遍历”行 | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 归档按钮 | button | 点击归档 | 题目归档 | Toast"题目已归档" | — | 已真实操作通过 | — |
@@ -422,7 +422,7 @@ status: in-progress
 | # | 链路名称 | 步骤 | 状态 | 证据 |
 |---|----------|------|------|------|
 | ML-1 | 管理员初始化 | 平台配置✅ 组织架构⚠️ 用户✅ 学期✅ 课程模板✅ 开课✅ 用户详情✅ | 部分通过 | 见 5.1-5.7 |
-| ML-2 | 教师教学准备 | 公告✅ 讨论✅ 资源下载✅ 资源重命名✅ 资源空标题校验✅ 通知已读✅ 题库筛选✅ 关闭作业✅ 资源上传✅ 资源删除✅ 讨论锁定✅ 讨论解锁✅ | 部分通过 | 见 5.10-5.25 |
+| ML-2 | 教师教学准备 | 公告✅ 讨论✅ 资源下载✅ 资源重命名✅ 资源空标题校验✅ 通知已读✅ 题库筛选✅ 题库新增自动刷新✅ 关闭作业✅ 资源上传✅ 资源删除✅ 讨论锁定✅ 讨论解锁✅ | 部分通过 | 见 5.10-5.25 |
 | ML-3 | 教师创建作业 | 关闭作业✅ 查看提交✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 关闭实验✅ | 部分通过 | 见 5.20-5.24 |
 | ML-4 | 学生答题 | 作业列表✅ 作业详情✅ 编程工作区（403）⚠️ 实验报告✅ | 部分通过 | 见 5.25-5.26 |
 | ML-5 | 评测批改 | 人工批改✅ 下载报告✅ | 部分通过 | 见 5.22 |
@@ -481,6 +481,7 @@ status: in-progress
 | BUG-20260605-009 | P3 | /admin/org-units | 子节点创建成功后根节点表单类型残留 COLLEGE | 已修复 |
 | BUG-20260606-001 | P1 | /admin/users/[userId] | 用户详情页学籍/教籍资料只读，“保存学籍资料”不可完成真实编辑 | 已修复 |
 | BUG-20260606-002 | P2 | /teacher/courses/[offeringId]/members | 添加成员成功后结果提示随弹窗关闭，用户看不到批量结果 | 已修复 |
+| BUG-20260606-003 | P2 | /teacher/courses/1/question-bank | 新增题目成功后题库列表、分类、标签筛选未自动刷新 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 
 ## 12. 修复计划
 
@@ -488,7 +489,6 @@ status: in-progress
 
 ## 13. 未覆盖项与风险
 
-- 教师：题库"新增题目"正常路径仍待真实浏览器复核；分类和标签通过题目创建 / 编辑表单维护，不再单列分类管理入口
 - 教师：题库"编辑题目"按钮已修复并通过真实浏览器复核
 - 教师：作业"创建作业"、"编辑作业"、"发布作业"功能未测试
 - 教师：提交"提交级重判"、"答案重判"功能未测试
@@ -525,3 +525,4 @@ status: in-progress
 | Playwright MCP 判题环境逐按钮回归 | 教师真实会话完成 Go 1.22 筛选、空新增错误、创建、编辑、归档、包含归档复查；对应 `GET` / `POST` / `PUT` / archive 请求为 200/201 |
 | Playwright MCP 审计日志中文筛选回归 | 管理员真实会话选择“登录成功”操作类型，下拉值提交 `LOGIN_SUCCESS`，`GET /api/v1/admin/audit-logs?action=LOGIN_SUCCESS&page=1&pageSize=20` 返回 200，表格显示“登录成功”记录 |
 | Playwright MCP 权限解释回归 | 管理员真实会话完成权限允许 / 拒绝 / 非法编码错误态、有效模板创建授权组、添加成员、无效模板 404 预期错误；`/admin/auth/explain` 200/200/400，`/admin/auth/groups` 201/404，`/admin/auth/groups/1/members` 201 |
+| Playwright MCP 题库新增自动刷新回归 | 教师真实会话创建 `MCP-QUESTION-0606-0402`，`POST /api/v1/teacher/course-offerings/1/question-bank/questions` 返回 201，随后自动拉取 questions/categories/tags，当前列表显示新题且标签筛选出现 `autorefresh` |
