@@ -427,6 +427,9 @@ status: in-progress
 | /student/assignments/9/workspace/23 | 学生 | 历史按钮 | button | — | — | 可见（作业已过期） | — | 受阻未测（作业过期） | — |
 | /student/assignments/9/workspace/23 | 学生 | 运行自测按钮 | button | — | — | 可见（disabled） | — | 只读/无副作用已验证 | — |
 | /student/assignments/9/workspace/23 | 学生 | 提交按钮 | button | — | — | 可见（作业已过期，工作区 403） | — | 受阻未测（作业过期） | — |
+| /student/assignments/439 | 学生 | 结构化答题表单 | radio/checkbox/input/textarea/file/link/button | 临时学生打开未过期作业，填写单选 A、多选 A/B、填空 `-1`、Markdown 简答，上传 `assignment-402-requests.txt`，打开 IDE 后返回并提交 | 单选/多选/填空/简答/文件/编程 6 类答案一起提交成功 | `POST /api/v1/me/assignments/439/submission-artifacts` 返回 201，详情页恢复草稿；提交后跳转 `/student/submissions/148`，显示 `SUBMITTED`、附件和 6 个答案 | `POST /api/v1/me/assignments/439/submissions` 返回 201，请求体包含 question 1515-1520 全部答案、artifact id 86 和 `main.py`；响应 submission id=148，单选/多选/填空自动判分 5/8/7 | 已真实操作通过 | — |
+| /student/assignments/439/workspace/1520 | 学生 | 保存 / 运行自测 | button | 打开编程题 IDE，保存模板 `main.py`，点击运行自测 | 工作区可访问、可保存、样例运行通过 | 页面显示 `main.py`、`Language: PYTHON3`、可编辑；运行结果显示“已完成 / 通过 / ACCEPTED”，stdout 为 `3` | `GET /workspace` 200，`PUT /workspace` 200，`POST /sample-runs` 201，`GET /sample-runs` 200 | 已真实操作通过 | — |
+| /student/assignments | 学生 | 移动端作业卡片 | viewport/link | 390x844 视口刷新作业列表 | 无横向溢出，卡片纵向排布，状态和目标明确的开始做题入口可见 | `documentWidth=390`，首个卡片宽度 326；状态在移动端可见；链接名称为 `开始做题 <作业标题>`，控制台错误 0 | — | 已真实操作通过 | BUG-20260606-013 |
 
 ### 5.26 学生 - 实验项目
 
@@ -447,7 +450,7 @@ status: in-progress
 | ML-1 | 管理员初始化 | 平台配置✅ 组织架构⚠️ 用户✅ 学期✅ 课程模板✅ 开课✅ 用户详情✅ | 部分通过 | 见 5.1-5.7 |
 | ML-2 | 教师教学准备 | 公告✅ 讨论✅ 资源下载✅ 资源重命名✅ 资源空标题校验✅ 通知已读✅ 题库筛选✅ 题库新增自动刷新✅ 关闭作业✅ 资源上传✅ 资源删除✅ 讨论锁定✅ 讨论解锁✅ | 部分通过 | 见 5.10-5.25 |
 | ML-3 | 教师创建作业 | 创建作业✅ 编辑作业✅ 发布作业✅ 关闭作业✅ 查看提交✅ 提交级重判✅ 答案重判✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 批量调分✅ 导入成绩✅ 发布成绩✅ 关闭实验✅ | 部分通过 | 见 5.20-5.24 |
-| ML-4 | 学生答题 | 作业列表✅ 作业详情✅ 编程工作区（403）⚠️ 实验报告✅ | 部分通过 | 见 5.25-5.26 |
+| ML-4 | 学生答题 | 作业列表✅ 作业详情✅ 结构化答题提交✅ 编程工作区保存/运行✅ 正式提交含编程答案✅ 实验报告✅ | 部分通过 | 见 5.25-5.26 |
 | ML-5 | 评测批改 | 状态中文展示✅ 提交级重判✅ 答案重判✅ 人工批改✅ 批量调分✅ 导入成绩✅ 发布成绩✅ 下载报告✅ | 通过 | 见 5.22-5.23 |
 | ML-6 | 学生查看成绩 | 选择课程✅ 导出成绩✅ | 部分通过 | 见 5.18 |
 | ML-7 | 实验流程 | 教师创建✅ 编辑✅ 发布✅ 报告详情✅ 评阅✅ 发布评阅✅；学生保存草稿✅ 上传附件✅ 正式提交✅ | 通过 | 见 5.24、5.26 |
@@ -517,6 +520,7 @@ status: in-progress
 | BUG-20260606-010 | P2 | /teacher/grading/gradebook | 批量调分空输入静默无反馈，合法调分缺少确认弹窗 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-011 | P2 | /teacher/grading/gradebook | 批量调分 / 导入 / 发布后缓存失效 key 不匹配，当前成绩册和报表可能不刷新 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-012 | P2 | /teacher/labs | 实验中心行操作 / 报告行操作按钮目标不可区分，创建 / 编辑实验空标题静默无反馈，弹窗缺少描述 | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-013 | P2 | /student/assignments | 移动端作业卡片仍左右排布导致标题被压缩，所有“开始做题”链接名称相同且无法区分目标作业 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 
 ## 12. 修复计划
 
@@ -528,11 +532,11 @@ status: in-progress
 - 教师：提交管理列表级重判、详情级提交重判和答案重判已修复并通过真实浏览器复核
 - 教师：成绩册"批量调整"、"导入"、"发布"已修复并通过真实浏览器复核
 - 教师：实验"创建实验"、"编辑"、"发布"、"报告查看"、"评阅发布"已修复并通过真实浏览器复核
-- 学生：作业任务（/student/assignments）答题/提交未测试
-- 学生：编程工作区（/student/assignments/[id]/workspace/[id]）未测试
+- 学生：作业任务（/student/assignments）结构化答题/提交已在 5.26 用 Playwright MCP 回归验证
+- 学生：编程工作区保存/运行和正式提交编程答案已在 5.26 用 Playwright MCP 回归验证；重置/历史恢复仍待补测
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"功能未测试
-- 移动端视口仍仅局部覆盖；本轮补充 `/teacher/labs` 390px 无横向溢出和控件名称检查
+- 移动端视口仍仅局部覆盖；本轮补充 `/teacher/labs` 与 `/student/assignments` 390px 无横向溢出和控件名称检查
 - 跨角色权限负例（学生访问其他班级课程内容）未测试
 
 ## 14. 命令与日志证据
@@ -571,3 +575,5 @@ status: in-progress
 | Playwright MCP 成绩册调分/导入/发布回归 | 教师真实会话 `/teacher/grading/gradebook?offeringId=1&assignmentId=414`，筛选区桌面课程约 284px、教学班约 224px、作业约 368px；390px 视口四个筛选控件宽度均为 292px 且无横向溢出；空批量调分显示 3 个字段错误且未发送调分请求；确认批量调分前未发送请求，确认后 `POST /api/v1/teacher/assignments/414/grades/batch-adjust` 返回 200，随后 gradebook/report GET 200；历史补充验证：下载模板返回 `assignment-grades-414-template.csv`；CSV 导入返回 `successCount=1/failureCount=0` 并刷新；确认发布后 `POST /api/v1/teacher/assignments/414/grades/publish` 返回 200，`initialPublication=true`，刷新后 assignment 414 `gradePublished=true` |
 | npm test -- src/tests/unit/lab/teacher-labs-page.test.tsx | 1 文件 / 3 测试通过 |
 | Playwright MCP 教师实验中心回归 | 教师真实会话 `/teacher/labs` 选择课程 1 / A1；空创建和空编辑均显示“请输入实验标题”、标题字段 `aria-invalid=true` 且未发送创建 / 更新请求；创建 `MCP 教师实验回归 0606-0646` 返回 201，编辑 lab 74 返回 200；发布前先出现包含实验标题的确认弹窗，确认后 `POST /api/v1/teacher/labs/74/publish` 返回 200，列表显示已发布、发布按钮禁用、关闭按钮启用；报告空态 `GET /teacher/labs/74/reports` 返回 200 并显示“暂无实验报告”；既有报告 `MCP 实验回归 mq1bfyvc` 的详情、附件、保存评阅和发布评阅通过，`GET /teacher/labs/63/reports`、`GET /teacher/lab-reports/30`、`PUT /review`、`POST /publish` 均返回 200；390px 视口 `documentWidth=390`，控制台错误 0 |
+| npm test -- src/tests/unit/assignment/student-assignments-page.test.tsx | 1 文件 / 1 测试通过 |
+| Playwright MCP 学生作业移动端回归 | 学生真实会话 `/student/assignments`，390x844 视口 `documentWidth=390` / `bodyWidth=390`，`GET /api/v1/me/assignments` 返回 200，控制台错误 0；前三张作业卡片宽度 326px，类名包含 `flex-col` / `sm:flex-row`；“开始做题”链接名称分别包含对应作业标题并指向各自作业详情 |
