@@ -70,6 +70,20 @@ status: draft
 - 验证记录：2026-06-06 00:48 CST，Playwright MCP 真实教师会话打开 `/teacher/courses/1/question-bank`，旧“分类管理”假入口不存在；新增题目空提交显示三条错误且未发送 `POST`；题目行编辑 / 归档按钮均带有“编辑题目 <标题> / 归档题目 <标题>”可访问名称；点击第一行编辑按钮打开“编辑题目”Dialog 并带入原题目标题和分值。
 - 状态：已修复
 
+### 教师端：判题环境（`/teacher/courses/[offeringId]/judge-environments`）
+
+- 角色：教师
+- 入口：教师工作台 / 我的课程 / 判题环境
+- 问题来源：全量用户侧功能测试报告“未覆盖项与风险”中记录该页逐按钮未测试。
+- 关联区域：语言筛选、新增配置、编辑配置、归档配置、包含归档。
+- 问题类型：真实浏览器回归覆盖缺口
+- 优先级：P2
+- 验证记录：2026-06-06 01:15 CST，Playwright MCP 真实教师会话打开 `/teacher/courses/1/judge-environments`，选择 Go 1.22 并点击查询，触发 `GET /teacher/course-offerings/1/judge-environment-profiles?programmingLanguage=GO122&includeArchived=false` 且返回 200。
+- 验证记录：新增配置空提交显示“请输入配置编码 / 请输入配置名称”，两个字段 `aria-invalid=true`，空提交期间未发送创建 `POST`；填写唯一 Go 1.22 配置后显示 Toast“判题环境已保存”，`POST /teacher/course-offerings/1/judge-environment-profiles` 返回 201。
+- 验证记录：点击新配置行的“编辑判题环境 <名称>”打开“编辑配置”Dialog，配置编码、名称、语言 Go 1.22、语言版本和运行命令均被带入；保存名称后显示 Toast“判题环境已更新”，`PUT /teacher/judge-environment-profiles/{id}` 返回 200。
+- 验证记录：点击“归档判题环境 <名称>”后确认文案包含配置名；确认后显示 Toast“判题环境已归档”，`POST /teacher/judge-environment-profiles/{id}/archive` 返回 200；默认列表隐藏该配置，勾选“包含归档”后该行状态为“已归档”且不再显示归档按钮。
+- 状态：已真实回归，未发现产品缺陷
+
 ### 教师端：课程公告（`/teacher/courses/[offeringId]/announcements`）
 
 - 角色：教师

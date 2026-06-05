@@ -281,6 +281,11 @@ status: in-progress
 | 页面 | 角色 | 控件名称 | 控件类型 | 用户动作 | 预期结果 | 实际结果 | 持久化校验 | 状态 | 缺陷编号 |
 |------|------|----------|----------|----------|----------|----------|------------|------|----------|
 | /teacher/courses/1/judge-environments | 教师 | 页面加载 | — | 打开页面 | 显示判题环境列表 | 页面加载成功 | — | 只读/无副作用已验证 | — |
+| /teacher/courses/1/judge-environments | 教师 | 编程语言筛选 / 查询 | select/button | 选择 Go 1.22 后点击查询 | 只查询 Go 环境 | 触发 `GET /teacher/course-offerings/1/judge-environment-profiles?programmingLanguage=GO122&includeArchived=false`，列表过滤到 Go 1.22 | 网络请求 200 | 已真实操作通过 | — |
+| /teacher/courses/1/judge-environments | 教师 | 新增配置空提交 | button/form | 打开新增配置后直接点击创建 | 显示字段级错误且不发送创建请求 | 显示“请输入配置编码 / 请输入配置名称”，两个字段 `aria-invalid=true` | 空提交期间未新增 `POST` 创建请求 | 已真实操作通过 | — |
+| /teacher/courses/1/judge-environments | 教师 | 新增配置正常路径 | button/form | 填写 Go 1.22 配置后点击创建 | 创建成功并出现在列表 | Toast“判题环境已保存”，新配置显示在 Go 1.22 列表 | `POST /teacher/course-offerings/1/judge-environment-profiles` 返回 201 | 已真实操作通过 | — |
+| /teacher/courses/1/judge-environments | 教师 | 编辑配置按钮 | button/dialog | 点击新配置行的编辑按钮 | 打开编辑弹窗并带入已有值 | “编辑配置”弹窗带入配置编码、名称、语言 Go 1.22、语言版本和运行命令；保存后 Toast“判题环境已更新” | `PUT /teacher/judge-environment-profiles/{id}` 返回 200 | 已真实操作通过 | — |
+| /teacher/courses/1/judge-environments | 教师 | 归档配置按钮 | button/dialog | 点击归档并确认 | 归档成功，默认列表隐藏，包含归档后显示已归档状态 | 确认文案包含配置名；Toast“判题环境已归档”；默认筛选下记录隐藏，勾选包含归档后状态为“已归档”，行内不再显示归档按钮 | `POST /teacher/judge-environment-profiles/{id}/archive` 返回 200；包含归档查询返回 200 | 已真实操作通过 | — |
 
 ### 5.15 教师 - 通知公告
 
@@ -481,7 +486,6 @@ status: in-progress
 - 管理员：权限解释"添加成员"功能未测试（前置依赖创建授权组，已失败）
 - 教师：题库"新增题目"正常路径仍待真实浏览器复核；分类和标签通过题目创建 / 编辑表单维护，不再单列分类管理入口
 - 教师：题库"编辑题目"按钮已修复并通过真实浏览器复核
-- 教师：判题环境（/teacher/courses/1/judge-environments）逐按钮未测试
 - 教师：作业"创建作业"、"编辑作业"、"发布作业"功能未测试
 - 教师：提交"提交级重判"、"答案重判"功能未测试
 - 教师：成绩册"批量调整"、"导入"、"发布"功能未测试
@@ -505,4 +509,5 @@ status: in-progress
 | npm test -- 公告 / 讨论与已整改相关单测集合 | 9 文件 / 15 测试通过 |
 | 本地 Playwright 公告负例脚本 | 发布 / 编辑空提交均显示 2 条错误，`POST` / `PUT` 公告请求数为 0，Dialog 警告数为 0，临时种子残留数为 0 |
 | 本地 Playwright 讨论负例脚本 | 创建空提交显示 2 条错误，`POST` 讨论请求数为 0，Dialog 警告数为 0，20 个锁定 / 解锁按钮名称包含讨论标题 |
+| Playwright MCP 判题环境逐按钮回归 | 教师真实会话完成 Go 1.22 筛选、空新增错误、创建、编辑、归档、包含归档复查；对应 `GET` / `POST` / `PUT` / archive 请求为 200/201 |
 | 后端 API 错误 | /api/v1/admin/auth/explain 403, /api/v1/admin/auth/groups 404 |
