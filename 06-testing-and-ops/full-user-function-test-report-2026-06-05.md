@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 02:32 CST，用户详情学籍资料编辑、强制下线、教师成员添加成功反馈已完成真实浏览器回归；`just e2e-real` 38/38 通过。
+- 最新补充：2026-06-06 02:56 CST，审计日志 Request ID 复制反馈、详情按钮可访问名称和元数据中文说明已完成 Playwright MCP 真实浏览器回归；`just e2e-real` 38/38 通过。
 
 ## 2. 环境与账号
 
@@ -196,9 +196,9 @@ status: in-progress
 | /admin/audit-logs | 管理员 | 操作类型下拉框 | select | 选择“登录成功”后点击查询 | 返回登录成功记录 | 触发 `GET /api/v1/admin/audit-logs?action=LOGIN_SUCCESS&page=1&pageSize=20`，表格显示多条“登录成功”记录 | 网络请求 200，响应 `total=2849` | 已真实操作通过 | BUG-20260605-003 |
 | /admin/audit-logs | 管理员 | 对象类型输入框 | input | — | — | 可见 | — | 只读/无副作用已验证 | — |
 | /admin/audit-logs | 管理员 | 查询按钮 | button | 点击查询 | 返回筛选结果 | 返回结果 | — | 已真实操作通过 | — |
-| /admin/audit-logs | 管理员 | 详情按钮 | button | 点击详情 | 显示 Metadata | 底部显示 Metadata JSON | — | 已真实操作通过 | — |
-| /admin/audit-logs | 管理员 | Request ID 复制按钮 | button | 点击复制 | 复制到剪贴板 | 按钮变为 active | — | 已真实操作通过 | — |
-| /admin/audit-logs | 管理员 | 复制 JSON 按钮 | button | 点击复制 | 复制 JSON 到剪贴板 | 按钮变为 active（无确认 toast） | — | 已真实操作通过 | — |
+| /admin/audit-logs | 管理员 | 详情按钮 | button | 点击“查看日志详情 登录成功 8007807c” | 显示中文元数据详情 | 底部显示“日志元数据”和说明“当前行的原始审计上下文，用于排查请求链路和业务对象。” | 前 5 行详情按钮均具备“查看日志详情 <操作> <短 ID>”可访问名称 | 已真实操作通过 | — |
+| /admin/audit-logs | 管理员 | Request ID 复制按钮 | button | 点击“复制请求 ID 8007807c” | 复制到剪贴板并给出明确反馈 | 页面显示“Request ID 已复制” | 前 5 行复制按钮均具备“复制请求 ID <短 ID>”可访问名称 | 已真实操作通过 | — |
+| /admin/audit-logs | 管理员 | 复制 JSON 按钮 | button | 点击复制 | 复制 JSON 到剪贴板并给出明确反馈 | 页面显示“JSON 已复制” | `navigator.clipboard.writeText` 接收当前行元数据 JSON | 已真实操作通过 | — |
 | /admin/audit-logs | 管理员 | 分页控件 | pagination | — | — | 显示"第 1 页 / 共 292 页" | — | 只读/无副作用已验证 | — |
 
 ### 5.9 管理员 - 权限解释
@@ -508,6 +508,9 @@ status: in-progress
 | just e2e-real | 38 个真实后端 Playwright E2E 全部通过（含 full-organization-structure 与 teacher-course 公告负例） |
 | cd web && npm run lint | 通过 |
 | cd web && npm run typecheck | 通过 |
+| cd web && npm test -- src/tests/unit/admin/audit-logs-page.test.tsx | 1 文件 / 2 测试通过 |
+| cd docs && npm run docs:build | 通过；VitePress 输出 chunk size warning |
+| Playwright MCP 审计日志行操作回归 | 管理员真实会话 `/admin/audit-logs`，`GET /api/v1/admin/audit-logs?page=1&pageSize=20` 返回 200；复制按钮具备“复制请求 ID <短 ID>”名称并显示“Request ID 已复制”；详情按钮具备“查看日志详情 <操作> <短 ID>”名称并显示“日志元数据”；复制 JSON 后显示“JSON 已复制” |
 | cd web && npm test -- --run src/tests/unit/admin/user-detail-page.test.tsx | 1 文件 / 2 测试通过 |
 | Playwright MCP 下载验证 | e2e-fullrun-ml2-resource.txt (41B), gradebook-me-offering-1.csv |
 | Playwright MCP 用户详情回归 | 管理员真实会话 `/admin/users/621` 编辑学籍资料，`PUT /api/v1/admin/users/621/profile` 返回 200；强制下线确认后 `POST /api/v1/admin/users/621/sessions/revoke` 返回 204 |
