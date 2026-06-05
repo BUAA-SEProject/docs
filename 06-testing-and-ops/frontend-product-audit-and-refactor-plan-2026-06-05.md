@@ -67,6 +67,7 @@ just healthcheck-strict
 ```
 
 3. 使用 Playwright MCP 登录管理员、教师、学生账号，逐角色检查侧边栏入口和主要页面。
+   - 真实浏览器测试主证据必须来自 Playwright MCP 操作真实页面；本地 Playwright 脚本只能作为辅助诊断或补充验证，不能替代 MCP 回归证据。
 4. 每页记录：
    - 页面目标是否清楚。
    - 主操作是否清楚。
@@ -204,6 +205,7 @@ just healthcheck-strict
 - UI 模式：
 - 回归步骤：
 - 验证命令：
+- 提交记录：
 - 残留风险：
 ```
 
@@ -225,6 +227,17 @@ just dev-up
 just healthcheck-strict
 just e2e-real
 ```
+
+真实浏览器逐页/逐按钮回归必须使用 Playwright MCP 操作页面并记录证据。本地 Playwright 脚本只允许作为辅助诊断或补充验证。
+
+每批测试与修复完成后，必须在涉及的子仓库分别提交 commit。提交后再次运行：
+
+```bash
+cd /Users/moorefoss/Code/AUBB
+just status
+```
+
+下一批开始前，`server/`、`web/`、`docs/` 应保持干净；若用户明确要求暂不提交，必须在交接中列出剩余 dirty 文件和原因。
 
 只改文档时运行：
 

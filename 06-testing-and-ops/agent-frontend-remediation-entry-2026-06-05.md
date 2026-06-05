@@ -15,6 +15,7 @@ status: current
 2. 用真实浏览器做前端产品化审计，识别空功能、混乱布局、表单位置错误、假按钮和功能闭环缺口。
 3. 按 UI 模式和业务域拆分整改批次，而不是在全站随机修补。
 4. 每批整改后用定向 Playwright MCP 回归和仓库验证命令确认结果。
+5. 每轮测试与修复完成后，在涉及的子仓库分别提交 commit；进入下一轮测试前工作区应保持干净。
 
 ## 2. 必读顺序
 
@@ -47,6 +48,8 @@ just status
 ```
 
 如果发现已有 dirty 文件，先判断是否属于本轮任务。不要回退或覆盖无关改动。
+
+真实浏览器测试必须使用 Playwright MCP 操作运行中的前端页面；本地 Playwright 脚本只能作为辅助诊断或补充验证，不能替代真实浏览器回归证据。
 
 ## 4. 阶段路线
 
@@ -133,12 +136,16 @@ just healthcheck-strict
 just e2e-real
 ```
 
+逐页、逐按钮或产品化真实浏览器回归必须使用 Playwright MCP 操作页面并记录页面状态、网络请求或交互结果。
+
 结束前运行：
 
 ```bash
 cd /Users/moorefoss/Code/AUBB
 just status
 ```
+
+本轮验证通过后，必须进入涉及的子仓库分别提交 commit；提交后再次运行 `just status`，确认 `server/`、`web/`、`docs/` 在下一轮开始前是干净的。若用户明确要求暂不提交，交接中必须列出剩余 dirty 文件和原因。
 
 ## 5. 前端整改原则
 
@@ -163,7 +170,7 @@ just status
 4. `docs/06-testing-and-ops/local-e2e-data-reset-2026-06-05.md`
 5. `docs/06-testing-and-ops/frontend-product-audit-and-refactor-plan-2026-06-05.md`
 
-本轮先不要全站乱改。请先运行 `just status`，确认 dirty 状态，然后按文档选择一个小批次执行。若需要真实浏览器验证，启动 `just dev-up` 和 `just healthcheck-strict`，使用 Playwright MCP 操作真实页面。
+本轮先不要全站乱改。请先运行 `just status`，确认 dirty 状态，然后按文档选择一个小批次执行。若需要真实浏览器验证，启动 `just dev-up` 和 `just healthcheck-strict`，使用 Playwright MCP 操作真实页面；不要用本地 Playwright 脚本替代 Playwright MCP 回归证据。
 
-完成时必须说明改了哪些子仓库、运行了哪些验证、哪些问题仍未处理。
+完成时必须说明改了哪些子仓库、运行了哪些验证、哪些问题仍未处理；涉及的子仓库必须提交 commit，并在提交后确认下一轮开始前工作区干净。
 ```

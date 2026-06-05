@@ -71,7 +71,7 @@ status: in-progress
 | /admin/org-units | 管理员 | 编码输入框 | input | 输入"MCP-20260605-135309-COL" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /admin/org-units | 管理员 | 排序输入框 | input | 输入 902 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /admin/org-units | 管理员 | 子节点提交创建按钮 | button | 点击提交创建 | 创建成功并在树中显示 | POST `/api/v1/admin/org-units` 返回 201，页面包含新学院名称和编码 | 列表重新请求 `/api/v1/admin/org-units/tree` 返回 200，刷新前 DOM 已包含新节点 | 已真实操作通过 | — |
-| /admin/org-units | 管理员 | 创建成功后的根节点表单 | select | 子节点创建成功后观察根节点表单 | 返回根节点表单时类型应固定 SCHOOL | 表单标题为"新增根节点"，但禁用的节点类型残留 COLLEGE | Playwright MCP DOM：heading=新增根节点，`#org-unit-type=COLLEGE` | 已真实操作失败 | BUG-20260605-009 |
+| /admin/org-units | 管理员 | 创建成功后的根节点表单 | select | 子节点创建成功后观察根节点表单 | 不再出现常驻根节点表单状态残留 | 本轮已改为 Dialog 创建模式，子节点创建成功后关闭弹窗并清空父节点上下文 | 单元测试覆盖初始页不常驻提交按钮、根节点 Dialog 固定 SCHOOL、子节点 Dialog 默认 COLLEGE | 已修复 | BUG-20260605-009 |
 
 **BUG-20260605-001**：组织架构 UI 创建 COLLEGE 类型节点失败
 
@@ -92,12 +92,12 @@ status: in-progress
 - 页面：/admin/org-units
 - 相关控件：子节点提交创建按钮、节点类型下拉
 - 复现步骤：点击 Realrun School 行加号→创建学院成功→观察右侧表单。
-- 实际结果：右侧标题回到"新增根节点"，但禁用的节点类型仍显示 COLLEGE。
-- 预期结果：回到根节点表单时节点类型应显示 SCHOOL，与"根节点类型固定为 SCHOOL"说明一致。
-- 影响范围：管理员下一次创建根节点时界面状态自相矛盾，容易误判操作结果。
+- 实际结果：本轮已取消右侧常驻创建表单，新增根节点 / 子节点均通过 Dialog 完成，创建成功后弹窗关闭并清空父节点上下文。
+- 预期结果：不再出现根节点表单与子节点类型残留的自相矛盾状态。
+- 影响范围：原状态残留风险已被 Dialog 模式消解。
 - 严重级别：P3
-- 证据：Playwright MCP DOM 读取 `heading=新增根节点`、`#org-unit-type=COLLEGE`。
-- 当前状态：已记录，待修复。
+- 证据：单元测试 `src/tests/unit/admin/org-units-page.test.tsx` 覆盖初始页不常驻 `提交创建`、根节点 Dialog 固定 `SCHOOL`、子节点 Dialog 默认 `COLLEGE`。
+- 当前状态：已修复，待真实浏览器复核。
 
 ### 5.3 管理员 - 用户管理
 
@@ -126,6 +126,7 @@ status: in-progress
 | /admin/academic-terms | 管理员 | 开始日期 | input | 输入 2027-02-01 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /admin/academic-terms | 管理员 | 结束日期 | input | 输入 2027-07-31 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /admin/academic-terms | 管理员 | 创建按钮 | button | 点击创建 | 创建成功 | 创建成功，列表显示新学期 | 列表可见 | 已真实操作通过 | — |
+| /admin/academic-terms | 管理员 | 新增学期空提交 | button | 点击新增学期→不填写直接点击创建 | 显示字段级错误且不发送创建请求 | 显示 6 个字段错误，6 个字段均为 `aria-invalid=true` 且关联错误说明 | 未产生新增数据 | 已真实操作通过 | — |
 
 ### 5.5 管理员 - 课程模板
 
@@ -139,6 +140,7 @@ status: in-progress
 | /admin/course-catalogs | 管理员 | 课程类型下拉 | select | 选择必修 | 选中成功 | 选中成功 | — | 已真实操作通过 | — |
 | /admin/course-catalogs | 管理员 | 描述文本框 | textarea | 输入测试描述 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /admin/course-catalogs | 管理员 | 创建模板按钮 | button | 点击创建 | 创建成功 | 创建成功，列表显示 | 列表可见 | 已真实操作通过 | — |
+| /admin/course-catalogs | 管理员 | 新增模板空提交 | button | 点击新增模板→不填写直接点击创建 | 显示字段级错误且不发送创建请求 | 显示 4 个字段错误，4 个字段均为 `aria-invalid=true` 且关联错误说明；所属学院下拉只包含学院节点 | 未产生新增数据 | 已真实操作通过 | — |
 
 ### 5.6 管理员 - 开课管理
 
@@ -151,7 +153,7 @@ status: in-progress
 | /admin/course-offerings | 管理员 | 开课编码输入框 | input | 输入 E2E-FULLRUN-ML1-OFF | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /admin/course-offerings | 管理员 | 开始时间 | input | 输入 2027-02-01T08:00 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /admin/course-offerings | 管理员 | 结束时间 | input | 输入 2027-07-31T23:59 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
-| /admin/course-offerings | 管理员 | 完成创建按钮 | button | 点击完成创建 | 创建成功 | 未发出网络请求，表单未关闭 | — | 已真实操作失败 | BUG-20260605-002 |
+| /admin/course-offerings | 管理员 | 完成创建按钮 | button | 点击完成创建 | 创建成功 | 课程模板自动锁定主开课学院，缺主讲教师时显示字段错误；补选教师后创建成功 | POST `/api/v1/admin/course-offerings` 返回 201，Toast 显示“开课实例已创建” | 已真实操作通过 | BUG-20260605-002 |
 
 **BUG-20260605-002**：开课管理 UI 创建失败
 
@@ -161,13 +163,12 @@ status: in-progress
 - 相关控件：完成创建按钮
 - 输入数据：模板=E2E-FULLRUN-ML1-CS101，学期=E2E-FULLRUN-ML1-TERM，名称=E2E-FULLRUN-ML1 测试开课
 - 复现步骤：点击新增→填写表单→点击完成创建
-- 实际结果：按钮点击后无网络请求，表单未关闭，无错误提示
+- 实际结果：已修复。课程模板选择后主开课学院自动同步为模板所属学院并禁用；缺少主讲教师时显示“请至少指定一名教师”，主讲教师控件设置 `aria-invalid=true` 且关联 `offering-instructors-error`；补选主讲教师后创建请求成功。
 - 预期结果：创建成功并在列表显示
 - 影响范围：管理员无法通过 UI 创建开课
 - 严重级别：P1
-- 证据：Playwright MCP 网络监听确认无请求
-- 临时绕过：API 创建（需补充 capacity/deliveryMode/language/instructorUserIds 必填字段）
-- 当前状态：已记录
+- 修复证据：2026-06-05 21:45 CST，Playwright 真实登录管理员账号打开 `/admin/course-offerings`，选择课程模板“数据结构 (COURSE-A)”后主开课学院值为 `2` 且禁用；缺主讲教师时错误状态可见；补选教师后 `POST /api/v1/admin/course-offerings` 返回 201。
+- 当前状态：已修复
 
 ### 5.7 管理员 - 用户详情
 
@@ -223,6 +224,8 @@ status: in-progress
 | /teacher/courses/1/announcements | 教师 | 公告标题输入框 | input | 输入 E2E-FULLRUN-ML2 测试公告 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /teacher/courses/1/announcements | 教师 | 公告正文文本框 | textarea | 输入测试内容 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /teacher/courses/1/announcements | 教师 | 发布按钮 | button | 点击发布 | 公告创建成功 | 列表显示新公告 | 刷新后仍可见 | 已真实操作通过 | — |
+| /teacher/courses/1/announcements | 教师 | 发布公告空提交 | button | 点击发布公告→标题和正文留空→点击发布 | 显示字段级错误且不发送创建请求 | 显示“请输入公告标题 / 请输入公告正文”，两个字段 `aria-invalid=true`，未发送 `POST /announcements` | 无新增公告；临时编辑种子清理后残留数 0 | 已真实操作通过 | — |
+| /teacher/courses/1/announcements | 教师 | 编辑公告空提交 | button | 点击编辑公告→清空标题和正文→点击保存 | 显示字段级错误且不发送更新请求 | 显示“请输入公告标题 / 请输入公告正文”，两个字段 `aria-invalid=true`，未发送 `PUT /announcements`，无 Dialog 描述警告 | 临时公告种子通过 API 删除，`E2E-ANN-NEG-*` 残留数 0 | 已真实操作通过 | — |
 
 ### 5.11 教师 - 讨论管理
 
@@ -232,6 +235,8 @@ status: in-progress
 | /teacher/courses/1/discussions | 教师 | 标题输入框 | input | 输入 E2E-FULLRUN-ML2 测试讨论 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /teacher/courses/1/discussions | 教师 | 正文文本框 | textarea | 输入测试内容 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /teacher/courses/1/discussions | 教师 | 提交按钮 | button | 点击提交 | 讨论创建成功 | 列表显示新讨论 | 刷新后仍可见 | 已真实操作通过 | — |
+| /teacher/courses/1/discussions | 教师 | 创建讨论空提交 | button | 点击创建讨论→标题和正文留空→点击创建 | 显示字段级错误且不发送创建请求 | 显示“请输入讨论标题 / 请输入讨论正文”，两个字段 `aria-invalid=true`，未发送 `POST /discussions` | 无新增讨论 | 已真实操作通过 | — |
+| /teacher/courses/1/discussions | 教师 | 锁定 / 解锁讨论按钮 | button | 读取讨论列表行操作名称 | 每个按钮都能区分对应讨论 | 20 个锁定 / 解锁按钮均可通过“锁定讨论 <标题> / 解锁讨论 <标题>”定位 | — | 已真实操作通过 | P2-L15 |
 
 ### 5.12 教师 - 资源管理
 
@@ -240,10 +245,23 @@ status: in-progress
 | /teacher/courses/1/resources | 教师 | 页面加载 | — | 打开页面 | 显示资源列表 | 4 个资源文件，含文件名/大小/时间 | — | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 下载按钮 | button | 点击下载 | 文件下载成功 | 文件 e2e-fullrun-ml2-resource.txt 下载（41B） | 文件内容正确 | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 重命名按钮 | button | 点击→修改标题→保存 | 标题更新 | 弹出"编辑资源标题"对话框→修改为"E2E-FULLRUN 重命名测试资源"→保存成功 | 刷新后标题仍为新值 | 已真实操作通过 | — |
+| /teacher/courses/1/resources | 教师 | 编辑资源标题空提交 | button/input | 点击编辑→清空资源标题→保存 | 显示字段级错误且不发送更新请求 | 显示“请输入资源标题”，资源标题字段 `aria-invalid=true`，未发送 `PUT /teacher/course-resources/*` | 无标题变更 | 已真实操作通过 | — |
+| /teacher/courses/1/resources | 教师 | 编辑 / 删除资源行操作 | button | 读取资源列表行操作名称 | 每个按钮都能区分对应资源 | 4 个编辑按钮均可通过“编辑资源 <标题>”定位；抽查资源的“删除资源 <标题>”按钮可定位 | — | 已真实操作通过 | — |
+| /teacher/courses/1/resources | 教师 | 上传 / 编辑资源弹窗描述 | dialog | 分别打开上传和编辑弹窗 | 弹窗有清晰说明且无可访问性警告 | 上传弹窗显示“上传后学生可在课程资源区下载该文件。标题为空时将使用文件名。”；编辑弹窗显示“资源标题会显示在教师和学生端资源列表中。”；无 Radix Dialog 描述警告 | — | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 删除按钮 | button | 点击删除→确认 | 资源删除 | 弹出确认弹窗→确认后 Toast"资源已删除" | 刷新后资源不在列表 | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 资源标题输入框 | input | 输入"E2E-FULLRUN 上传测试资源" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 选择文件区域 | upload | 选择 e2e-upload-test.txt | 文件选择成功 | 显示文件名和大小 | — | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 开始上传按钮 | button | 点击上传 | 上传成功 | Toast"资源已上传"，新资源出现在列表 | 刷新后仍可见 | 已真实操作通过 | — |
+
+### 5.12A 教师 - 成员管理补充
+
+| 页面 | 角色 | 控件名称 | 控件类型 | 用户动作 | 预期结果 | 实际结果 | 持久化校验 | 状态 | 缺陷编号 |
+|------|------|----------|----------|----------|----------|----------|------------|------|----------|
+| /teacher/courses/1/members | 教师 | 停用 / 恢复成员按钮 | button | 读取成员列表行操作名称 | 每个按钮都能区分对应成员 | 20 个状态按钮均可通过“停用成员 <姓名> / 恢复成员 <姓名>”定位 | — | 已真实操作通过 | P2-L14 |
+| /teacher/courses/1/members | 教师 | 转班成员按钮 | button | 读取成员列表行操作名称 | 每个按钮都能区分对应成员 | 20 个转班按钮均可通过“转班成员 <姓名>”定位 | — | 已真实操作通过 | P2-L14 |
+| /teacher/courses/1/members | 教师 | 添加成员空 userId | button/input | 点击添加成员→不填写 userId→点击添加 | 显示字段级错误且不发送添加请求 | 显示“请输入有效的 userId”，用户 ID 字段 `aria-invalid=true` | 未发送 `POST /teacher/course-offerings/1/members/batch` | 已真实操作通过 | — |
+| /teacher/courses/1/members | 教师 | 添加成员缺教学班 | button/select | 填写 userId，角色保持学生，教学班留空→点击添加 | 显示字段级错误且不发送添加请求 | 显示“当前角色必须选择教学班”，教学班字段 `aria-invalid=true` | 未发送 `POST /teacher/course-offerings/1/members/batch` | 已真实操作通过 | — |
+| /teacher/courses/1/members | 教师 | 添加 / 导入 / 转班弹窗描述 | dialog | 分别打开三个弹窗 | 弹窗有清晰说明且无可访问性警告 | 三个弹窗均显示说明文本，未出现 Radix Dialog 描述警告 | — | 已真实操作通过 | — |
 
 ### 5.13 教师 - 题库
 
@@ -252,9 +270,10 @@ status: in-progress
 | /teacher/courses/1/question-bank | 教师 | 页面加载 | — | 打开页面 | 显示题库列表 | 5 个题目（SHORT_ANSWER, MULTIPLE_CHOICE, SINGLE_CHOICE, PROGRAMMING） | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 类型筛选下拉框 | select | 选择 PROGRAMMING | 筛选结果 | 只显示 1 个 PROGRAMMING 题目 | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 查询按钮 | button | 点击查询 | 返回筛选结果 | 返回结果 | — | 已真实操作通过 | — |
-| /teacher/courses/1/question-bank | 教师 | 分类管理按钮 | button | 点击分类管理 | 弹出分类管理对话框 | 无明显反应（无对话框弹出） | — | 已真实操作失败 | BUG-20260605-008 |
+| /teacher/courses/1/question-bank | 教师 | 分类管理入口 | button | 检查是否存在假入口 | 不保留无契约支撑的空功能按钮 | 后端稳定 API 仅提供分类/标签字典读取，分类通过题目创建/编辑时的 `categoryName` 自动维护；当前页面不再保留“分类管理”假按钮 | API 契约核对：`stable-api.md` 仅列出题目 CRUD 与分类列表读取 | 非缺陷，入口已清理 | BUG-20260605-008 |
 | /teacher/courses/1/question-bank | 教师 | 新增题目按钮 | button | 填写标题/内容→点击新增题目 | 题目创建成功 | Toast"题目已入库"，新题目出现在列表 | 刷新后仍可见 | 已真实操作通过 | — |
-| /teacher/courses/1/question-bank | 教师 | 编辑题目按钮 | button | 点击编辑 | 弹出编辑对话框 | 无反应（无对话框弹出） | — | 已真实操作失败 | BUG-20260605-006 |
+| /teacher/courses/1/question-bank | 教师 | 编辑题目按钮 | button | 点击编辑 | 弹出编辑对话框 | 点击“编辑题目 E2E-FULLRUN 新增测试题目”后打开“编辑题目”Dialog，并带入原题目标题和分值 | Playwright MCP DOM 读取 Dialog 标题、描述、`#question-title` 与 `#question-score` | 已真实操作通过 | BUG-20260605-006 |
+| /teacher/courses/1/question-bank | 教师 | 编辑 / 归档行操作名称 | button | 读取题目列表行操作名称 | 每个按钮都能区分对应题目 | 前 3 行按钮均具备“编辑题目 <标题> / 归档题目 <标题>”的 `aria-label` 与 `title` | Playwright MCP DOM 读取 `main table button` 的 `aria-label` / `title`；单元测试覆盖“二叉树遍历”行 | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 归档按钮 | button | 点击归档 | 题目归档 | Toast"题目已归档" | — | 已真实操作通过 | — |
 
 ### 5.14 教师 - 判题环境
@@ -318,7 +337,7 @@ status: in-progress
 | /teacher/courses/1/question-bank | 教师 | 页面加载 | — | 打开页面 | 显示题库列表 | 5 个题目（SHORT_ANSWER, MULTIPLE_CHOICE, SINGLE_CHOICE, PROGRAMMING） | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 类型筛选下拉框 | select | 选择 PROGRAMMING | 筛选结果 | 只显示 1 个 PROGRAMMING 题目 | — | 已真实操作通过 | — |
 | /teacher/courses/1/question-bank | 教师 | 查询按钮 | button | 点击查询 | 返回筛选结果 | 返回结果 | — | 已真实操作通过 | — |
-| /teacher/courses/1/question-bank | 教师 | 编辑题目按钮 | button | 点击编辑 | 弹出编辑对话框 | 无反应（无对话框弹出） | — | 已真实操作失败 | BUG-20260605-006 |
+| /teacher/courses/1/question-bank | 教师 | 编辑题目按钮 | button | 点击编辑 | 弹出编辑对话框 | 点击“编辑题目 E2E-FULLRUN 新增测试题目”后打开“编辑题目”Dialog，并带入原题目标题和分值 | Playwright MCP DOM 读取 Dialog 标题、描述、`#question-title` 与 `#question-score` | 已真实操作通过 | BUG-20260605-006 |
 | /teacher/courses/1/question-bank | 教师 | 归档按钮 | button | 点击归档 | 题目归档 | Toast"题目已归档" | — | 已真实操作通过 | — |
 
 ### 5.21 教师 - 作业管理
@@ -392,8 +411,8 @@ status: in-progress
 
 | # | 链路名称 | 步骤 | 状态 | 证据 |
 |---|----------|------|------|------|
-| ML-1 | 管理员初始化 | 平台配置✅ 组织架构⚠️ 用户✅ 学期✅ 课程模板✅ 开课❌ 用户详情✅ | 部分通过 | 见 5.1-5.7 |
-| ML-2 | 教师教学准备 | 公告✅ 讨论✅ 资源下载✅ 资源重命名✅ 通知已读✅ 题库筛选✅ 关闭作业✅ 资源上传✅ 资源删除✅ 讨论锁定✅ 讨论解锁✅ | 部分通过 | 见 5.10-5.25 |
+| ML-1 | 管理员初始化 | 平台配置✅ 组织架构⚠️ 用户✅ 学期✅ 课程模板✅ 开课✅ 用户详情✅ | 部分通过 | 见 5.1-5.7 |
+| ML-2 | 教师教学准备 | 公告✅ 讨论✅ 资源下载✅ 资源重命名✅ 资源空标题校验✅ 通知已读✅ 题库筛选✅ 关闭作业✅ 资源上传✅ 资源删除✅ 讨论锁定✅ 讨论解锁✅ | 部分通过 | 见 5.10-5.25 |
 | ML-3 | 教师创建作业 | 关闭作业✅ 查看提交✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 关闭实验✅ | 部分通过 | 见 5.20-5.24 |
 | ML-4 | 学生答题 | 作业列表✅ 作业详情✅ 编程工作区（403）⚠️ 实验报告❌ | 部分通过 | 见 5.25-5.26 |
 | ML-5 | 评测批改 | 人工批改✅ 下载报告✅ | 部分通过 | 见 5.22 |
@@ -417,12 +436,22 @@ status: in-progress
 | 5 | 学生访问/teacher | 学生登录后访问 | 跳转 unauthorized | 跳转到 /unauthorized | 已真实操作通过 |
 | 6 | 未登录访问 API | 无 token 请求 API | 返回 401 | 返回 401 | 已真实操作通过 |
 | 7 | 退出登录 | 点击退出 | 跳转登录页 | 跳转到 /login | 已真实操作通过 |
+| 8 | 学期创建空提交 | `/admin/academic-terms` 新增弹窗留空提交 | 显示必填错误且不创建数据 | 显示 6 个字段错误，字段均标记 `aria-invalid=true` | 已真实操作通过 |
+| 9 | 课程模板创建空提交 | `/admin/course-catalogs` 新增弹窗留空提交 | 显示必填错误且不创建数据 | 显示 4 个字段错误，字段均标记 `aria-invalid=true`，所属学院候选排除学校节点 | 已真实操作通过 |
+| 10 | 公告发布 / 编辑空提交 | `/teacher/courses/1/announcements` 发布和编辑弹窗留空提交 | 显示字段级错误且不发送创建 / 更新请求 | 发布和编辑均显示 2 个字段错误，字段均标记 `aria-invalid=true`，未发送 `POST` / `PUT` 公告请求 | 已真实操作通过 |
+| 11 | 讨论创建空提交 | `/teacher/courses/1/discussions` 创建弹窗留空提交 | 显示字段级错误且不发送创建请求 | 显示 2 个字段错误，字段均标记 `aria-invalid=true`，未发送 `POST` 讨论请求 | 已真实操作通过 |
+| 12 | 成员添加负例 | `/teacher/courses/1/members` 添加成员弹窗留空或缺教学班提交 | 显示字段级错误且不发送添加请求 | 用户 ID / 教学班错误均可见，对应字段均标记 `aria-invalid=true`，未发送 `POST /members/batch` | 已真实操作通过 |
 
 ## 10. 响应式与可访问性结果
 
 | 角色 | 视口 | 页面 | 结果 |
 |------|------|------|------|
 | 管理员 | 390x844 | /admin/course-offerings | ✅ 汉堡菜单可用，表格可滚动，表单可见，验证消息正确显示 |
+| 管理员 | 桌面 | /admin/academic-terms | ✅ 新增学期弹窗有描述文本，空提交错误与 `aria-invalid` 状态正确显示 |
+| 管理员 | 桌面 | /admin/course-catalogs | ✅ 列表开课单位可见，新增模板弹窗有描述文本，所属学院过滤和空提交错误状态正确 |
+| 教师 | 桌面 | /teacher/courses/1/announcements | ✅ 发布 / 编辑公告弹窗有描述文本、可见字段标签，空提交错误与 `aria-invalid` 状态正确显示 |
+| 教师 | 桌面 | /teacher/courses/1/discussions | ✅ 创建讨论弹窗有描述文本、空提交错误与 `aria-invalid` 状态正确显示；锁定 / 解锁按钮可访问名称包含讨论标题 |
+| 教师 | 桌面 | /teacher/courses/1/members | ✅ 添加 / 导入 / 转班弹窗有描述文本；添加成员负例错误与 `aria-invalid` 状态正确显示；停用 / 恢复 / 转班按钮可访问名称包含成员姓名 |
 | 管理员 | 390x844 | 汉堡菜单 | ✅ 点击打开/关闭正常，所有导航链接可见 |
 | 教师 | 390x844 | /teacher | ✅ 页面加载成功 |
 | 学生 | 390x844 | /student | ✅ 页面加载成功 |
@@ -438,7 +467,8 @@ status: in-progress
 | BUG-20260605-005 | P3 | /admin/auth-explain | 创建授权组返回 404（模板不存在，需先创建模板） | 非缺陷，预期行为 |
 | BUG-20260605-006 | P2 | /teacher/courses/1/question-bank | 编辑题目按钮点击无反应（无对话框弹出） | 已修复 |
 | BUG-20260605-007 | P1 | /student/labs | 学生实验报告保存草稿失败（API /api/v1/me/labs/18/report 返回 404/400） | 已修复 |
-| BUG-20260605-008 | P2 | /teacher/courses/1/question-bank | 分类管理按钮点击无反应（无对话框弹出） | 已记录 |
+| BUG-20260605-008 | P2 | /teacher/courses/1/question-bank | 分类管理按钮点击无反应（无对话框弹出） | 非缺陷，入口已清理 |
+| BUG-20260605-009 | P3 | /admin/org-units | 子节点创建成功后根节点表单类型残留 COLLEGE | 已修复 |
 
 ## 12. 修复计划
 
@@ -449,21 +479,18 @@ status: in-progress
 - 管理员：用户详情页"强制下线"按钮未测试（影响当前会话，风险较高）
 - 管理员：用户详情页"保存学籍资料"按钮未测试（无可编辑字段）
 - 管理员：权限解释"添加成员"功能未测试（前置依赖创建授权组，已失败）
-- 教师：题库"新增题目"、"分类管理"功能未测试
-- 教师：题库"编辑题目"按钮无反应（BUG-20260605-006）
+- 教师：题库"新增题目"正常路径仍待真实浏览器复核；分类和标签通过题目创建 / 编辑表单维护，不再单列分类管理入口
+- 教师：题库"编辑题目"按钮已修复并通过真实浏览器复核
 - 教师：判题环境（/teacher/courses/1/judge-environments）逐按钮未测试
 - 教师：作业"创建作业"、"编辑作业"、"发布作业"功能未测试
 - 教师：提交"提交级重判"、"答案重判"功能未测试
 - 教师：成绩册"批量调整"、"导入"、"发布"功能未测试
 - 教师：实验"创建实验"、"编辑"、"发布"、"报告查看"功能未测试
-- 教师：资源上传功能未测试（需准备测试文件）
-- 教师：资源删除功能未测试
 - 学生：作业任务（/student/assignments）答题/提交未测试
 - 学生：编程工作区（/student/assignments/[id]/workspace/[id]）未测试
 - 学生：实验项目（/student/labs）上传附件/提交报告未测试
 - 学生：通知"全部已读"功能未测试
 - 移动端视口仅验证页面加载，未逐控件操作
-- 讨论锁定/解锁功能未测试
 - 跨角色权限负例（学生访问其他班级课程内容）未测试
 
 ## 14. 命令与日志证据
@@ -471,6 +498,11 @@ status: in-progress
 | 命令 | 结果 |
 |------|------|
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
-| just status | server/main clean, web/main clean, docs/main dirty（测试报告更新） |
+| just status | server/main clean；web/main 与 docs/main dirty（前端整改、测试和报告更新） |
 | Playwright MCP 下载验证 | e2e-fullrun-ml2-resource.txt (41B), gradebook-me-offering-1.csv |
+| npm test -- src/tests/unit/course/teacher-announcements-page.test.tsx | 1 文件 / 2 测试通过 |
+| npm test -- src/tests/unit/course/teacher-discussions-page.test.tsx | 1 文件 / 2 测试通过 |
+| npm test -- 公告 / 讨论与已整改相关单测集合 | 9 文件 / 15 测试通过 |
+| 本地 Playwright 公告负例脚本 | 发布 / 编辑空提交均显示 2 条错误，`POST` / `PUT` 公告请求数为 0，Dialog 警告数为 0，临时种子残留数为 0 |
+| 本地 Playwright 讨论负例脚本 | 创建空提交显示 2 条错误，`POST` 讨论请求数为 0，Dialog 警告数为 0，20 个锁定 / 解锁按钮名称包含讨论标题 |
 | 后端 API 错误 | /api/v1/admin/auth/explain 403, /api/v1/admin/auth/groups 404 |

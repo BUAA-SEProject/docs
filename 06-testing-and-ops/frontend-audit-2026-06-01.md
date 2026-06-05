@@ -64,7 +64,8 @@
 - **数据展示问题**：无
 - **响应式结果**：未单独检查
 - **问题编号**：无
-- **状态**：通过
+- **2026-06-05 复核补充**：资源页正常上传 / 下载 / 重命名 / 删除路径已通过；本轮补充了上传和编辑弹窗描述、编辑空标题字段级错误，以及编辑 / 删除行操作中包含资源标题的可访问名称。
+- **状态**：通过（已补充负向校验与可访问性整改）
 
 #### 4. `/me/notifications`
 
@@ -287,7 +288,8 @@
 - **数据展示问题**：无
 - **响应式结果**：未单独检查
 - **问题编号**：P2-L14
-- **状态**：有问题
+- **2026-06-05 复核补充**：已补充成员行操作可访问名称，20 个状态按钮和 20 个转班按钮均可通过“停用成员 <姓名> / 恢复成员 <姓名> / 转班成员 <姓名>”定位；同时补充添加成员负例字段错误状态和添加 / 导入 / 转班弹窗描述。
+- **状态**：已修复
 
 #### 20. `/teacher/courses/[offeringId]/announcements`
 
@@ -738,7 +740,7 @@
 
 #### P2-L14 — `/teacher/courses/[offeringId]/members`
 
-- 每行显示重复的"停用"和"转班"按钮对（共 10 对），无成员姓名或学号区分
+- 每行显示重复的"停用"和"转班"按钮对（共 10 对），无成员姓名或学号区分。2026-06-05 已修复为包含成员姓名的可访问名称，并补充添加成员负例字段状态。
 
 #### P2-L15 — `/teacher/courses/[offeringId]/discussions`
 
@@ -854,8 +856,8 @@ dirty entries: 1 (02-process-docs/detailed-design.md — 用户原有修改)
 | P2-L11 | P2 | 课程角色英文 INSTRUCTOR | ✅ 已修复 | `web/src/app/(teacher)/teacher/page.tsx` |
 | P2-L12 | P2 | 教师侧边栏缺少提交管理/成绩册 | ✅ 已修复 | `web/src/shared/routing/nav-config.ts` |
 | P2-L13 | P2 | 课程编号裸格式代码 | ✅ 已有映射 | `web/src/features/course/model/course-view.ts` |
-| P2-L14 | P2 | 成员表格按钮无成员区分 | ✅ 已有姓名列 | `web/src/app/(teacher)/teacher/courses/[offeringId]/members/page.tsx` |
-| P2-L15 | P2 | 讨论列表按钮无标题区分 | ✅ 已有标题链接 | `web/src/app/(teacher)/teacher/courses/[offeringId]/discussions/page.tsx` |
+| P2-L14 | P2 | 成员表格按钮无成员区分 | ✅ 已修复 | `web/src/app/(teacher)/teacher/courses/[offeringId]/members/page.tsx`（停用 / 恢复 / 转班按钮可访问名称包含成员姓名） |
+| P2-L15 | P2 | 讨论列表按钮无标题区分 | ✅ 已修复 | `web/src/app/(teacher)/teacher/courses/[offeringId]/discussions/page.tsx`（锁定 / 解锁按钮可访问名称包含讨论标题） |
 | P2-L18 | P2 | 题库中心页面空白 | ✅ 已有空态 | `web/src/app/(teacher)/teacher/question-bank/page.tsx` |
 | P2-L19 | P2 | 提交管理未选课程无提示 | ✅ 已有空态 | `web/src/app/(teacher)/teacher/submissions/page.tsx` |
 | P2-L22 | P2 | 学生角色显示英文 STUDENT | ✅ 已修复 | `web/src/shared/ui/layout/topbar.tsx`, `web/src/app/(student)/student/page.tsx` |
