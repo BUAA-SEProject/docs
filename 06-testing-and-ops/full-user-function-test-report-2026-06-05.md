@@ -63,28 +63,41 @@ status: in-progress
 
 | 页面 | 角色 | 控件名称 | 控件类型 | 用户动作 | 预期结果 | 实际结果 | 持久化校验 | 状态 | 缺陷编号 |
 |------|------|----------|----------|----------|----------|----------|------------|------|----------|
-| /admin/org-units | 管理员 | 新增根节点按钮 | button | 点击打开表单 | 弹出创建表单 | 弹出表单含类型/名称/编码/排序 | — | 已真实操作通过 | — |
-| /admin/org-units | 管理员 | 节点类型下拉 | select | 选择 COLLEGE | 选中 COLLEGE | 选中成功 | — | 已真实操作通过 | — |
-| /admin/org-units | 管理员 | 名称输入框 | input | 输入"E2E-FULLRUN-ML1 测试学院" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
-| /admin/org-units | 管理员 | 编码输入框 | input | 输入"E2E-FULLRUN-ML1-COL" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
-| /admin/org-units | 管理员 | 排序输入框 | input | 输入 997 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
-| /admin/org-units | 管理员 | 提交创建按钮 | button | 点击提交 | 创建成功 | API 返回 400 | 树中未出现新节点 | 已真实操作失败 | BUG-20260605-001 |
+| /admin/org-units | 管理员 | 新增根节点按钮 | button | 点击"新增根节点" | 表单切到根节点创建 | 表单标题"新增根节点"，节点类型固定 SCHOOL | Playwright MCP 截图/DOM：`#org-unit-type=SCHOOL` | 已真实操作通过 | — |
+| /admin/org-units | 管理员 | 根节点提交创建按钮 | button | 填写 MCP-20260605-135309 测试学校后点击提交 | 已存在学校根节点时给出明确业务错误 | POST `/api/v1/admin/org-units` 返回 409 `ORG_ROOT_ALREADY_EXISTS`，响应消息"学校根节点已存在" | 网络响应体已核对；未新增重复根节点 | 已真实操作通过（负例） | — |
+| /admin/org-units | 管理员 | Realrun School 行加号 | button | 点击树中 Realrun School 行加号 | 表单切到学校下新增子节点 | 表单标题"在 [Realrun School] 下新增子节点"，节点类型 COLLEGE 可选 | Playwright MCP DOM：`#org-unit-type=COLLEGE`，`disabled=false` | 已真实操作通过 | — |
+| /admin/org-units | 管理员 | 节点类型下拉 | select | 在学校下新增子节点时保持 COLLEGE | 类型符合层级规则 | 选中 COLLEGE | — | 已真实操作通过 | — |
+| /admin/org-units | 管理员 | 名称输入框 | input | 输入"MCP-20260605-135309 测试学院" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
+| /admin/org-units | 管理员 | 编码输入框 | input | 输入"MCP-20260605-135309-COL" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
+| /admin/org-units | 管理员 | 排序输入框 | input | 输入 902 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
+| /admin/org-units | 管理员 | 子节点提交创建按钮 | button | 点击提交创建 | 创建成功并在树中显示 | POST `/api/v1/admin/org-units` 返回 201，页面包含新学院名称和编码 | 列表重新请求 `/api/v1/admin/org-units/tree` 返回 200，刷新前 DOM 已包含新节点 | 已真实操作通过 | — |
+| /admin/org-units | 管理员 | 创建成功后的根节点表单 | select | 子节点创建成功后观察根节点表单 | 返回根节点表单时类型应固定 SCHOOL | 表单标题为"新增根节点"，但禁用的节点类型残留 COLLEGE | Playwright MCP DOM：heading=新增根节点，`#org-unit-type=COLLEGE` | 已真实操作失败 | BUG-20260605-009 |
 
 **BUG-20260605-001**：组织架构 UI 创建 COLLEGE 类型节点失败
 
-- 发现时间：2026-06-05 16:44
+- 复核时间：2026-06-05 13:55
 - 角色：管理员
 - 页面：/admin/org-units
-- 相关控件：提交创建按钮
-- 输入数据：类型=COLLEGE，名称=E2E-FULLRUN-ML1 测试学院，编码=E2E-FULLRUN-ML1-COL
-- 复现步骤：点击新增根节点→选择 COLLEGE→填写名称编码→点击提交创建
-- 实际结果：API 返回 400 Bad Request，节点未创建
-- 预期结果：创建成功并在树中显示
-- 影响范围：管理员无法通过 UI 创建非 SCHOOL 类型组织节点
-- 严重级别：P2
-- 证据：Playwright MCP console error 400
-- 临时绕过：通过 API 直接创建（需 parentId 参数）
-- 当前状态：已记录
+- 相关控件：Realrun School 行加号、提交创建按钮
+- 复核结论：非缺陷，原复现路径不符合当前层级规则；COLLEGE 必须通过学校节点行加号创建，不能作为根节点创建。
+- 真实操作：点击 Realrun School 行加号→填写 `MCP-20260605-135309 测试学院` / `MCP-20260605-135309-COL`→点击提交创建。
+- 实际结果：POST `/api/v1/admin/org-units` 返回 201，树中出现新学院名称和编码。
+- 持久化校验：页面自动重新请求 `/api/v1/admin/org-units/tree` 返回 200。
+- 当前状态：已关闭，按设计通过。
+
+**BUG-20260605-009**：组织架构子节点创建成功后根节点表单类型残留 COLLEGE
+
+- 发现时间：2026-06-05 13:56
+- 角色：管理员
+- 页面：/admin/org-units
+- 相关控件：子节点提交创建按钮、节点类型下拉
+- 复现步骤：点击 Realrun School 行加号→创建学院成功→观察右侧表单。
+- 实际结果：右侧标题回到"新增根节点"，但禁用的节点类型仍显示 COLLEGE。
+- 预期结果：回到根节点表单时节点类型应显示 SCHOOL，与"根节点类型固定为 SCHOOL"说明一致。
+- 影响范围：管理员下一次创建根节点时界面状态自相矛盾，容易误判操作结果。
+- 严重级别：P3
+- 证据：Playwright MCP DOM 读取 `heading=新增根节点`、`#org-unit-type=COLLEGE`。
+- 当前状态：已记录，待修复。
 
 ### 5.3 管理员 - 用户管理
 
