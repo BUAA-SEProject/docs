@@ -118,9 +118,10 @@ status: draft
 - 关联区域：成员列表行操作、添加成员弹窗、批量导入弹窗、转班弹窗
 - 问题类型：文案 / 数据展示 / 表单校验 / 可访问性
 - 优先级：P2
-- 现象：成员列表中多个“停用 / 恢复 / 转班”按钮没有在可访问名称中包含成员姓名，重复按钮难以区分；“学号/工号”列无法读取嵌套学籍号；添加成员空 userId 或缺教学班时只有裸错误文本，字段未设置 `aria-invalid`；添加 / 导入 / 转班弹窗缺少说明文本。
-- 本轮处理：成员页筛选条和添加 / 导入 / 转班弹窗抽出到 `features/course/components`；成员显示 helper 下沉到 `features/course/model`；行操作补充包含成员姓名的 `aria-label`；学号/工号列改读 `user.academicProfile.academicId`；添加成员负例补字段级错误与 `aria-invalid` / `aria-describedby`；三个弹窗补充 `DialogDescription`。
+- 现象：成员列表中多个“停用 / 恢复 / 转班”按钮没有在可访问名称中包含成员姓名，重复按钮难以区分；“学号/工号”列无法读取嵌套学籍号；添加成员空 userId 或缺教学班时只有裸错误文本，字段未设置 `aria-invalid`；添加 / 导入 / 转班弹窗缺少说明文本；添加成员成功后结果提示随弹窗关闭，用户看不到批量结果。
+- 本轮处理：成员页筛选条和添加 / 导入 / 转班弹窗抽出到 `features/course/components`；成员显示 helper 下沉到 `features/course/model`；行操作补充包含成员姓名的 `aria-label`；学号/工号列改读 `user.academicProfile.academicId`；添加成员负例补字段级错误与 `aria-invalid` / `aria-describedby`；三个弹窗补充 `DialogDescription`；添加成员成功后保留弹窗内批量结果，关闭弹窗时重置旧结果。
 - 验证记录：2026-06-05 23:35 CST，本地 Playwright 真实教师会话打开 `/teacher/courses/1/members`，20 个状态按钮和 20 个转班按钮均可通过“停用成员 <姓名> / 恢复成员 <姓名> / 转班成员 <姓名>”定位；添加成员空 userId 显示“请输入有效的 userId”且用户 ID 字段 `aria-invalid=true`；填写 userId 但未选择教学班显示“当前角色必须选择教学班”且教学班字段 `aria-invalid=true`；负例未发送 `POST /teacher/course-offerings/1/members/batch`；添加、批量导入、转班弹窗均显示说明文本，未出现 Radix Dialog 描述警告。
+- 验证记录：2026-06-06 02:32 CST，Playwright MCP 真实教师会话打开 `/teacher/courses/1/members`，添加用户 621 为“整课助教”后弹窗保持打开并显示“添加成功 1 人，失败 0 人。”；`POST /api/v1/teacher/course-offerings/1/members/batch` 返回 200。
 - 状态：已修复
 
 ### 教师端：课程资源（`/teacher/courses/[offeringId]/resources`）
@@ -208,7 +209,7 @@ status: draft
 | 待处理 | 0 |
 | 已确认 | 0 |
 | 部分修复 | 1 |
-| 已修复 | 8 |
+| 已修复 | 9 |
 | 暂不处理 | 0 |
 
 ## 后续追加模板

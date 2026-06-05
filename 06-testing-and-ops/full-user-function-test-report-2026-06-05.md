@@ -13,6 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
+- 最新补充：2026-06-06 02:32 CST，用户详情学籍资料编辑、强制下线、教师成员添加成功反馈已完成真实浏览器回归；`just e2e-real` 38/38 通过。
 
 ## 2. 环境与账号
 
@@ -175,7 +176,7 @@ status: in-progress
 | 页面 | 角色 | 控件名称 | 控件类型 | 用户动作 | 预期结果 | 实际结果 | 持久化校验 | 状态 | 缺陷编号 |
 |------|------|----------|----------|----------|----------|----------|------------|------|----------|
 | /admin/users/376 | 管理员 | 返回列表链接 | link | 点击 | 跳转用户列表 | 跳转到 /admin/users | — | 已真实操作通过 | — |
-| /admin/users/376 | 管理员 | 强制下线按钮 | button | — | — | 可见 | — | 受阻未测 | — |
+| /admin/users/621 | 管理员 | 强制下线按钮 | button | 点击强制下线→确认 | 注销该用户所有活跃会话并给出明确确认 | 显示“确认强制下线？”确认弹窗，确认后请求成功 | `POST /api/v1/admin/users/621/sessions/revoke` 返回 204 | 已真实操作通过 | — |
 | /admin/users/376 | 管理员 | 禁用账号按钮 | button | 点击禁用→确认 | 账号状态变禁用 | 弹出确认弹窗→确认后状态变"禁用" | 刷新后仍为禁用 | 已真实操作通过 | — |
 | /admin/users/376 | 管理员 | 启用账号按钮 | button | 点击启用→确认 | 账号状态恢复激活 | 弹出确认弹窗→确认后状态变"激活" | 刷新后仍为激活 | 已真实操作通过 | — |
 | /admin/users/376 | 管理员 | 角色下拉框 | select | 选择 COLLEGE_ADMIN | 选中成功 | 选中成功 | — | 已真实操作通过 | — |
@@ -183,7 +184,7 @@ status: in-progress
 | /admin/users/376 | 管理员 | 保存身份按钮 | button | 点击保存 | 身份更新成功 | Toast"用户身份已更新"，页面显示 COLLEGE_ADMIN | 刷新后仍显示 | 已真实操作通过 | — |
 | /admin/users/376 | 管理员 | orgUnitId 输入框 | input | 输入 2 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /admin/users/376 | 管理员 | 替换组织关系按钮 | button | 点击替换 | 组织关系更新 | Toast"组织成员关系已更新"，显示计算机学院 | 刷新后仍显示 | 已真实操作通过 | — |
-| /admin/users/376 | 管理员 | 保存学籍资料按钮 | button | — | — | 可见 | — | 受阻未测 | — |
+| /admin/users/621 | 管理员 | 学籍资料编辑与保存 | form/button | 修改真实姓名、学号/工号、身份类型、联系电话→点击保存学籍资料 | 字段可编辑，保存后资料持久化 | 表单显示可编辑字段，保存后详情重新加载 | `PUT /api/v1/admin/users/621/profile` 返回 200，响应含 `academicId=MCP-REG-621`、`realName=MCP回归姓名-621`、`identityType=TEACHER`、`phone=13900000621` | 已真实操作通过 | — |
 
 ### 5.8 管理员 - 审计日志
 
@@ -261,6 +262,7 @@ status: in-progress
 | /teacher/courses/1/members | 教师 | 转班成员按钮 | button | 读取成员列表行操作名称 | 每个按钮都能区分对应成员 | 20 个转班按钮均可通过“转班成员 <姓名>”定位 | — | 已真实操作通过 | P2-L14 |
 | /teacher/courses/1/members | 教师 | 添加成员空 userId | button/input | 点击添加成员→不填写 userId→点击添加 | 显示字段级错误且不发送添加请求 | 显示“请输入有效的 userId”，用户 ID 字段 `aria-invalid=true` | 未发送 `POST /teacher/course-offerings/1/members/batch` | 已真实操作通过 | — |
 | /teacher/courses/1/members | 教师 | 添加成员缺教学班 | button/select | 填写 userId，角色保持学生，教学班留空→点击添加 | 显示字段级错误且不发送添加请求 | 显示“当前角色必须选择教学班”，教学班字段 `aria-invalid=true` | 未发送 `POST /teacher/course-offerings/1/members/batch` | 已真实操作通过 | — |
+| /teacher/courses/1/members | 教师 | 添加成员成功反馈 | button/dialog | 填写用户 ID 621，角色选择整课助教→点击添加 | 添加成功后保留明确结果反馈 | 弹窗保持打开并显示“添加成功 1 人，失败 0 人。” | `POST /api/v1/teacher/course-offerings/1/members/batch` 返回 200 | 已真实操作通过 | — |
 | /teacher/courses/1/members | 教师 | 添加 / 导入 / 转班弹窗描述 | dialog | 分别打开三个弹窗 | 弹窗有清晰说明且无可访问性警告 | 三个弹窗均显示说明文本，未出现 Radix Dialog 描述警告 | — | 已真实操作通过 | — |
 
 ### 5.13 教师 - 题库
@@ -474,6 +476,8 @@ status: in-progress
 | BUG-20260605-007 | P1 | /student/labs | 学生实验报告保存草稿失败（API /api/v1/me/labs/18/report 返回 404/400） | 已修复 |
 | BUG-20260605-008 | P2 | /teacher/courses/1/question-bank | 分类管理按钮点击无反应（无对话框弹出） | 非缺陷，入口已清理 |
 | BUG-20260605-009 | P3 | /admin/org-units | 子节点创建成功后根节点表单类型残留 COLLEGE | 已修复 |
+| BUG-20260606-001 | P1 | /admin/users/[userId] | 用户详情页学籍/教籍资料只读，“保存学籍资料”不可完成真实编辑 | 已修复 |
+| BUG-20260606-002 | P2 | /teacher/courses/[offeringId]/members | 添加成员成功后结果提示随弹窗关闭，用户看不到批量结果 | 已修复 |
 
 ## 12. 修复计划
 
@@ -481,8 +485,6 @@ status: in-progress
 
 ## 13. 未覆盖项与风险
 
-- 管理员：用户详情页"强制下线"按钮未测试（影响当前会话，风险较高）
-- 管理员：用户详情页"保存学籍资料"按钮未测试（无可编辑字段）
 - 管理员：权限解释"添加成员"功能未测试（前置依赖创建授权组，已失败）
 - 教师：题库"新增题目"正常路径仍待真实浏览器复核；分类和标签通过题目创建 / 编辑表单维护，不再单列分类管理入口
 - 教师：题库"编辑题目"按钮已修复并通过真实浏览器复核
@@ -503,7 +505,13 @@ status: in-progress
 |------|------|
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
 | just status | server/main clean；web/main 与 docs/main dirty（前端整改、测试和报告更新） |
+| just e2e-real | 38 个真实后端 Playwright E2E 全部通过（含 full-organization-structure 与 teacher-course 公告负例） |
+| cd web && npm run lint | 通过 |
+| cd web && npm run typecheck | 通过 |
+| cd web && npm test -- --run src/tests/unit/admin/user-detail-page.test.tsx | 1 文件 / 2 测试通过 |
 | Playwright MCP 下载验证 | e2e-fullrun-ml2-resource.txt (41B), gradebook-me-offering-1.csv |
+| Playwright MCP 用户详情回归 | 管理员真实会话 `/admin/users/621` 编辑学籍资料，`PUT /api/v1/admin/users/621/profile` 返回 200；强制下线确认后 `POST /api/v1/admin/users/621/sessions/revoke` 返回 204 |
+| Playwright MCP 成员添加成功反馈回归 | 教师真实会话 `/teacher/courses/1/members` 添加用户 621 为整课助教，弹窗显示“添加成功 1 人，失败 0 人。”，`POST /api/v1/teacher/course-offerings/1/members/batch` 返回 200 |
 | npm test -- src/tests/unit/course/teacher-announcements-page.test.tsx | 1 文件 / 2 测试通过 |
 | npm test -- src/tests/unit/course/teacher-discussions-page.test.tsx | 1 文件 / 2 测试通过 |
 | npm test -- 公告 / 讨论与已整改相关单测集合 | 9 文件 / 15 测试通过 |
