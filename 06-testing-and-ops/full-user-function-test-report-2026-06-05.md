@@ -396,6 +396,13 @@ status: in-progress
 | 页面 | 角色 | 控件名称 | 控件类型 | 用户动作 | 预期结果 | 实际结果 | 持久化校验 | 状态 | 缺陷编号 |
 |------|------|----------|----------|----------|----------|----------|------------|------|----------|
 | /teacher/labs | 教师 | 选择课程/教学班下拉框 | select | 选择课程和教学班 | 选中成功 | 选中成功，实验列表加载 | — | 已真实操作通过 | — |
+| /teacher/labs | 教师 | 创建实验空提交 | button/input | 选择课程 A1 后点击创建实验，实验标题留空后点击创建 | 显示字段级错误且不发送创建请求 | 显示“请输入实验标题”，标题字段 `aria-invalid=true` 且关联 `lab-title-error` | 仅有列表 `GET`，未出现 `POST /api/v1/teacher/course-offerings/1/labs` | 已真实操作通过 | BUG-20260606-012 |
+| /teacher/labs | 教师 | 创建实验按钮 | button/dialog | 填写 `MCP 教师实验回归 0606-0646` 后点击创建 | 创建成功并刷新当前列表 | `POST /api/v1/teacher/course-offerings/1/labs` 返回 201，列表显示新实验 | 随后 `GET /api/v1/teacher/course-offerings/1/labs?teachingClassId=1&page=1&pageSize=50` 返回 200 | 已真实操作通过 | — |
+| /teacher/labs | 教师 | 编辑实验按钮 | button/dialog | 点击“编辑实验 MCP 教师实验回归 0606-0646”，先清空标题保存，再填写编辑标题保存 | 空标题显示字段级错误；有效编辑成功刷新 | 空标题显示“请输入实验标题”且未出现 `PUT`；有效编辑 `PUT /api/v1/teacher/labs/74` 返回 200，列表显示 `MCP 教师实验回归 0606-0646-编辑` | 编辑成功后当前列表 GET 返回 200 | 已真实操作通过 | BUG-20260606-012 |
+| /teacher/labs | 教师 | 发布实验按钮 | button/dialog | 点击“发布实验 MCP 教师实验回归 0606-0646-编辑”并确认 | 先确认再发布，状态与按钮可用性刷新 | 确认弹窗说明包含实验标题；确认前无发布请求，确认后 `POST /api/v1/teacher/labs/74/publish` 返回 200；列表显示已发布，发布按钮禁用、关闭按钮启用 | 随后当前列表 GET 返回 200 | 已真实操作通过 | — |
+| /teacher/labs | 教师 | 报告按钮 / 空态 | button/section | 点击新实验报告按钮 | 报告区域可见，空态清晰 | `GET /api/v1/teacher/labs/74/reports?page=1&pageSize=20` 返回 200，页面显示“暂无实验报告” | — | 已真实操作通过 | — |
+| /teacher/labs | 教师 | 报告详情 / 评阅 / 发布评阅 | button/dialog | 打开 `MCP 实验回归 mq1bfyvc` 报告，查看详情，填写评语并保存、发布 | 报告行操作可区分学生；详情、保存评阅、发布评阅闭环 | 报告行按钮名称包含 `MCP实验学生mq1bfyvc`；`GET /api/v1/teacher/labs/63/reports` 和 `GET /api/v1/teacher/lab-reports/30` 返回 200；正文与 `README.md` 附件可见；`PUT /review` 与 `POST /publish` 均返回 200，报告状态变为已发布 | 报告列表刷新 GET 返回 200 | 已真实操作通过 | BUG-20260606-012 |
+| /teacher/labs | 教师 | 移动端 390px | viewport | 设置 390x844 后检查页面宽度和主要控件名称 | 无横向溢出，筛选控件有可访问名称 | `documentWidth=390`，课程下拉名称“选择课程”，教学班下拉名称“教学班”，创建实验按钮可见；控制台错误 0 | — | 已真实操作通过 | BUG-20260606-012 |
 | /teacher/labs | 教师 | 关闭按钮 | button | 点击关闭 | 实验关闭 | Toast"实验已关闭" | — | 已真实操作通过 | — |
 
 ### 5.25 教师 - 讨论管理（锁定/解锁）
@@ -443,7 +450,7 @@ status: in-progress
 | ML-4 | 学生答题 | 作业列表✅ 作业详情✅ 编程工作区（403）⚠️ 实验报告✅ | 部分通过 | 见 5.25-5.26 |
 | ML-5 | 评测批改 | 状态中文展示✅ 提交级重判✅ 答案重判✅ 人工批改✅ 批量调分✅ 导入成绩✅ 发布成绩✅ 下载报告✅ | 通过 | 见 5.22-5.23 |
 | ML-6 | 学生查看成绩 | 选择课程✅ 导出成绩✅ | 部分通过 | 见 5.18 |
-| ML-7 | 实验流程 | 学生保存草稿✅ 上传附件✅ 正式提交✅；教师评阅发布待本报告补测 | 部分通过 | 见 5.26 |
+| ML-7 | 实验流程 | 教师创建✅ 编辑✅ 发布✅ 报告详情✅ 评阅✅ 发布评阅✅；学生保存草稿✅ 上传附件✅ 正式提交✅ | 通过 | 见 5.24、5.26 |
 | ML-8 | 通知流转 | 教师通知已读✅ 学生通知已读✅ 学生创建讨论✅ 学生回复讨论✅ | 部分通过 | 见 5.15-5.19 |
 | ML-9 | 审计权限 | 审计日志筛选✅ 权限诊断✅ 创建授权组✅ 添加成员✅；非法权限编码 / 无效模板错误态✅ | 通过 | 见 5.8-5.9 |
 
@@ -509,6 +516,7 @@ status: in-progress
 | BUG-20260606-009 | P2 | /teacher/grading/gradebook | 成绩册筛选区教学班 / 作业下拉框宽度被压缩，长标题不可读；移动端作业下拉框曾横向溢出 | 已修复，2026-06-06 Playwright MCP 桌面与 390px 回归通过 |
 | BUG-20260606-010 | P2 | /teacher/grading/gradebook | 批量调分空输入静默无反馈，合法调分缺少确认弹窗 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-011 | P2 | /teacher/grading/gradebook | 批量调分 / 导入 / 发布后缓存失效 key 不匹配，当前成绩册和报表可能不刷新 | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-012 | P2 | /teacher/labs | 实验中心行操作 / 报告行操作按钮目标不可区分，创建 / 编辑实验空标题静默无反馈，弹窗缺少描述 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 
 ## 12. 修复计划
 
@@ -519,12 +527,12 @@ status: in-progress
 - 教师：题库"编辑题目"按钮已修复并通过真实浏览器复核
 - 教师：提交管理列表级重判、详情级提交重判和答案重判已修复并通过真实浏览器复核
 - 教师：成绩册"批量调整"、"导入"、"发布"已修复并通过真实浏览器复核
-- 教师：实验"创建实验"、"编辑"、"发布"、"报告查看"功能未测试
+- 教师：实验"创建实验"、"编辑"、"发布"、"报告查看"、"评阅发布"已修复并通过真实浏览器复核
 - 学生：作业任务（/student/assignments）答题/提交未测试
 - 学生：编程工作区（/student/assignments/[id]/workspace/[id]）未测试
-- 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布仍按教师实验项单独补测
+- 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"功能未测试
-- 移动端视口仅验证页面加载，未逐控件操作
+- 移动端视口仍仅局部覆盖；本轮补充 `/teacher/labs` 390px 无横向溢出和控件名称检查
 - 跨角色权限负例（学生访问其他班级课程内容）未测试
 
 ## 14. 命令与日志证据
@@ -561,3 +569,5 @@ status: in-progress
 | Playwright MCP 提交详情重判回归 | 教师真实会话 `/teacher/submissions/139`，点击“提交级重判”先出现确认弹窗，确认后 `POST /api/v1/teacher/submissions/139/judge-jobs/requeue` 返回 201，job id=135；答案按钮可访问名称为“重判答案 E2E-mq1e6zib-89oubn-webide-real-flow-programming”，确认后 `POST /api/v1/teacher/submission-answers/490/judge-jobs/requeue` 返回 201，job id=136；随后 `GET /api/v1/teacher/submissions/139/judge-jobs` 返回 200，页面显示 5 个判题任务 |
 | npm test -- src/tests/unit/grading/teacher-gradebook-page.test.tsx | 1 文件 / 2 测试通过 |
 | Playwright MCP 成绩册调分/导入/发布回归 | 教师真实会话 `/teacher/grading/gradebook?offeringId=1&assignmentId=414`，筛选区桌面课程约 284px、教学班约 224px、作业约 368px；390px 视口四个筛选控件宽度均为 292px 且无横向溢出；空批量调分显示 3 个字段错误且未发送调分请求；确认批量调分前未发送请求，确认后 `POST /api/v1/teacher/assignments/414/grades/batch-adjust` 返回 200，随后 gradebook/report GET 200；历史补充验证：下载模板返回 `assignment-grades-414-template.csv`；CSV 导入返回 `successCount=1/failureCount=0` 并刷新；确认发布后 `POST /api/v1/teacher/assignments/414/grades/publish` 返回 200，`initialPublication=true`，刷新后 assignment 414 `gradePublished=true` |
+| npm test -- src/tests/unit/lab/teacher-labs-page.test.tsx | 1 文件 / 3 测试通过 |
+| Playwright MCP 教师实验中心回归 | 教师真实会话 `/teacher/labs` 选择课程 1 / A1；空创建和空编辑均显示“请输入实验标题”、标题字段 `aria-invalid=true` 且未发送创建 / 更新请求；创建 `MCP 教师实验回归 0606-0646` 返回 201，编辑 lab 74 返回 200；发布前先出现包含实验标题的确认弹窗，确认后 `POST /api/v1/teacher/labs/74/publish` 返回 200，列表显示已发布、发布按钮禁用、关闭按钮启用；报告空态 `GET /teacher/labs/74/reports` 返回 200 并显示“暂无实验报告”；既有报告 `MCP 实验回归 mq1bfyvc` 的详情、附件、保存评阅和发布评阅通过，`GET /teacher/labs/63/reports`、`GET /teacher/lab-reports/30`、`PUT /review`、`POST /publish` 均返回 200；390px 视口 `documentWidth=390`，控制台错误 0 |
