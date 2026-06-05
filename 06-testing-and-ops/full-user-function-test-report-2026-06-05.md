@@ -207,15 +207,18 @@ status: in-progress
 |------|------|----------|----------|----------|----------|----------|------------|------|----------|
 | /admin/auth-explain | 管理员 | 页面加载 | — | 打开页面 | 显示权限查询界面 | 页面加载成功，显示权限诊断、创建授权组、添加成员三个区域 | — | 已真实操作通过 | — |
 | /admin/auth-explain | 管理员 | 用户 ID 输入框 | input | 输入 4 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
-| /admin/auth-explain | 管理员 | 权限编码输入框 | input | — | — | 预填 OFFERING_READ | — | 只读/无副作用已验证 | — |
-| /admin/auth-explain | 管理员 | 作用域类型下拉 | select | — | — | 默认 PLATFORM，含 6 个选项 | — | 只读/无副作用已验证 | — |
-| /admin/auth-explain | 管理员 | 立即分析按钮 | button | 点击分析 | 返回权限分析结果 | 返回 403 Forbidden，显示"当前用户无权查看该授权解释" | — | 已真实操作失败 | BUG-20260605-004 |
-| /admin/auth-explain | 管理员 | templateCode 输入框 | input | 输入 E2E-FULLRUN-TEST-GROUP | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
-| /admin/auth-explain | 管理员 | displayName 输入框 | input | 输入"E2E 测试授权组" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
-| /admin/auth-explain | 管理员 | 创建授权组按钮 | button | 点击创建 | 授权组创建成功 | 返回 404 Not Found，Toast"授权组模板不存在" | — | 已真实操作失败 | BUG-20260605-005 |
-| /admin/auth-explain | 管理员 | groupId 输入框 | input | — | — | 可见 | — | 只读/无副作用已验证 | — |
-| /admin/auth-explain | 管理员 | userId 输入框 | input | — | — | 可见 | — | 只读/无副作用已验证 | — |
-| /admin/auth-explain | 管理员 | 添加成员按钮 | button | — | — | 可见 | — | 受阻未测 | — |
+| /admin/auth-explain | 管理员 | 权限编码输入框 | input | 输入 OFFERING_READ / USER_READ / bad | 输入成功 | 输入成功，非法编码触发受控错误态 | — | 已真实操作通过 | — |
+| /admin/auth-explain | 管理员 | 作用域类型下拉 | select | 选择 OFFERING | 选中成功 | 选中成功，默认 PLATFORM，含 6 个选项 | — | 已真实操作通过 | — |
+| /admin/auth-explain | 管理员 | 立即分析按钮（允许） | button | userId=4，permission=OFFERING_READ，scopeType=OFFERING，scopeRefId=1 后点击分析 | 返回允许结果 | 页面显示"允许 (ALLOWED)"，reasonCode 为 `ALLOW_BY_SCOPE_ROLE` | `GET /api/v1/admin/auth/explain?...permission=OFFERING_READ...` 返回 200 | 已真实操作通过 | BUG-20260605-004 |
+| /admin/auth-explain | 管理员 | 立即分析按钮（拒绝） | button | permission=USER_READ 后点击分析 | 返回拒绝结果 | 页面显示"拒绝 (DENIED)"，reasonCode 为 `DENY_NO_ROLE_BINDING` | `GET /api/v1/admin/auth/explain?...permission=USER_READ...` 返回 200 | 已真实操作通过 | — |
+| /admin/auth-explain | 管理员 | 立即分析按钮（非法编码） | button | permission=bad 后点击分析 | 显示可读错误态且页面不崩溃 | 页面显示"数据加载失败"和 `Failed to convert 'permission' with value: 'bad'` | `GET /api/v1/admin/auth/explain?...permission=bad...` 返回 400 | 已真实操作通过 | — |
+| /admin/auth-explain | 管理员 | templateCode 输入框 | input | 输入 audit-readonly | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
+| /admin/auth-explain | 管理员 | displayName 输入框 | input | 输入"MCP 审计只读组 0606-0350" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
+| /admin/auth-explain | 管理员 | 创建授权组按钮（有效模板） | button | templateCode=audit-readonly，scopeType=SCHOOL，scopeRefId=1 后点击创建 | 授权组创建成功 | 返回新授权组，页面自动填充 groupId=1 | `POST /api/v1/admin/auth/groups` 返回 201，响应含 `templateCode=audit-readonly`、`scopeType=SCHOOL`、`status=ACTIVE` | 已真实操作通过 | BUG-20260605-005 |
+| /admin/auth-explain | 管理员 | 创建授权组按钮（无效模板） | button | templateCode=missing-template-mcp-0606 后点击创建 | 显示模板不存在错误 | 返回 `AUTHZ_TEMPLATE_NOT_FOUND` / "授权组模板不存在" | `POST /api/v1/admin/auth/groups` 返回 404，无新增授权组 | 预期错误已验证 | — |
+| /admin/auth-explain | 管理员 | groupId 输入框 | input | 创建有效授权组后查看 | 自动填入新组 ID | 自动填入 `1` | 来自创建授权组 201 响应 | 已真实操作通过 | — |
+| /admin/auth-explain | 管理员 | userId 输入框 | input | 输入 4 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
+| /admin/auth-explain | 管理员 | 添加成员按钮 | button | groupId=1，userId=4 后点击添加成员 | 成员添加成功 | 返回成员绑定记录 | `POST /api/v1/admin/auth/groups/1/members` 返回 201，响应含 `groupId=1`、`userId=4`、`sourceType=MANUAL` | 已真实操作通过 | — |
 
 ### 5.10 教师 - 公告管理
 
@@ -426,7 +429,7 @@ status: in-progress
 | ML-6 | 学生查看成绩 | 选择课程✅ 导出成绩✅ | 部分通过 | 见 5.18 |
 | ML-7 | 实验流程 | 学生保存草稿✅ 上传附件✅ 正式提交✅；教师评阅发布待本报告补测 | 部分通过 | 见 5.26 |
 | ML-8 | 通知流转 | 教师通知已读✅ 学生通知已读✅ 学生创建讨论✅ 学生回复讨论✅ | 部分通过 | 见 5.15-5.19 |
-| ML-9 | 审计权限 | 审计日志筛选✅ 权限诊断❌ 创建授权组❌ | 部分通过 | 见 5.8-5.9 |
+| ML-9 | 审计权限 | 审计日志筛选✅ 权限诊断✅ 创建授权组✅ 添加成员✅；非法权限编码 / 无效模板错误态✅ | 通过 | 见 5.8-5.9 |
 
 ## 8. 页面级测试结果
 
@@ -471,7 +474,7 @@ status: in-progress
 | BUG-20260605-002 | P1 | /admin/course-offerings | UI 创建开课失败（无网络请求，缺必填字段提示） | 已修复 |
 | BUG-20260605-003 | P3 | /admin/audit-logs | 审计日志筛选中文操作类型无结果（列表显示中文但筛选需英文） | 已修复 |
 | BUG-20260605-004 | P2 | /admin/auth-explain | 权限诊断返回 403（PLATFORM 级别资源范围匹配错误） | 已修复 |
-| BUG-20260605-005 | P3 | /admin/auth-explain | 创建授权组返回 404（模板不存在，需先创建模板） | 非缺陷，预期行为 |
+| BUG-20260605-005 | P3 | /admin/auth-explain | 创建授权组返回 404（模板不存在，需先创建模板） | 非缺陷，预期行为；有效模板 `audit-readonly` 已回归通过 |
 | BUG-20260605-006 | P2 | /teacher/courses/1/question-bank | 编辑题目按钮点击无反应（无对话框弹出） | 已修复 |
 | BUG-20260605-007 | P1 | /student/labs | 学生实验报告保存草稿失败（保存请求缺少 `submit:false`，后端返回 400 `Failed to read request`） | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260605-008 | P2 | /teacher/courses/1/question-bank | 分类管理按钮点击无反应（无对话框弹出） | 非缺陷，入口已清理 |
@@ -485,7 +488,6 @@ status: in-progress
 
 ## 13. 未覆盖项与风险
 
-- 管理员：权限解释"添加成员"功能未测试（前置依赖创建授权组，已失败）
 - 教师：题库"新增题目"正常路径仍待真实浏览器复核；分类和标签通过题目创建 / 编辑表单维护，不再单列分类管理入口
 - 教师：题库"编辑题目"按钮已修复并通过真实浏览器复核
 - 教师：作业"创建作业"、"编辑作业"、"发布作业"功能未测试
@@ -522,4 +524,4 @@ status: in-progress
 | 本地 Playwright 讨论负例脚本 | 创建空提交显示 2 条错误，`POST` 讨论请求数为 0，Dialog 警告数为 0，20 个锁定 / 解锁按钮名称包含讨论标题 |
 | Playwright MCP 判题环境逐按钮回归 | 教师真实会话完成 Go 1.22 筛选、空新增错误、创建、编辑、归档、包含归档复查；对应 `GET` / `POST` / `PUT` / archive 请求为 200/201 |
 | Playwright MCP 审计日志中文筛选回归 | 管理员真实会话选择“登录成功”操作类型，下拉值提交 `LOGIN_SUCCESS`，`GET /api/v1/admin/audit-logs?action=LOGIN_SUCCESS&page=1&pageSize=20` 返回 200，表格显示“登录成功”记录 |
-| 后端 API 错误 | /api/v1/admin/auth/explain 403, /api/v1/admin/auth/groups 404 |
+| Playwright MCP 权限解释回归 | 管理员真实会话完成权限允许 / 拒绝 / 非法编码错误态、有效模板创建授权组、添加成员、无效模板 404 预期错误；`/admin/auth/explain` 200/200/400，`/admin/auth/groups` 201/404，`/admin/auth/groups/1/members` 201 |
