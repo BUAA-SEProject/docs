@@ -192,7 +192,7 @@ status: in-progress
 | /admin/audit-logs | 管理员 | 页面加载 | — | 打开页面 | 显示日志列表 | 292 页数据，含真实操作记录 | — | 已真实操作通过 | — |
 | /admin/audit-logs | 管理员 | 操作者 ID 输入框 | input | — | — | 可见 | — | 只读/无副作用已验证 | — |
 | /admin/audit-logs | 管理员 | 操作类型输入框 | input | 输入 USER_STATUS_CHANGED | 筛选结果 | 返回 3 页 USER_STATUS_CHANGED 记录 | — | 已真实操作通过 | — |
-| /admin/audit-logs | 管理员 | 操作类型输入框 | input | 输入"登录成功" | 筛选结果 | 返回"暂无相关数据" | — | 已真实操作失败 | BUG-20260605-003 |
+| /admin/audit-logs | 管理员 | 操作类型下拉框 | select | 选择“登录成功”后点击查询 | 返回登录成功记录 | 触发 `GET /api/v1/admin/audit-logs?action=LOGIN_SUCCESS&page=1&pageSize=20`，表格显示多条“登录成功”记录 | 网络请求 200，响应 `total=2849` | 已真实操作通过 | BUG-20260605-003 |
 | /admin/audit-logs | 管理员 | 对象类型输入框 | input | — | — | 可见 | — | 只读/无副作用已验证 | — |
 | /admin/audit-logs | 管理员 | 查询按钮 | button | 点击查询 | 返回筛选结果 | 返回结果 | — | 已真实操作通过 | — |
 | /admin/audit-logs | 管理员 | 详情按钮 | button | 点击详情 | 显示 Metadata | 底部显示 Metadata JSON | — | 已真实操作通过 | — |
@@ -467,7 +467,7 @@ status: in-progress
 |----------|----------|------|----------|------|
 | BUG-20260605-001 | P2 | /admin/org-units | UI 创建 COLLEGE 类型节点失败（缺 parentId） | 已修复 |
 | BUG-20260605-002 | P1 | /admin/course-offerings | UI 创建开课失败（无网络请求，缺必填字段提示） | 已修复 |
-| BUG-20260605-003 | P3 | /admin/audit-logs | 审计日志筛选中文操作类型无结果（列表显示中文但筛选需英文） | 已记录 |
+| BUG-20260605-003 | P3 | /admin/audit-logs | 审计日志筛选中文操作类型无结果（列表显示中文但筛选需英文） | 已修复 |
 | BUG-20260605-004 | P2 | /admin/auth-explain | 权限诊断返回 403（PLATFORM 级别资源范围匹配错误） | 已修复 |
 | BUG-20260605-005 | P3 | /admin/auth-explain | 创建授权组返回 404（模板不存在，需先创建模板） | 非缺陷，预期行为 |
 | BUG-20260605-006 | P2 | /teacher/courses/1/question-bank | 编辑题目按钮点击无反应（无对话框弹出） | 已修复 |
@@ -510,4 +510,5 @@ status: in-progress
 | 本地 Playwright 公告负例脚本 | 发布 / 编辑空提交均显示 2 条错误，`POST` / `PUT` 公告请求数为 0，Dialog 警告数为 0，临时种子残留数为 0 |
 | 本地 Playwright 讨论负例脚本 | 创建空提交显示 2 条错误，`POST` 讨论请求数为 0，Dialog 警告数为 0，20 个锁定 / 解锁按钮名称包含讨论标题 |
 | Playwright MCP 判题环境逐按钮回归 | 教师真实会话完成 Go 1.22 筛选、空新增错误、创建、编辑、归档、包含归档复查；对应 `GET` / `POST` / `PUT` / archive 请求为 200/201 |
+| Playwright MCP 审计日志中文筛选回归 | 管理员真实会话选择“登录成功”操作类型，下拉值提交 `LOGIN_SUCCESS`，`GET /api/v1/admin/audit-logs?action=LOGIN_SUCCESS&page=1&pageSize=20` 返回 200，表格显示“登录成功”记录 |
 | 后端 API 错误 | /api/v1/admin/auth/explain 403, /api/v1/admin/auth/groups 404 |
