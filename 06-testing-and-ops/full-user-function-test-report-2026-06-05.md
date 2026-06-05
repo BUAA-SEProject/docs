@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 05:19 CST，教师提交管理列表筛选、状态显示、列表级重判、详情级提交重判和答案重判已完成 Playwright MCP 真实浏览器回归；本轮新增缺陷已修复，`just verify` 与 `just e2e-real` 均通过。
+- 最新补充：2026-06-06 06:17 CST，教师成绩册筛选布局、批量调分确认与 390px 移动端无横向溢出已完成 Playwright MCP 真实浏览器回归；本轮新增缺陷已修复，前端定向测试、lint/typecheck 已通过。
 
 ## 2. 环境与账号
 
@@ -384,6 +384,12 @@ status: in-progress
 | /teacher/grading/gradebook | 教师 | 选择课程下拉框 | select | 选择"数据结构 2025 秋" | 选中成功 | 选中成功 | — | 已真实操作通过 | — |
 | /teacher/grading/gradebook | 教师 | 查询按钮 | button | 点击查询 | 返回成绩数据 | 返回 10 页学生成绩 | — | 已真实操作通过 | — |
 | /teacher/grading/gradebook | 教师 | 导出 Excel 按钮 | button | 点击导出 | CSV 文件下载 | 文件 gradebook-offering-1.csv 下载 | 文件存在 | 已真实操作通过 | — |
+| /teacher/grading/gradebook?offeringId=1&assignmentId=414 | 教师 | 选择课程/教学班/作业筛选 | select | 打开页面并观察筛选条 | 筛选项宽度稳定，长作业标题可读，移动端不横向溢出 | 修复后桌面课程约 284px、教学班约 224px、作业约 368px，390px 视口四个筛选控件均为 292px 且 `documentWidth=390` | Playwright MCP DOM bbox 复核 | 已真实操作通过 | BUG-20260606-009 |
+| /teacher/grading/gradebook?offeringId=1&assignmentId=414 | 教师 | 批量调分按钮 | button | 提交 ID / 答案 ID / 分数留空后点击 | 显示字段级错误且不发送调分请求 | 显示“请输入有效的提交 ID / 答案 ID / 调整分数”，三个字段均 `aria-invalid=true` | 未出现 `POST /api/v1/teacher/assignments/414/grades/batch-adjust` | 已真实操作通过 | BUG-20260606-010 |
+| /teacher/grading/gradebook?offeringId=1&assignmentId=414 | 教师 | 批量调分按钮 | button/dialog | 输入提交 139、答案 490、分数 98、反馈后点击并确认 | 先确认再提交调分，成功后刷新成绩册和报表 | 弹窗说明“将调整提交 139 的答案 490 分数为 98。确定要继续吗？”；确认后调分成功 | `POST /api/v1/teacher/assignments/414/grades/batch-adjust` 返回 200，answer 490 `manualScore/finalScore=98`；随后 gradebook/report GET 200 | 已真实操作通过 | BUG-20260606-010, BUG-20260606-011 |
+| /teacher/grading/gradebook?offeringId=1&assignmentId=414 | 教师 | 下载导入模板按钮 | button | 点击下载 | 下载当前作业导入模板 | 下载 `assignment-grades-414-template.csv` | `GET /api/v1/teacher/assignments/414/grades/import-template` 返回 200，`content-disposition` 指向模板文件名 | 已真实操作通过 | — |
+| /teacher/grading/gradebook?offeringId=1&assignmentId=414 | 教师 | 成绩导入上传区 | file upload | 上传 CSV：提交 139、答案 490、分数 99、反馈 `MCP gradebook import 0606` | 导入成功并刷新成绩册和报表 | 上传区显示 `aubb-grade-import-414.csv`；导入接口成功 | `POST /api/v1/teacher/assignments/414/grades/import` 返回 200，`successCount=1/failureCount=0`；随后 gradebook/report GET 200；提交详情 `GET /api/v1/teacher/submissions/139` 显示 answer 490 `manualScore/finalScore=99`、反馈为导入文本 | 已真实操作通过 | BUG-20260606-011 |
+| /teacher/grading/gradebook?offeringId=1&assignmentId=414 | 教师 | 发布成绩按钮 | button/dialog | 点击发布成绩并确认 | 先确认发布，学生可见后刷新成绩册和报表 | 弹窗提示“发布后学生即可查看该作业的成绩”；确认后发布成功 | `POST /api/v1/teacher/assignments/414/grades/publish` 返回 200，`initialPublication=true`；刷新后 gradebook summary `publishedCount=41`，assignment 414 `gradePublished=true` | 已真实操作通过 | BUG-20260606-011 |
 
 ### 5.24 教师 - 实验中心
 
@@ -433,9 +439,9 @@ status: in-progress
 |---|----------|------|------|------|
 | ML-1 | 管理员初始化 | 平台配置✅ 组织架构⚠️ 用户✅ 学期✅ 课程模板✅ 开课✅ 用户详情✅ | 部分通过 | 见 5.1-5.7 |
 | ML-2 | 教师教学准备 | 公告✅ 讨论✅ 资源下载✅ 资源重命名✅ 资源空标题校验✅ 通知已读✅ 题库筛选✅ 题库新增自动刷新✅ 关闭作业✅ 资源上传✅ 资源删除✅ 讨论锁定✅ 讨论解锁✅ | 部分通过 | 见 5.10-5.25 |
-| ML-3 | 教师创建作业 | 创建作业✅ 编辑作业✅ 发布作业✅ 关闭作业✅ 查看提交✅ 提交级重判✅ 答案重判✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 关闭实验✅；成绩册批量能力仍按风险项补测 | 部分通过 | 见 5.20-5.24 |
+| ML-3 | 教师创建作业 | 创建作业✅ 编辑作业✅ 发布作业✅ 关闭作业✅ 查看提交✅ 提交级重判✅ 答案重判✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 批量调分✅ 导入成绩✅ 发布成绩✅ 关闭实验✅ | 部分通过 | 见 5.20-5.24 |
 | ML-4 | 学生答题 | 作业列表✅ 作业详情✅ 编程工作区（403）⚠️ 实验报告✅ | 部分通过 | 见 5.25-5.26 |
-| ML-5 | 评测批改 | 状态中文展示✅ 提交级重判✅ 答案重判✅ 人工批改✅ 下载报告✅ | 通过 | 见 5.22 |
+| ML-5 | 评测批改 | 状态中文展示✅ 提交级重判✅ 答案重判✅ 人工批改✅ 批量调分✅ 导入成绩✅ 发布成绩✅ 下载报告✅ | 通过 | 见 5.22-5.23 |
 | ML-6 | 学生查看成绩 | 选择课程✅ 导出成绩✅ | 部分通过 | 见 5.18 |
 | ML-7 | 实验流程 | 学生保存草稿✅ 上传附件✅ 正式提交✅；教师评阅发布待本报告补测 | 部分通过 | 见 5.26 |
 | ML-8 | 通知流转 | 教师通知已读✅ 学生通知已读✅ 学生创建讨论✅ 学生回复讨论✅ | 部分通过 | 见 5.15-5.19 |
@@ -461,6 +467,7 @@ status: in-progress
 | 10 | 公告发布 / 编辑空提交 | `/teacher/courses/1/announcements` 发布和编辑弹窗留空提交 | 显示字段级错误且不发送创建 / 更新请求 | 发布和编辑均显示 2 个字段错误，字段均标记 `aria-invalid=true`，未发送 `POST` / `PUT` 公告请求 | 已真实操作通过 |
 | 11 | 讨论创建空提交 | `/teacher/courses/1/discussions` 创建弹窗留空提交 | 显示字段级错误且不发送创建请求 | 显示 2 个字段错误，字段均标记 `aria-invalid=true`，未发送 `POST` 讨论请求 | 已真实操作通过 |
 | 12 | 成员添加负例 | `/teacher/courses/1/members` 添加成员弹窗留空或缺教学班提交 | 显示字段级错误且不发送添加请求 | 用户 ID / 教学班错误均可见，对应字段均标记 `aria-invalid=true`，未发送 `POST /members/batch` | 已真实操作通过 |
+| 13 | 成绩册批量调分空提交 | `/teacher/grading/gradebook?offeringId=1&assignmentId=414` 留空提交 ID / 答案 ID / 分数后点击批量调分 | 显示字段级错误且不发送调分请求 | 三个字段错误均可见，字段均标记 `aria-invalid=true`，未发送 `POST /grades/batch-adjust` | 已真实操作通过 |
 
 ## 10. 响应式与可访问性结果
 
@@ -472,6 +479,8 @@ status: in-progress
 | 教师 | 桌面 | /teacher/courses/1/announcements | ✅ 发布 / 编辑公告弹窗有描述文本、可见字段标签，空提交错误与 `aria-invalid` 状态正确显示 |
 | 教师 | 桌面 | /teacher/courses/1/discussions | ✅ 创建讨论弹窗有描述文本、空提交错误与 `aria-invalid` 状态正确显示；锁定 / 解锁按钮可访问名称包含讨论标题 |
 | 教师 | 桌面 | /teacher/courses/1/members | ✅ 添加 / 导入 / 转班弹窗有描述文本；添加成员负例错误与 `aria-invalid` 状态正确显示；停用 / 恢复 / 转班按钮可访问名称包含成员姓名 |
+| 教师 | 桌面 | /teacher/grading/gradebook | ✅ 筛选下拉宽度稳定，批量调分空提交显示字段级错误，批量调分和发布均有确认弹窗 |
+| 教师 | 390x844 | /teacher/grading/gradebook | ✅ 筛选条按单列排列，课程 / 教学班 / 学生 ID / 作业控件宽度均为 292px，`documentWidth=390`，无横向溢出 |
 | 管理员 | 390x844 | 汉堡菜单 | ✅ 点击打开/关闭正常，所有导航链接可见 |
 | 教师 | 390x844 | /teacher | ✅ 页面加载成功 |
 | 学生 | 390x844 | /student | ✅ 页面加载成功 |
@@ -497,6 +506,9 @@ status: in-progress
 | BUG-20260606-006 | P2 | /teacher/submissions | 提交管理筛选区作业下拉框宽度被压缩，长作业标题不可读 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-007 | P3 | /teacher/submissions | 提交列表直接显示后端枚举 `SUBMITTED`，未映射为中文业务状态 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-008 | P2 | /teacher/submissions/[submissionId] | 详情页提交级重判 / 答案重判直接触发，缺少确认；答案重判按钮缺少目标题目标识 | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-009 | P2 | /teacher/grading/gradebook | 成绩册筛选区教学班 / 作业下拉框宽度被压缩，长标题不可读；移动端作业下拉框曾横向溢出 | 已修复，2026-06-06 Playwright MCP 桌面与 390px 回归通过 |
+| BUG-20260606-010 | P2 | /teacher/grading/gradebook | 批量调分空输入静默无反馈，合法调分缺少确认弹窗 | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-011 | P2 | /teacher/grading/gradebook | 批量调分 / 导入 / 发布后缓存失效 key 不匹配，当前成绩册和报表可能不刷新 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 
 ## 12. 修复计划
 
@@ -506,7 +518,7 @@ status: in-progress
 
 - 教师：题库"编辑题目"按钮已修复并通过真实浏览器复核
 - 教师：提交管理列表级重判、详情级提交重判和答案重判已修复并通过真实浏览器复核
-- 教师：成绩册"批量调整"、"导入"、"发布"功能未测试
+- 教师：成绩册"批量调整"、"导入"、"发布"已修复并通过真实浏览器复核
 - 教师：实验"创建实验"、"编辑"、"发布"、"报告查看"功能未测试
 - 学生：作业任务（/student/assignments）答题/提交未测试
 - 学生：编程工作区（/student/assignments/[id]/workspace/[id]）未测试
@@ -522,8 +534,8 @@ status: in-progress
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
 | just status | server/main clean；web/main 与 docs/main dirty（前端整改、测试和报告更新） |
 | just healthcheck-strict | 通过；严格 E2E 环境变量、后端 18080、前端 3000、后端 readiness/OpenAPI、前端登录页均可用 |
-| just verify | 通过；server 320 测试 0 失败，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
-| just e2e-real | 2026-06-06 05:19 CST 复跑通过，38 个真实后端 Playwright E2E 全部通过，耗时 3.4 分钟 |
+| just verify | 2026-06-06 06:30 CST 通过；server 320 测试 0 失败，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
+| just e2e-real | 2026-06-06 05:58 CST 复跑通过，38 个真实后端 Playwright E2E 全部通过，耗时 3.3 分钟 |
 | cd web && npm run lint | 通过 |
 | cd web && npm run typecheck | 通过 |
 | cd web && npm test -- src/tests/unit/admin/audit-logs-page.test.tsx | 1 文件 / 2 测试通过 |
@@ -547,3 +559,5 @@ status: in-progress
 | npm test -- src/tests/unit/api/mappers.contract.test.ts src/tests/unit/submission/teacher-submission-detail-page.test.tsx | 2 文件 / 9 测试通过 |
 | Playwright MCP 提交管理列表回归 | 教师真实会话 `/teacher/submissions?offeringId=1&assignmentId=414`，课程下拉约 280px、作业下拉约 492px；提交 `139` 状态显示 `已提交`；点击“重新判题提交 139”并确认后 `POST /api/v1/teacher/submissions/139/judge-jobs/requeue` 返回 201 |
 | Playwright MCP 提交详情重判回归 | 教师真实会话 `/teacher/submissions/139`，点击“提交级重判”先出现确认弹窗，确认后 `POST /api/v1/teacher/submissions/139/judge-jobs/requeue` 返回 201，job id=135；答案按钮可访问名称为“重判答案 E2E-mq1e6zib-89oubn-webide-real-flow-programming”，确认后 `POST /api/v1/teacher/submission-answers/490/judge-jobs/requeue` 返回 201，job id=136；随后 `GET /api/v1/teacher/submissions/139/judge-jobs` 返回 200，页面显示 5 个判题任务 |
+| npm test -- src/tests/unit/grading/teacher-gradebook-page.test.tsx | 1 文件 / 2 测试通过 |
+| Playwright MCP 成绩册调分/导入/发布回归 | 教师真实会话 `/teacher/grading/gradebook?offeringId=1&assignmentId=414`，筛选区桌面课程约 284px、教学班约 224px、作业约 368px；390px 视口四个筛选控件宽度均为 292px 且无横向溢出；空批量调分显示 3 个字段错误且未发送调分请求；确认批量调分前未发送请求，确认后 `POST /api/v1/teacher/assignments/414/grades/batch-adjust` 返回 200，随后 gradebook/report GET 200；历史补充验证：下载模板返回 `assignment-grades-414-template.csv`；CSV 导入返回 `successCount=1/failureCount=0` 并刷新；确认发布后 `POST /api/v1/teacher/assignments/414/grades/publish` 返回 200，`initialPublication=true`，刷新后 assignment 414 `gradePublished=true` |
