@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 04:44 CST，教师作业创建 / 编辑 / 发布链路已完成 Playwright MCP 真实浏览器回归；题库引用提交载荷和列表总分未知态缺陷已修复；`just e2e-real` 38/38 通过。
+- 最新补充：2026-06-06 05:19 CST，教师提交管理列表筛选、状态显示、列表级重判、详情级提交重判和答案重判已完成 Playwright MCP 真实浏览器回归；本轮新增缺陷已修复，`just verify` 与 `just e2e-real` 均通过。
 
 ## 2. 环境与账号
 
@@ -368,8 +368,12 @@ status: in-progress
 
 | 页面 | 角色 | 控件名称 | 控件类型 | 用户动作 | 预期结果 | 实际结果 | 持久化校验 | 状态 | 缺陷编号 |
 |------|------|----------|----------|----------|----------|----------|------------|------|----------|
-| /teacher/submissions | 教师 | 选择课程/作业下拉框 | select | 选择课程和作业 | 选中成功 | 选中成功 | — | 已真实操作通过 | — |
-| /teacher/submissions | 教师 | 查询按钮 | button | 点击查询 | 返回提交列表 | 返回 1 条提交记录 | — | 已真实操作通过 | — |
+| /teacher/submissions | 教师 | 选择课程/作业下拉框 | select | 选择课程和作业 | 选项文本可读，选中成功 | 修复后课程下拉宽度约 280px，作业下拉宽度约 492px，长作业标题完整可读 | Playwright MCP DOM bbox 复核 | 已真实操作通过 | BUG-20260606-006 |
+| /teacher/submissions | 教师 | 查询按钮 | button | 点击查询 | 返回提交列表 | 课程 `1` / 作业 `414` 返回提交 `139`，提交者 `807`，分数 `100` | 列表查询后 URL 保持 `offeringId=1&assignmentId=414` | 已真实操作通过 | — |
+| /teacher/submissions | 教师 | 状态列 | table cell | 查看提交 `139` 状态 | 后端 `SUBMITTED` 显示为中文业务状态 | 状态列显示 `已提交`，不再裸露枚举值 | 单元契约覆盖 `SUBMITTED -> 已提交` | 已真实操作通过 | BUG-20260606-007 |
+| /teacher/submissions | 教师 | 重新判题提交 139 | button | 点击重判→确认弹窗确认 | 先确认再创建手动重判任务 | `POST /api/v1/teacher/submissions/139/judge-jobs/requeue` 返回 201，响应 job id=133、`triggerType=MANUAL_REJUDGE` | 随后详情页判题任务列表出现新增任务 | 已真实操作通过 | — |
+| /teacher/submissions/139 | 教师 | 提交级重判按钮 | button | 点击重判→确认弹窗确认 | 先确认再创建提交级手动重判任务 | 弹窗标题“提交级重判”；确认后 `POST /api/v1/teacher/submissions/139/judge-jobs/requeue` 返回 201，响应 job id=135、`status=PENDING` | 随后 `GET /api/v1/teacher/submissions/139/judge-jobs` 返回 200，页面显示 5 个判题任务 | 已真实操作通过 | BUG-20260606-008 |
+| /teacher/submissions/139 | 教师 | 答案重判按钮 | button | 点击“重判答案 E2E-mq1e6zib-89oubn-webide-real-flow-programming”→确认 | 按钮可访问名称包含目标题目，先确认再创建答案级手动重判任务 | 弹窗说明包含题目名称；确认后 `POST /api/v1/teacher/submission-answers/490/judge-jobs/requeue` 返回 201，响应 job id=136、`status=PENDING` | 随后 `GET /api/v1/teacher/submissions/139/judge-jobs` 返回 200，页面显示 5 个判题任务 | 已真实操作通过 | BUG-20260606-008 |
 | /teacher/submissions/67 | 教师 | 保存批改按钮 | button | 输入分数→点击保存 | 批改保存成功 | Toast"人工批改已保存" | — | 已真实操作通过 | — |
 | /teacher/submissions/67 | 教师 | 下载报告按钮 | button | 点击下载 | 报告文件下载 | 文件 judge-job-60-report.json 下载 | 文件存在 | 已真实操作通过 | — |
 
@@ -429,9 +433,9 @@ status: in-progress
 |---|----------|------|------|------|
 | ML-1 | 管理员初始化 | 平台配置✅ 组织架构⚠️ 用户✅ 学期✅ 课程模板✅ 开课✅ 用户详情✅ | 部分通过 | 见 5.1-5.7 |
 | ML-2 | 教师教学准备 | 公告✅ 讨论✅ 资源下载✅ 资源重命名✅ 资源空标题校验✅ 通知已读✅ 题库筛选✅ 题库新增自动刷新✅ 关闭作业✅ 资源上传✅ 资源删除✅ 讨论锁定✅ 讨论解锁✅ | 部分通过 | 见 5.10-5.25 |
-| ML-3 | 教师创建作业 | 创建作业✅ 编辑作业✅ 发布作业✅ 关闭作业✅ 查看提交✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 关闭实验✅；提交级重判 / 答案重判、成绩册批量能力仍按风险项补测 | 部分通过 | 见 5.20-5.24 |
+| ML-3 | 教师创建作业 | 创建作业✅ 编辑作业✅ 发布作业✅ 关闭作业✅ 查看提交✅ 提交级重判✅ 答案重判✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 关闭实验✅；成绩册批量能力仍按风险项补测 | 部分通过 | 见 5.20-5.24 |
 | ML-4 | 学生答题 | 作业列表✅ 作业详情✅ 编程工作区（403）⚠️ 实验报告✅ | 部分通过 | 见 5.25-5.26 |
-| ML-5 | 评测批改 | 人工批改✅ 下载报告✅ | 部分通过 | 见 5.22 |
+| ML-5 | 评测批改 | 状态中文展示✅ 提交级重判✅ 答案重判✅ 人工批改✅ 下载报告✅ | 通过 | 见 5.22 |
 | ML-6 | 学生查看成绩 | 选择课程✅ 导出成绩✅ | 部分通过 | 见 5.18 |
 | ML-7 | 实验流程 | 学生保存草稿✅ 上传附件✅ 正式提交✅；教师评阅发布待本报告补测 | 部分通过 | 见 5.26 |
 | ML-8 | 通知流转 | 教师通知已读✅ 学生通知已读✅ 学生创建讨论✅ 学生回复讨论✅ | 部分通过 | 见 5.15-5.19 |
@@ -490,6 +494,9 @@ status: in-progress
 | BUG-20260606-003 | P2 | /teacher/courses/1/question-bank | 新增题目成功后题库列表、分类、标签筛选未自动刷新 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-004 | P1 | /teacher/assignments/create, /teacher/assignments/[assignmentId]/edit | 引用题库题目创建 / 编辑作业时提交了题干、题型、配置等多余字段，后端返回 400 `ASSIGNMENT_QUESTION_BANK_REFERENCE_INVALID` | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-005 | P3 | /teacher/assignments | 作业列表接口未返回 `paper` 时总分列误显示 0，容易被误认为作业 0 分 | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-006 | P2 | /teacher/submissions | 提交管理筛选区作业下拉框宽度被压缩，长作业标题不可读 | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-007 | P3 | /teacher/submissions | 提交列表直接显示后端枚举 `SUBMITTED`，未映射为中文业务状态 | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-008 | P2 | /teacher/submissions/[submissionId] | 详情页提交级重判 / 答案重判直接触发，缺少确认；答案重判按钮缺少目标题目标识 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 
 ## 12. 修复计划
 
@@ -498,7 +505,7 @@ status: in-progress
 ## 13. 未覆盖项与风险
 
 - 教师：题库"编辑题目"按钮已修复并通过真实浏览器复核
-- 教师：提交"提交级重判"、"答案重判"功能未测试
+- 教师：提交管理列表级重判、详情级提交重判和答案重判已修复并通过真实浏览器复核
 - 教师：成绩册"批量调整"、"导入"、"发布"功能未测试
 - 教师：实验"创建实验"、"编辑"、"发布"、"报告查看"功能未测试
 - 学生：作业任务（/student/assignments）答题/提交未测试
@@ -514,7 +521,9 @@ status: in-progress
 |------|------|
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
 | just status | server/main clean；web/main 与 docs/main dirty（前端整改、测试和报告更新） |
-| just e2e-real | 2026-06-06 04:44 CST 复跑通过，38 个真实后端 Playwright E2E 全部通过，耗时约 3.3 分钟 |
+| just healthcheck-strict | 通过；严格 E2E 环境变量、后端 18080、前端 3000、后端 readiness/OpenAPI、前端登录页均可用 |
+| just verify | 通过；server 320 测试 0 失败，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
+| just e2e-real | 2026-06-06 05:19 CST 复跑通过，38 个真实后端 Playwright E2E 全部通过，耗时 3.4 分钟 |
 | cd web && npm run lint | 通过 |
 | cd web && npm run typecheck | 通过 |
 | cd web && npm test -- src/tests/unit/admin/audit-logs-page.test.tsx | 1 文件 / 2 测试通过 |
@@ -535,3 +544,6 @@ status: in-progress
 | Playwright MCP 题库新增自动刷新回归 | 教师真实会话创建 `MCP-QUESTION-0606-0402`，`POST /api/v1/teacher/course-offerings/1/question-bank/questions` 返回 201，随后自动拉取 questions/categories/tags，当前列表显示新题且标签筛选出现 `autorefresh` |
 | npm test -- src/tests/unit/api/mappers.contract.test.ts src/tests/unit/assignment/assignment-form.test.ts | 2 文件 / 10 测试通过 |
 | Playwright MCP 作业创建 / 编辑 / 发布回归 | 教师真实会话先复现题库引用作业创建 400 `ASSIGNMENT_QUESTION_BANK_REFERENCE_INVALID`；修复后创建 `MCP 作业回归 0606-0413` id=402 成功，`POST /api/v1/teacher/course-offerings/1/assignments` 返回 201；编辑标题后 `PUT /api/v1/teacher/assignments/402` 返回 200；确认发布后 `POST /api/v1/teacher/assignments/402/publish` 返回 200，列表显示已发布，发布按钮禁用、关闭按钮启用 |
+| npm test -- src/tests/unit/api/mappers.contract.test.ts src/tests/unit/submission/teacher-submission-detail-page.test.tsx | 2 文件 / 9 测试通过 |
+| Playwright MCP 提交管理列表回归 | 教师真实会话 `/teacher/submissions?offeringId=1&assignmentId=414`，课程下拉约 280px、作业下拉约 492px；提交 `139` 状态显示 `已提交`；点击“重新判题提交 139”并确认后 `POST /api/v1/teacher/submissions/139/judge-jobs/requeue` 返回 201 |
+| Playwright MCP 提交详情重判回归 | 教师真实会话 `/teacher/submissions/139`，点击“提交级重判”先出现确认弹窗，确认后 `POST /api/v1/teacher/submissions/139/judge-jobs/requeue` 返回 201，job id=135；答案按钮可访问名称为“重判答案 E2E-mq1e6zib-89oubn-webide-real-flow-programming”，确认后 `POST /api/v1/teacher/submission-answers/490/judge-jobs/requeue` 返回 201，job id=136；随后 `GET /api/v1/teacher/submissions/139/judge-jobs` 返回 200，页面显示 5 个判题任务 |
