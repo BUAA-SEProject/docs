@@ -296,6 +296,7 @@ status: in-progress
 | /teacher/courses/1/judge-environments | 教师 | 新增配置正常路径 | button/form | 填写 Go 1.22 配置后点击创建 | 创建成功并出现在列表 | Toast“判题环境已保存”，新配置显示在 Go 1.22 列表 | `POST /teacher/course-offerings/1/judge-environment-profiles` 返回 201 | 已真实操作通过 | — |
 | /teacher/courses/1/judge-environments | 教师 | 编辑配置按钮 | button/dialog | 点击新配置行的编辑按钮 | 打开编辑弹窗并带入已有值 | “编辑配置”弹窗带入配置编码、名称、语言 Go 1.22、语言版本和运行命令；保存后 Toast“判题环境已更新” | `PUT /teacher/judge-environment-profiles/{id}` 返回 200 | 已真实操作通过 | — |
 | /teacher/courses/1/judge-environments | 教师 | 归档配置按钮 | button/dialog | 点击归档并确认 | 归档成功，默认列表隐藏，包含归档后显示已归档状态 | 确认文案包含配置名；Toast“判题环境已归档”；默认筛选下记录隐藏，勾选包含归档后状态为“已归档”，行内不再显示归档按钮 | `POST /teacher/judge-environment-profiles/{id}/archive` 返回 200；包含归档查询返回 200 | 已真实操作通过 | — |
+| /teacher/courses/{offeringId}/judge-environments | 教师 | 移动端判题环境筛选与弹窗 | viewport/select/dialog/button | 390x844 视口打开判题环境页，筛选 Python 3 长名称配置并检查行操作、归档确认、新增配置 Dialog | 主操作、筛选和行操作触控高度不低于 44px，长配置名不造成整页横向溢出，确认与 Dialog 不超出视口 | 修复前“新增配置”按钮高度仅 36px；修复后 `documentWidth/bodyWidth <= 390`，语言筛选 / 包含归档 / 查询可用，长配置名编辑 / 归档按钮可见且触控高度达标 | API 临时创建长名称判题环境，`POST /api/v1/teacher/course-offerings/{offeringId}/judge-environment-profiles` 返回 201；用例结束调用归档接口清理当前测试配置 | 辅助回归通过，待 MCP 复核 | BUG-20260606-019 |
 
 ### 5.15 教师 - 通知公告
 
@@ -506,6 +507,7 @@ status: in-progress
 | 教师 | 390x844 | /teacher/courses/{offeringId}/resources | ✅ 长标题资源可见，上传入口与编辑资源操作可见，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/members | ✅ 筛选控件可通过 label 定位，长名称成员行操作可见，停用确认 / 添加成员 / 批量导入 Dialog 在视口内，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/question-bank | ✅ 筛选控件可通过 label 定位，长标题题目行操作、归档确认和新增题目 Dialog 可见，`documentWidth/bodyWidth <= 390` |
+| 教师 | 390x844 | /teacher/courses/{offeringId}/judge-environments | ✅ 语言筛选 / 包含归档 / 查询可用，长配置名行操作、归档确认和新增配置 Dialog 可见，`documentWidth/bodyWidth <= 390` |
 | 管理员 | 390x844 | 汉堡菜单 | ✅ 点击打开/关闭正常，所有导航链接可见 |
 | 教师 | 390x844 | /teacher | ✅ 页面加载成功 |
 | 学生 | 390x844 | /student | ✅ 页面加载成功 |
@@ -542,10 +544,11 @@ status: in-progress
 | BUG-20260606-016 | P2 | /student/courses/[classId] | 学生越权访问非所属教学班时虽显示 403 权限错误，但讨论创建表单仍可见 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 | BUG-20260606-017 | P2 | /teacher/courses/[offeringId]/members | 成员管理筛选控件缺少可访问 label，移动端 Dialog 缺少稳定视口宽高约束 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 | BUG-20260606-018 | P2 | /teacher/courses/[offeringId]/question-bank | 题库移动端筛选控件缺少可访问 label、触控高度不足，长题目行操作目标偏小 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
+| BUG-20260606-019 | P2 | /teacher/courses/[offeringId]/judge-environments | 判题环境移动端主操作、筛选和行操作触控高度不足，长配置名缺少稳定断行 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 
 ## 12. 修复计划
 
-- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构、课程越权、教师成员管理移动端和教师题库移动端批次。
+- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构、课程越权、教师成员管理移动端、教师题库移动端和教师判题环境移动端批次。
 - 继续按小批次补齐移动端视口覆盖，优先选择学生长链路和教师内容管理中尚未做 390px 回归的页面。
 - 对报告中历史固定 ID 的学生课程 / 工作区记录做一次数据口径整理，避免旧测试数据与动态 fixture 混用造成误读。
 
@@ -560,7 +563,7 @@ status: in-progress
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"已补测并修复列表刷新问题
 - 学生：跨角色权限负例（访问非所属教学班课程内容）已补测并修复讨论创建入口暴露问题；MCP 待恢复后复核
-- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/teacher/courses/{offeringId}/members`、`/teacher/courses/{offeringId}/question-bank`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
+- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/teacher/courses/{offeringId}/members`、`/teacher/courses/{offeringId}/question-bank`、`/teacher/courses/{offeringId}/judge-environments`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
 
 ## 14. 命令与日志证据
 
@@ -569,6 +572,7 @@ status: in-progress
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
 | just status | 2026-06-06 本轮开始：server/main clean；web/main clean ahead 18；docs/main clean ahead 21；root dirty workspace no |
 | just status | 2026-06-06 题库移动端批次开始：server/main clean；web/main clean ahead 19；docs/main clean ahead 22；root dirty workspace no |
+| just status | 2026-06-06 判题环境移动端批次开始：server/main clean；web/main clean ahead 20；docs/main clean ahead 23；root dirty workspace no |
 | just healthcheck-strict | 通过；严格 E2E 环境变量、后端 18080、前端 3000、后端 readiness/OpenAPI、前端登录页均可用 |
 | just verify | 2026-06-06 10:37 CST 通过；server 320 测试 0 失败 / 0 错误，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
 | just verify | 2026-06-06 11:08 CST 通过；server 320 测试 0 失败 / 0 错误 / 0 跳过，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
@@ -618,3 +622,9 @@ status: in-progress
 | npm test -- --run src/tests/unit/assignment/question-bank-page.test.tsx | 题库页面单测 1 文件 / 2 测试通过 |
 | cd web && npm run lint | 2026-06-06 题库移动端批次通过 |
 | cd web && npm run typecheck | 2026-06-06 题库移动端批次通过 |
+| 真实后端 Playwright 教师判题环境移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。新增 `teacher-course-judge-environments-mobile-real-flow.spec.ts` 先 RED 于“新增配置”按钮高度仅 36px；修复后 390x844 视口打开动态教师课程判题环境页，API 临时创建长配置名环境，筛选和主/行操作触控高度不低于 44px，长配置名行操作可见，归档确认和新增配置 Dialog 在视口内，`documentWidth/bodyWidth <= 390`；chromium 项目 1 个用例通过 |
+| npm run test:e2e -- src/tests/e2e/teacher-course-judge-environments-mobile-real-flow.spec.ts --project=chromium | 2026-06-06 11:24 CST 真实后端辅助复跑通过；chromium 1 个用例通过（仅 Node `module.register()` deprecation warning） |
+| npm test -- --run src/tests/unit/course/teacher-judge-environments-page.test.tsx | 判题环境页面单测 1 文件 / 4 测试通过 |
+| cd web && npm run lint | 2026-06-06 判题环境移动端批次通过 |
+| cd web && npm run typecheck | 2026-06-06 判题环境移动端批次通过 |
+| just verify | 2026-06-06 11:22 CST 通过；server 320 测试 0 失败 / 0 错误 / 0 跳过，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
