@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 06:17 CST，教师成绩册筛选布局、批量调分确认与 390px 移动端无横向溢出已完成 Playwright MCP 真实浏览器回归；本轮新增缺陷已修复，前端定向测试、lint/typecheck 已通过。
+- 最新补充：2026-06-06 09:09 CST，学生 WebIDE 历史恢复按钮目标命名与重置确认路径已补充真实后端 Playwright 辅助回归；本轮定向测试、lint/typecheck、docs build 和 `just verify` 均已通过。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
 
 ## 2. 环境与账号
 
@@ -430,6 +430,8 @@ status: in-progress
 | /student/assignments/9/workspace/23 | 学生 | 提交按钮 | button | — | — | 可见（作业已过期，工作区 403） | — | 受阻未测（作业过期） | — |
 | /student/assignments/439 | 学生 | 结构化答题表单 | radio/checkbox/input/textarea/file/link/button | 临时学生打开未过期作业，填写单选 A、多选 A/B、填空 `-1`、Markdown 简答，上传 `assignment-402-requests.txt`，打开 IDE 后返回并提交 | 单选/多选/填空/简答/文件/编程 6 类答案一起提交成功 | `POST /api/v1/me/assignments/439/submission-artifacts` 返回 201，详情页恢复草稿；提交后跳转 `/student/submissions/148`，显示 `SUBMITTED`、附件和 6 个答案 | `POST /api/v1/me/assignments/439/submissions` 返回 201，请求体包含 question 1515-1520 全部答案、artifact id 86 和 `main.py`；响应 submission id=148，单选/多选/填空自动判分 5/8/7 | 已真实操作通过 | — |
 | /student/assignments/439/workspace/1520 | 学生 | 保存 / 运行自测 | button | 打开编程题 IDE，保存模板 `main.py`，点击运行自测 | 工作区可访问、可保存、样例运行通过 | 页面显示 `main.py`、`Language: PYTHON3`、可编辑；运行结果显示“已完成 / 通过 / ACCEPTED”，stdout 为 `3` | `GET /workspace` 200，`PUT /workspace` 200，`POST /sample-runs` 201，`GET /sample-runs` 200 | 已真实操作通过 | — |
+| /student/assignments/439/workspace/1520 | 学生 | 历史恢复按钮 | button/dialog | 打开历史版本，点击目标历史版本的恢复按钮 | 多个恢复按钮能区分目标版本，恢复后有明确反馈 | 修复后恢复按钮名称包含目标版本和保存类型，如 `恢复历史版本 v2 手动保存`；点击后显示“历史版本已恢复” | 真实后端 Playwright 辅助回归覆盖历史列表、恢复点击、后续保存/运行/提交链路；Playwright MCP 当前 `Transport closed` | 辅助回归通过，待 MCP 复核 | BUG-20260606-015 |
+| /student/assignments/439/workspace/1520 | 学生 | 重置为模板确认 | button/alertdialog | 点击重置，先取消，再再次点击并确认 | 危险操作先确认，取消不生效，确认后重置为模板且可继续编辑 | 点击“重置”显示“重置为模板”确认弹窗；取消后弹窗关闭；确认后显示“已重置模板”，重新填写代码后仍可保存、运行自测并提交 | 真实后端 Playwright 辅助回归覆盖取消/确认两条路径；Playwright MCP 当前 `Transport closed` | 辅助回归通过，待 MCP 复核 | BUG-20260606-015 |
 | /student/assignments | 学生 | 移动端作业卡片 | viewport/link | 390x844 视口刷新作业列表 | 无横向溢出，卡片纵向排布，状态和目标明确的开始做题入口可见 | `documentWidth=390`，首个卡片宽度 326；状态在移动端可见；链接名称为 `开始做题 <作业标题>`，控制台错误 0 | — | 已真实操作通过 | BUG-20260606-013 |
 
 ### 5.26 学生 - 实验项目
@@ -523,6 +525,7 @@ status: in-progress
 | BUG-20260606-012 | P2 | /teacher/labs | 实验中心行操作 / 报告行操作按钮目标不可区分，创建 / 编辑实验空标题静默无反馈，弹窗缺少描述 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-013 | P2 | /student/assignments | 移动端作业卡片仍左右排布导致标题被压缩，所有“开始做题”链接名称相同且无法区分目标作业 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-014 | P2 | /student/notifications | “全部已读”接口成功且未读徽章清零后，分页通知列表未失效刷新，行内“标记已读”仍保留 | 已修复，2026-06-06 真实浏览器补充回归通过；Playwright MCP 当前 `Transport closed`，已记录工具降级 |
+| BUG-20260606-015 | P3 | /student/assignments/[assignmentId]/workspace/[questionId] | 历史版本列表多个“恢复”按钮目标不可区分，重置确认路径缺少回归记录 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 
 ## 12. 修复计划
 
@@ -535,7 +538,7 @@ status: in-progress
 - 教师：成绩册"批量调整"、"导入"、"发布"已修复并通过真实浏览器复核
 - 教师：实验"创建实验"、"编辑"、"发布"、"报告查看"、"评阅发布"已修复并通过真实浏览器复核
 - 学生：作业任务（/student/assignments）结构化答题/提交已在 5.26 用 Playwright MCP 回归验证
-- 学生：编程工作区保存/运行和正式提交编程答案已在 5.26 用 Playwright MCP 回归验证；重置/历史恢复仍待补测
+- 学生：编程工作区保存/运行和正式提交编程答案已在 5.26 用 Playwright MCP 回归验证；重置/历史恢复已用真实后端 Playwright 辅助回归补测，MCP 待恢复后复核
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"已补测并修复列表刷新问题
 - 移动端视口仍仅局部覆盖；本轮补充 `/teacher/labs` 与 `/student/assignments` 390px 无横向溢出和控件名称检查
@@ -548,7 +551,7 @@ status: in-progress
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
 | just status | server/main clean；web/main 与 docs/main dirty（前端整改、测试和报告更新） |
 | just healthcheck-strict | 通过；严格 E2E 环境变量、后端 18080、前端 3000、后端 readiness/OpenAPI、前端登录页均可用 |
-| just verify | 2026-06-06 06:30 CST 通过；server 320 测试 0 失败，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
+| just verify | 2026-06-06 09:09 CST 通过；server 320 测试 0 失败 / 0 错误，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
 | just e2e-real | 2026-06-06 05:58 CST 复跑通过，38 个真实后端 Playwright E2E 全部通过，耗时 3.3 分钟 |
 | cd web && npm run lint | 通过 |
 | cd web && npm run typecheck | 通过 |
@@ -581,3 +584,5 @@ status: in-progress
 | Playwright MCP 学生作业移动端回归 | 学生真实会话 `/student/assignments`，390x844 视口 `documentWidth=390` / `bodyWidth=390`，`GET /api/v1/me/assignments` 返回 200，控制台错误 0；前三张作业卡片宽度 326px，类名包含 `flex-col` / `sm:flex-row`；“开始做题”链接名称分别包含对应作业标题并指向各自作业详情 |
 | npm test -- src/tests/unit/api/query-keys.contract.test.ts | RED：新增通知 inbox 前缀契约时失败于 `["notification","inbox", undefined]`；修复后 1 文件 / 5 测试通过 |
 | 真实浏览器学生通知全部已读补充回归 | Playwright MCP 当前返回 `Transport closed`，本轮降级使用 Codex in-app Browser 操作真实本地页面；学生真实会话 `/student/notifications` 中临时实验 `MCP 通知全部已读回归 mq1lx8tk` 生成 1 条未读通知，点击“全部已读”前行内“标记已读”按钮数量为 1，点击后为 0，顶部未读徽标消失；后端只读校验目标通知 `id=991`、`read=true`、`unreadCount=0`、`firstUnreadId=null`；浏览器控制台 error 数 0 |
+| npm test -- src/tests/unit/submission/programming-workspace-page.test.tsx | RED：新增历史恢复按钮目标命名单测时失败，页面仅暴露重复的“恢复”按钮；修复后 1 文件 / 1 测试通过 |
+| 真实后端 Playwright 学生 WebIDE 辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。学生 WebIDE 完成编辑/保存、历史版本目标命名与恢复、重置取消与确认、重置后重新保存、运行自测、正式提交；`webide-real-flow.spec.ts` chromium 项目 1 个用例通过 |
