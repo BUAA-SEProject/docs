@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 09:19 CST，管理员组织架构子节点 Dialog 已补充真实后端 Playwright 辅助回归；从学校根节点创建学院返回 201 并刷新树。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
+- 最新补充：2026-06-06 09:34 CST，学生访问非所属教学班课程内容的跨角色权限负例已补充真实后端 Playwright 辅助回归；公告、资源、讨论接口均返回 403，页面显示权限错误并隐藏讨论创建入口。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
 
 ## 2. 环境与账号
 
@@ -310,6 +310,7 @@ status: in-progress
 | /student/courses/1 | 学生 | 讨论标题输入框 | input | 输入"E2E-FULLRUN 学生测试讨论" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /student/courses/1 | 学生 | 讨论内容输入框 | textarea | 输入测试内容 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /student/courses/1 | 学生 | 创建讨论按钮 | button | 点击创建 | 讨论创建成功 | 新讨论出现在列表，链接到 /student/courses/1/discussions/18 | 刷新后仍可见 | 已真实操作通过 | — |
+| /student/courses/{非所属教学班} | 学生 | 跨班级课程内容 | page/API | 学生打开未加入的教学班课程页 | 公告、资源、讨论均显示清晰无权访问状态，不暴露可提交讨论入口 | 页面显示“无权访问课程公告/课程资源/课程讨论，请确认已加入此课程”，讨论标题输入框与“创建讨论”按钮隐藏 | `GET /api/v1/me/course-classes/{classId}/announcements`、`resources`、`discussions` 均返回 403 | 辅助回归通过，待 MCP 复核 | BUG-20260606-016 |
 
 ### 5.17 学生 - 讨论详情
 
@@ -526,10 +527,13 @@ status: in-progress
 | BUG-20260606-013 | P2 | /student/assignments | 移动端作业卡片仍左右排布导致标题被压缩，所有“开始做题”链接名称相同且无法区分目标作业 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-014 | P2 | /student/notifications | “全部已读”接口成功且未读徽章清零后，分页通知列表未失效刷新，行内“标记已读”仍保留 | 已修复，2026-06-06 真实浏览器补充回归通过；Playwright MCP 当前 `Transport closed`，已记录工具降级 |
 | BUG-20260606-015 | P3 | /student/assignments/[assignmentId]/workspace/[questionId] | 历史版本列表多个“恢复”按钮目标不可区分，重置确认路径缺少回归记录 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
+| BUG-20260606-016 | P2 | /student/courses/[classId] | 学生越权访问非所属教学班时虽显示 403 权限错误，但讨论创建表单仍可见 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 
 ## 12. 修复计划
 
-（待阶段 4 补充）
+- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构和课程越权批次。
+- 继续按小批次补齐移动端视口覆盖，优先选择学生长链路和教师内容管理中尚未做 390px 回归的页面。
+- 对报告中历史固定 ID 的学生课程 / 工作区记录做一次数据口径整理，避免旧测试数据与动态 fixture 混用造成误读。
 
 ## 13. 未覆盖项与风险
 
@@ -541,8 +545,8 @@ status: in-progress
 - 学生：编程工作区保存/运行和正式提交编程答案已在 5.26 用 Playwright MCP 回归验证；重置/历史恢复已用真实后端 Playwright 辅助回归补测，MCP 待恢复后复核
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"已补测并修复列表刷新问题
+- 学生：跨角色权限负例（访问非所属教学班课程内容）已补测并修复讨论创建入口暴露问题；MCP 待恢复后复核
 - 移动端视口仍仅局部覆盖；本轮补充 `/teacher/labs` 与 `/student/assignments` 390px 无横向溢出和控件名称检查
-- 跨角色权限负例（学生访问其他班级课程内容）未测试
 
 ## 14. 命令与日志证据
 
@@ -551,7 +555,7 @@ status: in-progress
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
 | just status | server/main clean；web/main 与 docs/main dirty（前端整改、测试和报告更新） |
 | just healthcheck-strict | 通过；严格 E2E 环境变量、后端 18080、前端 3000、后端 readiness/OpenAPI、前端登录页均可用 |
-| just verify | 2026-06-06 09:09 CST 通过；server 320 测试 0 失败 / 0 错误，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
+| just verify | 2026-06-06 09:43 CST 通过；server 320 测试 0 失败 / 0 错误，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
 | just e2e-real | 2026-06-06 05:58 CST 复跑通过，38 个真实后端 Playwright E2E 全部通过，耗时 3.3 分钟 |
 | cd web && npm run lint | 通过 |
 | cd web && npm run typecheck | 通过 |
@@ -588,3 +592,4 @@ status: in-progress
 | 真实后端 Playwright 学生 WebIDE 辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。学生 WebIDE 完成编辑/保存、历史版本目标命名与恢复、重置取消与确认、重置后重新保存、运行自测、正式提交；`webide-real-flow.spec.ts` chromium 项目 1 个用例通过 |
 | 真实后端 Playwright 管理员用户导入辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。管理员真实会话 `/admin/users` 点击“批量导入”打开文件选择器，上传重复用户名 CSV 后 `POST /api/v1/admin/users/import` 返回 200，响应 `total=1/success=0/failed=1`，页面展示“导入 1 行，成功 0 行，失败 1 行。”和第 2 行错误；`admin-users-real-flow.spec.ts` chromium 项目 1 个用例通过 |
 | 真实后端 Playwright 管理员组织架构辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。管理员真实会话 `/admin/org-units` 从学校根节点点击“新增子节点”，Dialog 标题为“在 [学校名] 下新增子节点”，节点类型默认 `COLLEGE`，填写学院名称/编码后 `POST /api/v1/admin/org-units` 返回 201，树中显示新学院；`admin-org-units-real-flow.spec.ts` chromium 项目 1 个用例通过 |
+| 真实后端 Playwright 学生课程越权辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。动态学生访问非所属教学班课程页时，公告、资源、讨论 API 均返回 403，页面显示三处权限错误并隐藏讨论标题输入框和“创建讨论”按钮；`student-course-permission-real-flow.spec.ts` chromium 项目 RED 失败于按钮仍可见，修复后 1 个用例通过 |
