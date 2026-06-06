@@ -283,6 +283,7 @@ status: in-progress
 | /teacher/courses/1/question-bank | 教师 | 新增题目按钮 | button | 填写标题/题干/分值/分类/标签→点击创建 | 题目创建成功并刷新题库列表、分类、标签 | 创建 `MCP-QUESTION-0606-0402` 后页面无需手动查询即显示新题，标签筛选新增 `autorefresh` | `POST /api/v1/teacher/course-offerings/1/question-bank/questions` 返回 201，随后自动触发 questions/categories/tags GET 200；刷新后 `MCP-QUESTION-0606-0356` 仍可见 | 已真实操作通过 | BUG-20260606-003 |
 | /teacher/courses/1/question-bank | 教师 | 编辑题目按钮 | button | 点击编辑 | 弹出编辑对话框 | 点击“编辑题目 E2E-FULLRUN 新增测试题目”后打开“编辑题目”Dialog，并带入原题目标题和分值 | Playwright MCP DOM 读取 Dialog 标题、描述、`#question-title` 与 `#question-score` | 已真实操作通过 | BUG-20260605-006 |
 | /teacher/courses/1/question-bank | 教师 | 编辑 / 归档行操作名称 | button | 读取题目列表行操作名称 | 每个按钮都能区分对应题目 | 前 3 行按钮均具备“编辑题目 <标题> / 归档题目 <标题>”的 `aria-label` 与 `title` | Playwright MCP DOM 读取 `main table button` 的 `aria-label` / `title`；单元测试覆盖“二叉树遍历”行 | 已真实操作通过 | — |
+| /teacher/courses/{offeringId}/question-bank | 教师 | 移动端题库筛选与弹窗 | viewport/input/select/dialog/button | 390x844 视口打开题库页，搜索长标题题目并检查筛选、行操作、归档确认、新增题目 Dialog | 筛选控件可通过 label 定位，控件触控高度不低于 44px，长题目不造成整页横向溢出，确认与 Dialog 不超出视口 | 修复前搜索框无法通过“搜索题目”可访问名称定位；修复后 `documentWidth/bodyWidth <= 390`，类型 / 分类 / 标签 / 包含归档均可由 label 定位，长标题题目的编辑 / 归档按钮可见且触控高度达标 | API 临时创建长标题题目，`POST /api/v1/teacher/course-offerings/{offeringId}/question-bank/questions` 返回 201；用例结束调用归档接口清理当前测试题 | 辅助回归通过，待 MCP 复核 | BUG-20260606-018 |
 | /teacher/courses/1/question-bank | 教师 | 归档按钮 | button | 点击归档 | 题目归档 | Toast"题目已归档" | — | 已真实操作通过 | — |
 
 ### 5.14 教师 - 判题环境
@@ -504,6 +505,7 @@ status: in-progress
 | 教师 | 390x844 | /teacher/courses/{offeringId}/discussions | ✅ 长标题讨论链接可见，创建入口与锁定讨论操作可见，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/resources | ✅ 长标题资源可见，上传入口与编辑资源操作可见，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/members | ✅ 筛选控件可通过 label 定位，长名称成员行操作可见，停用确认 / 添加成员 / 批量导入 Dialog 在视口内，`documentWidth/bodyWidth <= 390` |
+| 教师 | 390x844 | /teacher/courses/{offeringId}/question-bank | ✅ 筛选控件可通过 label 定位，长标题题目行操作、归档确认和新增题目 Dialog 可见，`documentWidth/bodyWidth <= 390` |
 | 管理员 | 390x844 | 汉堡菜单 | ✅ 点击打开/关闭正常，所有导航链接可见 |
 | 教师 | 390x844 | /teacher | ✅ 页面加载成功 |
 | 学生 | 390x844 | /student | ✅ 页面加载成功 |
@@ -539,10 +541,11 @@ status: in-progress
 | BUG-20260606-015 | P3 | /student/assignments/[assignmentId]/workspace/[questionId] | 历史版本列表多个“恢复”按钮目标不可区分，重置确认路径缺少回归记录 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 | BUG-20260606-016 | P2 | /student/courses/[classId] | 学生越权访问非所属教学班时虽显示 403 权限错误，但讨论创建表单仍可见 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 | BUG-20260606-017 | P2 | /teacher/courses/[offeringId]/members | 成员管理筛选控件缺少可访问 label，移动端 Dialog 缺少稳定视口宽高约束 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
+| BUG-20260606-018 | P2 | /teacher/courses/[offeringId]/question-bank | 题库移动端筛选控件缺少可访问 label、触控高度不足，长题目行操作目标偏小 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 
 ## 12. 修复计划
 
-- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构、课程越权和教师成员管理移动端批次。
+- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构、课程越权、教师成员管理移动端和教师题库移动端批次。
 - 继续按小批次补齐移动端视口覆盖，优先选择学生长链路和教师内容管理中尚未做 390px 回归的页面。
 - 对报告中历史固定 ID 的学生课程 / 工作区记录做一次数据口径整理，避免旧测试数据与动态 fixture 混用造成误读。
 
@@ -557,7 +560,7 @@ status: in-progress
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"已补测并修复列表刷新问题
 - 学生：跨角色权限负例（访问非所属教学班课程内容）已补测并修复讨论创建入口暴露问题；MCP 待恢复后复核
-- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/teacher/courses/{offeringId}/members`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
+- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/teacher/courses/{offeringId}/members`、`/teacher/courses/{offeringId}/question-bank`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
 
 ## 14. 命令与日志证据
 
@@ -565,8 +568,10 @@ status: in-progress
 |------|------|
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
 | just status | 2026-06-06 本轮开始：server/main clean；web/main clean ahead 18；docs/main clean ahead 21；root dirty workspace no |
+| just status | 2026-06-06 题库移动端批次开始：server/main clean；web/main clean ahead 19；docs/main clean ahead 22；root dirty workspace no |
 | just healthcheck-strict | 通过；严格 E2E 环境变量、后端 18080、前端 3000、后端 readiness/OpenAPI、前端登录页均可用 |
 | just verify | 2026-06-06 10:37 CST 通过；server 320 测试 0 失败 / 0 错误，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
+| just verify | 2026-06-06 11:08 CST 通过；server 320 测试 0 失败 / 0 错误 / 0 跳过，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
 | just e2e-real | 2026-06-06 05:58 CST 复跑通过，38 个真实后端 Playwright E2E 全部通过，耗时 3.3 分钟 |
 | cd web && npm run lint | 通过 |
 | cd web && npm run typecheck | 通过 |
@@ -608,3 +613,8 @@ status: in-progress
 | 真实后端 Playwright 教师课程资源移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态教师课程资源页，API 临时上传长标题资源，页面显示该资源、上传入口和“编辑资源 <标题>”按钮，`documentWidth/bodyWidth <= 390`，用例结束清理临时资源；`teacher-course-resources-mobile-real-flow.spec.ts` chromium 项目 1 个用例通过 |
 | 真实后端 Playwright 教师公告讨论移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态教师课程公告与讨论页，API 临时创建长标题公告和讨论，公告页显示发布入口、长标题公告和“编辑公告 <标题>”按钮，讨论页显示创建入口、长标题讨论链接和“锁定讨论 <标题>”按钮，两个页面 `documentWidth/bodyWidth <= 390`；公告在用例结束清理，讨论因当前无删除接口保留 E2E 前缀残留；`teacher-course-content-mobile-real-flow.spec.ts` chromium 项目 1 个用例通过 |
 | 真实后端 Playwright 教师成员管理移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态教师课程成员管理页，API 临时创建长名称学生并加入课程，页面筛选控件可通过“搜索 / 教学班 / 角色 / 状态”定位，长名称成员的停用与转班操作可见，停用确认、添加成员和批量导入 Dialog 均在视口内，`documentWidth/bodyWidth <= 390`；`teacher-course-members-mobile-real-flow.spec.ts` chromium 项目 RED 后修复并通过 |
+| Playwright MCP 可用性检查 | 2026-06-06 题库移动端批次调用 `browser_tabs list` 仍返回 `Transport closed`，本轮真实浏览器证据降级为本地真实后端 Playwright 辅助回归，待 MCP 恢复后复核 |
+| 真实后端 Playwright 教师题库移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。新增 `teacher-course-question-bank-mobile-real-flow.spec.ts` 先 RED 于搜索框无法通过“搜索题目”可访问名称定位；修复后 390x844 视口打开动态教师课程题库页，API 临时创建长标题题目，筛选控件可通过 label 定位且高度不低于 44px，长标题题目行操作可见，归档确认和新增题目 Dialog 在视口内，`documentWidth/bodyWidth <= 390`；chromium 项目 1 个用例通过 |
+| npm test -- --run src/tests/unit/assignment/question-bank-page.test.tsx | 题库页面单测 1 文件 / 2 测试通过 |
+| cd web && npm run lint | 2026-06-06 题库移动端批次通过 |
+| cd web && npm run typecheck | 2026-06-06 题库移动端批次通过 |
