@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 10:37 CST，教师课程成员管理页 390px 移动端辅助回归已补充；筛选控件具备可访问标签，长名称成员行操作、停用确认、添加成员和批量导入弹窗可用，`documentWidth/bodyWidth` 均不超过 390。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
+- 最新补充：2026-06-06 11:34 CST，学生成绩页 390px 移动端辅助回归已补充；课程筛选具备可访问标签，成绩查询和导出请求可用，`documentWidth/bodyWidth` 均不超过 390。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
 
 ## 2. 环境与账号
 
@@ -335,6 +335,7 @@ status: in-progress
 | /student/grades | 学生 | 页面加载 | — | 打开页面 | 显示成绩页面 | 显示课程选择下拉框和成绩表 | — | 已真实操作通过 | — |
 | /student/grades | 学生 | 课程选择下拉框 | select | 选择"数据结构 2025 秋" | 选中成功 | 选中成功，表显示"暂无成绩数据" | — | 已真实操作通过 | — |
 | /student/grades | 学生 | 导出成绩按钮 | button | 点击导出 | CSV 文件下载 | 文件 gradebook-me-offering-1.csv 下载 | 文件存在 | 已真实操作通过 | — |
+| /student/grades | 学生 | 移动端成绩筛选与导出 | viewport/select/button/table | 390x844 视口打开成绩页，选择课程并点击导出成绩 | 课程筛选可通过 label 定位，导出按钮启用并发起下载请求，成绩表不造成整页横向溢出 | 修复前课程下拉无法通过“选择课程”可访问名称定位；修复后课程筛选和导出按钮高度不低于 44px，`GET /me/course-offerings/{offeringId}/gradebook` 与 `/export` 均返回 200，`documentWidth/bodyWidth <= 390` | 真实后端动态 fixture 使用当前学生已加入开课，未新增业务数据 | 辅助回归通过，待 MCP 复核 | BUG-20260606-020 |
 
 ### 5.19 学生 - 通知中心
 
@@ -508,6 +509,7 @@ status: in-progress
 | 教师 | 390x844 | /teacher/courses/{offeringId}/members | ✅ 筛选控件可通过 label 定位，长名称成员行操作可见，停用确认 / 添加成员 / 批量导入 Dialog 在视口内，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/question-bank | ✅ 筛选控件可通过 label 定位，长标题题目行操作、归档确认和新增题目 Dialog 可见，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/judge-environments | ✅ 语言筛选 / 包含归档 / 查询可用，长配置名行操作、归档确认和新增配置 Dialog 可见，`documentWidth/bodyWidth <= 390` |
+| 学生 | 390x844 | /student/grades | ✅ 课程筛选可通过 label 定位，成绩查询与导出请求可用，`documentWidth/bodyWidth <= 390` |
 | 管理员 | 390x844 | 汉堡菜单 | ✅ 点击打开/关闭正常，所有导航链接可见 |
 | 教师 | 390x844 | /teacher | ✅ 页面加载成功 |
 | 学生 | 390x844 | /student | ✅ 页面加载成功 |
@@ -545,10 +547,11 @@ status: in-progress
 | BUG-20260606-017 | P2 | /teacher/courses/[offeringId]/members | 成员管理筛选控件缺少可访问 label，移动端 Dialog 缺少稳定视口宽高约束 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 | BUG-20260606-018 | P2 | /teacher/courses/[offeringId]/question-bank | 题库移动端筛选控件缺少可访问 label、触控高度不足，长题目行操作目标偏小 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 | BUG-20260606-019 | P2 | /teacher/courses/[offeringId]/judge-environments | 判题环境移动端主操作、筛选和行操作触控高度不足，长配置名缺少稳定断行 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
+| BUG-20260606-020 | P2 | /student/grades | 学生成绩页课程筛选缺少可访问 label，移动端筛选和导出缺少稳定回归证据 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 
 ## 12. 修复计划
 
-- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构、课程越权、教师成员管理移动端、教师题库移动端和教师判题环境移动端批次。
+- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构、课程越权、教师成员管理移动端、教师题库移动端、教师判题环境移动端和学生成绩移动端批次。
 - 继续按小批次补齐移动端视口覆盖，优先选择学生长链路和教师内容管理中尚未做 390px 回归的页面。
 - 对报告中历史固定 ID 的学生课程 / 工作区记录做一次数据口径整理，避免旧测试数据与动态 fixture 混用造成误读。
 
@@ -563,7 +566,7 @@ status: in-progress
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"已补测并修复列表刷新问题
 - 学生：跨角色权限负例（访问非所属教学班课程内容）已补测并修复讨论创建入口暴露问题；MCP 待恢复后复核
-- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/teacher/courses/{offeringId}/members`、`/teacher/courses/{offeringId}/question-bank`、`/teacher/courses/{offeringId}/judge-environments`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
+- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/teacher/courses/{offeringId}/members`、`/teacher/courses/{offeringId}/question-bank`、`/teacher/courses/{offeringId}/judge-environments`、`/student/assignments`、`/student/courses/{已加入教学班}` 与 `/student/grades` 390px 回归
 
 ## 14. 命令与日志证据
 
@@ -628,3 +631,8 @@ status: in-progress
 | cd web && npm run lint | 2026-06-06 判题环境移动端批次通过 |
 | cd web && npm run typecheck | 2026-06-06 判题环境移动端批次通过 |
 | just verify | 2026-06-06 11:22 CST 通过；server 320 测试 0 失败 / 0 错误 / 0 跳过，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
+| Playwright MCP 可用性检查 | 2026-06-06 学生成绩移动端批次调用 `browser_tabs list` 仍返回 `Transport closed`，本轮真实浏览器证据降级为本地真实后端 Playwright 辅助回归，待 MCP 恢复后复核 |
+| npm run test:e2e -- src/tests/e2e/student-grades-mobile-real-flow.spec.ts --project=chromium | RED：新增学生成绩移动端用例先失败于 `getByLabel("选择课程")` 找不到课程筛选；修复后 2026-06-06 11:34 CST 真实后端辅助回归通过，chromium 1 个用例通过（仅 Node `module.register()` deprecation warning） |
+| cd web && npm run lint | 2026-06-06 学生成绩移动端批次通过 |
+| cd web && npm run typecheck | 2026-06-06 学生成绩移动端批次通过 |
+| just verify | 2026-06-06 11:42 CST 通过；server 320 测试 0 失败 / 0 错误 / 0 跳过，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
