@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 09:09 CST，学生 WebIDE 历史恢复按钮目标命名与重置确认路径已补充真实后端 Playwright 辅助回归；本轮定向测试、lint/typecheck、docs build 和 `just verify` 均已通过。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
+- 最新补充：2026-06-06 09:15 CST，管理员用户批量导入按钮已补充真实后端 Playwright 辅助回归；重复用户名 CSV 返回并展示行级失败结果。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
 
 ## 2. 环境与账号
 
@@ -113,7 +113,7 @@ status: in-progress
 | /admin/users | 管理员 | 关键词搜索输入框 | input | 输入 U-TA1 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /admin/users | 管理员 | 搜索按钮 | button | 点击搜索 | 筛选结果 | 搜索到 U-TA1 | — | 已真实操作通过 | — |
 | /admin/users | 管理员 | 用户行链接 | link | 点击 U-TA1 行 | 跳转详情页 | 跳转到 /admin/users/4 | 详情页显示完整信息 | 已真实操作通过 | — |
-| /admin/users | 管理员 | 批量导入按钮 | button | — | — | — | — | 受阻未测 | — |
+| /admin/users | 管理员 | 批量导入按钮 | button/file upload | 点击批量导入，选择重复用户名 CSV | 打开文件选择器，上传后展示导入总数、成功数、失败数和行级错误 | 上传 `U-SA1` 重复用户名 CSV 后页面显示“导入 1 行，成功 0 行，失败 1 行。”并展示第 2 行错误 | `POST /api/v1/admin/users/import` 返回 200，响应 `total=1/success=0/failed=1` | 辅助回归通过，待 MCP 复核 | — |
 | /admin/users | 管理员 | 重置按钮 | button | 输入关键词→点击重置 | 搜索条件清空 | 关键词输入框清空，列表恢复完整 | — | 已真实操作通过 | — |
 
 ### 5.4 管理员 - 学期管理
@@ -450,7 +450,7 @@ status: in-progress
 
 | # | 链路名称 | 步骤 | 状态 | 证据 |
 |---|----------|------|------|------|
-| ML-1 | 管理员初始化 | 平台配置✅ 组织架构⚠️ 用户✅ 学期✅ 课程模板✅ 开课✅ 用户详情✅ | 部分通过 | 见 5.1-5.7 |
+| ML-1 | 管理员初始化 | 平台配置✅ 组织架构⚠️ 用户✅ 用户批量导入✅ 学期✅ 课程模板✅ 开课✅ 用户详情✅ | 部分通过 | 见 5.1-5.7 |
 | ML-2 | 教师教学准备 | 公告✅ 讨论✅ 资源下载✅ 资源重命名✅ 资源空标题校验✅ 通知已读✅ 题库筛选✅ 题库新增自动刷新✅ 关闭作业✅ 资源上传✅ 资源删除✅ 讨论锁定✅ 讨论解锁✅ | 部分通过 | 见 5.10-5.25 |
 | ML-3 | 教师创建作业 | 创建作业✅ 编辑作业✅ 发布作业✅ 关闭作业✅ 查看提交✅ 提交级重判✅ 答案重判✅ 人工批改✅ 下载报告✅ 导出成绩册✅ 批量调分✅ 导入成绩✅ 发布成绩✅ 关闭实验✅ | 部分通过 | 见 5.20-5.24 |
 | ML-4 | 学生答题 | 作业列表✅ 作业详情✅ 结构化答题提交✅ 编程工作区保存/运行✅ 正式提交含编程答案✅ 实验报告✅ | 部分通过 | 见 5.25-5.26 |
@@ -586,3 +586,4 @@ status: in-progress
 | 真实浏览器学生通知全部已读补充回归 | Playwright MCP 当前返回 `Transport closed`，本轮降级使用 Codex in-app Browser 操作真实本地页面；学生真实会话 `/student/notifications` 中临时实验 `MCP 通知全部已读回归 mq1lx8tk` 生成 1 条未读通知，点击“全部已读”前行内“标记已读”按钮数量为 1，点击后为 0，顶部未读徽标消失；后端只读校验目标通知 `id=991`、`read=true`、`unreadCount=0`、`firstUnreadId=null`；浏览器控制台 error 数 0 |
 | npm test -- src/tests/unit/submission/programming-workspace-page.test.tsx | RED：新增历史恢复按钮目标命名单测时失败，页面仅暴露重复的“恢复”按钮；修复后 1 文件 / 1 测试通过 |
 | 真实后端 Playwright 学生 WebIDE 辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。学生 WebIDE 完成编辑/保存、历史版本目标命名与恢复、重置取消与确认、重置后重新保存、运行自测、正式提交；`webide-real-flow.spec.ts` chromium 项目 1 个用例通过 |
+| 真实后端 Playwright 管理员用户导入辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。管理员真实会话 `/admin/users` 点击“批量导入”打开文件选择器，上传重复用户名 CSV 后 `POST /api/v1/admin/users/import` 返回 200，响应 `total=1/success=0/failed=1`，页面展示“导入 1 行，成功 0 行，失败 1 行。”和第 2 行错误；`admin-users-real-flow.spec.ts` chromium 项目 1 个用例通过 |
