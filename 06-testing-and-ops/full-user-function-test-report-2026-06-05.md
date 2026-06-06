@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 09:53 CST，学生课程学习页 390px 移动端辅助回归已补充；公告、资源、讨论区域可见，创建讨论返回 201 并刷新列表，`documentWidth/bodyWidth` 均不超过 390。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
+- 最新补充：2026-06-06 09:58 CST，教师课程资源页 390px 移动端辅助回归已补充；长标题资源可见，上传入口与编辑资源操作可见，`documentWidth/bodyWidth` 均不超过 390。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
 
 ## 2. 环境与账号
 
@@ -256,6 +256,7 @@ status: in-progress
 | /teacher/courses/1/resources | 教师 | 资源标题输入框 | input | 输入"E2E-FULLRUN 上传测试资源" | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 选择文件区域 | upload | 选择 e2e-upload-test.txt | 文件选择成功 | 显示文件名和大小 | — | 已真实操作通过 | — |
 | /teacher/courses/1/resources | 教师 | 开始上传按钮 | button | 点击上传 | 上传成功 | Toast"资源已上传"，新资源出现在列表 | 刷新后仍可见 | 已真实操作通过 | — |
+| /teacher/courses/{offeringId}/resources | 教师 | 移动端资源表格 | viewport/table/button | 390x844 视口打开资源页，检查长标题资源与行操作 | 页面不出现整页横向溢出，上传入口与资源行编辑操作可见 | `documentWidth/bodyWidth <= 390`，长标题资源可见，“编辑资源 <标题>”按钮可见 | 通过 API 临时上传长标题资源并在用例结束清理 | 辅助回归通过，待 MCP 复核 | — |
 
 ### 5.12A 教师 - 成员管理补充
 
@@ -496,6 +497,7 @@ status: in-progress
 | 教师 | 桌面 | /teacher/courses/1/members | ✅ 添加 / 导入 / 转班弹窗有描述文本；添加成员负例错误与 `aria-invalid` 状态正确显示；停用 / 恢复 / 转班按钮可访问名称包含成员姓名 |
 | 教师 | 桌面 | /teacher/grading/gradebook | ✅ 筛选下拉宽度稳定，批量调分空提交显示字段级错误，批量调分和发布均有确认弹窗 |
 | 教师 | 390x844 | /teacher/grading/gradebook | ✅ 筛选条按单列排列，课程 / 教学班 / 学生 ID / 作业控件宽度均为 292px，`documentWidth=390`，无横向溢出 |
+| 教师 | 390x844 | /teacher/courses/{offeringId}/resources | ✅ 长标题资源可见，上传入口与编辑资源操作可见，`documentWidth/bodyWidth <= 390` |
 | 管理员 | 390x844 | 汉堡菜单 | ✅ 点击打开/关闭正常，所有导航链接可见 |
 | 教师 | 390x844 | /teacher | ✅ 页面加载成功 |
 | 学生 | 390x844 | /student | ✅ 页面加载成功 |
@@ -548,7 +550,7 @@ status: in-progress
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"已补测并修复列表刷新问题
 - 学生：跨角色权限负例（访问非所属教学班课程内容）已补测并修复讨论创建入口暴露问题；MCP 待恢复后复核
-- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
+- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/resources`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
 
 ## 14. 命令与日志证据
 
@@ -596,3 +598,4 @@ status: in-progress
 | 真实后端 Playwright 管理员组织架构辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。管理员真实会话 `/admin/org-units` 从学校根节点点击“新增子节点”，Dialog 标题为“在 [学校名] 下新增子节点”，节点类型默认 `COLLEGE`，填写学院名称/编码后 `POST /api/v1/admin/org-units` 返回 201，树中显示新学院；`admin-org-units-real-flow.spec.ts` chromium 项目 1 个用例通过 |
 | 真实后端 Playwright 学生课程越权辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。动态学生访问非所属教学班课程页时，公告、资源、讨论 API 均返回 403，页面显示三处权限错误并隐藏讨论标题输入框和“创建讨论”按钮；`student-course-permission-real-flow.spec.ts` chromium 项目 RED 失败于按钮仍可见，修复后 1 个用例通过 |
 | 真实后端 Playwright 学生课程移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态学生已加入教学班课程页，公告/资源/讨论区可见，填写讨论标题和内容后 `POST /api/v1/me/course-classes/{classId}/discussions` 返回 201，新讨论刷新到列表，`documentWidth/bodyWidth <= 390`；`student-course-mobile-real-flow.spec.ts` chromium 项目 1 个用例通过 |
+| 真实后端 Playwright 教师课程资源移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态教师课程资源页，API 临时上传长标题资源，页面显示该资源、上传入口和“编辑资源 <标题>”按钮，`documentWidth/bodyWidth <= 390`，用例结束清理临时资源；`teacher-course-resources-mobile-real-flow.spec.ts` chromium 项目 1 个用例通过 |
