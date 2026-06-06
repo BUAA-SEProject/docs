@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 10:04 CST，教师课程公告与讨论页 390px 移动端辅助回归已补充；长标题公告/讨论可见，公告编辑、讨论锁定和主操作可用，`documentWidth/bodyWidth` 均不超过 390。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
+- 最新补充：2026-06-06 10:37 CST，教师课程成员管理页 390px 移动端辅助回归已补充；筛选控件具备可访问标签，长名称成员行操作、停用确认、添加成员和批量导入弹窗可用，`documentWidth/bodyWidth` 均不超过 390。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
 
 ## 2. 环境与账号
 
@@ -270,6 +270,7 @@ status: in-progress
 | /teacher/courses/1/members | 教师 | 添加成员缺教学班 | button/select | 填写 userId，角色保持学生，教学班留空→点击添加 | 显示字段级错误且不发送添加请求 | 显示“当前角色必须选择教学班”，教学班字段 `aria-invalid=true` | 未发送 `POST /teacher/course-offerings/1/members/batch` | 已真实操作通过 | — |
 | /teacher/courses/1/members | 教师 | 添加成员成功反馈 | button/dialog | 填写用户 ID 621，角色选择整课助教→点击添加 | 添加成功后保留明确结果反馈 | 弹窗保持打开并显示“添加成功 1 人，失败 0 人。” | `POST /api/v1/teacher/course-offerings/1/members/batch` 返回 200 | 已真实操作通过 | — |
 | /teacher/courses/1/members | 教师 | 添加 / 导入 / 转班弹窗描述 | dialog | 分别打开三个弹窗 | 弹窗有清晰说明且无可访问性警告 | 三个弹窗均显示说明文本，未出现 Radix Dialog 描述警告 | — | 已真实操作通过 | — |
+| /teacher/courses/{offeringId}/members | 教师 | 移动端成员筛选与弹窗 | viewport/input/select/dialog/button | 390x844 视口打开成员管理页，搜索长名称成员并检查行操作、停用确认、添加成员、批量导入 | 页面不出现整页横向溢出，筛选控件有可访问名称，确认与 Dialog 不超出视口 | `documentWidth/bodyWidth <= 390`，搜索 / 教学班 / 角色 / 状态均可通过 label 定位，“停用成员 <姓名> / 转班成员 <姓名>”可见，停用确认、添加成员与导入 Dialog 在视口内 | 通过 API 临时创建长名称学生并加入课程；残留 E2E 前缀成员记录 | 辅助回归通过，待 MCP 复核 | BUG-20260606-017 |
 
 ### 5.13 教师 - 题库
 
@@ -502,6 +503,7 @@ status: in-progress
 | 教师 | 390x844 | /teacher/courses/{offeringId}/announcements | ✅ 长标题公告可见，发布入口与编辑公告操作可见，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/discussions | ✅ 长标题讨论链接可见，创建入口与锁定讨论操作可见，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/resources | ✅ 长标题资源可见，上传入口与编辑资源操作可见，`documentWidth/bodyWidth <= 390` |
+| 教师 | 390x844 | /teacher/courses/{offeringId}/members | ✅ 筛选控件可通过 label 定位，长名称成员行操作可见，停用确认 / 添加成员 / 批量导入 Dialog 在视口内，`documentWidth/bodyWidth <= 390` |
 | 管理员 | 390x844 | 汉堡菜单 | ✅ 点击打开/关闭正常，所有导航链接可见 |
 | 教师 | 390x844 | /teacher | ✅ 页面加载成功 |
 | 学生 | 390x844 | /student | ✅ 页面加载成功 |
@@ -536,10 +538,11 @@ status: in-progress
 | BUG-20260606-014 | P2 | /student/notifications | “全部已读”接口成功且未读徽章清零后，分页通知列表未失效刷新，行内“标记已读”仍保留 | 已修复，2026-06-06 真实浏览器补充回归通过；Playwright MCP 当前 `Transport closed`，已记录工具降级 |
 | BUG-20260606-015 | P3 | /student/assignments/[assignmentId]/workspace/[questionId] | 历史版本列表多个“恢复”按钮目标不可区分，重置确认路径缺少回归记录 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 | BUG-20260606-016 | P2 | /student/courses/[classId] | 学生越权访问非所属教学班时虽显示 403 权限错误，但讨论创建表单仍可见 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
+| BUG-20260606-017 | P2 | /teacher/courses/[offeringId]/members | 成员管理筛选控件缺少可访问 label，移动端 Dialog 缺少稳定视口宽高约束 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 
 ## 12. 修复计划
 
-- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构和课程越权批次。
+- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构、课程越权和教师成员管理移动端批次。
 - 继续按小批次补齐移动端视口覆盖，优先选择学生长链路和教师内容管理中尚未做 390px 回归的页面。
 - 对报告中历史固定 ID 的学生课程 / 工作区记录做一次数据口径整理，避免旧测试数据与动态 fixture 混用造成误读。
 
@@ -554,16 +557,16 @@ status: in-progress
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"已补测并修复列表刷新问题
 - 学生：跨角色权限负例（访问非所属教学班课程内容）已补测并修复讨论创建入口暴露问题；MCP 待恢复后复核
-- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
+- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/teacher/courses/{offeringId}/members`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
 
 ## 14. 命令与日志证据
 
 | 命令 | 结果 |
 |------|------|
 | just healthcheck | 全部通过（backend 18080, frontend 3000, Docker 依赖） |
-| just status | server/main clean；web/main 与 docs/main dirty（前端整改、测试和报告更新） |
+| just status | 2026-06-06 本轮开始：server/main clean；web/main clean ahead 18；docs/main clean ahead 21；root dirty workspace no |
 | just healthcheck-strict | 通过；严格 E2E 环境变量、后端 18080、前端 3000、后端 readiness/OpenAPI、前端登录页均可用 |
-| just verify | 2026-06-06 09:43 CST 通过；server 320 测试 0 失败 / 0 错误，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
+| just verify | 2026-06-06 10:37 CST 通过；server 320 测试 0 失败 / 0 错误，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
 | just e2e-real | 2026-06-06 05:58 CST 复跑通过，38 个真实后端 Playwright E2E 全部通过，耗时 3.3 分钟 |
 | cd web && npm run lint | 通过 |
 | cd web && npm run typecheck | 通过 |
@@ -604,3 +607,4 @@ status: in-progress
 | 真实后端 Playwright 学生课程移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态学生已加入教学班课程页，公告/资源/讨论区可见，填写讨论标题和内容后 `POST /api/v1/me/course-classes/{classId}/discussions` 返回 201，新讨论刷新到列表，`documentWidth/bodyWidth <= 390`；`student-course-mobile-real-flow.spec.ts` chromium 项目 1 个用例通过 |
 | 真实后端 Playwright 教师课程资源移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态教师课程资源页，API 临时上传长标题资源，页面显示该资源、上传入口和“编辑资源 <标题>”按钮，`documentWidth/bodyWidth <= 390`，用例结束清理临时资源；`teacher-course-resources-mobile-real-flow.spec.ts` chromium 项目 1 个用例通过 |
 | 真实后端 Playwright 教师公告讨论移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态教师课程公告与讨论页，API 临时创建长标题公告和讨论，公告页显示发布入口、长标题公告和“编辑公告 <标题>”按钮，讨论页显示创建入口、长标题讨论链接和“锁定讨论 <标题>”按钮，两个页面 `documentWidth/bodyWidth <= 390`；公告在用例结束清理，讨论因当前无删除接口保留 E2E 前缀残留；`teacher-course-content-mobile-real-flow.spec.ts` chromium 项目 1 个用例通过 |
+| 真实后端 Playwright 教师成员管理移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态教师课程成员管理页，API 临时创建长名称学生并加入课程，页面筛选控件可通过“搜索 / 教学班 / 角色 / 状态”定位，长名称成员的停用与转班操作可见，停用确认、添加成员和批量导入 Dialog 均在视口内，`documentWidth/bodyWidth <= 390`；`teacher-course-members-mobile-real-flow.spec.ts` chromium 项目 RED 后修复并通过 |
