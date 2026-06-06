@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 11:34 CST，学生成绩页 390px 移动端辅助回归已补充；课程筛选具备可访问标签，成绩查询和导出请求可用，`documentWidth/bodyWidth` 均不超过 390。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
+- 最新补充：2026-06-06 11:52 CST，学生实验页 390px 移动端辅助回归已补充；长标题实验选择、报告草稿保存、正式提交确认和 AlertDialog 安全边距可用，`documentWidth/bodyWidth` 均不超过 390。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
 
 ## 2. 环境与账号
 
@@ -454,6 +454,7 @@ status: in-progress
 | /student/labs | 学生 | 保存草稿按钮 | button | 点击保存 | 保存成功 | `PUT /api/v1/me/labs/63/report` 返回 200，页面状态为"草稿" | 请求体包含 `submit:false`，随后 `GET /report` 返回 `DRAFT` 报告 id=30 | 已真实操作通过 | BUG-20260605-007 |
 | /student/labs | 学生 | 选择文件按钮 | button | 选择 `README.md` 上传 | 附件上传成功并显示数量 | `POST /api/v1/me/labs/63/attachments` 返回 201，页面显示"已上传附件数：1" | 附件 id=30，文件名 `README.md` | 已真实操作通过 | — |
 | /student/labs | 学生 | 正式提交按钮 | button | 点击并确认提交 | 报告正式提交 | `PUT /api/v1/me/labs/63/report` 返回 200，页面状态为"已提交" | 请求体包含 `attachmentIds:[30]`、`submit:true`，响应 `SUBMITTED` | 已真实操作通过 | — |
+| /student/labs | 学生 | 移动端实验选择与提交 | viewport/button/textarea/alertdialog | 390x844 视口打开学生实验页，选择长标题实验，填写报告，保存草稿并正式提交 | 实验卡片和报告输入框可通过明确 label 定位，保存 / 提交控件高度不低于 44px，确认弹窗在视口安全边距内，页面不横向溢出 | 修复前实验卡片无法通过“选择实验 <标题>”定位；补充控件名称后继续暴露 AlertDialog 入场稳定后缺少移动端安全边距；修复后 `PUT /me/labs/{labId}/report` 草稿与提交均返回 200，`documentWidth/bodyWidth <= 390` | API 临时创建并发布长标题实验；真实后端动态 fixture 使用当前学生已加入教学班 | 辅助回归通过，待 MCP 复核 | BUG-20260606-021 |
 
 ## 7. 主链路测试结果
 
@@ -509,6 +510,7 @@ status: in-progress
 | 教师 | 390x844 | /teacher/courses/{offeringId}/members | ✅ 筛选控件可通过 label 定位，长名称成员行操作可见，停用确认 / 添加成员 / 批量导入 Dialog 在视口内，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/question-bank | ✅ 筛选控件可通过 label 定位，长标题题目行操作、归档确认和新增题目 Dialog 可见，`documentWidth/bodyWidth <= 390` |
 | 教师 | 390x844 | /teacher/courses/{offeringId}/judge-environments | ✅ 语言筛选 / 包含归档 / 查询可用，长配置名行操作、归档确认和新增配置 Dialog 可见，`documentWidth/bodyWidth <= 390` |
+| 学生 | 390x844 | /student/labs | ✅ 长标题实验可通过“选择实验 <标题>”定位，报告草稿保存与正式提交请求可用，确认弹窗在视口安全边距内，`documentWidth/bodyWidth <= 390` |
 | 学生 | 390x844 | /student/grades | ✅ 课程筛选可通过 label 定位，成绩查询与导出请求可用，`documentWidth/bodyWidth <= 390` |
 | 管理员 | 390x844 | 汉堡菜单 | ✅ 点击打开/关闭正常，所有导航链接可见 |
 | 教师 | 390x844 | /teacher | ✅ 页面加载成功 |
@@ -548,10 +550,11 @@ status: in-progress
 | BUG-20260606-018 | P2 | /teacher/courses/[offeringId]/question-bank | 题库移动端筛选控件缺少可访问 label、触控高度不足，长题目行操作目标偏小 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 | BUG-20260606-019 | P2 | /teacher/courses/[offeringId]/judge-environments | 判题环境移动端主操作、筛选和行操作触控高度不足，长配置名缺少稳定断行 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 | BUG-20260606-020 | P2 | /student/grades | 学生成绩页课程筛选缺少可访问 label，移动端筛选和导出缺少稳定回归证据 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
+| BUG-20260606-021 | P2 | /student/labs, shared AlertDialog | 学生实验页实验卡片缺少目标化可访问名称，报告输入框缺少 label；确认弹窗移动端缺少稳定安全边距 | 已修复，2026-06-06 真实后端 Playwright 辅助回归通过；Playwright MCP 当前 `Transport closed` |
 
 ## 12. 修复计划
 
-- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构、课程越权、教师成员管理移动端、教师题库移动端、教师判题环境移动端和学生成绩移动端批次。
+- Playwright MCP 恢复后，优先复核近期因 `Transport closed` 降级为辅助证据的通知、WebIDE、用户导入、组织架构、课程越权、教师成员管理移动端、教师题库移动端、教师判题环境移动端、学生成绩移动端和学生实验移动端批次。
 - 继续按小批次补齐移动端视口覆盖，优先选择学生长链路和教师内容管理中尚未做 390px 回归的页面。
 - 对报告中历史固定 ID 的学生课程 / 工作区记录做一次数据口径整理，避免旧测试数据与动态 fixture 混用造成误读。
 
@@ -563,10 +566,10 @@ status: in-progress
 - 教师：实验"创建实验"、"编辑"、"发布"、"报告查看"、"评阅发布"已修复并通过真实浏览器复核
 - 学生：作业任务（/student/assignments）结构化答题/提交已在 5.26 用 Playwright MCP 回归验证
 - 学生：编程工作区保存/运行和正式提交编程答案已在 5.26 用 Playwright MCP 回归验证；重置/历史恢复已用真实后端 Playwright 辅助回归补测，MCP 待恢复后复核
-- 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
+- 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；390px 实验选择、草稿保存、正式提交确认已用真实后端 Playwright 辅助回归补测，MCP 待恢复后复核；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"已补测并修复列表刷新问题
 - 学生：跨角色权限负例（访问非所属教学班课程内容）已补测并修复讨论创建入口暴露问题；MCP 待恢复后复核
-- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/teacher/courses/{offeringId}/members`、`/teacher/courses/{offeringId}/question-bank`、`/teacher/courses/{offeringId}/judge-environments`、`/student/assignments`、`/student/courses/{已加入教学班}` 与 `/student/grades` 390px 回归
+- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/teacher/courses/{offeringId}/announcements`、`/teacher/courses/{offeringId}/discussions`、`/teacher/courses/{offeringId}/resources`、`/teacher/courses/{offeringId}/members`、`/teacher/courses/{offeringId}/question-bank`、`/teacher/courses/{offeringId}/judge-environments`、`/student/assignments`、`/student/courses/{已加入教学班}`、`/student/grades` 与 `/student/labs` 390px 回归
 
 ## 14. 命令与日志证据
 
@@ -576,6 +579,7 @@ status: in-progress
 | just status | 2026-06-06 本轮开始：server/main clean；web/main clean ahead 18；docs/main clean ahead 21；root dirty workspace no |
 | just status | 2026-06-06 题库移动端批次开始：server/main clean；web/main clean ahead 19；docs/main clean ahead 22；root dirty workspace no |
 | just status | 2026-06-06 判题环境移动端批次开始：server/main clean；web/main clean ahead 20；docs/main clean ahead 23；root dirty workspace no |
+| just status | 2026-06-06 学生实验移动端批次开始：server/main clean；web/main clean ahead 22；docs/main clean ahead 25；root dirty workspace no |
 | just healthcheck-strict | 通过；严格 E2E 环境变量、后端 18080、前端 3000、后端 readiness/OpenAPI、前端登录页均可用 |
 | just verify | 2026-06-06 10:37 CST 通过；server 320 测试 0 失败 / 0 错误，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
 | just verify | 2026-06-06 11:08 CST 通过；server 320 测试 0 失败 / 0 错误 / 0 跳过，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
@@ -636,3 +640,8 @@ status: in-progress
 | cd web && npm run lint | 2026-06-06 学生成绩移动端批次通过 |
 | cd web && npm run typecheck | 2026-06-06 学生成绩移动端批次通过 |
 | just verify | 2026-06-06 11:42 CST 通过；server 320 测试 0 失败 / 0 错误 / 0 跳过，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
+| Playwright MCP 可用性检查 | 2026-06-06 学生实验移动端批次调用 `browser_tabs list` 仍返回 `Transport closed`，本轮真实浏览器证据降级为本地真实后端 Playwright 辅助回归，待 MCP 恢复后复核 |
+| npm run test:e2e -- src/tests/e2e/student-labs-mobile-real-flow.spec.ts --project=chromium | RED：新增学生实验移动端用例先失败于“选择实验 <标题>”按钮无法定位；补充控件名称后继续暴露确认弹窗移动端安全边距问题；修复后 2026-06-06 11:52 CST 真实后端辅助回归通过，chromium 1 个用例通过（仅 Node `module.register()` deprecation warning） |
+| cd web && npm run lint | 2026-06-06 学生实验移动端批次通过 |
+| cd web && npm run typecheck | 2026-06-06 学生实验移动端批次通过 |
+| just verify | 2026-06-06 12:00 CST 通过；server 320 测试 0 失败 / 0 错误 / 0 跳过，web lint/typecheck 通过，docs build 通过（仅 VitePress chunk size warning） |
