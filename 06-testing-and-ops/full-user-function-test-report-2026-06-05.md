@@ -13,7 +13,7 @@ status: in-progress
 - 测试方式：Playwright MCP 真实浏览器操作 + API/数据库辅助验证
 - 测试范围：管理员、教师、学生三角色全页面全控件
 - 当前状态：进行中
-- 最新补充：2026-06-06 09:34 CST，学生访问非所属教学班课程内容的跨角色权限负例已补充真实后端 Playwright 辅助回归；公告、资源、讨论接口均返回 403，页面显示权限错误并隐藏讨论创建入口。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
+- 最新补充：2026-06-06 09:53 CST，学生课程学习页 390px 移动端辅助回归已补充；公告、资源、讨论区域可见，创建讨论返回 201 并刷新列表，`documentWidth/bodyWidth` 均不超过 390。Playwright MCP 当前 `Transport closed`，本项仍待 MCP 恢复后复核。
 
 ## 2. 环境与账号
 
@@ -311,6 +311,7 @@ status: in-progress
 | /student/courses/1 | 学生 | 讨论内容输入框 | textarea | 输入测试内容 | 输入成功 | 输入成功 | — | 已真实操作通过 | — |
 | /student/courses/1 | 学生 | 创建讨论按钮 | button | 点击创建 | 讨论创建成功 | 新讨论出现在列表，链接到 /student/courses/1/discussions/18 | 刷新后仍可见 | 已真实操作通过 | — |
 | /student/courses/{非所属教学班} | 学生 | 跨班级课程内容 | page/API | 学生打开未加入的教学班课程页 | 公告、资源、讨论均显示清晰无权访问状态，不暴露可提交讨论入口 | 页面显示“无权访问课程公告/课程资源/课程讨论，请确认已加入此课程”，讨论标题输入框与“创建讨论”按钮隐藏 | `GET /api/v1/me/course-classes/{classId}/announcements`、`resources`、`discussions` 均返回 403 | 辅助回归通过，待 MCP 复核 | BUG-20260606-016 |
+| /student/courses/{已加入教学班} | 学生 | 移动端课程讨论创建 | viewport/form/button | 390x844 视口打开课程学习页，填写讨论标题和内容并创建 | 移动端无横向溢出，公告/资源/讨论区域可见，创建讨论可完成并刷新 | `documentWidth/bodyWidth <= 390`，标题/内容输入框与按钮可用，新讨论出现在列表 | `POST /api/v1/me/course-classes/{classId}/discussions` 返回 201 | 辅助回归通过，待 MCP 复核 | — |
 
 ### 5.17 学生 - 讨论详情
 
@@ -498,6 +499,7 @@ status: in-progress
 | 管理员 | 390x844 | 汉堡菜单 | ✅ 点击打开/关闭正常，所有导航链接可见 |
 | 教师 | 390x844 | /teacher | ✅ 页面加载成功 |
 | 学生 | 390x844 | /student | ✅ 页面加载成功 |
+| 学生 | 390x844 | /student/courses/{已加入教学班} | ✅ 公告 / 资源 / 讨论区可见，创建讨论返回 201 并刷新列表，`documentWidth/bodyWidth <= 390` |
 
 ## 11. 缺陷清单
 
@@ -546,7 +548,7 @@ status: in-progress
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
 - 学生：通知"全部已读"已补测并修复列表刷新问题
 - 学生：跨角色权限负例（访问非所属教学班课程内容）已补测并修复讨论创建入口暴露问题；MCP 待恢复后复核
-- 移动端视口仍仅局部覆盖；本轮补充 `/teacher/labs` 与 `/student/assignments` 390px 无横向溢出和控件名称检查
+- 移动端视口仍仅局部覆盖；已补充 `/teacher/labs`、`/student/assignments` 与 `/student/courses/{已加入教学班}` 390px 回归
 
 ## 14. 命令与日志证据
 
@@ -593,3 +595,4 @@ status: in-progress
 | 真实后端 Playwright 管理员用户导入辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。管理员真实会话 `/admin/users` 点击“批量导入”打开文件选择器，上传重复用户名 CSV 后 `POST /api/v1/admin/users/import` 返回 200，响应 `total=1/success=0/failed=1`，页面展示“导入 1 行，成功 0 行，失败 1 行。”和第 2 行错误；`admin-users-real-flow.spec.ts` chromium 项目 1 个用例通过 |
 | 真实后端 Playwright 管理员组织架构辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。管理员真实会话 `/admin/org-units` 从学校根节点点击“新增子节点”，Dialog 标题为“在 [学校名] 下新增子节点”，节点类型默认 `COLLEGE`，填写学院名称/编码后 `POST /api/v1/admin/org-units` 返回 201，树中显示新学院；`admin-org-units-real-flow.spec.ts` chromium 项目 1 个用例通过 |
 | 真实后端 Playwright 学生课程越权辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。动态学生访问非所属教学班课程页时，公告、资源、讨论 API 均返回 403，页面显示三处权限错误并隐藏讨论标题输入框和“创建讨论”按钮；`student-course-permission-real-flow.spec.ts` chromium 项目 RED 失败于按钮仍可见，修复后 1 个用例通过 |
+| 真实后端 Playwright 学生课程移动端辅助回归 | Playwright MCP 当前返回 `Transport closed`；本轮降级使用本地 Playwright 真实后端用例补充验证。390x844 视口打开动态学生已加入教学班课程页，公告/资源/讨论区可见，填写讨论标题和内容后 `POST /api/v1/me/course-classes/{classId}/discussions` 返回 201，新讨论刷新到列表，`documentWidth/bodyWidth <= 390`；`student-course-mobile-real-flow.spec.ts` chromium 项目 1 个用例通过 |
