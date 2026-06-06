@@ -335,6 +335,7 @@ status: in-progress
 | /student/notifications | 学生 | 页面加载 | — | 打开页面 | 显示通知列表 | 8 条通知 | — | 已真实操作通过 | — |
 | /student/notifications | 学生 | 标记已读按钮 | button | 点击标记已读 | 通知状态更新 | 未读数从 8 变为 7 | — | 已真实操作通过 | — |
 | /student/notifications | 学生 | 全部已读按钮 | button | 点击全部已读 | 所有通知标记已读 | 未读数徽章消失（从 8 变为 0） | — | 已真实操作通过 | — |
+| /student/notifications | 学生 | 全部已读后列表刷新 | button/list | 发布临时实验生成 1 条未读通知，点击“全部已读” | 未读徽章消失，通知列表同步转为已读，不再显示“标记已读” | 修复前 `POST /read-all` 200 后列表仍保留“标记已读”；修复后未读徽章消失，列表刷新后隐藏行按钮 | 后端只读校验 `unreadCount=0`，目标通知 `read=true`，`firstUnreadId=null` | 已真实操作通过 | BUG-20260606-014 |
 
 ## 6. Playwright MCP 操作证据
 
@@ -521,6 +522,7 @@ status: in-progress
 | BUG-20260606-011 | P2 | /teacher/grading/gradebook | 批量调分 / 导入 / 发布后缓存失效 key 不匹配，当前成绩册和报表可能不刷新 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-012 | P2 | /teacher/labs | 实验中心行操作 / 报告行操作按钮目标不可区分，创建 / 编辑实验空标题静默无反馈，弹窗缺少描述 | 已修复，2026-06-06 Playwright MCP 回归通过 |
 | BUG-20260606-013 | P2 | /student/assignments | 移动端作业卡片仍左右排布导致标题被压缩，所有“开始做题”链接名称相同且无法区分目标作业 | 已修复，2026-06-06 Playwright MCP 回归通过 |
+| BUG-20260606-014 | P2 | /student/notifications | “全部已读”接口成功且未读徽章清零后，分页通知列表未失效刷新，行内“标记已读”仍保留 | 已修复，2026-06-06 真实浏览器补充回归通过；Playwright MCP 当前 `Transport closed`，已记录工具降级 |
 
 ## 12. 修复计划
 
@@ -535,7 +537,7 @@ status: in-progress
 - 学生：作业任务（/student/assignments）结构化答题/提交已在 5.26 用 Playwright MCP 回归验证
 - 学生：编程工作区保存/运行和正式提交编程答案已在 5.26 用 Playwright MCP 回归验证；重置/历史恢复仍待补测
 - 学生：实验项目（/student/labs）上传附件/提交报告已在 5.26 用 Playwright MCP 回归验证；教师评阅发布已在 5.24 补测
-- 学生：通知"全部已读"功能未测试
+- 学生：通知"全部已读"已补测并修复列表刷新问题
 - 移动端视口仍仅局部覆盖；本轮补充 `/teacher/labs` 与 `/student/assignments` 390px 无横向溢出和控件名称检查
 - 跨角色权限负例（学生访问其他班级课程内容）未测试
 
@@ -577,3 +579,5 @@ status: in-progress
 | Playwright MCP 教师实验中心回归 | 教师真实会话 `/teacher/labs` 选择课程 1 / A1；空创建和空编辑均显示“请输入实验标题”、标题字段 `aria-invalid=true` 且未发送创建 / 更新请求；创建 `MCP 教师实验回归 0606-0646` 返回 201，编辑 lab 74 返回 200；发布前先出现包含实验标题的确认弹窗，确认后 `POST /api/v1/teacher/labs/74/publish` 返回 200，列表显示已发布、发布按钮禁用、关闭按钮启用；报告空态 `GET /teacher/labs/74/reports` 返回 200 并显示“暂无实验报告”；既有报告 `MCP 实验回归 mq1bfyvc` 的详情、附件、保存评阅和发布评阅通过，`GET /teacher/labs/63/reports`、`GET /teacher/lab-reports/30`、`PUT /review`、`POST /publish` 均返回 200；390px 视口 `documentWidth=390`，控制台错误 0 |
 | npm test -- src/tests/unit/assignment/student-assignments-page.test.tsx | 1 文件 / 1 测试通过 |
 | Playwright MCP 学生作业移动端回归 | 学生真实会话 `/student/assignments`，390x844 视口 `documentWidth=390` / `bodyWidth=390`，`GET /api/v1/me/assignments` 返回 200，控制台错误 0；前三张作业卡片宽度 326px，类名包含 `flex-col` / `sm:flex-row`；“开始做题”链接名称分别包含对应作业标题并指向各自作业详情 |
+| npm test -- src/tests/unit/api/query-keys.contract.test.ts | RED：新增通知 inbox 前缀契约时失败于 `["notification","inbox", undefined]`；修复后 1 文件 / 5 测试通过 |
+| 真实浏览器学生通知全部已读补充回归 | Playwright MCP 当前返回 `Transport closed`，本轮降级使用 Codex in-app Browser 操作真实本地页面；学生真实会话 `/student/notifications` 中临时实验 `MCP 通知全部已读回归 mq1lx8tk` 生成 1 条未读通知，点击“全部已读”前行内“标记已读”按钮数量为 1，点击后为 0，顶部未读徽标消失；后端只读校验目标通知 `id=991`、`read=true`、`unreadCount=0`、`firstUnreadId=null`；浏览器控制台 error 数 0 |
