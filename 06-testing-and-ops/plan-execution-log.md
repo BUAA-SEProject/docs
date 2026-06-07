@@ -868,3 +868,41 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测判题环境新增弹窗连续创建 / 取消 / 再打开不残留旧值 |
+
+## 17. 2026-06-08 学生端课程状态文案修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-010` 的前端阶段修复。目标是避免学生端课程卡片直接展示教师 / 管理侧的“草稿”状态，造成“课程看似未开放但已能访问作业”的理解冲突。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 学生课程状态 `DRAFT` | 学生工作台和“我的课表”不再显示“草稿”，改显示“可学习”，表示该课程已经通过学生可见接口进入学习范围 |
+| 学生课程状态 `PUBLISHED` | 显示“可学习”，与学生可访问课程 / 作业的操作状态一致 |
+| 教师 / 管理侧状态 | 保留原有 `DRAFT -> 草稿` 映射，不改变教师创建、编辑、发布开课的内部状态语义 |
+| 后端契约 | 本次不改变 `/api/v1/me/courses` 返回的 `status` 字段，只在学生端视图模型做展示裁剪 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `course-view.ts` | 新增 `mapStudentCourseStatusText` 和 `mapToStudentCourseViewModel`，将学生可见状态与教师 / 管理状态分离 |
+| `student/page.tsx` | 学生工作台课程卡片使用学生态状态文案，不再使用本地教师态 `DRAFT -> 草稿` 字典 |
+| `student/courses/page.tsx` | 我的课表使用 `mapToStudentCourseViewModel`，与工作台保持一致 |
+| `mappers.contract.test.ts` / `student-home-page.test.tsx` / `student-courses-page.test.tsx` | 增加回归测试，覆盖 mapper、学生工作台和我的课表三个入口 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 学生课程卡片暴露教师侧草稿状态 | 新增回归测试后，修复前失败：mapper 缺少 `mapToStudentCourseViewModel`，学生工作台卡片收到 `草稿` 而不是 `可学习` |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/api/mappers.contract.test.ts src/tests/unit/course/student-home-page.test.tsx src/tests/unit/course/student-courses-page.test.tsx` 通过；Test Files: `3 passed`，Tests: `12 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `61 passed`，Tests: `158 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生工作台、我的课表和作业列表的状态理解一致性 |
