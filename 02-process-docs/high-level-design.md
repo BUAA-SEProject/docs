@@ -68,7 +68,7 @@ DB  Redis  S3 Store  Stream MQ  Auth Adapter
 | 层次 | 技术 / 产品 | 选型说明 |
 | --- | --- | --- |
 | Web 前端 | Vue 3、TypeScript、Vite、Vue Router、Pinia | 组件化开发效率高，适合课程项目交付 |
-| 在线 IDE | Monaco Editor、xterm.js | 复用成熟编辑器和终端输出组件，避免自研编辑内核 |
+| 在线 IDE | Monaco Editor、标准输入输出面板 | 复用成熟编辑器，提供标准输入、运行输出和执行状态展示，不提供终端 |
 | UI 与图表 | Element Plus、ECharts | 快速构建后台与统计页面 |
 | 后端 API | Spring Boot 4、Java 25、Spring MVC | 生态成熟，适合事务型后台、权限治理和分层设计 |
 | 安全与认证 | Spring Security、JWT Resource Server | 适合 API 化访问，可平滑扩展 OIDC |
@@ -85,7 +85,7 @@ DB  Redis  S3 Store  Stream MQ  Auth Adapter
 | 能力 | 推荐开源项目 | 采用策略 | 说明 |
 | --- | --- | --- | --- |
 | 浏览器代码编辑 | Monaco Editor | 直接采用 | 具备模型管理、多语言支持和大文件编辑能力 |
-| 运行输出面板 | xterm.js | 直接采用 | 用于承载 stdout / stderr 与交互式输出展示 |
+| 运行输出面板 | React + Monaco 周边组件 | 直接采用 | 用于承载标准输入、stdout / stderr、退出状态和资源摘要展示 |
 | 判题与沙箱 | `go-judge` | 直接采用 | 提供统一 API、容器池、资源限制、缓存文件 `fileId` 和 `pipeMapping` 能力 |
 | 数据库迁移 | Flyway | 直接采用 | 便于版本化维护表结构和初始化脚本 |
 | 统一认证 | Keycloak | 可选接入 | 若后续需要统一认证，可通过 OIDC 适配层接入 |
@@ -122,12 +122,12 @@ DB  Redis  S3 Store  Stream MQ  Auth Adapter
 | --- | --- | --- |
 | 平台治理 | 平台配置、学校/学院/课程/班级组织、用户、作用域身份、用户查询、审计、平台概览 | 分层管理员 |
 | 身份认证 | 登录、退出、JWT、权限检查、账号状态管理 | 全角色 |
-| 课程管理 | 课程、成员、资源、章节结构、邀请码 | 教师、学员 |
+| 课程管理 | 课程、成员、资源、章节结构 | 教师、整课助教、学员 |
 | 任务管理 | 任务说明、语言配置、模板工程、提交规则、评分规则 | 教师 |
 | IDE 工作区 | 在线编辑、多文件工程、草稿自动保存、试运行、控制台展示 | 学员 |
 | 提交中心 | 正式提交受理、快照固化、提交历史、下载与对比 | 学员、教师 |
 | 判题中心 | 评测排队、编译缓存、用例执行、结果归一化、重评 | 系统、教师 |
-| 批改与成绩 | 人工评分、Rubric、成绩生成、发布、撤回、复核 | 教师、助教、学员 |
+| 批改与成绩 | 人工评分、成绩生成、发布、重新发布 | 教师、整课助教、班级助教、学员 |
 | 通知中心 | 站内通知、公告、多渠道通知扩展 | 全角色 |
 | 运营概览 | 课程概览、平台概览、异常与审计检索 | 管理员、运维 |
 
@@ -184,7 +184,7 @@ API -> Notification: 发送评测完成事件
 
 ```text
 Teacher -> API: 打开提交详情
-Teacher -> API: 保存评语 / Rubric / 人工分
+Teacher -> API: 保存评语 / 人工分
 API -> DB: 写入 review_record
 API -> DB: 计算 grade
 Teacher -> API: 发布成绩
@@ -198,10 +198,10 @@ Student -> API: 查看成绩与评语
 
 - 平台治理：`platform_configs`、`org_units`、`users`
 - 课程域：`courses`、`course_members`、`course_resources`
-- 任务域：`tasks`、`task_language_profiles`、`task_testcases`、`task_starter_files`、`task_rubrics`
+- 任务域：`tasks`、`task_language_profiles`、`task_testcases`、`task_starter_files`
 - IDE 与运行：`ide_workspaces`、`ide_workspace_files`、`workspace_snapshots`、`sandbox_runs`
 - 提交与评测：`submissions`、`submission_files`、`judge_runs`
-- 批改与成绩：`review_records`、`grades`、`grade_rechecks`
+- 批改与成绩：`review_records`、`grades`、`grade_publish_records`
 - 消息与审计：`notifications`、`announcements`、`audit_logs`
 
 ### 8.2 数据原则
@@ -226,11 +226,11 @@ Student -> API: 查看成绩与评语
 | --- | --- |
 | `/auth/*` | 登录、退出、当前用户、统一认证回调 |
 | `/admin/*` | 平台配置、组织、用户、平台级概览、审计 |
-| `/courses/*` | 课程、成员、资源、邀请码 |
-| `/tasks/*` | 任务、语言配置、模板工程、测试用例、Rubric |
+| `/courses/*` | 课程、成员、资源 |
+| `/tasks/*` | 任务、语言配置、模板工程、测试用例、题型配置 |
 | `/ide/*` | 工作区拉取、文件保存、试运行、运行结果查询 |
 | `/submissions/*` | 正式提交创建、提交详情、提交历史、评测状态 |
-| `/grades/*` | 批改记录、成绩发布、成绩导出、复核 |
+| `/grades/*` | 批改记录、成绩发布、重新发布、成绩导出 |
 | `/notifications/*` | 站内通知、公告、已读状态 |
 
 ## 10. 部署视图

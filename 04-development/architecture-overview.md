@@ -10,7 +10,7 @@ status: current
 | 层次 | 技术 |
 | --- | --- |
 | Web 前端 | Next.js 16 (App Router)、React 19、TypeScript、Tailwind CSS 4 |
-| UI 能力 | shadcn/ui、Monaco Editor、xterm.js、ECharts |
+| UI 能力 | shadcn/ui、Monaco Editor、标准输入输出面板、ECharts |
 | 状态与数据 | TanStack Query、Zustand、Axios |
 | 后端 | Spring Boot 4、Java 25、Spring MVC、Spring Security |
 | 数据访问 | MyBatis-Plus、Flyway |
@@ -25,7 +25,7 @@ status: current
 | 能力 | 组件 | 采用方式 | 说明 |
 | --- | --- | --- | --- |
 | 在线编辑器 | Monaco Editor | 直接集成 | 支撑多文件编辑、语言高亮和模型管理 |
-| 输出终端 | xterm.js | 直接集成 | 展示试运行输出与执行状态 |
+| 运行输出面板 | React + Monaco 周边组件 | 直接集成 | 展示标准输入、stdout / stderr、退出状态和资源摘要；WebIDE 不提供终端 |
 | 沙箱与判题 | `go-judge` | 直接集成 | 提供统一 API、文件缓存、资源限制和容器池 |
 | 数据库迁移 | Flyway | 直接集成 | 管理表结构变更与初始化脚本 |
 | 消息队列 | RabbitMQ | 直接集成 | 评测作业入队，支持后续重试和死信治理扩展 |

@@ -45,13 +45,12 @@ updated: "2026-05-24"
 | Application Service | 后端应用服务层，负责事务、授权、领域服务编排和审计协同 |
 | Domain | 领域层，承载状态、规则、策略与枚举 |
 | DTO / View | 接口入参对象与响应视图对象，禁止直接暴露数据库 Entity |
-| OrgUnit | 平台组织节点，固定为 `SCHOOL / COLLEGE / COURSE / CLASS` 四层 |
-| Scope Role | 平台治理身份，如 `SCHOOL_ADMIN`、`COLLEGE_ADMIN`、`COURSE_ADMIN`、`CLASS_ADMIN` |
-| Course Member | 课程域成员关系，如 `INSTRUCTOR`、`TA`、`STUDENT`、`OBSERVER` |
+| OrgUnit | 平台组织节点，覆盖 `SCHOOL / COLLEGE / COURSE` 等治理层级，开课和班级作为课程域作用域参与授权 |
+| Scope Role | 平台治理身份，如 `SCHOOL_ADMIN`、`COLLEGE_ADMIN`、`COURSE_ADMIN` |
+| Course Member | 课程域成员关系，如 `INSTRUCTOR`、`OFFERING_TA`、`TA`、`STUDENT`、`OBSERVER` |
 | Workspace | 学员编程题在线工作区，保存文件树、当前内容和修订历史 |
 | Judge Job | 正式评测作业，由提交或分题答案触发，进入 RabbitMQ 队列后执行 |
 | Sample Run | 在线 IDE 样例运行，不进入成绩计算 |
-| Rubric | 人工批改评分量规 |
 | MinIO | S3 兼容对象存储，用于附件、提交产物和评测报告 |
 | go-judge | 隔离执行引擎，用于编译、运行和评测学员代码 |
 
@@ -862,7 +861,7 @@ flowchart TD
 | 页面布局 | 顶部栏 + 侧边导航 + 内容区，按角色呈现不同导航 |
 | 控件体系 | shadcn/ui 表单、按钮、表格、Dialog、Select、Badge、Switch |
 | 数据列表 | 统一分页、筛选、空态、加载态、错误态 |
-| 危险操作 | 发布、关闭、删除、撤回、重评等显示确认对话框 |
+| 危险操作 | 发布、重新发布、关闭、删除、重评、导出等显示确认对话框 |
 | 权限失败 | 前端展示无权限页，后端返回稳定 `403` 错误模型 |
 | 文件操作 | 上传显示大小、类型、进度和失败原因；下载按钮统一复用组件 |
 
