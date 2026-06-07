@@ -1095,3 +1095,39 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | --- | --- |
 | 后端拒绝 | 后端现有 `PROGRAMMING_MULTIPLE_FILES_DISABLED` 仍作为最终保护；前端本轮阻断常规 UI 入口和本地乐观状态发散 |
 | 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测单文件题文件浏览器没有创建入口、多文件题创建入口可用 |
+
+## 23. 2026-06-08 WebIDE 历史版本侧栏布局修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-017` 的前端阶段修复。目标是让历史版本侧栏在桌面工作区中保持稳定宽度，不被 Monaco 编辑区挤压到约 98px，同时保留可滚动内容和清楚的恢复操作。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 桌面布局 | 历史版本侧栏使用 `shrink-0`、`lg:w-80`、`lg:min-w-80`，在主编辑区旁保持稳定宽度 |
+| 移动 / 窄屏布局 | 侧栏在纵向布局中使用全宽和 `max-h-[420px]`，避免覆盖编辑器或无限撑高页面 |
+| 可滚动内容 | 版本列表和预览区域继续使用 `flex-1 overflow-y-auto`，长历史列表可滚动 |
+| 可访问性 | 侧栏使用 `role="complementary"` 和 `aria-label="历史版本"`，便于浏览器审计和辅助技术定位 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `workspace-revision-sidebar.tsx` | 根容器从普通 `div` 改为语义化 `aside`，补稳定宽度、禁止收缩、移动端最大高度和边框方向 |
+| `programming-workspace-page.test.tsx` | 增加回归测试，覆盖历史侧栏可定位、具备稳定宽度类并仍展示标题 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 历史侧栏缺少稳定布局 landmark | 新增回归测试后，修复前失败于无法找到 `role="complementary"` 且名称为“历史版本”的侧栏 |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/submission/programming-workspace-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `9 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `62 passed`，Tests: `168 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生打开历史版本侧栏时宽度稳定、列表可滚动、恢复按钮可见 |
