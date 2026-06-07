@@ -210,6 +210,21 @@ status: current
 | `remark` | 备注 |
 | `joined_at` / `left_at` | 加入和离开时间 |
 
+### 3.7 `course_resources`
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 课程资源主键 |
+| `offering_id` | 所属开课实例 |
+| `teaching_class_id` | 可选教学班范围；为空表示开课级资源 |
+| `uploader_user_id` | 上传人 |
+| `title` | 资源标题 |
+| `description` | 可选资源说明，保存原始 Markdown，最长 5000 字 |
+| `object_key` | 对象存储键 |
+| `original_filename` | 原始文件名 |
+| `content_type` | MIME 类型 |
+| `size_bytes` | 文件大小 |
+
 ## 4. 作业与题库表
 
 ### 4.1 `assignments`

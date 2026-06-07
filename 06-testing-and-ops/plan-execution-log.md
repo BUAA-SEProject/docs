@@ -1532,8 +1532,8 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 
 | 项目 | 当前结果 |
 | --- | --- |
-| 资源说明 | 当前课程资源 API / 页面只有标题与文件名，没有独立资源说明字段；本阶段未新增后端字段 |
-| 真实浏览器证据 | 本阶段完成前端单元和类型证据；仍需最终业务闭环用 Playwright MCP 创建含 Markdown 的公告、讨论、实验和作业题干，确认真实页面渲染和脚本清理 |
+| 资源说明 | 第 35 段已补齐课程资源 `description` 字段、上传 / 编辑入口和师生列表安全 Markdown 渲染；本段原“无独立资源说明字段”风险已关闭 |
+| 真实浏览器证据 | 公告、讨论、实验、作业题干已在第 34 段完成 Playwright MCP 证据；课程资源说明的真实浏览器证据补充见第 35 段 |
 
 ## 34. 2026-06-08 真实 Playwright MCP 回归证据补充
 
@@ -1574,5 +1574,57 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 
 | 项目 | 当前结果 |
 | --- | --- |
-| 资源说明 | 当前课程资源页面没有独立资源说明字段，本轮仍无法做资源说明 Markdown 的浏览器验证；已在第 33 段记录为产品 / 契约剩余风险 |
+| 资源说明 | 第 35 段已补齐课程资源说明 Markdown 字段和真实浏览器验证入口，本轮原剩余风险已关闭 |
 | 截图包 | Playwright MCP 截图已保存到本地 ignored artifacts 目录；正式 git 提交仅包含本执行日志 |
+
+## 35. 2026-06-08 课程资源说明 Markdown 修复
+
+本段记录对第 33、34 段遗留的“资源说明无独立字段”缺口的补齐。新口径为：课程资源说明作为可选原始 Markdown 保存到后端，上传和编辑资源时均可维护；教师和学生资源列表读取同一 `description` 字段，并通过统一安全 Markdown 组件渲染。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 后端存储 | `course_resources.description` 保存原始 Markdown；空白说明归一化为 `null`，非空最长 5000 字 |
+| 上传资源 | `POST /api/v1/teacher/course-offerings/{offeringId}/resources` multipart 接受可选 `description` |
+| 更新资源 | `PUT /api/v1/teacher/course-resources/{resourceId}` 接受 `title` 和可选 `description`，用于同时维护资源标题与说明 |
+| 资源列表 | 教师侧和学生侧 `CourseResourceView` 返回可选 `description`，不返回预渲染 HTML |
+| 前端录入 | 教师上传资源、编辑资源弹窗新增“资源说明” textarea，支持输入 Markdown |
+| 前端展示 | 教师资源表格和学生课程资源列表在标题 / 文件名下方渲染资源说明；危险链接不可点击，原始 HTML 不执行 |
+
+### 修复范围
+
+| 仓库 | 文件 / 范围 |
+| --- | --- |
+| server | `CourseResourceApplicationService`、`CourseResourceTeacherController`、`CourseResourceView`、`CourseResourceEntity`、`V51__course_resource_description_markdown.sql`、`CourseResourceIntegrationTests` |
+| web | 课程资源 API 类型、资源上传 / 编辑表单、教师资源页、学生课程详情资源列表、资源页单测 |
+| docs | `server/docs/stable-api.md`、`server/docs/product-specs/course-system.md`、`server/docs/generated/db-schema.md`、`docs/05-api/courses-api.md`、`docs/04-development/database.md`、`docs/04-development/frontend-design.md` |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 后端资源视图无 `description` | 新增 `CourseResourceIntegrationTests#resourceDescriptionIsStoredAndReturnedAsRawMarkdown` 后，修复前失败于 `No value at JSON path "$.description"` |
+| 后端定向用例 | `cd server && bash ./mvnw -Dtest=CourseResourceIntegrationTests#resourceDescriptionIsStoredAndReturnedAsRawMarkdown test` 通过；Tests run: `1` |
+| 后端资源集成用例 | `cd server && bash ./mvnw -Dtest=CourseResourceIntegrationTests test` 通过；Tests run: `3` |
+| RED: 前端资源说明缺失 | 新增教师 / 学生资源说明单测后，修复前分别失败于找不到 Markdown 标题“使用说明”“下载说明”和 label“资源说明” |
+| 前端定向用例 | `cd web && npm test -- src/tests/unit/course/teacher-resources-page.test.tsx src/tests/unit/course/student-course-detail-page.test.tsx` 通过；Test Files: `2 passed`，Tests: `7 passed` |
+| 前端类型检查 | `cd web && npm run typecheck` 通过 |
+| 前端静态门禁 | `cd web && npm run lint` 通过 |
+| 前端完整单元 | `cd web && npm test` 通过；Test Files: `64 passed`，Tests: `192 passed` |
+| 前端构建 | `cd web && npm run build` 通过；Next.js 生产构建完成，生成 `31` 个静态页面 |
+| 文档构建 | `cd docs && npm run docs:build` 通过；VitePress build complete，存在既有 chunk size warning |
+| 运行时契约 | 重启本地真实后端后抽样 `/v3/api-docs`，`CourseResourceView`、`UpdateResourceRequest` 和上传参数均包含 `description` |
+| Fixture 刷新 | `just seed-fixtures` 通过；`caseCount=22`，`passedCount=22` |
+| Playwright MCP 教师侧 | 在 `http://127.0.0.1:3000/teacher/courses/2/resources` 以教师会话验证资源 `E2E-MCP-资源说明-mq4e4g2g`：初始说明可见；编辑弹窗保存后，资源表格渲染 Markdown heading、列表、表格；`javascript:` 链接没有生成可点击 anchor |
+| Playwright MCP 学生侧 | 在 `http://127.0.0.1:3000/student/courses/10` 以学生会话验证同一资源：课程资源区显示相同 heading、列表和表格；危险链接文本可见但没有可点击 anchor |
+| 验证资源清理 | 本轮浏览器验证资源 `id=3` 已通过教师资源删除 API 清理，返回 `204` |
+
+### 后续验证
+
+| 项目 | 状态 |
+| --- | --- |
+| Playwright MCP | 已补齐课程资源说明真实浏览器证据；教师侧上传 / 编辑入口和师生列表安全 Markdown 渲染缺口关闭 |
+| `just verify` | 通过；后端 `bash ./mvnw test`：Tests run `335`，Failures `0`，Errors `0`，Skipped `0`；前端 lint / typecheck 通过；文档构建通过，存在既有 VitePress chunk size warning |
+| `just verify-full` | 通过；后端 `bash ./mvnw verify`：Tests run `335`，Failures `0`，Errors `0`，Skipped `0`，`BUILD SUCCESS`；前端 lint / typecheck / unit / build 通过，unit 为 Test Files `64 passed`、Tests `192 passed`，Next.js 构建生成 `31` 个静态页面；文档构建通过，存在既有 VitePress chunk size warning |
+| 分仓库提交 | `server`：`b045ea3 fix(course): 支持资源说明Markdown`；`web`：`7095034 fix(course): 安全渲染资源说明`；`docs`：本段文档证据随本轮提交 |

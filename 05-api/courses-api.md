@@ -22,6 +22,10 @@ status: current
 | POST | `/teacher/course-offerings/:offeringId/members/batch` | 批量添加课程成员 | 教师 / 管理员 |
 | POST | `/teacher/course-offerings/:offeringId/members/import` | 通过 CSV 导入既有系统用户 | 教师 / 管理员 |
 | GET | `/teacher/course-offerings/:offeringId/members` | 课程成员列表 | 教师 / 管理员 / 受限助教 |
+| POST | `/teacher/course-offerings/:offeringId/resources` | 上传课程资源 | 教师 / 整课助教 |
+| GET | `/teacher/course-offerings/:offeringId/resources` | 教师侧课程资源列表 | 教师 / 整课助教 / 受限助教 |
+| PUT | `/teacher/course-resources/:resourceId` | 更新资源标题和说明 | 教师 / 整课助教 |
+| GET | `/me/course-classes/:teachingClassId/resources` | 学生侧可见资源列表 | 已加入教学班的学生 |
 | GET | `/me/courses` | 我的课程 | 已登录 |
 
 ## 2. 关键规则
@@ -30,7 +34,7 @@ status: current
 - 课程成员只能由教师从系统既有用户中批量添加或导入。
 - 助教可以查看自己协助教学班的成员，但不能批量加人或修改班级功能开关。
 - 同一用户可在一个班级中是学生，在另一个班级中是助教。
-- 课程公告正文和讨论正文保存原始 Markdown；API 不返回预渲染 HTML。
+- 课程公告正文、讨论正文和课程资源说明保存原始 Markdown；API 不返回预渲染 HTML。
 - 前端阅读区负责安全 Markdown 渲染，支持标题、列表、引用、表格、代码块、行内代码和链接，默认忽略原始 HTML。
 
 ## 3. 创建开课实例
@@ -140,7 +144,31 @@ CSV 字段：
 - `labEnabled`
 - `assignmentEnabled`
 
-## 8. 我的课程
+## 8. 课程资源
+
+`POST /api/v1/teacher/course-offerings/:offeringId/resources`
+
+multipart 字段：
+
+- `file`：资源文件，最大 50 MB。
+- `title`：资源标题；前端标题为空时可用文件名兜底。
+- `description`：可选资源说明，保存原始 Markdown，最长 5000 字。
+- `teachingClassId`：可选，填写后仅定向到该教学班。
+
+`PUT /api/v1/teacher/course-resources/:resourceId`
+
+请求体示例：
+
+```json
+{
+  "title": "第一章实验指导",
+  "description": "## 下载说明\n\n- 先阅读指导书\n- 再完成实验"
+}
+```
+
+教师和学生资源列表返回 `CourseResourceView`，其中 `description` 为可选原始 Markdown；前端负责安全渲染，危险链接和原始 HTML 不作为可执行内容输出。
+
+## 9. 我的课程
 
 `GET /api/v1/me/courses`
 
