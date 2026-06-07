@@ -1056,3 +1056,42 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段完成当前树代码路径和单测复核；仍需在最终业务闭环中用 Playwright MCP 通过真实键盘输入、点击保存并核验请求 payload 与 Monaco model 一致 |
+
+## 22. 2026-06-08 WebIDE 单文件题文件创建入口收敛
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-016` 的前端阶段修复。目标是在编程题禁用多文件时，不再向学生暴露新建文件 / 新建目录入口，并在 hook 层阻止误触路径产生本地乐观文件，避免后端返回 `PROGRAMMING_MULTIPLE_FILES_DISABLED` 后 UI 与服务端状态发散。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| `allowMultipleFiles=false` 或缺省 | 文件浏览器不展示根目录“创建文件或目录”按钮；目录项菜单也不展示“新建文件 / 新建目录” |
+| `allowMultipleFiles=true` | 文件浏览器继续展示创建入口，支持多文件题创建文件和目录 |
+| 误触保护 | `useWorkspaceFileSession` 在 `canCreateFiles=false` 时直接忽略创建文件 / 目录操作，不调用后端 operations，也不写入本地乐观状态 |
+| 可访问性 | 文件创建和单文件操作图标按钮补充可访问名称，避免真实浏览器审计只能看到匿名按钮 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `useProgrammingWorkspaceController` | 根据题目配置 `question.config.allowMultipleFiles` 计算 `canCreateFiles`，传入文件会话和页面组件 |
+| `useWorkspaceFileSession` | 新增 `canCreateFiles` guard，禁止单文件题通过 handler 创建本地文件或目录 |
+| `WorkspaceLeftPanel` / `FileTree` / `FileTreeItem` | 将 `canCreateFiles` 透传到文件树；单文件题隐藏根目录和目录内创建入口；图标按钮补充 `aria-label` |
+| `programming-workspace-page.test.tsx` | 增加回归测试，覆盖单文件题隐藏创建入口、多文件题保留创建入口 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 单文件题仍暴露文件创建入口 | 新增回归测试后，修复前失败：无法按可访问名称找到“创建文件或目录”，且角色列表仍出现匿名文件操作按钮 |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/submission/programming-workspace-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `8 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `62 passed`，Tests: `167 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 后端拒绝 | 后端现有 `PROGRAMMING_MULTIPLE_FILES_DISABLED` 仍作为最终保护；前端本轮阻断常规 UI 入口和本地乐观状态发散 |
+| 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测单文件题文件浏览器没有创建入口、多文件题创建入口可用 |
