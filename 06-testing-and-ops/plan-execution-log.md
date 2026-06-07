@@ -833,3 +833,38 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测成员页添加后继续录入、列表刷新和教学班列展示 |
+
+## 16. 2026-06-08 判题环境新增弹窗表单复位
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-007` 的前端阶段修复。目标是避免教师端判题环境“新增配置”弹窗二次打开时残留上一条未提交或已提交配置草稿。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 新增判题环境弹窗 | 每次打开新增弹窗时重置为默认草稿：配置编码、配置名称、语言版本、说明、编译命令、运行命令为空，编程语言为 `Python 3` |
+| 编辑判题环境弹窗 | 每次打开编辑弹窗时仍按当前选中配置重置表单，避免复用上一轮编辑或新增草稿 |
+| 表单提交载荷 | 本次不改变 `SaveJudgeEnvironmentProfileRequest` 契约和字段映射，只修正弹窗打开时的表单生命周期 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `JudgeEnvironmentProfileDialog` | `react-hook-form` 在 `open=true` 时使用当前 `profile` 对应的默认值执行 `form.reset(defaultValues)` |
+| `teacher-judge-environments-page.test.tsx` | 增加回归测试，填入 C++ 草稿并取消后重新打开新增弹窗，断言所有文本字段清空且语言回到 `Python 3` |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 新增弹窗二次打开残留上一条草稿 | 新增 `JudgeEnvironmentsPage resets create draft values when reopening the dialog` 后，修复前失败于 `配置编码` 收到 `cpp-stale` |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/course/teacher-judge-environments-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `5 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `59 passed`，Tests: `155 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测判题环境新增弹窗连续创建 / 取消 / 再打开不残留旧值 |
