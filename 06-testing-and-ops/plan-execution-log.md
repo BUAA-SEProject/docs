@@ -723,3 +723,42 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | --- | --- |
 | 密钥处理 | 日志仅记录环境变量名和命令形态，未记录任何密码、token、cookie 或 JWT 值 |
 | 本地数据 | 本轮创建 `E2E-*` 学院、学期、课程模板、开课、教学班和临时用户；当前无通用删除 API，数据作为审计残留保留 |
+
+## 13. 2026-06-08 空 stdin 与 STANDARD_IO 输出比较修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-008` 和 `BUG-20260607-015` 的后端阶段修复。目标是让无输入编程题成为合法教学场景，并让样例运行与正式 `STANDARD_IO` 判题共用默认宽松输出比较。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 编程题测试用例 `stdinText` | 作业创建和题库题目接口接受空字符串；请求体传入 `null` 或省略时在服务端归一化为空字符串 |
+| 样例运行 `stdinText` | 自定义样例运行允许 `stdinText: ""`，不会回退到“缺少标准输入”错误 |
+| 题目样例输入 | `sampleStdinText` 可为空字符串，服务端持久化为空输入 |
+| `STANDARD_IO` 输出比较 | 样例运行和正式判题统一规范化 CRLF/LF，忽略行尾空白、末尾空行和最终换行差异 |
+| 期望输出 | `expectedStdout` 仍需提供非空文本，避免无断言的测试点误判通过 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `AssignmentTeacherController` / `QuestionBankTeacherController` | 移除结构化编程题 `ProgrammingJudgeCaseRequest.stdinText` 的 `@NotBlank` 拦截，并在 DTO 转换时把 `null` 归一化为 `""` |
+| `StructuredQuestionSupport` | 结构化编程题校验不再要求测试用例输入非空，只保留期望输出和分值校验 |
+| `AssignmentPaperApplicationService` / `QuestionBankApplicationService` | 持久化配置前归一化 `sampleStdinText` 和 `judgeCases[].stdinText`，保证数据库 JSON 中无输入题稳定保存为空字符串 |
+| `ProgrammingSampleRunApplicationService` | 自定义运行通过字段是否出现判断模式，空字符串输入不再被 `StringUtils.hasText` 当作缺失 |
+| `JudgeExecutionService` | 移除样例运行空 stdin 拒绝；`toCaseOutcome` 使用宽松 `STANDARD_IO` 输出比较 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 正式判题空 stdin | 新增 `StructuredProgrammingJudgeIntegrationTests#standardIoJudgeAcceptsEmptyStdinAndFinalNewlineDifference` 后，修复前失败于 `POST /assignments` 返回 400 `MethodArgumentNotValidException` |
+| 目标后端回归 | `cd server && bash ./mvnw -Dtest='StructuredAssignmentIntegrationTests#teacherCreatesProgrammingAssignmentWithEmptyJudgeStdin+teacherCreatesQuestionBankProgrammingQuestionWithEmptyJudgeStdin,ProgrammingWorkspaceIntegrationTests#sampleRunAcceptsOnlyFinalNewlineDifference,StructuredProgrammingJudgeIntegrationTests#standardIoJudgeAcceptsEmptyStdinAndFinalNewlineDifference' test` 通过；Tests run: `4`，Failures: `0`，Errors: `0`，Skipped: `0` |
+| 相关集成回归 | `cd server && bash ./mvnw -Dtest='StructuredAssignmentIntegrationTests,ProgrammingWorkspaceIntegrationTests,StructuredProgrammingJudgeIntegrationTests' test` 通过；Tests run: `43`，Failures: `0`，Errors: `0`，Skipped: `0` |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成后端 RED-GREEN；仍需在最终业务闭环中用 Playwright MCP 复测作业创建、样例运行和正式提交 |
+| UI diff 可读性 | 本次修复了默认判定语义；样例结果差异说明的前端可读性仍属于后续 WebIDE 体验阶段 |
