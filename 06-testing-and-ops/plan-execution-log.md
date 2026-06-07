@@ -1131,3 +1131,37 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生打开历史版本侧栏时宽度稳定、列表可滚动、恢复按钮可见 |
+
+## 24. 2026-06-08 WebIDE 保存本题返回语义复核
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-018` 的当前树复核。目标是确认 IDE 内操作不再调用整份结构化作业提交接口，避免只发送编程题答案导致 `SUBMISSION_ANSWER_SET_INVALID`，并让 UI 文案明确整份作业提交只能回到作业详情页完成。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 工具栏主按钮 | 原 IDE 内“提交”改为“保存并返回” |
+| 确认弹窗 | 标题为“保存本题”，说明“保存当前编程题代码并返回作业详情页；整份作业提交请在作业详情页完成。” |
+| 请求语义 | 确认后调用编程工作区保存 mutation，revision message 为“保存本题后返回作业”，不调用 `POST /submissions` 整份作业提交接口 |
+| 成功跳转 | 保存成功后返回 `/student/assignments/{assignmentId}`，由作业详情页负责整份作业提交 |
+
+### 复核范围
+
+| 模块 | 复核结果 |
+| --- | --- |
+| `useProgrammingWorkspaceController` | 当前生产代码不再引入或调用 `useCreateSubmissionMutation`；`handleSubmit` 使用 `saveMutation.mutate(buildSavePayload(...))` |
+| `ProgrammingWorkspacePage` | 工具栏 `submitLabel="保存并返回"`；确认弹窗标题、描述和按钮文案均为保存当前题后返回 |
+| `programming-workspace-page.test.tsx` | 回归测试断言 `createSubmissionMutate` 未被调用，保存 payload 包含当前代码和“保存本题后返回作业”，成功回调跳转作业详情页 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/submission/programming-workspace-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `9 passed` |
+| 关键断言 | `saves the current programming question and returns to assignment detail instead of submitting the whole assignment` 断言整份作业提交 mutation 未调用，保存成功后跳转 `/student/assignments/439` |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段完成当前树代码路径和单测复核；仍需在最终业务闭环中用 Playwright MCP 复测 IDE 内点击“保存并返回”只发工作区保存请求，并返回作业详情页后再完成整份作业提交 |
