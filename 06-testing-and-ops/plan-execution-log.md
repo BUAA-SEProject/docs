@@ -1165,3 +1165,38 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段完成当前树代码路径和单测复核；仍需在最终业务闭环中用 Playwright MCP 复测 IDE 内点击“保存并返回”只发工作区保存请求，并返回作业详情页后再完成整份作业提交 |
+
+## 25. 2026-06-08 编程判题得分同步复核
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-019` 的当前树复核。目标是确认结构化编程题评测完成后，提交详情分题得分、提交总分、待判题计数和成绩册聚合使用同一份 `submission_answers` 得分状态，不再出现 judge job 已 `ACCEPTED 20/20` 但提交详情仍为 `20/60`、编程题显示 `0` 分的情况。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 提交详情分题 | 编程题进入 `PROGRAMMING_JUDGED` 或 `PROGRAMMING_JUDGE_FAILED` 终态后，即使人工分未发布，也会展示自动评测写回的 `autoScore`、`finalScore` 和反馈 |
+| 提交总分 | `scoreSummary` 在隐藏人工分时仍包含客观题即时分和已完成编程评测自动分 |
+| 待处理计数 | 编程题评测完成后 `pendingProgrammingCount=0`；人工题仍保留 `pendingManualCount` |
+| 学生成绩可见性 | 发布前仍隐藏非客观题人工评分和人工反馈；编程自动评测分作为即时反馈可见 |
+
+### 复核范围
+
+| 模块 | 复核结果 |
+| --- | --- |
+| `SubmissionAnswerApplicationService` | `shouldRevealAnswerResult` 允许客观题和终态编程评测结果在 `revealNonObjectiveScores=false` 时进入答案视图和分数摘要 |
+| `StructuredProgrammingJudgeIntegrationTests` | 混合题集成测试覆盖客观题 20 分、编程题判题完成 20 分、人工题待批改，提交详情刷新后总分为 40 分 |
+| `SubmissionAnswerApplicationServiceTests` | 单元测试覆盖未发布人工分时终态编程评测结果仍展示，且分数摘要包含客观题 + 编程题自动分 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| 后端目标单测 | `cd server && bash ./mvnw -Dtest=SubmissionAnswerApplicationServiceTests test` 通过；Tests run: `4`，Failures: `0`，Errors: `0` |
+| 后端目标集成测试 | `cd server && bash ./mvnw -Dtest=StructuredProgrammingJudgeIntegrationTests test` 通过；Tests run: `13`，Failures: `0`，Errors: `0` |
+| 关键断言 | 混合题提交初始 `scoreSummary.finalScore=20`、`pendingProgrammingCount=1`；判题完成后学生提交详情 `answers[1].finalScore=20`、`scoreSummary.autoScoredScore=40`、`scoreSummary.finalScore=40`、`pendingProgrammingCount=0`、`pendingManualCount=1` |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段完成后端当前树单元 / 集成复核；仍需在最终业务闭环中用 Playwright MCP 复测学生正式提交后等待判题完成并刷新提交详情，确认页面显示的题目分和总分同步 |
