@@ -1440,3 +1440,49 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段完成前端单元和静态门禁；仍需在最终业务闭环中用 Playwright MCP 在教师题库页真实创建单选、文件上传和编程题，确认弹窗字段、后端请求和错误反馈均可用 |
+
+## 32. 2026-06-08 成绩发布状态与重新发布语义修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-022` 的当前树修复。目标是让教师侧成绩册在成绩发布后展示明确的已发布状态、发布时间、发布人和学生可见范围，并把后续操作切换为“重新发布成绩”语义。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 发布状态 | 选中已发布作业后，成绩发布与调分面板展示“已发布”、发布时间、发布人 ID |
+| 学生可见范围 | 面板根据统计报告展示 `学生可见 已发布人数/适用人数` |
+| 重新发布 | 已发布作业按钮文案改为“重新发布成绩”；确认弹窗说明学生会看到最新成绩和反馈，并写入重新发布审计 |
+| 后端契约 | 教师侧成绩册 `assignmentColumns[]` 增加 `gradePublishedAt` 和 `gradePublishedByUserId`，与已有 `gradePublished` 一起提供刷新后的发布元数据 |
+
+### 修复范围
+
+| 模块 | 修复 / 补强 |
+| --- | --- |
+| `GradebookPageView.AssignmentColumnView` | 增加成绩发布时间和发布人字段 |
+| `GradebookQuerySql` / `GradebookQueryRepository` / `GradebookApplicationService` | 从 `assignments.grade_published_at / grade_published_by_user_id` 回填作业列发布元数据 |
+| `teacher/grading/gradebook/page.tsx` | 按选中作业合并成绩册列、统计报告和刚发布 mutation 结果，派生当前发布状态 |
+| `gradebook-actions-panel.tsx` | 展示已发布状态卡、学生可见范围和重新发布按钮 |
+| `teacher-gradebook-page.test.tsx` | 增加发布后 UI 语义回归 |
+| `docs/05-api/grading-api.md` / `server/docs/product-specs/grading-system.md` / `server/docs/stable-api.md` | 同步成绩发布、重新发布和成绩册发布元数据契约 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 发布后 UI 仍缺少状态和重新发布语义 | 新增前端测试后，修复前失败于找不到“已发布” |
+| 前端目标单测 | `cd web && npm test -- src/tests/unit/grading/teacher-gradebook-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `5 passed` |
+| 后端目标集成测试 | `cd server && bash ./mvnw -Dtest=GradebookIntegrationTests#teacherReadsOfferingGradebookUsingLatestSubmissionAndApplicableAssignments test` 通过；Tests run: `1`，Failures: `0`，Errors: `0` |
+| 后端重新发布审计回归 | `cd server && bash ./mvnw -Dtest=GradingIntegrationTests#repeatedPublishingCreatesNewSnapshotBatchWithoutResettingInitialPublication test` 通过；Tests run: `1`，Failures: `0`，Errors: `0` |
+| 后端全量测试 | `cd server && bash ./mvnw test` 通过；Tests run: `334`，Failures: `0`，Errors: `0`，Skipped: `0` |
+| 前端 grading 单测 | `cd web && npm test -- src/tests/unit/grading` 通过；Test Files: `1 passed`，Tests: `5 passed` |
+| 前端静态门禁 | `cd web && npm run typecheck`、`cd web && npm run lint` 均通过 |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `31/31` 静态页面生成完成 |
+| 文档构建 | `cd docs && npm run docs:build` 通过；存在既有 VitePress chunk-size warning |
+| Diff 检查 | `git diff --check` 在 `server/`、`web/`、`docs/` 均通过 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 后端重新发布审计 | `GradingIntegrationTests#repeatedPublishingCreatesNewSnapshotBatchWithoutResettingInitialPublication` 已覆盖 `initialPublication=false`、审计条数和 metrics |
+| 真实浏览器证据 | 本阶段完成 API / 单元 / 静态证据；仍需在最终业务闭环中用 Playwright MCP 以教师或整课助教身份实际发布和重新发布成绩，确认页面显示“已发布”“重新发布成绩”和学生侧可见结果 |
