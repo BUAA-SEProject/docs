@@ -55,6 +55,14 @@ status: current
         "scopeOrgType": "CLASS",
         "scopeOrgName": "软件工程 1 班"
       }
+    ],
+    "groupBindings": [
+      {
+        "source": "ROLE_BINDING",
+        "templateCode": "offering-ta",
+        "scopeType": "OFFERING",
+        "scopeRefId": 1001
+      }
     ]
   }
 }
@@ -86,6 +94,9 @@ Authorization: Bearer <access-token>
 - `accountStatus`
 - `academicProfile`
 - `identities`
+- `groupBindings`
+
+其中 `groupBindings` 是当前用户由角色绑定或授权组获得的轻量作用域身份快照，用于前端判断角色入口和档案补齐引导。access token 仍保持紧凑，不在 JWT 中携带完整权限点或完整 `groupBindings` 明细。
 
 ## 4. 刷新令牌
 

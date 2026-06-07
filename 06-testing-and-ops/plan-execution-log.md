@@ -1357,3 +1357,47 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段完成接口级和前端单元证据；仍需在最终业务闭环中用 Playwright MCP 以班级助教身份真实登录，确认课程卡角色为班级助教、教学班数量正确、工作台无新增教学班入口、成员页无写操作按钮 |
+
+## 30. 2026-06-08 缺档案课程账号登录引导修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-005` 的当前树修复。目标是让已拥有课程角色绑定但缺少教师 / 学生学术档案的账号，登录后进入明确的档案补齐引导，而不是停留在根路径跳转或退化为泛化 Unauthorized。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 登录用户快照 | `POST /api/v1/auth/login` 与 `GET /api/v1/auth/me` 的 `AuthenticatedUserView` 返回 `groupBindings`，包含 `source`、`templateCode`、`scopeType`、`scopeRefId`，供前端识别 role binding 来源的课程身份 |
+| JWT 边界 | access token 仍保持紧凑，不在 JWT 中携带完整 `groupBindings` 或完整权限点明细 |
+| 默认落点 | 无 `academicProfile` 且拥有教师 / 助教 / 学生课程身份的账号，默认首页为 `/profile-required` |
+| 前端引导 | `/profile-required` 显示“需要补全学术档案”，说明当前账号已有课程身份但缺少教师或学生档案，并提示联系管理员补全 |
+| 退出路径 | 引导页提供“退出并重新登录”，先撤销 / 清理当前会话，再跳转 `/login`，避免保留 cookie 后从登录页再次回到引导页 |
+
+### 修复范围
+
+| 模块 | 修复 / 补强 |
+| --- | --- |
+| `AuthenticatedUserView` | 新增 `groupBindings` 字段，来源于 `AuthenticatedUserPrincipal.getGroupBindings()` |
+| `CourseSystemIntegrationTests` | 新增 `loginResponseExposesCourseRoleBindingsForProfileCompletionGuidance`，覆盖课程成员 role binding 用户缺档案登录响应包含 `offering-ta` binding |
+| `role-codes.ts` | 从 `groupBindings.templateCode` 派生前端角色码，并判断缺档案课程身份是否需要补齐引导 |
+| `login-redirect.ts`、session store / cookies | 统一使用 `getAuthenticatedUserHomePath`，确保登录后、刷新后和根路径跳转都落到 `/profile-required` |
+| `RoleGuard` / `AuthenticatedShell` | 手动访问教师 / 学生 / 共享认证页时优先导向缺档案引导，不再展示泛化权限不足 |
+| `profile-required` 页面 | 新增缺档案说明页和退出重登操作 |
+| `real-backend.ts` | API 注入登录态的 E2E helper 同步识别缺档案课程身份，写入 `/profile-required` home path |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 前端缺少缺档案落点函数 / 页面 | 新增 auth 单测后，修复前失败于 `needsAcademicProfileCompletion is not a function` 和无法解析 `/profile-required/page` |
+| RED: 后端登录快照缺少 role binding 明细 | 新增后端测试后，修复前失败于 `No value at JSON path "$.user.groupBindings[0].templateCode"` |
+| 后端目标集成测试 | `cd server && bash ./mvnw -Dtest=CourseSystemIntegrationTests#loginResponseExposesCourseRoleBindingsForProfileCompletionGuidance test` 通过；Tests run: `1`，Failures: `0`，Errors: `0` |
+| 后端角色绑定组合回归 | `cd server && bash ./mvnw -Dtest=CourseSystemIntegrationTests#loginAfterOfferingCreationShouldUseInstructorRoleBindingSnapshot,CourseSystemIntegrationTests#offeringCreationShouldInvalidateExistingInstructorSessions,CourseSystemIntegrationTests#loginAfterClassMemberAddedShouldUseStudentRoleBindingSnapshot,CourseSystemIntegrationTests#loginResponseExposesCourseRoleBindingsForProfileCompletionGuidance test` 通过；Tests run: `4`，Failures: `0`，Errors: `0` |
+| 前端 auth 单测 | `cd web && npm test -- src/tests/unit/auth` 通过；Test Files: `5 passed`，Tests: `16 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `31/31` 静态页面生成完成，包含 `/profile-required` |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段完成 API 级、单元和构建证据；仍需在最终业务闭环中用 Playwright MCP 创建或复用缺档案课程账号真实登录，确认落到 `/profile-required`，并在补齐档案后进入教师 / 学生工作区 |
