@@ -1279,3 +1279,42 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段完成接口级和前端单元 / 构建证据；仍需在最终业务闭环中用 Playwright MCP 以整课助教身份实际点击提交详情重判、成绩册导出、批量调分、发布 / 重新发布，并确认页面反馈 |
+
+## 28. 2026-06-08 开课主讲教师候选加载失败修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-001` 的当前树修复与复核。目标是解除管理员新增开课时 `GET /api/v1/admin/users?identityType=TEACHER&pageSize=100` 因教师用户缺少 `primaryOrgUnitId` 返回 500 的阻塞，并让前端在教师候选接口失败时显示可重试失败态，而不是伪装成“暂无选项”。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 后端教师候选查询 | 教师用户存在教师身份但 `primaryOrgUnitId=null` 时，管理员用户列表查询不再触发 NPE；教师候选仍可返回给开课创建页 |
+| 前端失败态 | 主讲教师候选接口失败时，新增开课弹窗展示“主讲教师候选加载失败”并提供“重试加载主讲教师候选”按钮 |
+| 前端空态 | 接口成功但候选为空时展示“暂无教师候选”，不再使用会掩盖接口失败的通用“暂无可选项” |
+
+### 修复范围
+
+| 模块 | 修复 / 补强 |
+| --- | --- |
+| `UserAdministrationApplicationService` | 已在当前树兼容 `primaryOrgUnitId=null` 的教师用户候选查询，避免构建组织信息时触发 NPE |
+| `PlatformGovernanceApiIntegrationTests` | 覆盖无主组织教师候选查询返回 200 的回归场景 |
+| `admin/course-offerings/page.tsx` | 将 `useUsersQuery` 的 `isLoading`、`error`、`refetch` 传入新增开课弹窗 |
+| `course-offering-create-dialog.tsx` | 主讲教师候选接口失败时展示 `role="alert"` 的可见失败态与重试按钮；加载与空候选使用专用文案 |
+| `course-offerings-page.test.tsx` | 增加失败态回归测试，断言旧的“暂无可选项”不再出现，点击重试会调用 `refetch` |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 教师候选接口失败被显示为空态 | 新增前端测试后，修复前无法找到“主讲教师候选加载失败”，弹窗仍退化为通用空态 |
+| 后端目标集成测试 | `cd server && bash ./mvnw -Dtest=PlatformGovernanceApiIntegrationTests#listsTeacherCandidatesWhenPrimaryOrganizationIsMissing test` 通过；Tests run: `1`，Failures: `0`，Errors: `0` |
+| 前端目标单测 | `cd web && npm test -- src/tests/unit/admin/course-offerings-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `5 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `62 passed`，Tests: `172 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段完成后端集成测试和前端单元 / 构建证据；仍需在最终业务闭环中用 Playwright MCP 以管理员身份打开新增开课弹窗，确认教师候选可加载，且通过拦截或后端错误场景确认失败态可见并可重试 |
