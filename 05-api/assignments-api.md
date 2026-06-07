@@ -56,11 +56,33 @@ status: current
 - `POST /teacher/assignments/{assignmentId}/publish`：发布作业
 - `POST /teacher/assignments/{assignmentId}/close`：关闭作业
 
-## 4. 题库管理
+## 4. 作业列表摘要
+
+教师作业列表 `GET /api/v1/teacher/course-offerings/{offeringId}/assignments` 和学生作业列表 `GET /api/v1/me/assignments` 返回分页列表。
+
+结构化作业的列表项包含 `paper` 摘要字段：
+
+```json
+{
+  "id": 1,
+  "title": "实验一：排序算法",
+  "status": "PUBLISHED",
+  "paper": {
+    "sectionCount": 3,
+    "questionCount": 5,
+    "totalScore": 60,
+    "sections": []
+  }
+}
+```
+
+列表页仅使用 `paper.totalScore`、`paper.questionCount` 和 `paper.sectionCount` 展示摘要。`paper.sections` 在列表响应中为空数组；完整题面、选项、答案裁剪和编程题判题配置只通过作业详情接口返回。
+
+## 5. 题库管理
 
 支持五种题型建模，题目存储在题库中，通过试卷快照挂接到作业。
 
-## 5. 教师查看提交
+## 6. 教师查看提交
 
 | 方法 | 路径 | 说明 | 权限 |
 | --- | --- | --- | --- |

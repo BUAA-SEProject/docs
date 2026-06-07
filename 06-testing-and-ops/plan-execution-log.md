@@ -762,3 +762,37 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成后端 RED-GREEN；仍需在最终业务闭环中用 Playwright MCP 复测作业创建、样例运行和正式提交 |
 | UI diff 可读性 | 本次修复了默认判定语义；样例结果差异说明的前端可读性仍属于后续 WebIDE 体验阶段 |
+
+## 14. 2026-06-08 作业列表总分摘要修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-009` 的后端契约修复。目标是让教师端和学生端作业列表稳定展示结构化作业总分，同时避免列表接口暴露完整题面、答案裁剪细节或隐藏判题配置。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 教师作业列表 | `GET /api/v1/teacher/course-offerings/{offeringId}/assignments` 的结构化作业列表项返回 `paper.sectionCount`、`paper.questionCount`、`paper.totalScore` |
+| 学生作业列表 | `GET /api/v1/me/assignments` 的结构化作业列表项返回相同 `paper` 摘要，前端可直接用 `paper.totalScore` 展示总分 |
+| 列表载荷边界 | 列表响应的 `paper.sections` 固定为空数组；完整题面、选项、答案裁剪和编程题判题配置仍只从详情接口读取 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `AssignmentPaperApplicationService` | 新增 `loadPaperSummary(assignmentId)`，按结构化试卷节数、题数和节总分计算列表摘要 |
+| `AssignmentApplicationService` | 教师列表和学生当前作业列表从 `paper=null` 改为返回试卷摘要 |
+| `StructuredAssignmentIntegrationTests` | 新增教师端和学生端列表断言，覆盖 `paper.totalScore`、`paper.questionCount` 和 `paper.sections=[]` |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 列表缺少总分摘要 | 新增 `StructuredAssignmentIntegrationTests#assignmentListsIncludeStructuredPaperScoreSummary` 后，修复前失败于教师作业列表 `$.items[0].paper` 为 `null` |
+| 目标后端回归 | `cd server && bash ./mvnw -Dtest='StructuredAssignmentIntegrationTests#assignmentListsIncludeStructuredPaperScoreSummary' test` 通过；Tests run: `1`，Failures: `0`，Errors: `0`，Skipped: `0` |
+| 相关集成回归 | `cd server && bash ./mvnw -Dtest='AssignmentIntegrationTests,StructuredAssignmentIntegrationTests' test` 通过；Tests run: `22`，Failures: `0`，Errors: `0`，Skipped: `0` |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成后端 RED-GREEN 和文档同步；仍需在最终业务闭环中用 Playwright MCP 复测教师端和学生端作业列表不再显示“暂无” |
