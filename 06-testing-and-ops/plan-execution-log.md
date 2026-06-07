@@ -1200,3 +1200,42 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段完成后端当前树单元 / 集成复核；仍需在最终业务闭环中用 Playwright MCP 复测学生正式提交后等待判题完成并刷新提交详情，确认页面显示的题目分和总分同步 |
+
+## 26. 2026-06-08 提交详情按题型展示修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-020` 的前端阶段修复。目标是让学生和教师 / 助教提交详情按题型展示答案，不再把客观题、文件题和编程题统一退化为“无文本答案”，并让编程题代码以保留换行的代码块展示。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 单选 / 多选 | 题目卡片展示“已选选项”和选项 key 列表，如 `A`、`A, B` |
+| 文件上传题 | 题目卡片继续展示原始文件名、大小和下载入口；正文区域显示“附件见本题文件列表”，不再显示“无文本答案” |
+| 编程题 | 题目卡片展示语言、入口文件和源码代码块；代码块使用 `whitespace-pre` 保留换行 |
+| 简答 / 填空 | 继续按文本答案展示，并保留原有换行 |
+| 视图一致性 | 学生提交详情和教师 / 助教提交详情共用同一个答案正文组件，避免展示口径分叉 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `submission-answer-body.tsx` | 新增按题型渲染的答案正文组件，覆盖客观题、文件题、编程题和文本题 |
+| 学生提交详情页 | 用 `SubmissionAnswerBody` 替换统一 `answerText || "无文本答案"` fallback，附件组件继续按题显示 |
+| 教师提交详情页 | 同步使用 `SubmissionAnswerBody`，保留批改和重判控件 |
+| `student-submission-detail-page.test.tsx` / `teacher-submission-detail-page.test.tsx` | 增加回归测试，覆盖客观题选项、文件题附件、编程题语言 / 入口文件 / 代码块换行展示 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 提交详情统一退化为无文本答案 | 新增回归测试后，修复前学生卡片收到 `单选题单选题10 分无文本答案`；教师卡片收到 `单选题单选题无文本答案...`，缺少“已选选项” |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/submission/student-submission-detail-page.test.tsx src/tests/unit/submission/teacher-submission-detail-page.test.tsx` 通过；Test Files: `2 passed`，Tests: `8 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `62 passed`，Tests: `170 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生、教师和整课助教提交详情的客观题、文件题、编程题展示 |
