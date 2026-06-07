@@ -985,3 +985,40 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生真实文件上传、提交后学生 / 教师提交详情均按题显示文件名 |
+
+## 20. 2026-06-08 WebIDE 初始入口文件展示修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-013` 的前端阶段修复。目标是在后端工作区返回 `files=[]` 但提供 `entryFilePath=main.py` 时，文件树与编辑器同时展示入口文件，避免左侧文件浏览器为空。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 工作区 `files` 非空 | 文件树继续使用后端返回的文件列表 |
+| 工作区 `files=[]` 且有 `entryFilePath` | 前端生成一个展示用入口文件，路径为 `entryFilePath`，内容使用 `codeText` 或空字符串 |
+| 编辑器与文件树一致性 | `activeFilePath`、打开标签、文件树和状态栏都以同一入口文件为准 |
+| 保存请求 | 保存时仍通过 `mergeWorkspaceFileContent` 生成包含当前入口文件内容的 `files`，不会只停留在展示层 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `workspace-files.ts` | 新增 `getWorkspaceDisplayFiles(workspace)`，集中处理入口文件兜底 |
+| `use-workspace-file-session.ts` | 文件树和状态栏文件计数改用展示文件列表，保持与编辑器入口一致 |
+| `workspace-files.test.ts` / `programming-workspace-page.test.tsx` | 增加回归测试，覆盖 helper 和页面文件浏览器在 `files=[]` 时显示 `main.py` |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: WebIDE 文件树缺少入口文件 | 新增回归测试后，修复前失败于 `getWorkspaceDisplayFiles is not a function`；页面层在 `files=[]` 时无法从文件浏览器找到 `main.py` |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/submission/workspace-files.test.ts src/tests/unit/submission/programming-workspace-page.test.tsx` 通过；Test Files: `2 passed`，Tests: `10 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `62 passed`，Tests: `165 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生首次进入 WebIDE 时文件树、标签和编辑器均显示入口文件 |
