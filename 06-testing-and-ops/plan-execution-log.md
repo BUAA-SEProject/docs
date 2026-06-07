@@ -946,3 +946,42 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生从课程详情进入当前课程作业和当前教学班实验 |
+
+## 19. 2026-06-08 文件上传题附件文件名展示修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-012` 的前端阶段修复。目标是让文件上传题在学生答题页和提交详情题目区域展示原始文件名、大小与下载入口，避免只显示“附件 #id”或“无文本答案”。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 学生答题页上传后 | 文件上传题上传成功后，题目卡片立即显示 `originalFilename` 和文件大小；提交答案仍只提交 `artifactIds` |
+| 学生提交详情 | 文件上传题答案卡片按 `answers[].artifactIds` 关联 `artifacts[]`，在题目区域展示文件名、大小和下载按钮，不再显示“无文本答案” |
+| 教师提交详情 | 教师批改视图同样在文件上传题答案卡片内展示文件名、大小和下载按钮，保持师生视图口径一致 |
+| 数据契约 | 本次不改变后端请求 / 响应契约；复用上传响应中的 `SubmissionArtifactView` 和提交详情中的 `artifacts[]` |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `structured-answer-utils.ts` / `structured-answer-form.tsx` | 答题草稿增加附件元数据；上传和移除附件时同步维护 `artifactIds` 与 `artifacts` |
+| `structured-answer-controls.tsx` | 文件上传控件优先显示原始文件名和大小，只有缺少元数据时才兜底显示 `附件 #id` |
+| `submission-answer-artifacts.tsx` | 新增提交详情题目内附件展示组件，按题展示文件名、大小和下载入口 |
+| 学生 / 教师提交详情页 | 基于提交详情 `artifacts[]` 建索引，并在答案卡片中渲染文件上传题附件 |
+| `structured-answer-form.test.tsx` / `student-submission-detail-page.test.tsx` / `teacher-submission-detail-page.test.tsx` | 增加回归测试，覆盖上传后显示文件名、学生提交详情按题显示附件、教师提交详情按题显示附件 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 文件上传题只显示附件编号 / 无文本答案 | 新增回归测试后，修复前失败：上传后找不到 `resource-bl-readme.txt`；学生提交详情文件题卡片收到 `报告附件文件上传10 分无文本答案` |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/submission/structured-answer-form.test.tsx src/tests/unit/submission/student-submission-detail-page.test.tsx src/tests/unit/submission/teacher-submission-detail-page.test.tsx` 通过；Test Files: `3 passed`，Tests: `9 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `62 passed`，Tests: `163 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生真实文件上传、提交后学生 / 教师提交详情均按题显示文件名 |
