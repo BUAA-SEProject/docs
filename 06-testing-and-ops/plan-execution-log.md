@@ -796,3 +796,40 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成后端 RED-GREEN 和文档同步；仍需在最终业务闭环中用 Playwright MCP 复测教师端和学生端作业列表不再显示“暂无” |
+
+## 15. 2026-06-08 成员表班级展示与添加结果清理
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-002` 和 `BUG-20260607-004` 的前端阶段复核与补强。目标是让成员表稳定展示教学班信息，并避免“添加成员”弹窗在继续录入下一名成员时保留上一轮成功 / 失败结果。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 成员表教学班列 | 成员列表使用 `className` 优先、`classCode` 兜底展示教学班；无班级绑定时显示“未绑定” |
+| 成员写操作权限 | 班级助教只保留本班成员读取视图，不展示添加、导入、停用、转班操作；主讲教师和整课助教保留成员写操作 |
+| 添加成员结果 | 添加成员弹窗在用户 ID、成员角色或教学班发生变化时调用 mutation reset，清理上一轮“添加成功 / 失败”结果 |
+| 成员列表刷新 | 添加、导入、状态变更、转班 mutation 成功后继续 invalidate `queryKeys.course.members(offeringId)`，刷新当前成员查询 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `CourseMembersPage` | 将添加成员字段变化接入 `addMembersMutation.reset()`，保留已有成员列表 invalidate 逻辑 |
+| `AddMemberDialog` | 增加 `onFieldChange` 回调，并在用户 ID、角色、教学班变化时触发 |
+| `teacher-members-page.test.tsx` | 增加回归测试，先验证旧添加结果可见，再通过真实 combobox 交互断言字段变化会清理旧结果 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 修改添加成员输入不清理旧结果 | 新增 `CourseMembersPage clears previous add result when editing add member input` 后，修复前失败；`resetAddMembers` 期望调用 3 次、实际 0 次 |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/course/teacher-members-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `6 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `59 passed`，Tests: `154 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测成员页添加后继续录入、列表刷新和教学班列展示 |
