@@ -906,3 +906,43 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生工作台、我的课表和作业列表的状态理解一致性 |
+
+## 18. 2026-06-08 学生课程详情任务入口修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-011` 的前端阶段修复。目标是让学生从课程详情页可以直接进入当前课程 / 教学班的作业和实验，而不是只看到公告、资源和讨论。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 课程详情任务入口 | 课程详情页顶部新增“课程任务”区，提供课程作业、实验项目、课程资源和课程讨论四个稳定入口 |
+| 课程作业入口 | 若能从 `/api/v1/me/courses` 找到当前教学班所属开课，则链接到 `/student/assignments?offeringId={offeringId}` |
+| 实验项目入口 | 链接到 `/student/labs?classId={classId}`，直接进入当前教学班实验范围 |
+| 资源 / 讨论入口 | 使用页内锚点跳转到当前课程详情页的资源和讨论区域 |
+| 数据契约 | 本次不新增后端聚合接口，复用现有学生课程、作业、实验列表接口和查询参数 |
+
+### 修复范围
+
+| 模块 | 修复 |
+| --- | --- |
+| `student/courses/[classId]/page.tsx` | 新增课程任务入口区，并通过 `useMyCoursesQuery` 将当前 `classId` 解析为 `offeringId` |
+| `student/assignments/page.tsx` | 读取 `offeringId` 查询参数并传给 `useMyAssignmentsQuery` |
+| `use-my-courses-query.ts` | 我的作业查询 key 纳入查询参数，避免不同课程过滤结果共享缓存 |
+| `student/labs/page.tsx` | 读取 `classId` 查询参数，并作为初始教学班实验范围 |
+| `student-course-detail-page.test.tsx` / `student-assignments-page.test.tsx` / `student-labs-page.test.tsx` | 增加回归测试，覆盖课程详情入口、作业过滤参数和实验初始教学班参数 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 学生课程详情缺少作业 / 实验入口 | 新增回归测试后，修复前失败于找不到“课程任务”标题；作业页查询参数为 `undefined`；实验页初始查询教学班为默认 `111` 而非 URL 中的 `496` |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/course/student-course-detail-page.test.tsx src/tests/unit/assignment/student-assignments-page.test.tsx src/tests/unit/lab/student-labs-page.test.tsx` 通过；Test Files: `3 passed`，Tests: `5 passed` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `62 passed`，Tests: `161 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生从课程详情进入当前课程作业和当前教学班实验 |
