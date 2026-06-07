@@ -1239,3 +1239,43 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生、教师和整课助教提交详情的客观题、文件题、编程题展示 |
+
+## 27. 2026-06-08 整课助教成绩操作权限与 403 反馈修复
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-021` 的当前树补强。目标是确认整课助教在开课范围内不再遇到重判、成绩册导出、批量调分和发布成绩 403，同时保留班级助教不能发布整课成绩的负例，并补齐成绩册导出失败时的可见前端反馈。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 整课助教权限 | `OFFERING_TA` 在本开课范围内可执行教师侧重判、成绩册导出、批量调分、成绩发布 / 重新发布等操作 |
+| 班级助教边界 | `TA` 仍只能在授权教学班内查看 / 批改，不可发布整课成绩，不可越权到整课成绩导出或成员操作 |
+| 前端错误反馈 | 成绩册导出这类非 mutation 下载请求失败时，页面通过 toast 展示后端错误消息，例如“当前用户无权导出成绩册” |
+| 审计 | 成绩册导出记录 `GRADE_EXPORT` allow / deny；成绩发布同时记录业务发布日志 `ASSIGNMENT_GRADES_PUBLISHED` 和敏感授权日志 `GRADE_PUBLISH` allow / deny |
+
+### 修复范围
+
+| 模块 | 修复 / 补强 |
+| --- | --- |
+| `GradingIntegrationTests` | 新增接口级回归：整课助教导出成绩册、批量调分、发布成绩均为 2xx；班级助教发布整课成绩为 403；断言导出和发布审计 |
+| `teacher/grading/gradebook/page.tsx` | `handleExport` 改为 `async`，捕获 `downloadOfferingGradebook` 异常并通过 `normalizeApiError` + `toast.error` 展示 |
+| `teacher-gradebook-page.test.tsx` | 新增 RED/GREEN 测试，修复前 `toast.error` 调用次数为 0；修复后导出失败展示后端错误 |
+| `authenticated-shell.test.tsx` | 补显式 `cleanup()`，避免并发全量单测中 React 调度在 jsdom teardown 后触发 `window is not defined` 未处理异常 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 导出失败无反馈 | 新增前端测试后，修复前 `toast.error` 调用次数为 `0`，复现旧报告中导出 403 无 UI 反馈残口 |
+| 前端目标单测 | `cd web && npm test -- src/tests/unit/grading/teacher-gradebook-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `4 passed` |
+| 后端目标集成测试 | `cd server && bash ./mvnw -Dtest=GradingIntegrationTests#offeringTaCanExportBatchAdjustAndPublishGradesWhileClassTaCannotPublishOfferingGrades test` 通过；Tests run: `1`，Failures: `0`，Errors: `0` |
+| 后端权限组合回归 | `cd server && bash ./mvnw -Dtest=CourseSystemIntegrationTests#offeringTaShouldHaveTeacherSidePermissionsAndClassTaShouldStayScoped,JudgeIntegrationTests#offeringTaCanRequeueJudgeWithTeacherSidePermissionsAndAllowedAuditShouldBeRecorded,GradingIntegrationTests#offeringTaCanExportBatchAdjustAndPublishGradesWhileClassTaCannotPublishOfferingGrades test` 通过；Tests run: `3`，Failures: `0`，Errors: `0` |
+| 前端静态门禁 | `cd web && npm run lint`、`cd web && npm run typecheck` 均通过 |
+| 前端全量单测 | `cd web && npm test` 通过；Test Files: `62 passed`，Tests: `171 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `30/30` 静态页面生成完成 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段完成接口级和前端单元 / 构建证据；仍需在最终业务闭环中用 Playwright MCP 以整课助教身份实际点击提交详情重判、成绩册导出、批量调分、发布 / 重新发布，并确认页面反馈 |
