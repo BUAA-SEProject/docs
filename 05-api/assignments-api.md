@@ -55,6 +55,8 @@ status: current
 
 - `POST /teacher/assignments/{assignmentId}/publish`：发布作业
 - `POST /teacher/assignments/{assignmentId}/close`：关闭作业
+- 作业说明、试卷分节说明和题目题干保存原始 Markdown；API 不返回预渲染 HTML。
+- 学生答题页、WebIDE 题面和提交详情阅读区负责安全 Markdown 渲染，默认忽略原始 HTML。
 
 ## 4. 作业列表摘要
 

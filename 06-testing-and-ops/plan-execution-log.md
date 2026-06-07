@@ -1486,3 +1486,51 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | --- | --- |
 | 后端重新发布审计 | `GradingIntegrationTests#repeatedPublishingCreatesNewSnapshotBatchWithoutResettingInitialPublication` 已覆盖 `initialPublication=false`、审计条数和 metrics |
 | 真实浏览器证据 | 本阶段完成 API / 单元 / 静态证据；仍需在最终业务闭环中用 Playwright MCP 以教师或整课助教身份实际发布和重新发布成绩，确认页面显示“已发布”“重新发布成绩”和学生侧可见结果 |
+
+## 33. 2026-06-08 教学内容 Markdown 安全渲染修复
+
+本段记录 `goal.md` 中“作业、题目、实验、公告、资源说明等说明性内容必须支持 Markdown”的前端阶段修复。目标是在不改变后端原文保存契约的前提下，让主要教学内容阅读区使用统一安全 Markdown 渲染，并移除旧的手写 HTML 预览路径。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 原文保存 | 后端继续保存作业题干、公告、讨论、实验说明和实验报告正文的原始 Markdown，不返回预渲染 HTML |
+| 安全渲染 | 前端统一使用 `MarkdownContent`；支持标题、列表、引用、表格、代码块、行内代码和链接；默认忽略原始 HTML 并限制链接协议 |
+| 作业 / 题目 | 学生答题页题干、简答预览、提交详情文本答案和 WebIDE 题面改用安全 Markdown |
+| 课程内容 | 教师 / 学生公告正文、教师 / 学生讨论帖子正文改用安全 Markdown |
+| 实验内容 | 教师 / 学生实验说明和教师端实验报告正文改用安全 Markdown |
+
+### 修复范围
+
+| 模块 | 修复 / 补强 |
+| --- | --- |
+| `shared/ui/markdown-content.tsx` | 新增统一 Markdown/GFM 渲染组件，禁用原始 HTML，限制链接协议并统一表格 / 代码块滚动样式 |
+| `structured-answer-controls.tsx` / `structured-answer-utils.ts` | 简答预览从手写 HTML 字符串替换为安全 Markdown 组件 |
+| `submission-answer-body.tsx` / `workspace-left-panel.tsx` | 提交详情文本答案和 WebIDE 题面改为 Markdown 阅读区 |
+| 公告、讨论、实验页面组件 | 公告正文、讨论帖子、实验说明和实验报告正文改为 Markdown 阅读区 |
+| `package.json` / `package-lock.json` | 新增 `react-markdown` 与 `remark-gfm` |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 作业题干 / 简答预览仍是纯文本或手写简化预览 | 新增结构化答题测试后，修复前失败于找不到 Markdown 标题“背景” |
+| RED: 公告正文仍是纯文本 | 新增公告测试后，修复前正文只显示 Markdown 源文本，无法找到表格 / 链接 |
+| 作业 Markdown 单测 | `cd web && npm test -- src/tests/unit/submission/structured-answer-form.test.tsx` 通过；Test Files: `1 passed`，Tests: `3 passed` |
+| 公告 Markdown 单测 | `cd web && npm test -- src/tests/unit/course/teacher-announcements-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `3 passed` |
+| 讨论 / 实验 Markdown 单测 | `cd web && npm test -- src/tests/unit/course/teacher-discussion-detail-page.test.tsx src/tests/unit/course/student-discussion-detail-page.test.tsx src/tests/unit/lab/teacher-labs-page.test.tsx` 通过；Test Files: `3 passed`，Tests: `9 passed` |
+| Markdown 安全链接单测 | `cd web && npm test -- src/tests/unit/shared/markdown-content.test.tsx ...` 通过；Test Files: `6 passed`，Tests: `16 passed` |
+| 前端类型检查 | `cd web && npm run typecheck` 通过 |
+| 前端静态门禁 | `cd web && npm run lint` 通过 |
+| 前端完整单测 | `cd web && npm test` 通过；Test Files: `64 passed`，Tests: `189 passed` |
+| 前端生产构建 | `cd web && npm run build` 通过；Next.js 编译、TypeScript 和 `31/31` 静态页面生成完成 |
+| 文档构建 | `cd docs && npm run docs:build` 通过；存在既有 VitePress chunk-size warning |
+| Diff 检查 | `git diff --check` 在 `server/`、`web/`、`docs/` 均通过 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 资源说明 | 当前课程资源 API / 页面只有标题与文件名，没有独立资源说明字段；本阶段未新增后端字段 |
+| 真实浏览器证据 | 本阶段完成前端单元和类型证据；仍需最终业务闭环用 Playwright MCP 创建含 Markdown 的公告、讨论、实验和作业题干，确认真实页面渲染和脚本清理 |
