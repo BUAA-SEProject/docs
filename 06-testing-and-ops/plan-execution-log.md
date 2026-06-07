@@ -1534,3 +1534,45 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | --- | --- |
 | 资源说明 | 当前课程资源 API / 页面只有标题与文件名，没有独立资源说明字段；本阶段未新增后端字段 |
 | 真实浏览器证据 | 本阶段完成前端单元和类型证据；仍需最终业务闭环用 Playwright MCP 创建含 Markdown 的公告、讨论、实验和作业题干，确认真实页面渲染和脚本清理 |
+
+## 34. 2026-06-08 真实 Playwright MCP 回归证据补充
+
+本段记录在本地真实前后端 `http://127.0.0.1:3000` / `http://127.0.0.1:18080` 上，通过 Playwright MCP 页面操作补齐的最终浏览器证据。本轮使用 `just seed-fixtures` 刷新权限 / E2E 基线数据后，以 `U-TA1` 教师账号、临时学生 `mcp-mq4ajfav-student` 和管理员 `U-SA1` 做页面与接口后验。
+
+### 环境与数据
+
+| 项目 | 结果 |
+| --- | --- |
+| 环境健康检查 | `just healthcheck` 通过；后端 readiness、OpenAPI、前端登录页均可访问 |
+| Fixture 刷新 | `just seed-fixtures` 通过；`caseCount=22`、`passedCount=22`、`failedCount=0` |
+| 本轮开课 | `offeringId=2`，课程 `数据结构 2025 秋`，A1 教学班 `classA1Id=2` |
+| 本轮数据前缀 | `MCP-mq4ajfav` |
+| 本轮对象 | 公告 `3`，讨论 `3`，实验 `3`，Markdown 作业 `11`，成绩发布作业 `12`，成绩提交 `8`，答案 `11` |
+| 截图目录 | `docs/06-testing-and-ops/artifacts/business-loop-2026-06-08/`，该目录为本地忽略证据包，不提交到 git |
+
+### Playwright MCP 页面证据
+
+| 验证项 | 页面 / 证据 | 结果 |
+| --- | --- | --- |
+| 公告 Markdown 安全渲染 | `/teacher/courses/2/announcements`；`business-loop-2026-06-08-markdown-announcement.png` | 页面显示 `MCP-mq4ajfav Markdown公告`；DOM 中存在 Markdown 标题、列表、GFM 表格和 `https://example.com` 安全链接；`javascript:` 链接未保留，`script` 标签数为 `0`，`window.__AUBB_MARKDOWN_XSS=false` |
+| 讨论 Markdown 安全渲染 | `/teacher/courses/2/discussions/3`；`business-loop-2026-06-08-markdown-discussion.png` | 讨论详情显示 Markdown 标题、列表、表格和安全链接；原始 `<script>` 不可见且未执行 |
+| 学生实验说明 Markdown | `/student/labs?classId=2`；`business-loop-2026-06-08-markdown-student-lab.png` | 临时学生可见 `MCP-mq4ajfav Markdown实验`；实验说明渲染出标题、列表、表格和安全链接；危险链接与脚本被清理 |
+| 学生作业题干 Markdown | `/student/assignments/11`；`business-loop-2026-06-08-markdown-student-assignment.png` | 作业 `MCP-mq4ajfav Markdown作业` 中题干渲染 Markdown 标题、列表、表格和安全链接；危险链接数为 `0`，脚本未进入 DOM |
+| 教师首次发布成绩 | `/teacher/grading/gradebook?offeringId=2&assignmentId=12`；`business-loop-2026-06-08-gradebook-published.png` | 页面真实点击“发布成绩”并确认后，成绩册面板显示“已发布”、发布时间、发布人 ID、学生可见范围，按钮切换为“重新发布成绩”；成绩册接口中作业列 `gradePublished=true` |
+| 教师重新发布成绩 | 同一成绩册页面 | 页面真实点击“重新发布成绩”，确认弹窗文案说明“学生将看到最新成绩和反馈”且“写入重新发布审计”；确认后面板继续显示重新发布语义 |
+| 学生成绩可见 | `/student/grades?offeringId=2`；`business-loop-2026-06-08-student-grade-visible.png` | 临时学生选择 `数据结构 2025 秋` 后，作业行 `MCP-mq4ajfav 成绩发布回归` 显示 `8 / 10` 和“已发布”，导出成绩按钮可用 |
+
+### 接口后验
+
+| 验证项 | 结果 |
+| --- | --- |
+| 成绩册发布元数据 | 教师侧 `/api/v1/teacher/course-offerings/2/gradebook` 中 `assignmentColumns[]` 对作业 `12` 返回 `gradePublished=true` |
+| 学生侧成绩 | 临时学生 `/api/v1/me/course-offerings/2/gradebook` 能找到作业 `12`，且 `gradePublished=true` |
+| 重新发布审计 | 管理员 `/api/v1/admin/audit-logs?page=1&pageSize=50` 中同一作业可见两条 `GRADE_PUBLISH` 审计，metadata 的 `initialPublication` 分别为 `true` 与 `false` |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 资源说明 | 当前课程资源页面没有独立资源说明字段，本轮仍无法做资源说明 Markdown 的浏览器验证；已在第 33 段记录为产品 / 契约剩余风险 |
+| 截图包 | Playwright MCP 截图已保存到本地 ignored artifacts 目录；正式 git 提交仅包含本执行日志 |
