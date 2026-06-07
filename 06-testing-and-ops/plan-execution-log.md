@@ -1022,3 +1022,37 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段先完成前端 TDD 和静态 / 单元 / 构建门禁；仍需在最终业务闭环中用 Playwright MCP 复测学生首次进入 WebIDE 时文件树、标签和编辑器均显示入口文件 |
+
+## 21. 2026-06-08 WebIDE Monaco 保存值一致性复核
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-014` 的当前树复核。目标是证明 WebIDE 保存、样例运行和“保存并返回”不依赖 React `onChange` 的异步交付，而是读取 Monaco model 当前值，避免可见代码与保存请求不一致时持久化空代码。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| Monaco model 变化 | 编辑器 `onMount` 后订阅 `onDidChangeModelContent`，直接用 `editor.getValue()` 同步当前活动文件内容 |
+| 手动保存 | 点击“保存”时优先读取 `editorRef.current.getValue()`，并将该值写入 `codeText` 与当前文件内容 |
+| 样例运行 | 点击“运行”时同样读取 Monaco 当前值，样例请求的 `codeText` 与 `files[]` 使用同一份内容 |
+| 保存并返回 | IDE 内“保存并返回”只保存当前编程题工作区，并返回作业详情页，不调用整份作业提交接口 |
+
+### 复核范围
+
+| 模块 | 复核结果 |
+| --- | --- |
+| `ProgrammingWorkspacePage` | `getCurrentEditorContent()` 优先从 Monaco editor 实例读取当前 model 值；保存、运行和确认保存均传入该值 |
+| `useProgrammingWorkspaceController` | `handleSave` / `handleRun` / `handleSubmit` 在传入内容与本地活动文件内容不一致时先同步本地状态，再构造请求 payload |
+| `programming-workspace-page.test.tsx` | 已有回归测试覆盖 React `onChange` 不交付时，保存仍使用编辑器 model 当前值 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| 目标前端单测 | `cd web && npm test -- src/tests/unit/submission/programming-workspace-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `6 passed` |
+| 关键断言 | `saves the current Monaco model content even when React onChange is not delivered` 断言保存 payload 的 `codeText` 和 `files[0].content` 均为编辑器当前内容 `print(42)\n` |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段完成当前树代码路径和单测复核；仍需在最终业务闭环中用 Playwright MCP 通过真实键盘输入、点击保存并核验请求 payload 与 Monaco model 一致 |
