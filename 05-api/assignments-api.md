@@ -80,7 +80,22 @@ status: current
 
 ## 5. 题库管理
 
-支持五种题型建模，题目存储在题库中，通过试卷快照挂接到作业。
+支持六种题型建模，题目存储在题库中，通过试卷快照挂接到作业。
+
+`POST /api/v1/teacher/course-offerings/{offeringId}/question-bank/questions` 与
+`PUT /api/v1/teacher/question-bank/questions/{questionId}` 使用同一题目请求体。除
+`title`、`prompt`、`questionType`、`defaultScore`、`categoryName`、`tags` 外，不同题型应按下列规则提交专属字段：
+
+| 题型 | 专属字段 |
+| --- | --- |
+| `SINGLE_CHOICE` | `options` 至少 2 项，每项包含 `optionKey`、`content`、`correct`，且必须且只能 1 项 `correct=true` |
+| `MULTIPLE_CHOICE` | `options` 至少 2 项，每项包含 `optionKey`、`content`、`correct`，且至少 1 项 `correct=true` |
+| `FILL_BLANK` | `config.referenceAnswer` 必填 |
+| `SHORT_ANSWER` | `config.referenceAnswer` 可作为参考答案或评分说明 |
+| `FILE_UPLOAD` | `config.maxFileCount`、`config.maxFileSizeMb` 必须为正整数；`config.acceptedExtensions` 可选 |
+| `PROGRAMMING` | `config.supportedLanguages` 至少 1 项；`config.templateEntryFilePath`、`config.templateFiles` 可提供模板；`config.judgeCases` 至少 1 项，包含 `stdinText`、`expectedStdout`、`score`，且当前测试点分值合计应等于题目默认分值 |
+
+后端校验失败时返回业务错误码和错误消息；前端题库弹窗应在弹窗错误区展示该消息，并保留当前草稿，便于教师修正字段后重试。
 
 ## 6. 教师查看提交
 

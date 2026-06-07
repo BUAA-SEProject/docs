@@ -1401,3 +1401,42 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段完成 API 级、单元和构建证据；仍需在最终业务闭环中用 Playwright MCP 创建或复用缺档案课程账号真实登录，确认落到 `/profile-required`，并在补齐档案后进入教师 / 学生工作区 |
+
+## 31. 2026-06-08 题库题型专属字段补齐
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-006` 的前端阶段修复。目标是让教师在题库新增 / 编辑弹窗中能够配置后端必需的题型专属字段，并能在弹窗内看到后端校验错误，而不是只提交基础字段后收到无处展示的 400。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 单选 / 多选 | 题库弹窗展示选项与正确答案配置；提交时写入 `options[].optionKey/content/correct` |
+| 填空 / 简答 | 填空题展示必填参考答案；简答题展示可选参考答案 / 评分说明；提交时写入 `config.referenceAnswer` |
+| 文件上传 | 弹窗展示文件数量上限、文件大小上限和允许文件类型；提交时写入 `config.maxFileCount/maxFileSizeMb/acceptedExtensions` |
+| 编程题 | 弹窗展示支持语言、入口文件、模板代码、样例输入输出、隐藏测试输入输出和隐藏测试分值；提交时写入 `config.supportedLanguages/templateEntryFilePath/templateFiles/judgeCases` |
+| 后端错误 | create / update mutation 的错误消息会在题库弹窗内以错误区展示，并保留草稿 |
+
+### 修复范围
+
+| 模块 | 修复 / 补强 |
+| --- | --- |
+| `question-bank-question-dialog.tsx` | 接入题型专属字段、前端校验和 `options/config` payload 构造，并展示 mutation 错误 |
+| `question-bank-type-fields.tsx` 等组件 | 拆分选择题、文件题、编程题、参考答案字段，避免题库 Dialog 文件继续膨胀 |
+| `question-bank-type-fields.ts` | 集中维护题型草稿初始化、编辑回填、payload 构造和字段级错误 |
+| `question-bank-page.test.tsx` | 新增单选、文件、编程题 payload 回归，以及弹窗内展示后端校验错误回归 |
+| `docs/05-api/assignments-api.md` | 补充题库创建 / 更新请求中不同题型的专属字段要求 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| RED: 弹窗缺少题型专属字段和错误区 | 新增题库页单测后，修复前失败于无法找到 `选项 A`、`文件数量上限`、`入口文件` 和 `role="alert"` |
+| 前端目标单测 | `cd web && npm test -- src/tests/unit/assignment/question-bank-page.test.tsx` 通过；Test Files: `1 passed`，Tests: `6 passed` |
+| 前端 assignment 单测 | `cd web && npm test -- src/tests/unit/assignment` 通过；Test Files: `8 passed`，Tests: `22 passed` |
+| 前端静态门禁 | `cd web && npm run typecheck`、`cd web && npm run lint` 均通过 |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段完成前端单元和静态门禁；仍需在最终业务闭环中用 Playwright MCP 在教师题库页真实创建单选、文件上传和编程题，确认弹窗字段、后端请求和错误反馈均可用 |
