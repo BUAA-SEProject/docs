@@ -1318,3 +1318,42 @@ Task 10 额外修复：`web/playwright.config.ts` 在真实后端模式下使用
 | 项目 | 当前结果 |
 | --- | --- |
 | 真实浏览器证据 | 本阶段完成后端集成测试和前端单元 / 构建证据；仍需在最终业务闭环中用 Playwright MCP 以管理员身份打开新增开课弹窗，确认教师候选可加载，且通过拦截或后端错误场景确认失败态可见并可重试 |
+
+## 29. 2026-06-08 班级助教课程聚合与写入口收敛复核
+
+本段记录 `business-loop-playwright-mcp-report-2026-06-07.md` 中 `BUG-20260607-003` 的当前树补强。目标是确认班级助教不会在 `/api/v1/me/courses` 中被升格为整课助教，授权教学班不会丢失，并且教师端工作台 / 成员页不会向班级助教展示整课写操作。
+
+### 行为口径
+
+| 项目 | 新行为 |
+| --- | --- |
+| 课程聚合角色 | 班级助教成员只返回 `roles:["TA"]`，不会被映射为 `OFFERING_TA` |
+| 班级范围 | `/api/v1/me/courses` 的 `classes` 保留授权教学班 ID、编码、名称和该班角色 |
+| 缓存边界 | 助教先登录形成空课程缓存后，被教师加入班级再重新登录，成员添加会驱逐 `myCoursesSummary` 缓存并返回最新班级范围 |
+| 后端权限 | 班级助教只能读取授权教学班成员和班级，不能修改班级功能，不能添加成员 |
+| 前端入口 | 班级助教课程工作台隐藏新增教学班入口并禁用班级功能开关；成员页隐藏添加、导入、停用、转班等写操作 |
+
+### 补强范围
+
+| 模块 | 修复 / 补强 |
+| --- | --- |
+| `CourseSystemIntegrationTests` | 新增 `classTaCourseSummaryKeepsClassScopedRoleAfterMembershipCacheEviction`，覆盖空缓存 -> 加入班级助教 -> 重新登录后 `/me/courses` 返回 `TA` 和授权班级 |
+| `CourseSystemIntegrationTests` 既有回归 | 复跑混合学生 / 班级助教身份、班级助教只读授权教学班、无班级过滤成员列表仅返回本班成员等场景 |
+| `teacher-course-dashboard-page.test.tsx` | 复跑班级助教隐藏新增教学班、禁用班级功能写开关的前端回归 |
+| `teacher-members-page.test.tsx` | 复跑班级助教成员页只读提示和写操作隐藏的前端回归 |
+
+### 验证证据
+
+| 验证项 | 结果 |
+| --- | --- |
+| 后端新增目标测试 | `cd server && bash ./mvnw -Dtest=CourseSystemIntegrationTests#classTaCourseSummaryKeepsClassScopedRoleAfterMembershipCacheEviction test` 通过；Tests run: `1`，Failures: `0`，Errors: `0` |
+| 后端权限组合回归 | `cd server && bash ./mvnw -Dtest=CourseSystemIntegrationTests#taCanBeStudentInOneClassAndTaInAnotherButPermissionIsLimited,CourseSystemIntegrationTests#classTaCanReadOnlyOwnedTeachingClasses,CourseSystemIntegrationTests#classTaMemberListingWithoutClassFilterReturnsOnlyOwnedClassMembers,CourseSystemIntegrationTests#classTaCourseSummaryKeepsClassScopedRoleAfterMembershipCacheEviction test` 通过；Tests run: `4`，Failures: `0`，Errors: `0` |
+| 后端全量测试 | `cd server && bash ./mvnw test` 通过；Tests run: `333`，Failures: `0`，Errors: `0`，Skipped: `0` |
+| 前端目标单测 | `cd web && npm test -- src/tests/unit/course/teacher-course-dashboard-page.test.tsx src/tests/unit/course/teacher-members-page.test.tsx` 通过；Test Files: `2 passed`，Tests: `11 passed` |
+| 文档构建 | `cd docs && npm run docs:build` 通过；存在既有 VitePress chunk-size warning |
+
+### 残余说明
+
+| 项目 | 当前结果 |
+| --- | --- |
+| 真实浏览器证据 | 本阶段完成接口级和前端单元证据；仍需在最终业务闭环中用 Playwright MCP 以班级助教身份真实登录，确认课程卡角色为班级助教、教学班数量正确、工作台无新增教学班入口、成员页无写操作按钮 |
