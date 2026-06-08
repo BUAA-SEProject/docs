@@ -19,6 +19,7 @@
   * [用户角色与使用场景](03-product/user-roles-and-scenarios.md)
   * [核心需求清单](03-product/core-requirements.md)
   * [模块地图](03-product/module-map.md)
+  * [Web 终端实验](03-product/terminal-labs.md)
 * [研发文档](04-development/index.md)
   * [总体架构](04-development/architecture-overview.md)
   * [前端文档](04-development/frontend.md)

@@ -26,8 +26,36 @@ status: current
 - 演示数据预先准备
 - 关键依赖可快速重启
 - 判题服务与 Worker 状态可检查
+- Web 终端实验运行时配置可追溯，fake 与 Kubernetes 验证结果必须区分
 
-## 4. 运行检查项
+## 4. Web 终端实验运行时
+
+Web 终端实验支持两类运行时：
+
+| 运行时 | 用途 | 说明 |
+| --- | --- | --- |
+| `fake` | 本地开发、普通测试、无 Kubernetes 环境的 E2E | 默认运行时；启动后直接进入运行中，终端输出 `AUBB lab terminal ready.` 并做最小回显 |
+| `kubernetes` | 真实实验环境验证和生产部署 | 需要显式配置集群连接、namespace、Pod 安全约束和镜像 |
+
+本地默认配置建议：
+
+```bash
+AUBB_LAB_RUNTIME_ENABLED=true
+AUBB_LAB_RUNTIME_MODE=fake
+```
+
+真实 Kubernetes smoke 验证时使用非提交 kubeconfig：
+
+```bash
+AUBB_LAB_RUNTIME_ENABLED=true
+AUBB_LAB_RUNTIME_MODE=kubernetes
+AUBB_LAB_K8S_NAMESPACE=aubb-labs
+AUBB_LAB_K8S_KUBECONFIG_PATH=/path/to/local/kubeconfig
+```
+
+不得提交真实 kubeconfig、token、cookie、JWT、私钥或集群连接串。未执行 Kubernetes smoke 时，只能声明 fake runtime 路径已验证，不能声明生产 Kubernetes 链路已通过。
+
+## 5. 运行检查项
 
 - 登录是否正常
 - 课程列表是否加载
@@ -35,3 +63,6 @@ status: current
 - 成绩统计是否可查看
 - 通知是否可触发
 - 审计日志是否可检索
+- 教师能创建并发布 Web 终端实验
+- 学生能启动 fake 实验环境并打开 Web 终端
+- 教师能查看学生实验环境会话状态

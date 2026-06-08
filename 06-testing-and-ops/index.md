@@ -28,7 +28,7 @@ status: current
 ## 使用顺序
 
 1. 开发启动前阅读 [测试策略](testing-strategy.md)。
-2. 环境准备时阅读 [环境与部署基线](environments-and-deployment.md)。
+2. 环境准备时阅读 [环境与部署基线](environments-and-deployment.md)，Web 终端实验需要额外核对 fake / Kubernetes runtime 配置。
 3. 观测与排障时阅读 [可观测性](observability.md)。
 4. 提交前和答辩前使用 [验收清单](acceptance-checklist.md)。
 5. Agent 接手和跨轮压缩阅读 [Agent 持续迭代交接](agent-iteration-handoff.md)。
