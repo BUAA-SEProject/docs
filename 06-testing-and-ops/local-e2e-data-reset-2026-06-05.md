@@ -116,7 +116,28 @@ AUBB_E2E_TEMP_USER_PASSWORD
 - 不适合删除 MinIO、Redis、RabbitMQ volume。
 - 已经明确所有 E2E 数据都有稳定前缀。
 
-定向清理必须先实现受保护脚本，不建议临时手写 SQL。脚本应满足：
+定向清理必须使用受保护脚本，不建议临时手写 SQL。当前入口：
+
+```bash
+cd /Users/moorefoss/Code/AUBB/server
+scripts/ops/e2e-residual-cleanup.sh
+```
+
+默认 dry-run，会输出 PostgreSQL 命中数量、对象存储 key 清单、Redis key pattern 和 RabbitMQ 队列名，不执行删除。需要真正清 PostgreSQL 业务数据时显式加 `--apply`：
+
+```bash
+cd /Users/moorefoss/Code/AUBB/server
+scripts/ops/e2e-residual-cleanup.sh --apply
+```
+
+如需只清某一轮测试前缀，可重复传入 `--prefix`：
+
+```bash
+cd /Users/moorefoss/Code/AUBB/server
+scripts/ops/e2e-residual-cleanup.sh --prefix E2E-BL-1308- --prefix mcp-mq4ajfav-
+```
+
+脚本约束：
 
 1. 仅允许连接 `127.0.0.1` 或 `localhost` 的本地数据库。
 2. 默认 dry-run，只输出将删除的记录数量和表名。
@@ -127,18 +148,11 @@ AUBB_E2E_TEMP_USER_PASSWORD
    - `MCP-*`
    - 其他当轮明确记录的测试前缀。
 5. 同步处理：
-   - PostgreSQL 业务数据。
-   - MinIO 测试附件对象。
-   - Redis 测试 key。
-   - RabbitMQ 测试队列和未消费消息。
+   - PostgreSQL 业务数据：脚本可 dry-run / apply。
+   - MinIO 测试附件对象：脚本从 PostgreSQL 命中行报告 object key；当前未自动删除对象。
+   - Redis 测试 key：脚本报告本地 namespace 下的 key pattern；当前未自动删除 key。
+   - RabbitMQ 测试队列和未消费消息：脚本报告队列名；当前未自动 purge 队列。
 6. 输出清理报告，不输出密码、token、cookie、JWT 或真实连接串。
-
-建议将来新增统一命令：
-
-```bash
-just e2e-clean-dry-run
-just e2e-reset
-```
 
 ## 6. 不允许的操作
 
