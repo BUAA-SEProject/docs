@@ -1,0 +1,23 @@
+
+== workspace ==
+root: /Users/moorefoss/Code/AUBB
+root git: not a git repository; use server/, web/, docs/ independently
+
+== server ==
+## main...origin/main
+dirty entries: 0
+
+== web ==
+## main...origin/main
+dirty entries: 0
+
+== docs ==
+## main...origin/main [ahead 3]
+ M 06-testing-and-ops/artifacts/product-full-verification-feature-inventory.md
+ M 06-testing-and-ops/artifacts/product-full-verification-rehearsal-log.md
+ M 06-testing-and-ops/artifacts/product-full-verification-report.md
+dirty entries: 3
+
+== agent handoff ==
+dirty workspace: yes (3 entries across subrepos)
+next action: inspect before editing; commit only scoped changes; do not reset unrelated work

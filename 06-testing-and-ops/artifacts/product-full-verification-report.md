@@ -18,7 +18,7 @@
 
 当前结论：`不通过`
 
-原因：本轮补充了顶栏搜索、通知入口、教师公告/资源/讨论、学生讨论回复、简答 Markdown 提交、Redis/MinIO/下载哈希等证据，Playwright MCP 截图范围扩展到 `001`-`101`。但已确认存在会破坏演示主线的 P1 缺陷（编程题评测系统错误、实验终端交互不稳定），`just e2e-real` 辅助门禁失败；同时 Playwright MCP 主证据对强制用户可见功能仍有缺口，三次完整演示彩排尚未完成。根据 `goal-test.md`，任一强制项仍为 `阻塞` 或三次彩排未全部成功时，最终结论不得为 `通过` 或 `有条件通过`。
+原因：本轮继续补充了管理员权限解释允许/拒绝、开课助教禁止动作、1280/1440/390 响应式和关键页面 console/network 证据，Playwright MCP 截图范围扩展到 `001`-`114`。但已确认存在会破坏演示主线的 P1 缺陷（编程题评测系统错误、实验终端交互不稳定），`just e2e-real` 辅助门禁失败；同时 Playwright MCP 主证据对强制用户可见功能仍有缺口，三次完整演示彩排尚未完成。根据 `goal-test.md`，任一强制项仍为 `阻塞` 或三次彩排未全部成功时，最终结论不得为 `通过` 或 `有条件通过`。
 
 ## 3. 上次缺口复核
 
@@ -54,23 +54,23 @@
 | 7 | `just e2e-real` | 失败 | `product-full-verification-evidence/commands/07-just-e2e-real.log`；43 passed, 3 failed, 4 did not run |
 | 8 | `just verify` | 通过 | `product-full-verification-evidence/commands/10-just-verify.log`；server 356 tests passed，web lint/typecheck passed，docs build passed |
 | 9 | `just verify-full` | 通过 | `product-full-verification-evidence/commands/11-just-verify-full.log`；server verify、web lint/typecheck/unit/build、docs build passed |
-| 10 | `cd docs && npm run docs:build` | 通过 | `product-full-verification-evidence/commands/13-docs-build.log`、`product-full-verification-evidence/commands/24-docs-build-rerun.log`；构建通过，仅有 chunk size 警告 |
+| 10 | `cd docs && npm run docs:build` | 通过 | `product-full-verification-evidence/commands/13-docs-build.log`、`product-full-verification-evidence/commands/24-docs-build-rerun.log`、`product-full-verification-evidence/commands/26-docs-build-rerun-20260609.log`；构建通过，仅有 chunk size 警告 |
 
 ## 6. 全功能清单摘要
 
 - 初版清单已在页面操作前生成，后续已按新增 MCP 发现补充公共搜索、通知、通用通知路径、教师内容动作、学生简答题、Redis/MinIO/通知轮询和 NFR 问题。
 - 清单覆盖公共、认证、管理员、教师、学生、助教、运行时、文档、非功能和三次演示彩排。
-- 页面实际渲染出来的按钮、菜单、表单、筛选器、tabs、弹窗和链接仍按 MCP 页面操作持续补充；当前截图范围为 `001`-`101`。
+- 页面实际渲染出来的按钮、菜单、表单、筛选器、tabs、弹窗和链接仍按 MCP 页面操作持续补充；当前截图范围为 `001`-`114`。
 
 ## 7. 逐角色验证结果
 
 | 角色 | 当前状态 | 说明 |
 | --- | --- | --- |
 | 无登录用户 | 部分通过 | 已覆盖 `/login`、空表单失败、未登录 `/admin` 重定向；`/` 未登录默认态仍待单独截图 |
-| 学校管理员 | 部分通过 | 已覆盖治理首页、用户、审计、权限解释拒绝、平台配置、组织、学期、课程模板、开课列表/详情、跨区禁止；保存/创建/编辑类动作仍未执行 |
+| 学校管理员 | 部分通过 | 已覆盖治理首页、用户、审计、权限解释允许/拒绝、平台配置、组织、学期、课程模板、开课列表/详情、跨区禁止；保存/创建/编辑类动作仍未执行 |
 | 教师 | 部分通过 | 已覆盖首页、课程列表/工作区、成员、资源上传下载、公告创建、讨论创建与回复、讨论详情、题库、判题环境、作业列表/创建表单/编辑页、提交、成绩册、实验、通知和全部已读；成员导入、题库/判题环境/实验发布、作业创建保存仍阻塞 |
 | 学生 | 部分失败 | 已覆盖首页、课程列表/详情、作业、WebIDE、提交、成绩、通知、实验、讨论正反例和简答 Markdown 提交；编程题评测与实验终端为失败，客观题/文件题/实验报告提交仍阻塞 |
-| 开课助教 | 部分通过 | `u-tac1` 已覆盖登录、授权提交页、管理员/学生区禁止；更细的禁止动作仍待覆盖 |
+| 开课助教 | 部分通过 | `u-tac1` 已覆盖登录、授权提交页、管理员/学生区禁止和未授权开课公告拒绝；未授权页面仍暴露部分动作入口，详见 P2-007 |
 | 班级助教 | 部分通过 | `u-tao1` 已覆盖登录、A1 作业提交允许、A2 作业提交拒绝、开课级成绩册拒绝；顶栏角色文案存在可理解性问题 |
 | 缺档案用户 | 通过 | 已用 API 准备缺档案 class-ta 账号并通过 MCP 登录进入 `/profile-required` |
 
@@ -154,6 +154,7 @@
 | ADMIN-009 | 阻塞 | `product-full-verification-screenshots/059-admin-course-catalogs.png` | 课程模板页可达；尚未创建/编辑课程模板。 |
 | ADMIN-010 | 阻塞 | `product-full-verification-screenshots/060-admin-course-offerings-list.png` | 开课管理页可达，显示真实开课列表和“新增开课”；尚未执行开课创建/编辑和共同管理学院选择。 |
 | ADMIN-011 | 通过 | `product-full-verification-screenshots/061-admin-course-offering-2-detail.png` | 使用真实 offeringId `2` 打开管理员开课详情页。 |
+| ADMIN-012 | 通过 | `product-full-verification-screenshots/114-admin-auth-explain-school-auth-read-allowed.png`; `product-full-verification-evidence/mcp-network-114-auth-explain-allowed-response.json`; `product-full-verification-evidence/admin-auth-explain-scope-db-20260609.log` | 管理员在权限解释页使用高级编号参数查询 userId `1`、权限“读取权限解释”、学校作用域 `SCHOOL/1`，页面显示“最终判定：允许 / 按作用域角色授权”；响应体为 `ALLOW_BY_SCOPE_ROLE`，DB 辅助证据显示 `u-sa1` 拥有 `school_admin@school:1` 和 `auth.explain.read`。平台作用域 `PLATFORM/0` 负例返回 `DENY_SCOPE_MISMATCH`，作为作用域边界辅助证据保存于 `product-full-verification-screenshots/102-admin-auth-explain-auth-read-denied.png`。 |
 | ADMIN-013 | 通过 | `product-full-verification-screenshots/007-admin-auth-explain-deny.png` | 权限解释页从用户上下文进入，点击“立即分析”后显示“最终判定：拒绝 / 授权范围不匹配”。 |
 | ADMIN-014 | 通过 | `product-full-verification-screenshots/008-admin-audit-logs-actor-u-ta1.png`; `product-full-verification-screenshots/009-admin-audit-log-detail.png` | 审计日志按操作者 `u-ta1` 筛选，显示作业发布、课程成员批量添加、登录成功等记录；详情展开显示日志元数据和复制 JSON。 |
 | ADMIN-015 | 通过 | `product-full-verification-screenshots/062-admin-teacher-unauthorized.png`; `product-full-verification-screenshots/063-admin-student-unauthorized.png` | 管理员登录态直接打开 `/teacher`、`/student` 均进入 `/unauthorized`。 |
@@ -166,6 +167,7 @@
 | TA-007 | 通过 | `product-full-verification-screenshots/035-student-admin-unauthorized.png` | 学生登录态直接打开 `/admin` 被重定向到 `/unauthorized`，页面显示“权限不足”和返回首页。 |
 | TA-008 | 通过 | `product-full-verification-screenshots/037-teacher-admin-unauthorized.png` | 教师登录态直接打开 `/admin` 被重定向到 `/unauthorized`，页面显示“权限不足”。 |
 | TA-001/002 | 通过 | `product-full-verification-screenshots/044-ta-u-tac1-dashboard.png`; `product-full-verification-screenshots/045-ta-u-tac1-submissions-assignment-7.png` | `u-tac1` 作为开课+班级助教登录教师端，可进入授权作业提交列表。 |
+| TA-003 | 通过 | `product-full-verification-screenshots/103-ta-u-tac1-offering-5-denied-workspace.png`; `product-full-verification-screenshots/104-ta-u-tac1-offering-5-announcements-denied.png`; `product-full-verification-evidence/mcp-network-103-104-ta-denied.md` | `u-tac1` 直接打开未授权 offeringId `5` 时，工作区数据面板返回“当前用户无权查看教学班”；继续进入 `/teacher/courses/5/announcements` 后公告接口返回 403，页面显示“当前用户无权管理该课程公告”。权限边界成立，但未授权页仍暴露“发布公告”等入口，详见 P2-007。 |
 | TA-004/005 | 通过 | `product-full-verification-screenshots/048-ta-u-tao1-dashboard.png`; `product-full-verification-screenshots/049-ta-u-tao1-gradebook-offering-2.png`; `product-full-verification-screenshots/050-ta-u-tao1-submissions-assignment-7-allowed.png`; `product-full-verification-screenshots/051-ta-u-tao1-submissions-assignment-4-denied.png`; `product-full-verification-evidence/commands/10-tao1-role-bindings.log` | `u-tao1` 只有 class 2 的 `class_ta` 有效绑定；页面允许查看 A1 作业 7 提交，拒绝 A2 作业 4 提交，开课级成绩册显示无权。 |
 | TA-009 | 通过 | `product-full-verification-screenshots/046-ta-u-tac1-admin-unauthorized.png`; `product-full-verification-screenshots/047-ta-u-tac1-student-unauthorized.png`; `product-full-verification-screenshots/051-ta-u-tao1-submissions-assignment-4-denied.png` | 助教不能进入管理员/学生工作区，班级助教不能访问其他班级作业提交。 |
 
@@ -184,26 +186,33 @@
 
 ## 14. 文档一致性验证
 
-已确认强制输入文档存在；`just verify`、`just verify-full` 内部 docs build 均通过，且单独执行 `cd docs && npm run docs:build` 通过。收尾前又执行一次 `npm run docs:build`，证据为 `product-full-verification-evidence/commands/24-docs-build-rerun.log`，结果仍为通过，仅有 VitePress chunk size 警告。
+已确认强制输入文档存在；`just verify`、`just verify-full` 内部 docs build 均通过，且单独执行 `cd docs && npm run docs:build` 通过。收尾前又执行一次 `npm run docs:build`，证据为 `product-full-verification-evidence/commands/26-docs-build-rerun-20260609.log`，结果仍为通过，仅有 VitePress chunk size 警告。
 
 ## 15. 前端质量与响应式验证
 
-已执行最小视口截图，但覆盖不足以满足合同要求：
+已继续补充 1280、1440 和 390 视口截图；桌面关键页已形成更多 MCP 主证据，移动端仍缺管理员和教师关键页：
 
 | 视口 | 状态 | 证据 | 说明 |
 | --- | --- | --- | --- |
-| `1280x800` | 阻塞 | `product-full-verification-screenshots/078-nfr-1280-student-course-discussion-denied.png` | 仅覆盖学生讨论无权页，管理员/教师/登录关键页未完整覆盖。 |
-| `1440x900` | 阻塞 | `product-full-verification-screenshots/079-nfr-1440-student-webide.png` | 覆盖学生 WebIDE，但该页面仍存在评测系统错误；管理员/教师关键页未完整覆盖。 |
-| `390x844` | 阻塞 | `product-full-verification-screenshots/080-nfr-390-student-labs.png` | 覆盖学生实验页，登录、管理员开课、教师作业创建等全部要求页面仍缺完整证据。 |
+| `1280x800` | 通过 | `product-full-verification-screenshots/078-nfr-1280-student-course-discussion-denied.png`; `product-full-verification-screenshots/105-nfr-1280-ta-denied-announcements.png`; `product-full-verification-screenshots/106-nfr-1280-login-page.png`; `product-full-verification-screenshots/107-nfr-1280-admin-users.png` | 登录页、管理员用户表、学生无权页和助教无权公告页在 1280 宽度未出现结构性重叠；助教无权页暴露动作入口另记 P2-007。 |
+| `1440x900` | 通过 | `product-full-verification-screenshots/079-nfr-1440-student-webide.png`; `product-full-verification-screenshots/108-nfr-1440-teacher-course-2-workspace.png`; `product-full-verification-screenshots/109-nfr-1440-teacher-assignment-create.png` | 教师课程工作区和作业创建表单布局稳定；学生 WebIDE 布局可见，但运行功能错误另见 P1-002。 |
+| `390x844` | 阻塞 | `product-full-verification-screenshots/080-nfr-390-student-labs.png`; `product-full-verification-screenshots/110-nfr-390-login-filled.png`; `product-full-verification-screenshots/111-nfr-390-student-assignments.png`; `product-full-verification-screenshots/112-nfr-390-student-grades.png`; `product-full-verification-screenshots/113-nfr-390-student-notifications.png` | 登录和学生作业/成绩/通知/实验页在窄屏可用，未发现结构性重叠；管理员和教师移动关键页仍未形成 MCP 主证据，保持阻塞。 |
+
+控制台与网络补证：
+
+- `product-full-verification-evidence/mcp-console-107-admin-users-nfr.txt`、`mcp-console-108-teacher-course-nfr.txt`、`mcp-console-109-teacher-assignment-create-nfr.txt`、`mcp-console-111-student-assignments-nfr.txt`、`mcp-console-112-student-grades-nfr.txt`、`mcp-console-113-student-notifications-nfr.txt` 均为 0 个 error。
+- `product-full-verification-evidence/mcp-console-103-104-ta-denied.txt` 中的 403 error 来自未授权 offeringId `5` 的负例验证，与 TA-003 权限拒绝一致。
+- `product-full-verification-evidence/mcp-network-110-113-mobile-nfr.md` 中的 notification stream `ERR_ABORTED` 发生在页面切换，后续 stream 可重新建立；全站网络错误仍未逐页完成归因，因此 NFR-004 保持阻塞。
 
 新增可用性问题：
 
 - P2-005：教师讨论列表历史长标题横向溢出，证据 `product-full-verification-screenshots/093-teacher-discussions-list-before-create.png`。
 - P2-006：学生简答提交详情顶部显示“无文本答案”，但分题区域和数据库均有真实答案，证据 `product-full-verification-screenshots/101-student-short-answer-submission-45-detail.png`。
+- P2-007：开课助教访问未授权开课页时数据面板正确拒绝，但工作区和公告页仍展示快捷动作入口，证据 `product-full-verification-screenshots/103-ta-u-tac1-offering-5-denied-workspace.png`、`product-full-verification-screenshots/104-ta-u-tac1-offering-5-announcements-denied.png`。
 
 ## 16. 三次完整演示彩排记录摘要
 
-三次完整演示彩排没有全部成功。彩排 1 和彩排 2 均已开始并失败；本轮在彩排 2 后补充了公告、资源、讨论、通知和简答提交的可演示片段，但这些补证不能把彩排 2 改写为成功。彩排 3 因 P1 缺陷和强制项阻塞未启动，见 `product-full-verification-rehearsal-log.md`。
+三次完整演示彩排没有全部成功。彩排 1 和彩排 2 均已开始并失败；本轮在彩排 2 后继续补充了公告、资源、讨论、通知、简答提交、权限解释正反例、助教禁止动作和响应式证据，但这些补证不能把彩排 2 改写为成功。彩排 3 因 P1 缺陷和强制项阻塞未启动，见 `product-full-verification-rehearsal-log.md`。
 
 ## 17. 缺陷详情
 
@@ -348,12 +357,32 @@
 - 修复建议方向：按题型区分提交详情摘要文案，简答/客观题优先展示 per-question answer 状态。
 - 修复状态：待修复
 
+### P2-007 未授权开课页仍展示可执行入口
+
+- 严重级别：P2
+- 功能清单编号：TA-003、NFR-005
+- 模块：web/teacher course workspace、web/teacher announcements
+- 角色：开课助教
+- 页面或对象：`/teacher/courses/5`、`/teacher/courses/5/announcements`
+- 操作步骤：以 `u-tac1` 登录教师端，直接打开未授权 offeringId `5` 的课程工作区，再点击或直达“发布全课公告”/公告页。
+- 实际表现：接口正确返回 403，页面数据面板显示“当前用户无权查看教学班”或“当前用户无权管理该课程公告”；但课程工作区仍展示“发布全课公告”“上传课程资源”“管理本课作业”等快捷入口，公告页顶部仍展示“发布公告”按钮和课程导航。
+- 期望表现：未授权课程上下文应隐藏或禁用后续动作入口，并以单一拒绝态替代可执行按钮，避免用户继续进入必然失败的子页面。
+- 影响说明：不构成越权访问，权限边界由 API 和页面错误态守住；但会降低助教权限负例的可理解性和演示观感。
+- 证据：
+  - MCP 截图：`product-full-verification-screenshots/103-ta-u-tac1-offering-5-denied-workspace.png`
+  - MCP 截图：`product-full-verification-screenshots/104-ta-u-tac1-offering-5-announcements-denied.png`
+  - MCP 网络/控制台：`product-full-verification-evidence/mcp-network-103-104-ta-denied.md`、`product-full-verification-evidence/mcp-console-103-104-ta-denied.txt`
+- 是否阻塞演示彩排：否。
+- 是否阻塞后续功能验证：否。
+- 修复建议方向：在课程上下文加载 403 时进入页面级权限拒绝态；所有课程动作按钮和二级导航应依赖已授权课程上下文再渲染。
+- 修复状态：待修复
+
 ## 18. 阻塞项与不适用项
 
 当前阻塞同时来自两类事实：
 
 - 已确认应用缺陷：WebIDE 自测/提交返回系统错误，实验终端首次连接和命令输出不稳定。
-- 尚未执行或因数据缺失阻塞的强制项：管理员保存/创建/编辑，教师成员导入、题库、判题环境、作业创建保存、实验发布，学生单选/多选/填空/文件题、实验报告提交，完整 NFR 覆盖和第三次彩排。
+- 尚未执行或因数据缺失阻塞的强制项：管理员保存/创建/编辑，教师成员导入、题库、判题环境、作业创建保存、实验发布，学生单选/多选/填空/文件题、实验报告提交，移动端管理员/教师 NFR、全站 console/network 逐页归因和第三次彩排。
 
 ## 19. 修复优先级建议
 
@@ -362,6 +391,6 @@
 ## 20. 最终 just status 与提交信息
 
 - 收尾前 `just status`：`server/` clean；`web/` clean；`docs/` 有 3 个待提交验证产物修改；根目录不是 git 仓库。
-- 状态证据：`product-full-verification-evidence/commands/22-final-just-status.log`、`product-full-verification-evidence/commands/23-post-commit-just-status.log`、`product-full-verification-evidence/commands/25-final-just-status-precommit.log`。
+- 状态证据：`product-full-verification-evidence/commands/22-final-just-status.log`、`product-full-verification-evidence/commands/23-post-commit-just-status.log`、`product-full-verification-evidence/commands/25-final-just-status-precommit.log`、`product-full-verification-evidence/commands/27-final-just-status-precommit-20260609.log`。
 - 本轮提交主题：`docs(test): 补充产品全功能验证证据`；真实 commit hash 在提交完成后由最终回复给出，避免在同一 commit 内容中写入必然失效的自身 hash。
 - 仅提交验证产物；未修改 `server/`、`web/` 应用代码、配置代码、测试代码或生产文档正文。

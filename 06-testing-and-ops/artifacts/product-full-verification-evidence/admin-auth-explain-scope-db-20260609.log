@@ -1,0 +1,17 @@
+# command: readonly docker exec -i psql scope check for ADMIN-012 auth explain allow scenario
+# time: 2026-06-09 CST
+
+ user_id | username |  role_code   | scope_type | scope_id | status |        effective_from         | effective_to |    source_type
+---------+----------+--------------+------------+----------+--------+-------------------------------+--------------+-------------------
+       1 | u-sa1    | school_admin | school     |        1 | ACTIVE | 2026-06-07 10:04:19.844772+00 |              | LEGACY_GOVERNANCE
+(1 row)
+
+ user_id | username |  role_code   |  permission_code  | scope_type | scope_id | status
+---------+----------+--------------+-------------------+------------+----------+--------
+       1 | u-sa1    | school_admin | auth.explain.read | school     |        1 | ACTIVE
+(1 row)
+
+       code        | resource_type | action | sensitive
+-------------------+---------------+--------+-----------
+ auth.explain.read | auth_explain  | read   | t
+(1 row)
