@@ -18,7 +18,7 @@
 
 当前结论：`不通过`
 
-原因：本轮继续补充了管理员权限解释允许/拒绝、开课助教禁止动作、1280/1440/390 响应式和关键页面 console/network 证据，Playwright MCP 截图范围扩展到 `001`-`114`。但已确认存在会破坏演示主线的 P1 缺陷（编程题评测系统错误、实验终端交互不稳定），`just e2e-real` 辅助门禁失败；同时 Playwright MCP 主证据对强制用户可见功能仍有缺口，三次完整演示彩排尚未完成。根据 `goal-test.md`，任一强制项仍为 `阻塞` 或三次彩排未全部成功时，最终结论不得为 `通过` 或 `有条件通过`。
+原因：本轮继续补充了管理员权限解释允许/拒绝、开课助教禁止动作、1280/1440/390 响应式和关键页面 console/network 证据，Playwright MCP 截图范围扩展到 `001`-`114`。2026-06-10 修复阶段已回归第一轮确认的 P1 缺陷（编程题评测系统错误、实验终端交互不稳定）和 `just e2e-real` 辅助门禁失败；但 Playwright MCP 主证据对强制用户可见功能仍有缺口，三次完整演示彩排尚未完成。根据 `goal-test.md`，任一强制项仍为 `阻塞` 或三次彩排未全部成功时，最终结论不得为 `通过` 或 `有条件通过`。
 
 ## 3. 上次缺口复核
 
@@ -51,8 +51,8 @@
 | 4 | `just healthcheck-strict` | 通过 | `product-full-verification-evidence/commands/04-just-healthcheck-strict.log` |
 | 5 | 残留摘要检查 | 通过；前 3 次命令写法失败已保留 | `05-residual-summary.log`、`05b-residual-summary.log`、`05c-residual-summary.log`、`05d-residual-summary.log` |
 | 6 | `just seed-fixtures` | 通过 | `product-full-verification-evidence/commands/06-just-seed-fixtures.log` |
-| 7 | `just e2e-real` | 失败 | `product-full-verification-evidence/commands/07-just-e2e-real.log`；43 passed, 3 failed, 4 did not run |
-| 8 | `just verify` | 通过 | `product-full-verification-evidence/commands/10-just-verify.log`；server 356 tests passed，web lint/typecheck passed，docs build passed |
+| 7 | `just e2e-real` | 修复阶段已回归 | 第一轮证据 `product-full-verification-evidence/commands/07-just-e2e-real.log` 为 43 passed, 3 failed, 4 did not run；2026-06-10 修复阶段重跑通过，50 passed (3.7m) |
+| 8 | `just verify` | 修复阶段已回归 | 第一轮证据 `product-full-verification-evidence/commands/10-just-verify.log` 为 server 356 tests passed，web lint/typecheck passed，docs build passed；2026-06-10 修复阶段重跑通过，server 357 tests passed，web lint/typecheck passed，docs build passed |
 | 9 | `just verify-full` | 通过 | `product-full-verification-evidence/commands/11-just-verify-full.log`；server verify、web lint/typecheck/unit/build、docs build passed |
 | 10 | `cd docs && npm run docs:build` | 通过 | `product-full-verification-evidence/commands/13-docs-build.log`、`product-full-verification-evidence/commands/24-docs-build-rerun.log`、`product-full-verification-evidence/commands/26-docs-build-rerun-20260609.log`；构建通过，仅有 chunk size 警告 |
 
@@ -69,7 +69,7 @@
 | 无登录用户 | 部分通过 | 已覆盖 `/login`、空表单失败、未登录 `/admin` 重定向；`/` 未登录默认态仍待单独截图 |
 | 学校管理员 | 部分通过 | 已覆盖治理首页、用户、审计、权限解释允许/拒绝、平台配置、组织、学期、课程模板、开课列表/详情、跨区禁止；保存/创建/编辑类动作仍未执行 |
 | 教师 | 部分通过 | 已覆盖首页、课程列表/工作区、成员、资源上传下载、公告创建、讨论创建与回复、讨论详情、题库、判题环境、作业列表/创建表单/编辑页、提交、成绩册、实验、通知和全部已读；成员导入、题库/判题环境/实验发布、作业创建保存仍阻塞 |
-| 学生 | 部分失败 | 已覆盖首页、课程列表/详情、作业、WebIDE、提交、成绩、通知、实验、讨论正反例和简答 Markdown 提交；编程题评测与实验终端为失败，客观题/文件题/实验报告提交仍阻塞 |
+| 学生 | 部分失败 | 已覆盖首页、课程列表/详情、作业、WebIDE、提交、成绩、通知、实验、讨论正反例和简答 Markdown 提交；编程题评测和实验终端已在修复阶段回归，客观题/文件题/实验报告提交仍阻塞 |
 | 开课助教 | 部分通过 | `u-tac1` 已覆盖登录、授权提交页、管理员/学生区禁止和未授权开课公告拒绝；未授权页面仍暴露部分动作入口，详见 P2-007 |
 | 班级助教 | 部分通过 | `u-tao1` 已覆盖登录、A1 作业提交允许、A2 作业提交拒绝、开课级成绩册拒绝；顶栏角色文案存在可理解性问题 |
 | 缺档案用户 | 通过 | 已用 API 准备缺档案 class-ta 账号并通过 MCP 登录进入 `/profile-required` |
@@ -106,13 +106,13 @@
 | STUDENT-010 | 通过 | `product-full-verification-screenshots/100-student-short-answer-markdown-preview.png`; `product-full-verification-screenshots/101-student-short-answer-submission-45-detail.png`; `product-full-verification-evidence/student-short-answer-submission-45-db-fixed.log` | 学生打开真实 assignmentId `3`，输入 Markdown 简答并预览后提交；提交详情和 SQL 均显示 submissionId `45`、answerId `128` 已保存答案文本。但提交详情顶部仍显示“无文本答案”，详见 P2-006。 |
 | STUDENT-012 | 通过 | `product-full-verification-screenshots/017-student-webide-initial.png` | 使用真实 assignmentId `7`、questionId `11` 打开 WebIDE，可见题目说明、文件浏览器、`main.py` 编辑器、保存、重置、历史、运行自测、保存并返回和状态栏。 |
 | STUDENT-013 | 通过 | `product-full-verification-screenshots/019-student-webide-history.png` | IDE 历史面板显示版本号、保存时间、保存原因和恢复入口；保存按钮可点击且页面未报错。 |
-| STUDENT-014 | 失败 | `product-full-verification-screenshots/018-student-webide-run-result.png` | 点击“运行自测”后页面展示部分样例通过，但同时出现 `RUNTIME_ERROR` 和“自定义评测脚本未返回裁决 JSON”，不能证明编程题运行链路稳定可演示。 |
-| STUDENT-015 | 失败 | `product-full-verification-screenshots/020-student-assignment-after-webide-return.png`; `product-full-verification-screenshots/021-student-submission-detail-after-submit.png` | IDE 内确认“保存并返回”可回到作业详情；作业详情点击“提交答案”进入提交详情，但提交结果为 `SYSTEM_ERROR`。 |
-| STUDENT-016 | 失败 | `product-full-verification-screenshots/021-student-submission-detail-after-submit.png` | 使用真实 submissionId `44` 打开提交详情，页面展示提交编号、代码、反馈和下载报告入口，但判题结果为 `SYSTEM_ERROR`，反馈为“评测失败：自定义评测脚本未返回裁决 JSON”。 |
+| STUDENT-014 | 修复阶段已回归 | `product-full-verification-screenshots/018-student-webide-run-result.png`; `product-full-verification-screenshots/repair-p1-002-webide-sample-run-fixed.png` | 第一轮点击“运行自测”后页面展示部分样例通过，但同时出现 `RUNTIME_ERROR` 和“自定义评测脚本未返回裁决 JSON”；2026-06-10 修复阶段重新打开 WebIDE 并点击“运行自测”，页面显示 `ACCEPTED，样例输出与预期一致`。 |
+| STUDENT-015 | 修复阶段已回归 | `product-full-verification-screenshots/020-student-assignment-after-webide-return.png`; `product-full-verification-screenshots/021-student-submission-detail-after-submit.png`; `product-full-verification-screenshots/repair-p1-002-submission-accepted-fixed.png` | 第一轮 IDE 返回作业详情后正式提交结果为 `SYSTEM_ERROR`；2026-06-10 修复阶段再次提交 submissionId `46`，提交详情显示反馈 `ACCEPTED，2/2 个测试点通过，得分 100/100`。 |
+| STUDENT-016 | 修复阶段已回归 | `product-full-verification-screenshots/021-student-submission-detail-after-submit.png`; `product-full-verification-screenshots/repair-p1-002-submission-accepted-fixed.png` | 第一轮真实 submissionId `44` 的提交详情为 `SYSTEM_ERROR`；2026-06-10 修复阶段真实 submissionId `46` 的提交详情显示“已完成 / 通过”，辅助 DB 查询显示 `job_status=SUCCEEDED`、`verdict=ACCEPTED`、`score=100/100`。 |
 | STUDENT-017 | 通过 | `product-full-verification-screenshots/022-student-grades.png`; `product-full-verification-screenshots/023-student-grades-offering-2.png` | 学生成绩全局入口可达；选择真实课程 `数据结构 2025 秋` 后显示 A1 班成绩、作业数量、作业得分、发布状态和提交编号。 |
 | STUDENT-018 | 通过 | `product-full-verification-screenshots/033-student-notifications.png`; `product-full-verification-screenshots/034-student-notification-mark-read.png` | 通知中心显示判题、资源、公告、讨论、作业、实验、成绩等通知；单条“标记已读”后顶栏未读数从 17 降到 16，首条按钮消失。 |
 | STUDENT-019 | 通过 | `product-full-verification-screenshots/024-student-labs-list.png`; `product-full-verification-screenshots/025-student-lab-selected.png` | 学生实验页显示真实教学班 A1 的已发布实验；选择 `MCP 终端闭环复核 0608-1644` 后显示实验环境、资源限制、会话时间、运行说明和操作按钮。 |
-| STUDENT-020 | 失败 | `product-full-verification-screenshots/026-student-lab-runtime-started.png`; `product-full-verification-screenshots/029-student-lab-terminal-second-open.png`; `product-full-verification-screenshots/030-student-lab-terminal-echo.png`; `product-full-verification-screenshots/032-student-lab-stop-attempt.png` | 实验环境可启动、二次点击后 Web 终端可连接并显示欢迎输出，停止环境最终成功；但第一次打开终端停在“未连接”，且输入 `echo AUBB-MCP-TERMINAL` 后未出现独立回显结果行，终端交互演示不稳定。 |
+| STUDENT-020 | 修复阶段已回归 | `product-full-verification-screenshots/026-student-lab-runtime-started.png`; `product-full-verification-screenshots/029-student-lab-terminal-second-open.png`; `product-full-verification-screenshots/030-student-lab-terminal-echo.png`; `product-full-verification-screenshots/032-student-lab-stop-attempt.png`; `product-full-verification-screenshots/repair-p1-003-lab-terminal-fixed.png` | 第一轮实验环境可启动和停止，但首次打开终端停在“未连接”，且 echo 无独立输出结果行；2026-06-10 修复阶段 MCP 复测一次点击即可连接，`echo AUBB-MCP-TERMINAL` 出现独立输出行。 |
 | STUDENT-021 | 阻塞 | `product-full-verification-screenshots/024-student-labs-list.png` | 实验报告内容、附件上传、保存草稿、正式提交入口可见；尚未选择实验并提交报告，不能标为通过。 |
 
 ## 10. 教师闭环验证
@@ -175,8 +175,8 @@
 
 | 编号 | 状态 | 证据 | 结论 |
 | --- | --- | --- | --- |
-| RUNTIME-006 | 失败 | `product-full-verification-screenshots/018-student-webide-run-result.png`; `product-full-verification-screenshots/021-student-submission-detail-after-submit.png` | 编程题自测和正式提交均产生系统级评测错误，详见 P1-002。 |
-| RUNTIME-007 | 失败 | `product-full-verification-screenshots/026-student-lab-runtime-started.png`; `product-full-verification-screenshots/029-student-lab-terminal-second-open.png`; `product-full-verification-screenshots/032-student-lab-stop-attempt.png` | 实验会话可创建和停止，终端二次打开后可连接，但首次打开未连接且 echo 无输出回显，详见 P1-003。 |
+| RUNTIME-006 | 修复阶段已回归 | `product-full-verification-screenshots/018-student-webide-run-result.png`; `product-full-verification-screenshots/021-student-submission-detail-after-submit.png`; `product-full-verification-screenshots/repair-p1-002-webide-sample-run-fixed.png`; `product-full-verification-screenshots/repair-p1-002-submission-accepted-fixed.png` | 第一轮编程题自测和正式提交均产生系统级评测错误；2026-06-10 修复阶段已通过 MCP 复测 WebIDE 自测和正式提交，提交详情为 `ACCEPTED，2/2 个测试点通过，得分 100/100`。 |
+| RUNTIME-007 | 修复阶段已回归 | `product-full-verification-screenshots/026-student-lab-runtime-started.png`; `product-full-verification-screenshots/029-student-lab-terminal-second-open.png`; `product-full-verification-screenshots/032-student-lab-stop-attempt.png`; `product-full-verification-screenshots/repair-p1-003-lab-terminal-fixed.png` | 第一轮实验会话可创建和停止，但首次打开终端未连接且 echo 无输出回显；2026-06-10 修复阶段 MCP 复测一次打开终端即为“已连接”，命令回显和输出结果均可见，详见 P1-003。 |
 | RUNTIME-001 | 通过 | `product-full-verification-evidence/commands/18-runtime-db-summary-fixed.log`; `product-full-verification-evidence/commands/08-submission-answer-127-grade-check.log` | PostgreSQL 中存在提交、批改分数、审计与通知记录；人工批改 SQL 已确认 submission answer 127 回写。 |
 | RUNTIME-002 | 通过 | `product-full-verification-evidence/content-actions-db-fixed-20260609.log`; `product-full-verification-evidence/resource-upload-download-sha256-20260609.log`; `product-full-verification-evidence/minio-resource-object-meta-20260609.log` | 课程资源上传后，数据库记录 object key、原文件名、MIME 和大小；MCP 下载文件 SHA256 与源文件一致，MinIO 对象元数据存在。 |
 | RUNTIME-003 | 通过 | `product-full-verification-evidence/commands/16-runtime-rabbitmq-ping.log`; `product-full-verification-evidence/commands/20-runtime-compose-ps.log` | RabbitMQ 进程 ping 成功，compose 状态为 healthy。 |
@@ -244,7 +244,7 @@
 - 角色：学生、管理员、教师
 - 页面或对象：`/student/assignments`、开课创建 Dialog、教师登录 fixture
 - 操作步骤：执行 `just e2e-real`。
-- 实际表现：50 个用例中 43 通过、3 失败、4 未运行，命令退出码 1。
+- 实际表现：第一轮 50 个用例中 43 通过、3 失败、4 未运行，命令退出码 1；2026-06-10 修复阶段完整重跑已通过，50 passed。
 - 期望表现：真实后端 E2E 全部通过。
 - 影响说明：这是辅助门禁失败，不能直接替代 MCP 页面结论；但按合同必须记录，且会阻止总体验收结论为通过。
 - 证据：
@@ -254,7 +254,15 @@
 - 是否阻塞演示彩排：可能。学生作业详情和组织开课 UI 失败会影响演示路线可信度；教师登录限流可能是运行节奏问题。
 - 是否阻塞后续功能验证：否，仍继续执行不依赖该门禁的 MCP 页面验证。
 - 修复建议方向：分别调查学生作业列表主操作文案/数据状态、共同管理学院选择器可达性、登录限流策略或 E2E 节流。
-- 修复状态：待修复
+- 修复状态：已回归
+- 修复阶段补充证据（2026-06-10）：
+  - 根因 1：学生作业 E2E 仍断言旧版主操作文案“开始做题”，而当前真实页面对已开始作业展示“继续作答 ${作业标题}”。
+  - 根因 2：组织开课 E2E 直接点击“共同管理学院”，但 `MultiOptionPicker` 默认只展示前 6 个选项；历史 E2E 残留组织较多时目标学院需要先搜索。
+  - 根因 3：教师登录 fixture 在快速真实 E2E 中可能触发 Redis 限流；Redis TTL 为 0 时服务端返回 `Retry-After: 0`，E2E 登录辅助逻辑也未对 `RATE_LIMIT_EXCEEDED` 提供兜底等待。
+  - 代码修复：`web/src/tests/e2e/assignment-submission.spec.ts`、`web/src/tests/e2e/full-organization-structure.spec.ts`、`web/src/tests/e2e/real-backend.ts`、`server/src/main/java/com/aubb/server/common/ratelimit/RedisRateLimitService.java`、`server/src/test/java/com/aubb/server/common/ratelimit/RedisRateLimitServiceTests.java`。
+  - 定向回归：真实后端 Playwright E2E 覆盖 `assignment-submission.spec.ts`、`full-organization-structure.spec.ts`、`teacher-course.spec.ts`，结果 `8 passed (32.2s)`。
+  - 完整回归：`just e2e-real` 通过，`50 passed (3.7m)`。
+  - 门禁回归：`cd server && bash ./mvnw -Dtest=RedisRateLimitServiceTests test` 通过，`Tests run: 4, Failures: 0, Errors: 0, Skipped: 0`；`just verify` 通过，后端 `357` tests passed，web lint/typecheck passed，docs build passed。
 
 ### P1-002 编程题自测和正式提交返回系统错误
 
@@ -275,7 +283,13 @@
 - 是否阻塞演示彩排：是。
 - 是否阻塞后续功能验证：否，仍可继续覆盖其他页面和权限边界。
 - 修复建议方向：检查演示编程题的自定义评测脚本返回协议、go-judge 执行结果解析、样例/隐藏用例数据和前端错误解释。
-- 修复状态：待修复
+- 修复状态：已回归
+- 修复阶段补充证据（2026-06-10）：
+  - 根因：演示编程题 fixture 使用旧版自定义 checker 协议，且 WebIDE 自测默认未带入题目样例输入。
+  - 代码修复：`server/scripts/api-tests/permission/e2e_permission_realrun.py`、`server/scripts/api-tests/permission/e2e_permission_realrun_test.py`、`web/src/features/submission/hooks/use-programming-workspace-controller.ts`、`web/src/tests/unit/submission/programming-workspace-page.test.tsx`。
+  - MCP 回归：学生 `U-ST1` 打开 `/student/assignments/7/workspace/11`，样例输入/期望输出自动填入后点击“运行自测”，显示 `ACCEPTED，样例输出与预期一致`；从作业详情提交后打开 `/student/submissions/46?assignmentId=7`，显示“已完成 / 通过”。
+  - 截图：`product-full-verification-screenshots/repair-p1-002-webide-sample-run-fixed.png`、`product-full-verification-screenshots/repair-p1-002-submission-accepted-fixed.png`。
+  - 命令验证：`cd server && python3 scripts/api-tests/permission/e2e_permission_realrun_test.py` 通过；`just seed-fixtures` 通过；`cd web && npm test -- src/tests/unit/submission/programming-workspace-page.test.tsx` 通过；辅助 DB 查询确认 submissionId `46` 的 judge job 为 `SUCCEEDED/ACCEPTED/100/100`。
 
 ### P1-003 实验 Web 终端连接和交互输出不稳定
 
@@ -298,7 +312,13 @@
 - 是否阻塞演示彩排：是。
 - 是否阻塞后续功能验证：否。
 - 修复建议方向：检查终端打开按钮状态机、WebSocket/stream 连接重试、终端输入提交和回显渲染，以及 current session 404 是否应静默处理。
-- 修复状态：待修复
+- 修复状态：已回归
+- 修复阶段补充证据（2026-06-10）：
+  - 根因：外层“打开终端”只挂载终端组件，内层组件未自动发起 token/WebSocket 连接；修复过程中还确认 token 回调身份变化会造成重复连接，fake runtime 未按 xterm 的 `\r` 输入边界解析命令。
+  - 代码修复：`web/src/features/lab/components/lab-terminal.tsx`、`web/src/tests/unit/lab/lab-terminal.test.tsx`、`server/src/main/java/com/aubb/server/modules/lab/application/runtime/FakeLabRuntimeProvisioner.java`、`server/src/test/java/com/aubb/server/integration/LabTerminalIntegrationTests.java`。
+  - MCP 回归：学生 `U-ST1` 打开 `/student/labs`，选择 `MCP 终端闭环复核 0608-1644`，一次点击“打开终端”后状态为“已连接”；输入 `echo AUBB-MCP-TERMINAL` 后终端文本包含独立输出行 `AUBB-MCP-TERMINAL`。
+  - 截图：`product-full-verification-screenshots/repair-p1-003-lab-terminal-fixed.png`。
+  - 命令验证：`cd web && npm test -- src/tests/unit/lab/lab-terminal.test.tsx` 通过；`cd web && npm test -- src/tests/unit/lab/student-labs-page.test.tsx` 通过；`cd server && bash ./mvnw -Dtest=LabTerminalIntegrationTests#fakeTerminalWebSocketSendsWelcomeAndEchoesInput test` 通过；`just dev-down && just dev-up && just healthcheck-strict` 通过。
 
 ### P3-004 成绩册导出按钮文案与实际文件格式不一致
 
@@ -379,18 +399,15 @@
 
 ## 18. 阻塞项与不适用项
 
-当前阻塞同时来自两类事实：
-
-- 已确认应用缺陷：WebIDE 自测/提交返回系统错误，实验终端首次连接和命令输出不稳定。
-- 尚未执行或因数据缺失阻塞的强制项：管理员保存/创建/编辑，教师成员导入、题库、判题环境、作业创建保存、实验发布，学生单选/多选/填空/文件题、实验报告提交，移动端管理员/教师 NFR、全站 console/network 逐页归因和第三次彩排。
+当前阻塞来自尚未执行或因数据缺失阻塞的强制项：管理员保存/创建/编辑，教师成员导入、题库、判题环境、作业创建保存、实验发布，学生单选/多选/填空/文件题、实验报告提交，移动端管理员/教师 NFR、全站 console/network 逐页归因和第三次彩排。第一轮确认的 WebIDE 自测/提交系统错误、实验终端首次连接和命令输出不稳定、`just e2e-real` 辅助门禁失败已在 2026-06-10 修复阶段回归。
 
 ## 19. 修复优先级建议
 
-本阶段不进入修复。发现缺陷后仅记录严重级别、复现步骤、影响范围和建议归属。
+第一阶段已优先修复 P1 与 E2E 辅助门禁问题；P2/P3 体验问题保留到后续低风险修复或完整验收阶段按影响面处理。
 
 ## 20. 最终 just status 与提交信息
 
-- 收尾前 `just status`：`server/` clean；`web/` clean；`docs/` 有 3 个待提交验证产物修改；根目录不是 git 仓库。
+- 第一轮收尾前 `just status`：`server/` clean；`web/` clean；`docs/` 有 3 个待提交验证产物修改；根目录不是 git 仓库。
 - 状态证据：`product-full-verification-evidence/commands/22-final-just-status.log`、`product-full-verification-evidence/commands/23-post-commit-just-status.log`、`product-full-verification-evidence/commands/25-final-just-status-precommit.log`、`product-full-verification-evidence/commands/27-final-just-status-precommit-20260609.log`。
-- 本轮提交主题：`docs(test): 补充产品全功能验证证据`；真实 commit hash 在提交完成后由最终回复给出，避免在同一 commit 内容中写入必然失效的自身 hash。
-- 仅提交验证产物；未修改 `server/`、`web/` 应用代码、配置代码、测试代码或生产文档正文。
+- 第一轮提交主题：`docs(test): 补充产品全功能验证证据`。
+- 2026-06-10 修复阶段将按 `server/`、`web/`、`docs/` 子仓库分别提交本轮修复、回归测试和修复证据。
