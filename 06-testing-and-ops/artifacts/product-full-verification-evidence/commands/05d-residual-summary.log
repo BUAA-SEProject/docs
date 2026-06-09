@@ -1,0 +1,15 @@
+# command: residual summary via psql counts for E2E/MCP/FULLRUN prefixes
+# started_at: 2026-06-09T18:21:44+08:00
+      object      | prefixed_count 
+------------------+----------------
+ users            |             24
+ org_units        |              3
+ academic_terms   |              1
+ course_catalogs  |              1
+ course_offerings |              1
+ assignments      |             22
+ labs             |              4
+(7 rows)
+
+# exit_code: 0
+# finished_at: 2026-06-09T18:21:44+08:00

@@ -1,0 +1,131 @@
+# AUBB 产品全功能完整验证功能清单
+
+## 1. 清单元信息
+
+- 生成时间：2026-06-09 18:30 CST
+- 执行合同：`/Users/moorefoss/Code/AUBB/goal-test.md`
+- 主证据原则：用户可见功能必须使用 Playwright MCP 操作真实本地页面；命令、API、数据库、日志、对象存储仅作为辅助证据。
+- 初始状态说明：清单在页面操作前生成。尚未执行 MCP 页面的强制项临时标为 `阻塞`，证据路径写明“等待 MCP 主证据”；执行后必须立即改为 `通过`、`失败`、`阻塞` 或 `不适用`。
+
+## 2. 输入来源核对
+
+| 来源 | 状态 | 证据 |
+| --- | --- | --- |
+| `web/src/app/` route 列表 | 通过 | `product-full-verification-evidence/commands/01-just-status-rerun.log`；`find web/src/app ...` 终端输出 |
+| `web/src/shared/routing/nav-config.ts` | 通过 | 已读，导航入口纳入 `COMMON-*` / 角色清单 |
+| `web/src/shared/routing/route-access.ts` | 通过 | 已读，角色访问规则纳入权限边界 |
+| `server/docs/stable-api.md` | 通过 | 已读，稳定 API 按功能域映射 |
+| `server/docs/product-specs/` | 通过 | 已读目录和规格要点，映射作业、课程、评测、成绩、实验、通知、权限、治理 |
+| `docs/04-development/frontend-design.md` | 通过 | 已读，纳入 `NFR-*` |
+| 页面实际渲染控件 | 阻塞 | 等待 Playwright MCP 页面操作后补充 |
+
+## 3. 功能清单
+
+| 编号 | 角色 | 页面/对象 | 功能点 | 操作类型 | 主证据要求 | 状态 | 证据路径 | 问题编号 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| COMMON-001 | 已登录缺档案用户 | `/` | 根路径恢复登录状态或跳转默认入口 | 导航 | MCP 打开页面并截图 | 通过 | `product-full-verification-screenshots/054-root-profile-required-redirect.png` | — |
+| COMMON-002 | 无登录用户 | `/login` | 登录页加载、登录公告、账号密码表单 | 页面/表单 | MCP 打开并截图 | 通过 | `product-full-verification-screenshots/001-login-page.png` | — |
+| COMMON-003 | 无登录用户 | `/login` | 空表单或错误凭据提示 | 表单校验 | MCP 点击登录并观察字段/全局错误 | 失败 | `product-full-verification-screenshots/002-login-empty-submit-no-visible-error.png` | P2-001 |
+| COMMON-004 | 无登录用户 | 受保护页 | 未登录访问管理员/教师/学生页的重定向或权限态 | 权限边界 | MCP 直接打开受保护 URL | 通过 | `product-full-verification-screenshots/055-anonymous-admin-redirect-login.png` | — |
+| COMMON-005 | 已登录用户 | 顶栏 | 全局搜索入口与结果导航 | 搜索/导航 | MCP 搜索真实关键词并截图 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| COMMON-006 | 已登录用户 | 顶栏 | 通知入口、未读数和通知页跳转 | 导航/状态 | MCP 点击通知入口 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| COMMON-007 | 已登录用户 | 顶栏 | 用户菜单、角色/上下文展示、退出登录 | 菜单/退出 | MCP 打开菜单并退出 | 通过 | `product-full-verification-screenshots/052-user-menu-logout-to-login.png` | — |
+| AUTH-001 | 学校管理员 | `/login` -> `/admin` | 管理员登录默认首页 | 登录/导航 | MCP 使用 `U-SA1` 登录 | 通过 | `product-full-verification-screenshots/003-admin-dashboard.png` | — |
+| AUTH-002 | 教师 | `/login` -> `/teacher` | 教师登录默认首页 | 登录/导航 | MCP 使用 `U-TA1` 登录 | 通过 | `product-full-verification-screenshots/010-teacher-dashboard.png` | — |
+| AUTH-003 | 学生 | `/login` -> `/student` | 学生登录默认首页 | 登录/导航 | MCP 使用 `U-ST1` 或 fixture 学生登录 | 通过 | `product-full-verification-screenshots/014-student-dashboard.png` | — |
+| AUTH-004 | 开课助教/班级助教 | `/login` -> `/teacher` | 助教默认首页和角色显示 | 登录/角色 | MCP 使用助教账号登录 | 通过 | `product-full-verification-screenshots/044-ta-u-tac1-dashboard.png`; `product-full-verification-screenshots/048-ta-u-tao1-dashboard.png` | — |
+| AUTH-005 | 缺少档案用户 | `/profile-required` | 已有课程身份但档案不完整用户进入资料要求页 | 权限/资料态 | MCP 登录或直接访问并截图 | 通过 | `product-full-verification-screenshots/053-profile-required-profileless-ta.png`; `product-full-verification-evidence/commands/12-profile-required-data-prep.log` | — |
+| AUTH-006 | 任意已登录用户 | `/unauthorized` | 权限不足页面解释原因和返回路径 | 权限态 | MCP 触发 403 或直接打开 | 通过 | `product-full-verification-screenshots/035-student-admin-unauthorized.png`; `product-full-verification-screenshots/036-student-teacher-unauthorized.png`; `product-full-verification-screenshots/037-teacher-admin-unauthorized.png`; `product-full-verification-screenshots/062-admin-teacher-unauthorized.png`; `product-full-verification-screenshots/063-admin-student-unauthorized.png` | — |
+| AUTH-007 | 任意已登录用户 | `/me/notifications` | 通用通知中心路径可访问或重定向到角色通知页 | 导航 | MCP 打开并截图 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| ADMIN-001 | 学校管理员 | `/admin` | 治理概览、平台状态、关键入口 | 页面/导航 | MCP 打开并截图 | 通过 | `product-full-verification-screenshots/003-admin-dashboard.png` | — |
+| ADMIN-002 | 学校管理员 | `/admin/platform-config` | 平台配置读取、修改、保存、恢复 | 表单/保存 | MCP 修改非破坏字段并恢复 | 阻塞 | `product-full-verification-screenshots/056-admin-platform-config.png`；页面可达，未执行保存/恢复 | PENDING-MCP |
+| ADMIN-003 | 学校管理员 | `/admin/org-units` | 组织树展开、搜索、节点详情 | 树/搜索 | MCP 展开真实节点 | 通过 | `product-full-verification-screenshots/057-admin-org-units-tree-detail.png` | — |
+| ADMIN-004 | 学校管理员 | `/admin/org-units` | 组织节点创建或编辑；非法层级反馈 | Dialog/提交 | MCP 创建或执行负例 | 阻塞 | `product-full-verification-screenshots/057-admin-org-units-tree-detail.png`；入口可见，未执行创建/编辑 | PENDING-MCP |
+| ADMIN-005 | 学校管理员 | `/admin/users` | 用户搜索、筛选、分页、创建或导入入口 | 表格/筛选/Dialog | MCP 搜索真实用户并打开创建/导入 | 通过 | `product-full-verification-screenshots/004-admin-users-list.png`; `product-full-verification-screenshots/005-admin-users-search-u-ta1.png` | — |
+| ADMIN-006 | 学校管理员 | `/admin/users/[userId]` | 用户详情、账号启停、会话撤销 | 动态详情/确认 | MCP 使用真实 userId 打开并操作安全动作 | 通过 | `product-full-verification-screenshots/006-admin-user-detail-u-ta1.png` | — |
+| ADMIN-007 | 学校管理员 | `/admin/users/[userId]` | 用户档案、组织归属、身份授权 | 表单/保存 | MCP 查看或保存档案/身份 | 通过 | `product-full-verification-screenshots/006-admin-user-detail-u-ta1.png` | — |
+| ADMIN-008 | 学校管理员 | `/admin/academic-terms` | 学期创建、编辑、搜索筛选 | 表格/Dialog | MCP 打开创建/编辑并验证反馈 | 阻塞 | `product-full-verification-screenshots/058-admin-academic-terms.png`；页面可达，未执行创建/编辑 | PENDING-MCP |
+| ADMIN-009 | 学校管理员 | `/admin/course-catalogs` | 课程模板创建、编辑、搜索筛选 | 表格/Dialog | MCP 打开创建/编辑并验证反馈 | 阻塞 | `product-full-verification-screenshots/059-admin-course-catalogs.png`；页面可达，未执行创建/编辑 | PENDING-MCP |
+| ADMIN-010 | 学校管理员 | `/admin/course-offerings` | 开课搜索、创建/编辑入口、共同管理学院选择 | 表格/Dialog | MCP 打开创建表单并截图 | 阻塞 | `product-full-verification-screenshots/060-admin-course-offerings-list.png`；列表和新增入口可见，未执行创建/编辑 | PENDING-MCP |
+| ADMIN-011 | 学校管理员 | `/admin/course-offerings/[offeringId]` | 开课详情、教师/助教/学生作用域展示、教学班 | 动态详情 | MCP 使用真实 offeringId 打开 | 通过 | `product-full-verification-screenshots/061-admin-course-offering-2-detail.png` | — |
+| ADMIN-012 | 学校管理员 | `/admin/auth-explain` | 权限解释允许场景 | 表单/查询 | MCP 选择真实用户/权限点分析 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| ADMIN-013 | 学校管理员 | `/admin/auth-explain` | 权限解释拒绝场景 | 表单/查询 | MCP 选择拒绝动作分析 | 通过 | `product-full-verification-screenshots/007-admin-auth-explain-deny.png` | — |
+| ADMIN-014 | 学校管理员 | `/admin/audit-logs` | 审计日志按操作者、对象、请求 ID、时间筛选 | 表格/筛选/Dialog | MCP 设置筛选、查看详情、复制 | 通过 | `product-full-verification-screenshots/008-admin-audit-logs-actor-u-ta1.png`; `product-full-verification-screenshots/009-admin-audit-log-detail.png` | — |
+| ADMIN-015 | 学校管理员 | 教师/学生区域 | 管理员访问教师/学生区域的预期行为 | 权限边界 | MCP 直接打开 `/teacher`、`/student` | 通过 | `product-full-verification-screenshots/062-admin-teacher-unauthorized.png`; `product-full-verification-screenshots/063-admin-student-unauthorized.png` | — |
+| TEACHER-001 | 教师 | `/teacher` | 教师首页待办、课程、提交、成绩、实验、通知概览 | 页面/导航 | MCP 打开并截图 | 通过 | `product-full-verification-screenshots/010-teacher-dashboard.png` | — |
+| TEACHER-002 | 教师 | `/teacher/courses` | 我的课程列表、开课入口 | 列表/导航 | MCP 打开真实课程 | 通过 | `product-full-verification-screenshots/064-teacher-courses-list.png` | — |
+| TEACHER-003 | 教师 | `/teacher/courses/[offeringId]` | 课程工作区概览、教学班、上下文导航 | 动态详情/tabs | MCP 使用真实 offeringId 打开 | 通过 | `product-full-verification-screenshots/011-teacher-course-workspace-offering-2.png` | — |
+| TEACHER-004 | 教师/助教 | `/teacher/courses/[offeringId]/members` | 成员列表、添加/导入成员、成员状态或角色反馈 | 表格/Dialog/上传 | MCP 操作成员筛选和安全添加/负例 | 阻塞 | `product-full-verification-screenshots/065-teacher-course-2-members.png`；页面可达，未执行添加/导入/状态变更 | PENDING-MCP |
+| TEACHER-005 | 教师/助教 | `/teacher/courses/[offeringId]/announcements` | 公告创建、编辑或状态切换，Markdown 显示 | Dialog/Markdown | MCP 创建或编辑公告 | 阻塞 | `product-full-verification-screenshots/067-teacher-course-2-announcements.png`；页面可达，未执行创建/编辑 | PENDING-MCP |
+| TEACHER-006 | 教师/助教 | `/teacher/courses/[offeringId]/resources` | 资源上传、下载、重命名或删除，Markdown 说明 | 上传/下载/Dialog | MCP 上传测试文件并下载 | 阻塞 | `product-full-verification-screenshots/066-teacher-course-2-resources.png`；页面可达，未执行上传/下载 | PENDING-MCP |
+| TEACHER-007 | 教师/助教 | `/teacher/courses/[offeringId]/discussions` | 讨论创建、列表、锁定状态 | Dialog/列表 | MCP 创建或打开讨论 | 阻塞 | `product-full-verification-screenshots/068-teacher-course-2-discussions.png`；列表和锁定入口可见，未执行创建/回复/锁定 | PENDING-MCP |
+| TEACHER-008 | 教师/助教 | `/teacher/courses/[offeringId]/discussions/[discussionId]` | 讨论详情、回复、锁定/解锁 | 动态详情/表单 | MCP 使用真实 discussionId 打开 | 通过 | `product-full-verification-screenshots/069-teacher-course-2-discussion-26-detail.png` | — |
+| TEACHER-009 | 教师/助教 | `/teacher/courses/[offeringId]/question-bank` | 题库单选题创建/编辑 | Dialog/表单 | MCP 创建或编辑单选题 | 阻塞 | `product-full-verification-screenshots/070-teacher-course-2-question-bank.png`；页面可达，未创建/编辑 | PENDING-MCP |
+| TEACHER-010 | 教师/助教 | `/teacher/courses/[offeringId]/question-bank` | 题库多选题创建/编辑 | Dialog/表单 | MCP 创建或编辑多选题 | 阻塞 | `product-full-verification-screenshots/070-teacher-course-2-question-bank.png`；页面可达，未创建/编辑 | PENDING-MCP |
+| TEACHER-011 | 教师/助教 | `/teacher/courses/[offeringId]/question-bank` | 题库填空题创建/编辑 | Dialog/表单 | MCP 创建或编辑填空题 | 阻塞 | `product-full-verification-screenshots/070-teacher-course-2-question-bank.png`；页面可达，未创建/编辑 | PENDING-MCP |
+| TEACHER-012 | 教师/助教 | `/teacher/courses/[offeringId]/question-bank` | 题库简答题创建/编辑 | Dialog/表单 | MCP 创建或编辑简答题 | 阻塞 | `product-full-verification-screenshots/070-teacher-course-2-question-bank.png`；页面可达，未创建/编辑 | PENDING-MCP |
+| TEACHER-013 | 教师/助教 | `/teacher/courses/[offeringId]/question-bank` | 题库文件题创建/编辑 | Dialog/表单 | MCP 创建或编辑文件题 | 阻塞 | `product-full-verification-screenshots/070-teacher-course-2-question-bank.png`；页面可达，未创建/编辑 | PENDING-MCP |
+| TEACHER-014 | 教师/助教 | `/teacher/courses/[offeringId]/question-bank` | 题库编程题创建/编辑 | Dialog/表单 | MCP 创建或编辑编程题 | 阻塞 | `product-full-verification-screenshots/070-teacher-course-2-question-bank.png`；页面可达，未创建/编辑 | PENDING-MCP |
+| TEACHER-015 | 教师/助教 | `/teacher/courses/[offeringId]/judge-environments` | 判题环境创建、编辑、归档、语言筛选 | Dialog/筛选 | MCP 创建或编辑环境模板 | 阻塞 | `product-full-verification-screenshots/071-teacher-course-2-judge-environments.png`；页面可达，未创建/编辑/归档 | PENDING-MCP |
+| TEACHER-016 | 教师/助教 | `/teacher/assignments` | 全部作业筛选、状态、课程上下文 | 表格/筛选 | MCP 筛选真实作业 | 通过 | `product-full-verification-screenshots/012-teacher-assignments-offering-2.png` | — |
+| TEACHER-017 | 教师/助教 | `/teacher/assignments/create` | 作业创建：范围、题目、分值、时间、判题设置 | 表单/提交 | MCP 创建草稿或发布演示作业 | 阻塞 | `product-full-verification-screenshots/013-teacher-assignment-create-form.png`；已验证创建表单可达，未执行创建提交 | PENDING-MCP |
+| TEACHER-018 | 教师/助教 | `/teacher/assignments/[assignmentId]/edit` | 作业草稿编辑、保存、发布确认 | 动态表单/确认 | MCP 使用真实 assignmentId 打开 | 阻塞 | `product-full-verification-screenshots/072-teacher-assignment-7-edit.png`；页面可达，未保存/发布 | PENDING-MCP |
+| TEACHER-019 | 教师/助教 | 作业状态 | 作业关闭、撤回或重新发布语义 | 状态动作 | MCP 操作或引用规格判定不适用 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| TEACHER-020 | 教师/助教 | `/teacher/submissions` | 提交列表筛选、课程/作业/学生过滤 | 表格/筛选 | MCP 筛选真实提交 | 通过 | `product-full-verification-screenshots/040-teacher-submissions-list.png`; `product-full-verification-screenshots/041-teacher-submissions-assignment-7.png` | — |
+| TEACHER-021 | 教师/助教 | `/teacher/submissions/[submissionId]` | 提交详情、附件下载、自动判分结果查看 | 动态详情/下载 | MCP 使用真实 submissionId 打开 | 通过 | `product-full-verification-screenshots/038-teacher-submission-44-detail.png` | — |
+| TEACHER-022 | 教师/助教 | `/teacher/submissions/[submissionId]` | 人工批改、反馈、调分或重判 | 表单/确认 | MCP 保存评分或执行允许/禁止动作 | 通过 | `product-full-verification-screenshots/039-teacher-submission-44-grade-saved.png`; `product-full-verification-evidence/commands/08-submission-answer-127-grade-check.log` | — |
+| TEACHER-023 | 教师/助教 | `/teacher/grading/gradebook` | 成绩册筛选、导出、发布或重新发布 | 表格/导出/确认 | MCP 筛选、导出或发布成绩 | 失败 | `product-full-verification-screenshots/042-teacher-gradebook-offering-2.png`; `product-full-verification-screenshots/043-teacher-gradebook-student-u-st1.png`; `product-full-verification-evidence/downloads/gradebook-offering-2.csv` | P3-004 |
+| TEACHER-024 | 教师/助教 | `/teacher/labs` | 实验创建、发布、关闭 | Dialog/状态动作 | MCP 创建或复核实验 | 阻塞 | `product-full-verification-screenshots/073-teacher-labs.png`；页面可达，未创建/发布/关闭 | PENDING-MCP |
+| TEACHER-025 | 教师/助教 | `/teacher/labs` | 实验报告查看、评阅、附件下载、环境会话 | 表格/详情/下载 | MCP 查看报告和会话 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| TEACHER-026 | 教师/助教 | `/teacher/notifications` | 教师通知查看、单条或全部已读 | 列表/按钮 | MCP 标记已读 | 阻塞 | `product-full-verification-screenshots/074-teacher-notifications.png`；页面可达，未标记已读 | PENDING-MCP |
+| STUDENT-001 | 学生 | `/student` | 学生首页待办、课程、作业、实验、成绩、通知摘要 | 页面/导航 | MCP 打开并截图 | 通过 | `product-full-verification-screenshots/014-student-dashboard.png` | — |
+| STUDENT-002 | 学生 | `/student/courses` | 我的课程列表、状态、教学班信息 | 列表/导航 | MCP 打开真实课程 | 通过 | `product-full-verification-screenshots/075-student-courses-list.png` | — |
+| STUDENT-003 | 学生 | `/student/courses/[classId]` | 课程详情公告、资源、讨论入口 | 动态详情/tabs | MCP 使用真实 classId 打开 | 通过 | `product-full-verification-screenshots/076-student-course-2-detail.png` | — |
+| STUDENT-004 | 学生 | `/student/courses/[classId]/discussions/[discussionId]` | 创建或回复讨论；无权限反馈 | 动态详情/表单 | MCP 使用真实 discussionId 打开 | 阻塞 | `product-full-verification-screenshots/077-student-course-2-discussion-26-detail.png`；真实 discussionId 26 为其他教学班，页面返回无权；当前无 A1 可参与讨论 | PENDING-MCP |
+| STUDENT-005 | 学生 | `/student/assignments` | 作业列表筛选、状态、截止时间、主操作文案 | 表格/筛选 | MCP 筛选真实作业 | 通过 | `product-full-verification-screenshots/015-student-assignments-list.png` | — |
+| STUDENT-006 | 学生 | `/student/assignments/[assignmentId]` | 作业详情、题目列表、提交历史、截止信息、保存状态 | 动态详情/表单 | MCP 使用真实 assignmentId 打开 | 通过 | `product-full-verification-screenshots/016-student-programming-assignment-detail.png`; `product-full-verification-screenshots/020-student-assignment-after-webide-return.png` | — |
+| STUDENT-007 | 学生 | 作业答题 | 单选题作答 | 输入/保存 | MCP 选择选项 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| STUDENT-008 | 学生 | 作业答题 | 多选题作答 | 输入/保存 | MCP 选择多个选项 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| STUDENT-009 | 学生 | 作业答题 | 填空题作答 | 输入/保存 | MCP 输入答案 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| STUDENT-010 | 学生 | 作业答题 | 简答/Markdown 题作答和预览 | 输入/预览 | MCP 输入 Markdown 并切换预览 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| STUDENT-011 | 学生 | 作业答题 | 文件上传题、附件移除、对象存储记录 | 上传/辅助验证 | MCP 上传文件 + MinIO/DB 辅助 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| STUDENT-012 | 学生 | `/student/assignments/[assignmentId]/workspace/[questionId]` | WebIDE 打开、文件树、编辑器、状态栏 | 动态工作台 | MCP 使用真实 assignmentId/questionId 打开 | 通过 | `product-full-verification-screenshots/017-student-webide-initial.png` | — |
+| STUDENT-013 | 学生 | WebIDE | 编辑代码、保存、历史、恢复或重置 | 编辑/保存/恢复 | MCP 操作编辑器和历史 | 通过 | `product-full-verification-screenshots/019-student-webide-history.png` | — |
+| STUDENT-014 | 学生 | WebIDE | 运行样例、标准输入、输出结果 | 运行 | MCP 点击运行并等待结果 | 失败 | `product-full-verification-screenshots/018-student-webide-run-result.png` | P1-002 |
+| STUDENT-015 | 学生 | WebIDE/作业详情 | IDE 内提交保存返回；作业详情正式提交 | 保存/提交 | MCP 操作两类提交语义 | 失败 | `product-full-verification-screenshots/020-student-assignment-after-webide-return.png`; `product-full-verification-screenshots/021-student-submission-detail-after-submit.png` | P1-002 |
+| STUDENT-016 | 学生 | `/student/submissions/[submissionId]` | 提交详情、判题/批改结果、附件下载 | 动态详情/下载 | MCP 使用真实 submissionId 打开 | 失败 | `product-full-verification-screenshots/021-student-submission-detail-after-submit.png` | P1-002 |
+| STUDENT-017 | 学生 | `/student/grades` | 成绩和教师反馈、导出 | 表格/下载 | MCP 选择课程查看成绩 | 通过 | `product-full-verification-screenshots/022-student-grades.png`; `product-full-verification-screenshots/023-student-grades-offering-2.png` | — |
+| STUDENT-018 | 学生 | `/student/notifications` | 通知查看、单条/全部已读 | 列表/按钮 | MCP 标记已读 | 通过 | `product-full-verification-screenshots/033-student-notifications.png`; `product-full-verification-screenshots/034-student-notification-mark-read.png` | — |
+| STUDENT-019 | 学生 | `/student/labs` | 实验列表、实验详情、实验报告 | 列表/详情/表单 | MCP 打开真实实验 | 通过 | `product-full-verification-screenshots/024-student-labs-list.png`; `product-full-verification-screenshots/025-student-lab-selected.png` | — |
+| STUDENT-020 | 学生 | 实验运行时 | 启动/停止/重置实验环境或记录本地阻塞 | 运行时 | MCP 页面操作 + 后端/DB 辅助 | 失败 | `product-full-verification-screenshots/026-student-lab-runtime-started.png`; `product-full-verification-screenshots/029-student-lab-terminal-second-open.png`; `product-full-verification-screenshots/030-student-lab-terminal-echo.png`; `product-full-verification-screenshots/032-student-lab-stop-attempt.png` | P1-003 |
+| STUDENT-021 | 学生 | 实验报告 | 保存并提交实验报告、附件上传 | 表单/上传 | MCP 保存提交 + MinIO/DB 辅助 | 阻塞 | `product-full-verification-screenshots/024-student-labs-list.png`；报告内容/附件/保存/提交入口可见，未执行提交 | PENDING-MCP |
+| TA-001 | 开课助教 | `/teacher` | 开课助教登录、角色显示、授权开课工作区 | 登录/导航 | MCP 登录助教账号并截图 | 通过 | `product-full-verification-screenshots/044-ta-u-tac1-dashboard.png` | — |
+| TA-002 | 开课助教 | 教师侧课程/作业/成绩 | 开课助教可执行允许动作 | 权限正例 | MCP 执行允许动作 | 通过 | `product-full-verification-screenshots/045-ta-u-tac1-submissions-assignment-7.png` | — |
+| TA-003 | 开课助教 | 教师侧禁止动作 | 开课助教禁止动作得到可理解反馈 | 权限负例 | MCP 操作禁止动作并截图 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| TA-004 | 班级助教 | `/teacher` | 班级助教登录、只能看到授权班级 | 登录/权限 | MCP 登录班级助教账号 | 通过 | `product-full-verification-screenshots/048-ta-u-tao1-dashboard.png`; `product-full-verification-screenshots/050-ta-u-tao1-submissions-assignment-7-allowed.png`; `product-full-verification-evidence/commands/10-tao1-role-bindings.log` | — |
+| TA-005 | 班级助教 | 其他班级数据 | 班级助教不能访问其他班级数据 | 权限负例 | MCP 直接访问/筛选其他班级 | 通过 | `product-full-verification-screenshots/049-ta-u-tao1-gradebook-offering-2.png`; `product-full-verification-screenshots/051-ta-u-tao1-submissions-assignment-4-denied.png` | — |
+| TA-006 | 学生 | `/teacher` | 学生不能访问教师页面 | 权限负例 | MCP 学生直开教师页 | 通过 | `product-full-verification-screenshots/036-student-teacher-unauthorized.png` | — |
+| TA-007 | 学生 | `/admin` | 学生不能访问管理员页面 | 权限负例 | MCP 学生直开管理员页 | 通过 | `product-full-verification-screenshots/035-student-admin-unauthorized.png` | — |
+| TA-008 | 教师 | `/admin` | 教师不能访问管理员页面 | 权限负例 | MCP 教师直开管理员页 | 通过 | `product-full-verification-screenshots/037-teacher-admin-unauthorized.png` | — |
+| TA-009 | 多角色/多作用域 | 其他课程/班级/组织 | 跨课程、班级、组织数据隔离 | 权限负例 | MCP 直开真实 ID 或筛选 | 通过 | `product-full-verification-screenshots/046-ta-u-tac1-admin-unauthorized.png`; `product-full-verification-screenshots/047-ta-u-tac1-student-unauthorized.png`; `product-full-verification-screenshots/051-ta-u-tao1-submissions-assignment-4-denied.png` | — |
+| RUNTIME-001 | 系统 | PostgreSQL | 提交、成绩、审计等关键状态回写 | DB 辅助 | SQL 查询 | 通过 | `product-full-verification-evidence/commands/18-runtime-db-summary-fixed.log`; `product-full-verification-evidence/commands/08-submission-answer-127-grade-check.log` | — |
+| RUNTIME-002 | 系统 | MinIO | 上传下载对象存在 | 对象存储辅助 | mc/curl/DB 查询 | 阻塞 | 等待辅助证据 | PENDING-AUX |
+| RUNTIME-003 | 系统 | RabbitMQ | 判题或异步任务队列真实使用证据 | 队列辅助 | 管理 API/日志 | 通过 | `product-full-verification-evidence/commands/16-runtime-rabbitmq-ping.log`; `product-full-verification-evidence/commands/20-runtime-compose-ps.log` | — |
+| RUNTIME-004 | 系统 | Redis | 缓存、限流或会话链路状态 | 缓存辅助 | redis-cli 查询 | 阻塞 | `product-full-verification-evidence/commands/15-runtime-redis-ping.log`; `product-full-verification-evidence/commands/19-runtime-redis-ping-fixed.log`; `product-full-verification-evidence/commands/20-runtime-compose-ps.log`；compose healthy，但未取得认证后键级证据 | PENDING-AUX |
+| RUNTIME-005 | 系统 | SSE/通知轮询 | 页面通知变化由 SSE 或轮询驱动 | 页面+辅助 | MCP 页面 + 网络/日志 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| RUNTIME-006 | 系统 | go-judge | 至少一个可控提交执行并返回结果 | 运行时辅助+页面 | MCP 样例运行 + go-judge/DB | 失败 | `product-full-verification-screenshots/018-student-webide-run-result.png`; `product-full-verification-screenshots/021-student-submission-detail-after-submit.png` | P1-002 |
+| RUNTIME-007 | 系统 | 实验运行时/fake runtime | 实验终端、容器或 fake runtime 可用性和边界 | 页面+辅助 | MCP 实验页面 + DB/日志 | 失败 | `product-full-verification-screenshots/026-student-lab-runtime-started.png`; `product-full-verification-screenshots/029-student-lab-terminal-second-open.png`; `product-full-verification-screenshots/032-student-lab-stop-attempt.png` | P1-003 |
+| RUNTIME-008 | 系统 | 审计日志 | 管理、权限、提交、成绩或配置动作写入审计 | 页面+DB | MCP 审计页 + SQL | 通过 | `product-full-verification-screenshots/008-admin-audit-logs-actor-u-ta1.png`; `product-full-verification-screenshots/009-admin-audit-log-detail.png`; `product-full-verification-evidence/commands/18-runtime-db-summary-fixed.log` | — |
+| DOC-001 | 文档 | `docs/06-testing-and-ops/acceptance-checklist.md` | 验收清单存在并与本轮目标关联 | 文档检查 | 文件读取 | 通过 | `product-full-verification-evidence/commands/00-input-check.log` | — |
+| DOC-002 | 文档 | `docs/04-development/frontend-design.md` | 前端设计规范存在并用于质量验收 | 文档检查 | 文件读取 | 通过 | `product-full-verification-evidence/commands/00-input-check.log` | — |
+| DOC-003 | 文档/API | `server/docs/stable-api.md` | 稳定 API 与功能域映射 | 文档检查 | 文件读取 | 通过 | `product-full-verification-evidence/commands/00-input-check.log` | — |
+| DOC-004 | 文档/API | `web/docs/backend-requests.md` | 前端后端协作请求无待处理项 | 文档检查 | 文件读取 | 通过 | 终端输出；报告记录 | — |
+| DOC-005 | 文档站 | `cd docs && npm run docs:build` | 文档站构建 | 命令 | docs build 日志 | 通过 | `product-full-verification-evidence/commands/13-docs-build.log` | — |
+| NFR-001 | 所有角色 | `1280x800` | 登录、管理员、教师、学生关键页面无重叠 | 响应式/视觉 | MCP 设置视口截图 | 阻塞 | `product-full-verification-screenshots/078-nfr-1280-student-course-discussion-denied.png`；仅覆盖学生页，管理员/教师/登录未完整覆盖 | PENDING-MCP |
+| NFR-002 | 所有角色 | `1440x900` | 数据表、工作台、表单布局稳定 | 响应式/视觉 | MCP 设置视口截图 | 阻塞 | `product-full-verification-screenshots/079-nfr-1440-student-webide.png`；仅覆盖 WebIDE，管理员/教师关键页未完整覆盖 | PENDING-MCP |
+| NFR-003 | 所有角色 | `390x844` | 窄屏关键页面不出现结构性问题 | 响应式/视觉 | MCP 设置视口截图 | 阻塞 | `product-full-verification-screenshots/080-nfr-390-student-labs.png`；仅覆盖学生实验页，其他关键页未完整覆盖 | PENDING-MCP |
+| NFR-004 | 所有角色 | 控制台/网络 | 关键页面无未解释 console error 和 4xx/5xx | 诊断 | MCP 控制台/网络检查 | 阻塞 | MCP 多个页面存在 console error 条目；未逐项完成网络错误归因 | PENDING-MCP |
+| NFR-005 | 普通用户 | 表单/列表/工作台 | 不暴露 `orgUnitId`、`scopeRefId`、`studentUserId`、裸 ID、`judgeConfig JSON` 等内部字段 | 可用性 | MCP 页面观察 | 阻塞 | 等待 MCP 主证据 | PENDING-MCP |
+| DEMO-001 | 全角色 | 彩排 1 | 完整演示彩排 1，从登录到故障预案 | 演示 | MCP 页面操作、截图、日志 | 失败 | `product-full-verification-rehearsal-log.md` | P1-002/P1-003 |
+| DEMO-002 | 全角色 | 彩排 2 | 完整演示彩排 2，从登录到故障预案 | 演示 | MCP 页面操作、截图、日志 | 失败 | `product-full-verification-rehearsal-log.md` | P1-002/P1-003 |
+| DEMO-003 | 全角色 | 彩排 3 | 完整演示彩排 3，从登录到故障预案 | 演示 | MCP 页面操作、截图、日志 | 阻塞 | `product-full-verification-rehearsal-log.md` | PENDING-MCP |

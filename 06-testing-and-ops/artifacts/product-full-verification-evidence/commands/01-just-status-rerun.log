@@ -1,0 +1,24 @@
+# command: just status
+# note: initial just status was run before evidence directory creation; this rerun preserves log artifact.
+# started_at: 2026-06-09T18:18:03+08:00
+
+== workspace ==
+root: /Users/moorefoss/Code/AUBB
+root git: not a git repository; use server/, web/, docs/ independently
+
+== server ==
+## main...origin/main
+dirty entries: 0
+
+== web ==
+## main...origin/main
+dirty entries: 0
+
+== docs ==
+## main...origin/main [ahead 1]
+dirty entries: 0
+
+== agent handoff ==
+dirty workspace: no
+# exit_code: 0
+# finished_at: 2026-06-09T18:18:04+08:00

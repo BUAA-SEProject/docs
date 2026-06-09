@@ -1,0 +1,53 @@
+ id  |                      title                       | teaching_class_id |  status   
+-----+--------------------------------------------------+-------------------+-----------
+   2 | Task-Offering-Published                          |                   | PUBLISHED
+   3 | Task-A1-Published                                |                 2 | PUBLISHED
+   4 | Task-A2-Published                                |                 3 | PUBLISHED
+   5 | Task-A2-Draft                                    |                 3 | DRAFT
+   6 | Task-A1-Closed                                   |                 2 | CLOSED
+   7 | Task-Programming-A1                              |                 2 | PUBLISHED
+ 170 | E2E-mq6d58tu-emoggb-fixture-published-assignment |               152 | PUBLISHED
+ 171 | E2E-mq6d5s50-ni08x1-fixture-published-assignment |               153 | PUBLISHED
+ 172 | E2E-mq6d5wxw-i5qtci-fixture-published-assignment |               154 | PUBLISHED
+ 173 | E2E-mq6d5xja-kl9a17-assignment-lifecycle-edited  |               154 | CLOSED
+ 174 | E2E-mq6d5y0t-j015s9-assignment-submit            |               154 | PUBLISHED
+ 175 | E2E-mq6d5zc2-84gfm2-assignment-judge             |               154 | PUBLISHED
+ 176 | E2E-mq6d612h-dqa4j1-fixture-published-assignment |               155 | PUBLISHED
+ 177 | E2E-mq6d70hx-pw9e4c-fixture-published-assignment |               157 | PUBLISHED
+ 178 | E2E-mq6d715s-u7s36w-grade-assignment             |               157 | PUBLISHED
+ 179 | E2E-mq6dbb6a-uomku5-fixture-published-assignment |               158 | PUBLISHED
+ 180 | E2E-mq6dbceg-vw4u0w-fixture-published-assignment |               159 | PUBLISHED
+ 181 | E2E-mq6dbeyl-vfb8kc-fixture-published-assignment |               160 | PUBLISHED
+ 182 | E2E-mq6dbgam-9sa4wj-fixture-published-assignment |               161 | PUBLISHED
+ 183 | E2E-mq6dbhwh-rtx7ol-fixture-published-assignment |               162 | PUBLISHED
+ 184 | E2E-mq6dbj1z-6uohha-fixture-published-assignment |               163 | PUBLISHED
+ 185 | E2E-mq6dbkew-mv444c-fixture-published-assignment |               164 | PUBLISHED
+ 186 | E2E-mq6dbmc1-4my9sp-fixture-published-assignment |               165 | PUBLISHED
+ 187 | E2E-mq6dboib-skfgb2-fixture-published-assignment |               166 | PUBLISHED
+ 188 | E2E-mq6dckly-e81d6z-fixture-published-assignment |               167 | PUBLISHED
+ 189 | E2E-mq6dclpf-p0aob4-fixture-published-assignment |               168 | PUBLISHED
+ 190 | E2E-mq6dcs5f-a19hi7-fixture-published-assignment |               169 | PUBLISHED
+ 191 | E2E-mq6dct3n-dsygq6-webide-real-flow             |               169 | PUBLISHED
+ 192 | E2E-mq6i1ty3-2dqhgo-fixture-published-assignment |               170 | PUBLISHED
+ 193 | E2E-mq6i2dlz-36rnqz-fixture-published-assignment |               171 | PUBLISHED
+ 194 | E2E-mq6i32g4-b9crje-fixture-published-assignment |               172 | PUBLISHED
+ 195 | E2E-mq6i334z-r4ksad-assignment-lifecycle-edited  |               172 | CLOSED
+ 196 | E2E-mq6i33n3-blshf9-assignment-submit            |               172 | PUBLISHED
+ 197 | E2E-mq6i34jy-zwe1g8-assignment-judge             |               172 | PUBLISHED
+ 198 | E2E-mq6i36uh-x9z0c4-fixture-published-assignment |               173 | PUBLISHED
+ 199 | E2E-mq6i3aww-t73dhl-fixture-published-assignment |               175 | PUBLISHED
+ 200 | E2E-mq6i3bme-5s6sl1-grade-assignment             |               175 | PUBLISHED
+ 201 | E2E-mq6i8ish-em4lm7-fixture-published-assignment |               176 | PUBLISHED
+ 202 | E2E-mq6i8k1y-cipiky-fixture-published-assignment |               177 | PUBLISHED
+ 203 | E2E-mq6i8mpn-yconc5-fixture-published-assignment |               178 | PUBLISHED
+ 204 | E2E-mq6i8o5n-je9t8c-fixture-published-assignment |               179 | PUBLISHED
+ 205 | E2E-mq6i8puv-dy5y4v-fixture-published-assignment |               180 | PUBLISHED
+ 206 | E2E-mq6i8r40-vyhs06-fixture-published-assignment |               181 | PUBLISHED
+ 207 | E2E-mq6i8skr-up76je-fixture-published-assignment |               182 | PUBLISHED
+ 208 | E2E-mq6i8uu5-6ikxtt-fixture-published-assignment |               183 | PUBLISHED
+ 209 | E2E-mq6i8x6e-1agevq-fixture-published-assignment |               184 | PUBLISHED
+ 210 | E2E-mq6i9rmp-b6i2ia-fixture-published-assignment |               185 | PUBLISHED
+ 211 | E2E-mq6i9tfu-71ghs1-fixture-published-assignment |               186 | PUBLISHED
+ 212 | E2E-mq6i9uhm-4rl9mf-webide-real-flow             |               186 | PUBLISHED
+(49 rows)
+

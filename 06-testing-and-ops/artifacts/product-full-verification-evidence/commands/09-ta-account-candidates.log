@@ -1,0 +1,22 @@
+ id  |             username             |           display_name           | offering_id | teaching_class_id | member_role | member_status 
+-----+----------------------------------+----------------------------------+-------------+-------------------+-------------+---------------
+   3 | bl-ta-course                     | 闭环整课助教                     |           1 |                   | OFFERING_TA | ACTIVE
+  12 | u-tao1                           | 开课助教1                        |           2 |                   | OFFERING_TA | REMOVED
+  13 | u-tac1                           | 班级助教1                        |           2 |                   | OFFERING_TA | ACTIVE
+  17 | u-m1                             | 多身份用户1                      |           4 |                   | OFFERING_TA | ACTIVE
+ 133 | e2emq56wmmf6e6l07org-offering-ta | e2emq56wmmf6e6l07org-offering-ta |           9 |                   | OFFERING_TA | ACTIVE
+ 139 | e2emq56y56h39bp7eorg-offering-ta | e2emq56y56h39bp7eorg-offering-ta |          11 |                   | OFFERING_TA | ACTIVE
+ 193 | e2emq57giojpe4ynaorg-offering-ta | e2emq57giojpe4ynaorg-offering-ta |          14 |                   | OFFERING_TA | ACTIVE
+ 210 | e2emq57j4mbuz6ro0org-offering-ta | e2emq57j4mbuz6ro0org-offering-ta |          17 |                   | OFFERING_TA | ACTIVE
+ 241 | e2emq58pytkfjd27korg-offering-ta | e2emq58pytkfjd27korg-offering-ta |          20 |                   | OFFERING_TA | ACTIVE
+   4 | bl-ta-class                      | 闭环班级助教                     |           1 |                 1 | TA          | ACTIVE
+  12 | u-tao1                           | 开课助教1                        |           2 |                 2 | TA          | ACTIVE
+  13 | u-tac1                           | 班级助教1                        |           2 |                 2 | TA          | ACTIVE
+  17 | u-m1                             | 多身份用户1                      |           2 |                 3 | TA          | ACTIVE
+ 135 | e2emq56wmmf6e6l07org-class-ta    | e2emq56wmmf6e6l07org-class-ta    |           9 |                83 | TA          | ACTIVE
+ 141 | e2emq56y56h39bp7eorg-class-ta    | e2emq56y56h39bp7eorg-class-ta    |          11 |                86 | TA          | ACTIVE
+ 195 | e2emq57giojpe4ynaorg-class-ta    | e2emq57giojpe4ynaorg-class-ta    |          14 |               107 | TA          | ACTIVE
+ 212 | e2emq57j4mbuz6ro0org-class-ta    | e2emq57j4mbuz6ro0org-class-ta    |          17 |               116 | TA          | ACTIVE
+ 243 | e2emq58pytkfjd27korg-class-ta    | e2emq58pytkfjd27korg-class-ta    |          20 |               137 | TA          | ACTIVE
+(18 rows)
+

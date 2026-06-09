@@ -1,0 +1,23 @@
+# command: required input existence check
+# started_at: 2026-06-09T18:22:42+08:00
+[ok] goal-test.md
+[ok] AGENTS.md
+[ok] AGENTS-shared.md
+[ok] web/AGENTS.md
+[ok] server/AGENTS.md
+[ok] docs/AGENTS.md
+[ok] docs/06-testing-and-ops/acceptance-checklist.md
+[ok] docs/04-development/frontend-design.md
+[ok] server/docs/stable-api.md
+[ok] server/docs/product-specs
+[ok] server/docs/generated/db-schema.md
+[ok] web/docs/backend-requests.md
+[ok] web/src/shared/routing/nav-config.ts
+[ok] web/src/shared/routing/route-access.ts
+[ok] web/src/tests/e2e/README.md
+[ok] env/e2e.example
+[ok] web/src/app
+[ok] web/src/features
+[ok] web/src/shared/api/generated/openapi.ts
+# exit_code: 0
+# finished_at: 2026-06-09T18:22:42+08:00

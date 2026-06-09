@@ -1,0 +1,6 @@
+NAME                IMAGE                                      COMMAND                  SERVICE    CREATED        STATUS                  PORTS
+server-go-judge-1   server-go-judge                            "./go-judge"             go-judge   16 hours ago   Up 16 hours             0.0.0.0:5050->5050/tcp, [::]:5050->5050/tcp
+server-minio-1      minio/minio:RELEASE.2025-09-07T16-13-09Z   "/usr/bin/docker-ent…"   minio      16 hours ago   Up 16 hours (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, [::]:9000-9001->9000-9001/tcp
+server-postgres-1   postgres:16.10                             "docker-entrypoint.s…"   postgres   16 hours ago   Up 16 hours (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+server-rabbitmq-1   rabbitmq:4.1.0-management                  "docker-entrypoint.s…"   rabbitmq   16 hours ago   Up 16 hours (healthy)   0.0.0.0:5672->5672/tcp, [::]:5672->5672/tcp, 0.0.0.0:15672->15672/tcp, [::]:15672->15672/tcp
+server-redis-1      redis:7.4-alpine                           "docker-entrypoint.s…"   redis      16 hours ago   Up 16 hours (healthy)   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp

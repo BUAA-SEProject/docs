@@ -1,0 +1,17 @@
+# command: just --list
+# started_at: 2026-06-09T18:17:36+08:00
+Available recipes:
+    default
+    dev-down           # Stop services started by `just dev-up`, then stop Docker dependencies.
+    dev-up             # Start local Docker dependencies, backend on 18080, and frontend on 3000.
+    docs-build         # Build only the VitePress documentation site.
+    e2e-real           # Run the real-backend Playwright suite against running local services.
+    healthcheck        # Check local tools, env gates, ports, and service health without mutating state.
+    healthcheck-strict # Strict health gate for real E2E: env values and both local services must be ready.
+    install-tools      # Install local workflow tools that are not managed by a subrepo.
+    seed-fixtures      # Seed or refresh permission/E2E baseline data through the real backend.
+    status             # Show dirty state, branch, and recommended handoff actions for all subrepos.
+    verify             # Fast local gate: backend tests, frontend lint/typecheck, docs build.
+    verify-full        # Full local gate excluding browser E2E: backend verify, frontend lint/typecheck/test/build, docs build.
+# exit_code: 0
+# finished_at: 2026-06-09T18:17:36+08:00

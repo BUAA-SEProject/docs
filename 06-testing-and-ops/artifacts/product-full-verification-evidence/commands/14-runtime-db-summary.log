@@ -1,0 +1,3 @@
+ERROR:  column "grading_status" does not exist
+LINE 1: ...TTED') as submitted_count, count(*) filter (where grading_st...
+                                                             ^

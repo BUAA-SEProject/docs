@@ -1,0 +1,7 @@
+# command: residual summary via psql counts for E2E/MCP/FULLRUN prefixes
+# started_at: 2026-06-09T18:19:35+08:00
+ERROR:  syntax error at or near "or"
+LINE 1: ...ject, count(*) filter (where username ilike E2E-% or usernam...
+                                                             ^
+# exit_code: 1
+# finished_at: 2026-06-09T18:19:35+08:00

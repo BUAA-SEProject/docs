@@ -1,0 +1,19 @@
+
+== workspace ==
+root: /Users/moorefoss/Code/AUBB
+root git: not a git repository; use server/, web/, docs/ independently
+
+== server ==
+## main...origin/main
+dirty entries: 0
+
+== web ==
+## main...origin/main
+dirty entries: 0
+
+== docs ==
+## main...origin/main [ahead 1]
+dirty entries: 0
+
+== agent handoff ==
+dirty workspace: no

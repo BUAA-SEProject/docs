@@ -1,0 +1,6 @@
+ id  |    code     | scope_type | scope_id |  status  |        effective_from         |         effective_to          |     source_type      
+-----+-------------+------------+----------+----------+-------------------------------+-------------------------------+----------------------
+ 401 | offering_ta | offering   |        2 | INACTIVE | 2026-06-09 10:21:52.034311+00 | 2026-06-09 10:21:59.210104+00 | LEGACY_COURSE_MEMBER
+ 402 | class_ta    | class      |        2 | ACTIVE   | 2026-06-09 10:21:56.233894+00 |                               | LEGACY_COURSE_MEMBER
+(2 rows)
+

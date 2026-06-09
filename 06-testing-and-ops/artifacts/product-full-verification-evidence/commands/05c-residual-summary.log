@@ -1,0 +1,7 @@
+# command: residual summary via psql counts for E2E/MCP/FULLRUN prefixes
+# started_at: 2026-06-09T18:20:51+08:00
+ERROR:  column "title" does not exist
+LINE 1: ...*) filter (where offering_code ilike $$E2E-%$$ or title ilik...
+                                                             ^
+# exit_code: 1
+# finished_at: 2026-06-09T18:20:51+08:00
