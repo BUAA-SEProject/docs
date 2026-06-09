@@ -18,17 +18,17 @@
 
 当前结论：`不通过`
 
-原因：已确认存在会破坏演示主线的 P1 缺陷（编程题评测系统错误、实验终端交互不稳定），`just e2e-real` 辅助门禁失败；同时 Playwright MCP 主证据仍未覆盖全部强制用户可见功能，三次完整演示彩排尚未完成。根据 `goal-test.md`，任一强制项仍为 `阻塞` 或三次彩排未全部成功时，最终结论不得为 `通过` 或 `有条件通过`。
+原因：本轮补充了顶栏搜索、通知入口、教师公告/资源/讨论、学生讨论回复、简答 Markdown 提交、Redis/MinIO/下载哈希等证据，Playwright MCP 截图范围扩展到 `001`-`101`。但已确认存在会破坏演示主线的 P1 缺陷（编程题评测系统错误、实验终端交互不稳定），`just e2e-real` 辅助门禁失败；同时 Playwright MCP 主证据对强制用户可见功能仍有缺口，三次完整演示彩排尚未完成。根据 `goal-test.md`，任一强制项仍为 `阻塞` 或三次彩排未全部成功时，最终结论不得为 `通过` 或 `有条件通过`。
 
 ## 3. 上次缺口复核
 
 | 缺口 | 本轮纠偏动作 | 当前状态 |
 | --- | --- | --- |
-| 旧目标允许 `未覆盖` | 新清单状态仅使用 `通过`、`失败`、`阻塞`、`不适用` | 通过 |
+| 旧目标允许非合同状态 | 新清单状态仅使用 `通过`、`失败`、`阻塞`、`不适用` | 通过 |
 | 未先生成完整功能清单 | 已在开始页面操作前创建 `product-full-verification-feature-inventory.md` | 通过 |
 | 用户可见结论弱依赖套件/API | 本报告要求 MCP 主证据，命令/API 仅辅助 | 进行中 |
 | 三次演示彩排不是收尾门槛 | 已创建三次彩排记录文件，未完成前结论保持 `不通过` | 阻塞 |
-| 动态详情页无真实 ID | 待通过 API/页面解析真实 ID 后逐项打开 | 阻塞 |
+| 动态详情页无真实 ID | 已补充真实 `offeringId=2`、`discussionId=29`、`assignmentId=3/7`、`submissionId=45` 等正例；仍有管理员创建编辑、题库、实验报告等动态动作阻塞 | 阻塞 |
 
 ## 4. 输入缺失与环境阻塞
 
@@ -54,13 +54,13 @@
 | 7 | `just e2e-real` | 失败 | `product-full-verification-evidence/commands/07-just-e2e-real.log`；43 passed, 3 failed, 4 did not run |
 | 8 | `just verify` | 通过 | `product-full-verification-evidence/commands/10-just-verify.log`；server 356 tests passed，web lint/typecheck passed，docs build passed |
 | 9 | `just verify-full` | 通过 | `product-full-verification-evidence/commands/11-just-verify-full.log`；server verify、web lint/typecheck/unit/build、docs build passed |
-| 10 | `cd docs && npm run docs:build` | 通过 | `product-full-verification-evidence/commands/13-docs-build.log`；构建通过，仅有 chunk size 警告 |
+| 10 | `cd docs && npm run docs:build` | 通过 | `product-full-verification-evidence/commands/13-docs-build.log`、`product-full-verification-evidence/commands/24-docs-build-rerun.log`；构建通过，仅有 chunk size 警告 |
 
 ## 6. 全功能清单摘要
 
-- 初版清单已生成。
-- 初版覆盖公共、认证、管理员、教师、学生、助教、运行时、文档、非功能和三次演示彩排。
-- 页面实际渲染出来的按钮、菜单、表单、筛选器、tabs、弹窗和链接将在 MCP 页面操作时持续补充。
+- 初版清单已在页面操作前生成，后续已按新增 MCP 发现补充公共搜索、通知、通用通知路径、教师内容动作、学生简答题、Redis/MinIO/通知轮询和 NFR 问题。
+- 清单覆盖公共、认证、管理员、教师、学生、助教、运行时、文档、非功能和三次演示彩排。
+- 页面实际渲染出来的按钮、菜单、表单、筛选器、tabs、弹窗和链接仍按 MCP 页面操作持续补充；当前截图范围为 `001`-`101`。
 
 ## 7. 逐角色验证结果
 
@@ -68,8 +68,8 @@
 | --- | --- | --- |
 | 无登录用户 | 部分通过 | 已覆盖 `/login`、空表单失败、未登录 `/admin` 重定向；`/` 未登录默认态仍待单独截图 |
 | 学校管理员 | 部分通过 | 已覆盖治理首页、用户、审计、权限解释拒绝、平台配置、组织、学期、课程模板、开课列表/详情、跨区禁止；保存/创建/编辑类动作仍未执行 |
-| 教师 | 部分通过 | 已覆盖首页、课程列表/工作区、成员、资源、公告、讨论、讨论详情、题库、判题环境、作业列表/创建表单/编辑页、提交、成绩册、实验、通知；创建/上传/发布类动作仍未完整执行 |
-| 学生 | 部分失败 | 已覆盖首页、课程列表/详情、作业、WebIDE、提交、成绩、通知、实验和一个讨论无权负例；编程题评测与实验终端为失败，客观题/文件题/实验报告提交仍阻塞 |
+| 教师 | 部分通过 | 已覆盖首页、课程列表/工作区、成员、资源上传下载、公告创建、讨论创建与回复、讨论详情、题库、判题环境、作业列表/创建表单/编辑页、提交、成绩册、实验、通知和全部已读；成员导入、题库/判题环境/实验发布、作业创建保存仍阻塞 |
+| 学生 | 部分失败 | 已覆盖首页、课程列表/详情、作业、WebIDE、提交、成绩、通知、实验、讨论正反例和简答 Markdown 提交；编程题评测与实验终端为失败，客观题/文件题/实验报告提交仍阻塞 |
 | 开课助教 | 部分通过 | `u-tac1` 已覆盖登录、授权提交页、管理员/学生区禁止；更细的禁止动作仍待覆盖 |
 | 班级助教 | 部分通过 | `u-tao1` 已覆盖登录、A1 作业提交允许、A2 作业提交拒绝、开课级成绩册拒绝；顶栏角色文案存在可理解性问题 |
 | 缺档案用户 | 通过 | 已用 API 准备缺档案 class-ta 账号并通过 MCP 登录进入 `/profile-required` |
@@ -81,6 +81,8 @@
 | COMMON-002 | 通过 | `product-full-verification-screenshots/001-login-page.png` | `/login` 可加载，显示平台名称、登录说明、用户名/密码表单、显示密码按钮和平台公告。 |
 | COMMON-003 | 失败 | `product-full-verification-screenshots/002-login-empty-submit-no-visible-error.png` | 点击空表单“立即登录”后页面仍停留登录页，但没有可见字段错误或全局错误文案，仅焦点回到用户名输入框。 |
 | COMMON-004 | 通过 | `product-full-verification-screenshots/055-anonymous-admin-redirect-login.png` | 未登录直接打开 `/admin` 被重定向到 `/login?next=%2Fadmin`。 |
+| COMMON-005 | 通过 | `product-full-verification-screenshots/081-common-student-global-search-results.png`; `product-full-verification-screenshots/082-common-student-global-search-navigate-grades.png`; `product-full-verification-screenshots/085-common-teacher-global-search-results.png`; `product-full-verification-screenshots/086-common-teacher-global-search-navigate-submissions.png` | 学生顶栏搜索 `成绩` 可显示“全部成绩 学生端”并跳转 `/student/grades`；教师顶栏搜索 `提交` 可显示“全部提交 教师端”并跳转 `/teacher/submissions`。 |
+| COMMON-006 | 通过 | `product-full-verification-screenshots/083-common-student-topbar-notification-link.png`; `product-full-verification-screenshots/087-teacher-notifications-before-mark-all-read.png`; `product-full-verification-screenshots/088-teacher-notifications-after-mark-all-read.png`; `product-full-verification-evidence/mcp-network-087-088-teacher-notifications-mark-read.md` | 学生顶栏通知入口可跳转通知页；教师通知页可显示未读数并点击“全部已读”，顶栏未读徽标消失。 |
 | COMMON-007 | 通过 | `product-full-verification-screenshots/052-user-menu-logout-to-login.png` | 已登录用户打开用户菜单可见姓名、用户名、角色，并点击“退出登录”回到 `/login`。 |
 | AUTH-001 | 通过 | `product-full-verification-screenshots/003-admin-dashboard.png` | 使用管理员账号登录后进入 `/admin`，顶栏显示“管理端”和“系统管理员 / 学校管理员”。 |
 | AUTH-002 | 通过 | `product-full-verification-screenshots/010-teacher-dashboard.png` | 使用教师账号登录后进入 `/teacher`，首页显示课程、待批改提交、待处理实验和通知入口。 |
@@ -88,6 +90,7 @@
 | AUTH-004 | 通过 | `product-full-verification-screenshots/044-ta-u-tac1-dashboard.png`; `product-full-verification-screenshots/048-ta-u-tao1-dashboard.png` | 开课助教/班级助教均可登录教师端；`u-tac1` 显示开课与班级助教身份，`u-tao1` 进入教师端但文案仍显示“开课助教1”。 |
 | AUTH-005 | 通过 | `product-full-verification-screenshots/053-profile-required-profileless-ta.png`; `product-full-verification-evidence/commands/12-profile-required-data-prep.log` | API 创建缺学术档案但有 class-ta 课程身份的账号，MCP 登录后进入 `/profile-required`，页面说明需要管理员补全档案并提供退出/返回动作。 |
 | AUTH-006 | 通过 | `product-full-verification-screenshots/035-student-admin-unauthorized.png`; `product-full-verification-screenshots/036-student-teacher-unauthorized.png`; `product-full-verification-screenshots/037-teacher-admin-unauthorized.png`; `product-full-verification-screenshots/062-admin-teacher-unauthorized.png`; `product-full-verification-screenshots/063-admin-student-unauthorized.png` | 受限角色进入非授权工作区均显示 `/unauthorized` 权限不足页。 |
+| AUTH-007 | 通过 | `product-full-verification-screenshots/084-auth-me-notifications-direct.png`; `product-full-verification-evidence/mcp-network-081-084-notifications.md` | 已登录学生直接打开 `/me/notifications` 可进入通用通知中心并保留学生端导航上下文。 |
 
 ## 9. 学生闭环验证
 
@@ -96,9 +99,11 @@
 | STUDENT-001 | 通过 | `product-full-verification-screenshots/014-student-dashboard.png` | 学生首页显示课程/班级、未读通知、作业、实验和成绩等学习入口。 |
 | STUDENT-002 | 通过 | `product-full-verification-screenshots/075-student-courses-list.png` | 学生课程列表显示真实课程 `数据结构 2025 秋`、教学班 A1 和“进入课堂”入口。 |
 | STUDENT-003 | 通过 | `product-full-verification-screenshots/076-student-course-2-detail.png` | 使用真实教学班/课程上下文 ID `2` 打开学生课程详情，页面展示课程业务上下文。 |
-| STUDENT-004 | 阻塞 | `product-full-verification-screenshots/077-student-course-2-discussion-26-detail.png` | 直接打开真实 discussionId `26` 返回“当前用户无权参与该课程讨论”；当前数据集中没有 A1 班可参与讨论，学生讨论正例需先创建 A1 讨论。 |
+| STUDENT-004 | 通过 | `product-full-verification-screenshots/077-student-course-2-discussion-26-detail.png`; `product-full-verification-screenshots/098-student-discussion-29-reply-filled.png`; `product-full-verification-screenshots/099-student-discussion-29-reply-created.png` | 学生直接打开无权 discussionId `26` 显示禁止参与；教师新建真实 discussionId `29` 后，学生可进入 `/student/courses/2/discussions/29` 填写并提交回复。 |
 | STUDENT-005 | 通过 | `product-full-verification-screenshots/015-student-assignments-list.png` | 全部作业页显示已关闭、已发布和编程题作业，包含截止时间、分值和“查看作业/继续作答”等主操作。 |
 | STUDENT-006 | 通过 | `product-full-verification-screenshots/016-student-programming-assignment-detail.png`; `product-full-verification-screenshots/020-student-assignment-after-webide-return.png` | 使用真实 assignmentId `7` 打开编程作业详情，可见题目、截止时间、总分、打开 IDE、提交答案和提交历史；从 IDE 保存返回后仍回到同一作业详情。 |
+| STUDENT-007/008/009/011 | 阻塞 | `product-full-verification-evidence/student-accessible-assignment-types-20260609.log` | U-ST1 当前可访问的已发布作业只有简答题和编程题，未找到可提交的单选、多选、填空或文件题作业；在不改数据和不创建新作业的本阶段只能记录为阻塞。 |
+| STUDENT-010 | 通过 | `product-full-verification-screenshots/100-student-short-answer-markdown-preview.png`; `product-full-verification-screenshots/101-student-short-answer-submission-45-detail.png`; `product-full-verification-evidence/student-short-answer-submission-45-db-fixed.log` | 学生打开真实 assignmentId `3`，输入 Markdown 简答并预览后提交；提交详情和 SQL 均显示 submissionId `45`、answerId `128` 已保存答案文本。但提交详情顶部仍显示“无文本答案”，详见 P2-006。 |
 | STUDENT-012 | 通过 | `product-full-verification-screenshots/017-student-webide-initial.png` | 使用真实 assignmentId `7`、questionId `11` 打开 WebIDE，可见题目说明、文件浏览器、`main.py` 编辑器、保存、重置、历史、运行自测、保存并返回和状态栏。 |
 | STUDENT-013 | 通过 | `product-full-verification-screenshots/019-student-webide-history.png` | IDE 历史面板显示版本号、保存时间、保存原因和恢复入口；保存按钮可点击且页面未报错。 |
 | STUDENT-014 | 失败 | `product-full-verification-screenshots/018-student-webide-run-result.png` | 点击“运行自测”后页面展示部分样例通过，但同时出现 `RUNTIME_ERROR` 和“自定义评测脚本未返回裁决 JSON”，不能证明编程题运行链路稳定可演示。 |
@@ -118,10 +123,10 @@
 | TEACHER-002 | 通过 | `product-full-verification-screenshots/064-teacher-courses-list.png` | 教师课程列表可达并展示真实课程入口。 |
 | TEACHER-003 | 通过 | `product-full-verification-screenshots/011-teacher-course-workspace-offering-2.png` | 使用真实 offeringId `2` 打开课程工作区，显示教学班、教师、学生、作业、实验、成绩以及成员、公告、资源、讨论、题库、判题环境等上下文导航。 |
 | TEACHER-004 | 阻塞 | `product-full-verification-screenshots/065-teacher-course-2-members.png` | 成员页可达并显示成员管理入口；本阶段尚未执行添加/导入/状态变更。 |
-| TEACHER-005 | 阻塞 | `product-full-verification-screenshots/067-teacher-course-2-announcements.png` | 公告页可达并显示创建/列表能力；尚未创建、编辑或切换状态。 |
-| TEACHER-006 | 阻塞 | `product-full-verification-screenshots/066-teacher-course-2-resources.png` | 资源页可达并显示资源管理能力；尚未上传/下载/重命名/删除文件。 |
-| TEACHER-007 | 阻塞 | `product-full-verification-screenshots/068-teacher-course-2-discussions.png` | 讨论列表可达，显示创建讨论、真实讨论和锁定讨论动作；尚未创建/回复/锁定。 |
-| TEACHER-008 | 通过 | `product-full-verification-screenshots/069-teacher-course-2-discussion-26-detail.png` | 使用真实 discussionId `26` 打开教师讨论详情页。 |
+| TEACHER-005 | 通过 | `product-full-verification-screenshots/089-teacher-announcement-create-dialog-filled.png`; `product-full-verification-screenshots/090-teacher-announcement-created.png`; `product-full-verification-evidence/content-actions-db-fixed-20260609.log` | 教师在 offeringId `2` 公告页打开发布弹窗，填写标题和正文并提交；列表和 SQL 均显示公告 `MCP 全功能验证公告 20260609-2019` 已创建。 |
+| TEACHER-006 | 通过 | `product-full-verification-screenshots/091-teacher-resource-upload-dialog-file-selected.png`; `product-full-verification-screenshots/092-teacher-resource-uploaded-list.png`; `product-full-verification-evidence/resource-upload-download-sha256-20260609.log`; `product-full-verification-evidence/minio-resource-object-meta-20260609.log` | 教师上传 `mcp-upload-resource-20260609.txt` 后列表显示文件、大小和下载入口；MCP 下载文件与源文件 SHA256 一致，MinIO 对象元数据存在。 |
+| TEACHER-007 | 通过 | `product-full-verification-screenshots/093-teacher-discussions-list-before-create.png`; `product-full-verification-screenshots/094-teacher-discussion-create-dialog-filled.png`; `product-full-verification-screenshots/095-teacher-discussion-created-list.png`; `product-full-verification-evidence/content-actions-db-fixed-20260609.log` | 教师创建真实 discussionId `29` 并在讨论列表看到新讨论；列表中历史长标题发生横向溢出，详见 P2-005。 |
+| TEACHER-008 | 通过 | `product-full-verification-screenshots/069-teacher-course-2-discussion-26-detail.png`; `product-full-verification-screenshots/096-teacher-discussion-detail-reply-filled.png`; `product-full-verification-screenshots/097-teacher-discussion-reply-created.png`; `product-full-verification-screenshots/099-student-discussion-29-reply-created.png` | 使用真实 discussionId `26` 打开教师讨论详情；对新 discussionId `29` 提交教师回复后，学生也可在同一讨论提交回复。 |
 | TEACHER-009~014 | 阻塞 | `product-full-verification-screenshots/070-teacher-course-2-question-bank.png` | 题库页可达；单选、多选、填空、简答、文件题、编程题创建/编辑尚未逐项执行。 |
 | TEACHER-015 | 阻塞 | `product-full-verification-screenshots/071-teacher-course-2-judge-environments.png` | 判题环境页可达；创建、编辑、归档尚未执行。 |
 | TEACHER-016 | 通过 | `product-full-verification-screenshots/012-teacher-assignments-offering-2.png` | 教师全部作业页可按课程筛选并显示真实作业状态、分值、截止时间和操作入口。 |
@@ -132,7 +137,7 @@
 | TEACHER-022 | 通过 | `product-full-verification-screenshots/039-teacher-submission-44-grade-saved.png`; `product-full-verification-evidence/commands/08-submission-answer-127-grade-check.log` | 教师填写分数 `0` 和本轮人工反馈后点击“保存批改”；辅助 SQL 确认 `submission_answers.id=127` 已写入 `manual_score=0`、`final_score=0`、反馈文本、批改人 `9` 和批改时间。 |
 | TEACHER-023 | 失败 | `product-full-verification-screenshots/042-teacher-gradebook-offering-2.png`; `product-full-verification-screenshots/043-teacher-gradebook-student-u-st1.png`; `product-full-verification-evidence/downloads/gradebook-offering-2.csv` | 成绩册显示课程上下文、统计卡片、学生表格、学生搜索筛选和下载能力；筛选 `u-st1` 后学生数变为 1。点击“导出 Excel”下载成功，但文件名和内容为 `gradebook-offering-2.csv`，与按钮文案不一致。 |
 | TEACHER-024 | 阻塞 | `product-full-verification-screenshots/073-teacher-labs.png` | 教师实验页可达；尚未创建/发布/关闭实验。 |
-| TEACHER-026 | 阻塞 | `product-full-verification-screenshots/074-teacher-notifications.png` | 教师通知页可达；尚未执行标记已读。 |
+| TEACHER-026 | 通过 | `product-full-verification-screenshots/087-teacher-notifications-before-mark-all-read.png`; `product-full-verification-screenshots/088-teacher-notifications-after-mark-all-read.png`; `product-full-verification-evidence/mcp-network-087-088-teacher-notifications-mark-read.md` | 教师通知页显示未读通知和“全部已读”；点击后顶栏未读徽标消失，网络记录保存为辅助证据。 |
 
 ## 11. 管理员闭环验证
 
@@ -171,13 +176,15 @@
 | RUNTIME-006 | 失败 | `product-full-verification-screenshots/018-student-webide-run-result.png`; `product-full-verification-screenshots/021-student-submission-detail-after-submit.png` | 编程题自测和正式提交均产生系统级评测错误，详见 P1-002。 |
 | RUNTIME-007 | 失败 | `product-full-verification-screenshots/026-student-lab-runtime-started.png`; `product-full-verification-screenshots/029-student-lab-terminal-second-open.png`; `product-full-verification-screenshots/032-student-lab-stop-attempt.png` | 实验会话可创建和停止，终端二次打开后可连接，但首次打开未连接且 echo 无输出回显，详见 P1-003。 |
 | RUNTIME-001 | 通过 | `product-full-verification-evidence/commands/18-runtime-db-summary-fixed.log`; `product-full-verification-evidence/commands/08-submission-answer-127-grade-check.log` | PostgreSQL 中存在提交、批改分数、审计与通知记录；人工批改 SQL 已确认 submission answer 127 回写。 |
+| RUNTIME-002 | 通过 | `product-full-verification-evidence/content-actions-db-fixed-20260609.log`; `product-full-verification-evidence/resource-upload-download-sha256-20260609.log`; `product-full-verification-evidence/minio-resource-object-meta-20260609.log` | 课程资源上传后，数据库记录 object key、原文件名、MIME 和大小；MCP 下载文件 SHA256 与源文件一致，MinIO 对象元数据存在。 |
 | RUNTIME-003 | 通过 | `product-full-verification-evidence/commands/16-runtime-rabbitmq-ping.log`; `product-full-verification-evidence/commands/20-runtime-compose-ps.log` | RabbitMQ 进程 ping 成功，compose 状态为 healthy。 |
-| RUNTIME-004 | 阻塞 | `product-full-verification-evidence/commands/15-runtime-redis-ping.log`; `product-full-verification-evidence/commands/19-runtime-redis-ping-fixed.log`; `product-full-verification-evidence/commands/20-runtime-compose-ps.log` | Redis compose 状态为 healthy，但直接 `redis-cli ping` 因认证策略返回 NOAUTH/AUTH failed；未取得认证后缓存键级证据。 |
+| RUNTIME-004 | 通过 | `product-full-verification-evidence/redis-auth-ping-20260609.log`; `product-full-verification-evidence/redis-key-scan-20260609.log`; `product-full-verification-evidence/commands/20-runtime-compose-ps.log` | Redis 认证 ping 返回 `PONG`，键扫描显示通知未读数、auth session 和课程摘要缓存键。 |
+| RUNTIME-005 | 通过 | `product-full-verification-screenshots/083-common-student-topbar-notification-link.png`; `product-full-verification-screenshots/087-teacher-notifications-before-mark-all-read.png`; `product-full-verification-screenshots/088-teacher-notifications-after-mark-all-read.png`; `product-full-verification-evidence/mcp-network-087-088-teacher-notifications-mark-read.md` | 通知入口和教师“全部已读”页面状态变化已通过 MCP 验证，并保存网络摘要作为辅助证据。 |
 | RUNTIME-008 | 通过 | `product-full-verification-screenshots/008-admin-audit-logs-actor-u-ta1.png`; `product-full-verification-screenshots/009-admin-audit-log-detail.png`; `product-full-verification-evidence/commands/18-runtime-db-summary-fixed.log` | 审计日志页面和数据库均显示审计记录，latest audit 为本轮操作时间。 |
 
 ## 14. 文档一致性验证
 
-已确认强制输入文档存在；`just verify`、`just verify-full` 内部 docs build 均通过，且单独执行 `cd docs && npm run docs:build` 通过，仅有 VitePress chunk size 警告。
+已确认强制输入文档存在；`just verify`、`just verify-full` 内部 docs build 均通过，且单独执行 `cd docs && npm run docs:build` 通过。收尾前又执行一次 `npm run docs:build`，证据为 `product-full-verification-evidence/commands/24-docs-build-rerun.log`，结果仍为通过，仅有 VitePress chunk size 警告。
 
 ## 15. 前端质量与响应式验证
 
@@ -187,11 +194,16 @@
 | --- | --- | --- | --- |
 | `1280x800` | 阻塞 | `product-full-verification-screenshots/078-nfr-1280-student-course-discussion-denied.png` | 仅覆盖学生讨论无权页，管理员/教师/登录关键页未完整覆盖。 |
 | `1440x900` | 阻塞 | `product-full-verification-screenshots/079-nfr-1440-student-webide.png` | 覆盖学生 WebIDE，但该页面仍存在评测系统错误；管理员/教师关键页未完整覆盖。 |
-| `390x844` | 阻塞 | `product-full-verification-screenshots/080-nfr-390-student-labs.png` | 覆盖学生实验页，未覆盖登录、管理员开课、教师作业创建等全部要求页面。 |
+| `390x844` | 阻塞 | `product-full-verification-screenshots/080-nfr-390-student-labs.png` | 覆盖学生实验页，登录、管理员开课、教师作业创建等全部要求页面仍缺完整证据。 |
+
+新增可用性问题：
+
+- P2-005：教师讨论列表历史长标题横向溢出，证据 `product-full-verification-screenshots/093-teacher-discussions-list-before-create.png`。
+- P2-006：学生简答提交详情顶部显示“无文本答案”，但分题区域和数据库均有真实答案，证据 `product-full-verification-screenshots/101-student-short-answer-submission-45-detail.png`。
 
 ## 16. 三次完整演示彩排记录摘要
 
-三次彩排均未执行完成，见 `product-full-verification-rehearsal-log.md`。
+三次完整演示彩排没有全部成功。彩排 1 和彩排 2 均已开始并失败；本轮在彩排 2 后补充了公告、资源、讨论、通知和简答提交的可演示片段，但这些补证不能把彩排 2 改写为成功。彩排 3 因 P1 缺陷和强制项阻塞未启动，见 `product-full-verification-rehearsal-log.md`。
 
 ## 17. 缺陷详情
 
@@ -298,12 +310,50 @@
 - 修复建议方向：统一按钮文案、下载文件扩展名和 Content-Type。
 - 修复状态：待修复
 
+### P2-005 教师讨论列表长标题横向溢出
+
+- 严重级别：P2
+- 功能清单编号：TEACHER-007、NFR-005
+- 模块：web/teacher discussions
+- 角色：教师
+- 页面或对象：`/teacher/courses/2/discussions`
+- 操作步骤：教师进入课程 `offeringId=2` 的讨论列表，观察历史 E2E 讨论标题和新建讨论入口。
+- 实际表现：历史长标题未换行或截断，链接宽度扩出主内容区和视口。
+- 期望表现：长标题应在列表容器内换行或截断，不能造成横向溢出。
+- 影响说明：不阻断讨论创建，但会影响教师端列表可读性和演示观感。
+- 证据：
+  - MCP 截图：`product-full-verification-screenshots/093-teacher-discussions-list-before-create.png`
+  - MCP 页面观察：截图中多个 `E2E-Discussion-*` 标题向右超出主内容区域。
+- 是否阻塞演示彩排：否。
+- 是否阻塞后续功能验证：否。
+- 修复建议方向：为讨论标题链接增加容器宽度约束、`overflow-wrap` 或 line clamp，并验证 1280/1440/移动视口。
+- 修复状态：待修复
+
+### P2-006 简答提交详情顶部“无文本答案”与分题答案矛盾
+
+- 严重级别：P2
+- 功能清单编号：STUDENT-010、STUDENT-016、NFR-005
+- 模块：web/student submissions
+- 角色：学生
+- 页面或对象：`/student/submissions/45?assignmentId=3`
+- 操作步骤：学生打开简答作业 `assignmentId=3`，输入 Markdown 文本，预览后提交，并进入提交详情。
+- 实际表现：提交详情顶部“答案内容”卡片显示“无文本答案”，但下方分题答案区域显示已提交的简答文本；SQL 也确认 `submission_answers.id=128` 保存了答案内容。
+- 期望表现：提交详情不应出现互相矛盾的答案状态；若为分题答案，应隐藏顶部“无文本答案”或改为题目级摘要。
+- 影响说明：不阻断简答提交保存，但会误导学生和演示讲解，降低提交详情可信度。
+- 证据：
+  - MCP 截图：`product-full-verification-screenshots/101-student-short-answer-submission-45-detail.png`
+  - 辅助证据：`product-full-verification-evidence/student-short-answer-submission-45-db-fixed.log`
+- 是否阻塞演示彩排：否。
+- 是否阻塞后续功能验证：否。
+- 修复建议方向：按题型区分提交详情摘要文案，简答/客观题优先展示 per-question answer 状态。
+- 修复状态：待修复
+
 ## 18. 阻塞项与不适用项
 
 当前阻塞同时来自两类事实：
 
 - 已确认应用缺陷：WebIDE 自测/提交返回系统错误，实验终端首次连接和命令输出不稳定。
-- 尚未执行的强制项：管理员保存/创建/编辑，教师成员导入、资源上传、公告/讨论/题库/判题环境/实验发布，学生客观题、文件题、实验报告提交，完整 NFR 覆盖和第三次彩排。
+- 尚未执行或因数据缺失阻塞的强制项：管理员保存/创建/编辑，教师成员导入、题库、判题环境、作业创建保存、实验发布，学生单选/多选/填空/文件题、实验报告提交，完整 NFR 覆盖和第三次彩排。
 
 ## 19. 修复优先级建议
 
@@ -311,7 +361,7 @@
 
 ## 20. 最终 just status 与提交信息
 
-- 最终 `just status`：`server/` clean；`web/` clean；`docs/` clean，`main...origin/main [ahead 2]`；根目录不是 git 仓库。
-- 状态证据：`product-full-verification-evidence/commands/22-final-just-status.log`、`product-full-verification-evidence/commands/23-post-commit-just-status.log`。
-- 本轮提交：`docs` 子仓库 commit `1fdb885 docs(test): 记录产品全功能验证证据`。
+- 收尾前 `just status`：`server/` clean；`web/` clean；`docs/` 有 3 个待提交验证产物修改；根目录不是 git 仓库。
+- 状态证据：`product-full-verification-evidence/commands/22-final-just-status.log`、`product-full-verification-evidence/commands/23-post-commit-just-status.log`、`product-full-verification-evidence/commands/25-final-just-status-precommit.log`。
+- 本轮提交主题：`docs(test): 补充产品全功能验证证据`；真实 commit hash 在提交完成后由最终回复给出，避免在同一 commit 内容中写入必然失效的自身 hash。
 - 仅提交验证产物；未修改 `server/`、`web/` 应用代码、配置代码、测试代码或生产文档正文。

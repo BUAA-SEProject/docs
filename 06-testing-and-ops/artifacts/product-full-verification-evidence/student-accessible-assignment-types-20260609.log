@@ -1,0 +1,6 @@
+ assignment_id |          title          |  status   | offering_id | teaching_class_id | question_count |    types
+---------------+-------------------------+-----------+-------------+-------------------+----------------+--------------
+             2 | Task-Offering-Published | PUBLISHED |           2 |                   |              1 | SHORT_ANSWER
+             3 | Task-A1-Published       | PUBLISHED |           2 |                 2 |              1 | SHORT_ANSWER
+             7 | Task-Programming-A1     | PUBLISHED |           2 |                 2 |              1 | PROGRAMMING
+(3 rows)

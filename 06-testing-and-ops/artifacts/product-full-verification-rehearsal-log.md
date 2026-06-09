@@ -42,7 +42,8 @@
 - 结束时间：2026-06-09 19:49 CST
 - 角色：学校管理员、教师、学生、开课助教、班级助教
 - 截图：`040-teacher-submissions-list.png`、`041-teacher-submissions-assignment-7.png`、`042-teacher-gradebook-offering-2.png`、`043-teacher-gradebook-student-u-st1.png`、`044-ta-u-tac1-dashboard.png`、`045-ta-u-tac1-submissions-assignment-7.png`、`046-ta-u-tac1-admin-unauthorized.png`、`047-ta-u-tac1-student-unauthorized.png`、`048-ta-u-tao1-dashboard.png`、`049-ta-u-tao1-gradebook-offering-2.png`、`050-ta-u-tao1-submissions-assignment-7-allowed.png`、`051-ta-u-tao1-submissions-assignment-4-denied.png`、`053-profile-required-profileless-ta.png`
-- 失败点：虽然补充了助教权限边界和 profile-required 证据，但 WebIDE/实验终端 P1 未修复，且管理员/教师/学生创建、上传、发布、客观题/文件题/实验报告提交等强制项仍未形成 MCP 主证据。本次不能记为完整演示成功。
+- 后续补证截图：`081-common-student-global-search-results.png`、`082-common-student-global-search-navigate-grades.png`、`083-common-student-topbar-notification-link.png`、`084-auth-me-notifications-direct.png`、`085-common-teacher-global-search-results.png`、`086-common-teacher-global-search-navigate-submissions.png`、`087-teacher-notifications-before-mark-all-read.png`、`088-teacher-notifications-after-mark-all-read.png`、`089-teacher-announcement-create-dialog-filled.png`、`090-teacher-announcement-created.png`、`091-teacher-resource-upload-dialog-file-selected.png`、`092-teacher-resource-uploaded-list.png`、`093-teacher-discussions-list-before-create.png`、`094-teacher-discussion-create-dialog-filled.png`、`095-teacher-discussion-created-list.png`、`096-teacher-discussion-detail-reply-filled.png`、`097-teacher-discussion-reply-created.png`、`098-student-discussion-29-reply-filled.png`、`099-student-discussion-29-reply-created.png`、`100-student-short-answer-markdown-preview.png`、`101-student-short-answer-submission-45-detail.png`
+- 失败点：虽然补充了助教权限边界、profile-required、搜索、通知、教师公告、资源上传下载、讨论创建回复和学生简答提交证据，但 WebIDE/实验终端 P1 未修复，且管理员保存创建编辑、题库/判题环境/实验发布、学生客观题/文件题/实验报告提交等强制项仍未形成 MCP 主证据。本次不能记为完整演示成功。
 - 是否完整通过：否
 
 ### 计划路线
