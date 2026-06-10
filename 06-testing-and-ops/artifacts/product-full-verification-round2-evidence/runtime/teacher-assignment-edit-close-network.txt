@@ -1,0 +1,36 @@
+Playwright MCP flow: teacher assignment create/publish/edit-guard/close
+Timestamp: 2026-06-10 21:41-21:59 +08:00
+Actor: teacher e2emq6yao1yyb2we2org-offering-teacher
+Course offering: 32 / MCP-R2-06102015 开课实例-EDIT
+Assignment: 261 / MCP-R2-06102141 作业编辑关闭补证
+
+Key requests observed:
+- Initial invalid create probe:
+  - POST /api/v1/teacher/course-offerings/32/assignments -> 400
+  - Response: {"detail":"Invalid request content.","instance":"/api/v1/teacher/course-offerings/32/assignments","status":400,"title":"Bad Request"}
+  - Cause: submitted with paper.sections[0].questions=[]; backend SectionRequest requires @NotEmpty questions.
+- Corrected create:
+  - POST /api/v1/teacher/course-offerings/32/assignments -> 201
+  - Page returned to /teacher/assignments?offeringId=32 and listed assignment 261 as 草稿 with total score 10.
+- Publish:
+  - POST /api/v1/teacher/assignments/261/publish -> 200
+  - GET /api/v1/teacher/course-offerings/32/assignments?page=1&pageSize=20 -> 200
+  - Page listed assignment 261 as 已发布.
+- Pre-fix published edit attempt:
+  - PUT /api/v1/teacher/assignments/261 -> 400
+  - Response: {"code":"ASSIGNMENT_STATUS_INVALID","message":"只有草稿任务可以编辑","timestamp":"2026-06-10T21:51:53.275753+08:00"}
+  - Root cause: frontend still exposed an enabled edit link/page for a published assignment while backend allows edits only for DRAFT.
+- Post-fix edit guard:
+  - Navigated to /teacher/assignments/261/edit?offeringId=32.
+  - Page showed "只有草稿作业可以编辑"; 保存作业 button was disabled; no PUT request was issued.
+  - Back on list, DOM showed 编辑作业 button disabled, 发布作业 button disabled, 关闭作业 button enabled.
+- Close:
+  - POST /api/v1/teacher/assignments/261/close -> 200
+  - GET /api/v1/teacher/course-offerings/32/assignments?page=1&pageSize=20 -> 200
+  - Page listed assignment 261 as 已关闭.
+
+Screenshots:
+- product-full-verification-round2-screenshots/176-r2-teacher-assignment-draft-created.png
+- product-full-verification-round2-screenshots/177-r2-teacher-assignment-published-before-edit.png
+- product-full-verification-round2-screenshots/178-r2-teacher-assignment-published-edit-blocked.png
+- product-full-verification-round2-screenshots/179-r2-teacher-assignment-closed.png

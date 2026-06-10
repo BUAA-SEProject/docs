@@ -25,6 +25,8 @@
 
 ## 3. 彩排记录
 
+> 彩排后的第三阶段补证已补齐写入类强制动作、彩排中发现的 P1/P2 缺陷回归，以及全站关键页 console/network 归因。最终结论以 `product-full-verification-round2-report.md` 为准。
+
 ### 彩排 1
 
 - 状态：通过主线

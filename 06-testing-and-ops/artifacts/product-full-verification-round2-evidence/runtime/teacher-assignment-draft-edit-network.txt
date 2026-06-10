@@ -1,0 +1,14 @@
+40. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/assignments?page=1&pageSize=20 => [200] OK
+45. [POST] http://127.0.0.1:3000/api/v1/teacher/assignments/261/close => [200] OK
+46. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/assignments?page=1&pageSize=20 => [200] OK
+56. [GET] http://127.0.0.1:3000/teacher/assignments/create?offeringId=32&_rsc=gr9ou => [200] OK
+71. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/assignments => [201] Created
+72. [GET] http://127.0.0.1:3000/teacher/assignments?offeringId=32&_rsc=xhliw => [200] OK
+75. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/assignments?page=1&pageSize=20 => [200] OK
+78. [GET] http://127.0.0.1:3000/teacher/assignments/262/edit?offeringId=32&_rsc=gr9ou => [200] OK
+85. [GET] http://127.0.0.1:3000/api/v1/teacher/assignments/262 => [200] OK
+90. [PUT] http://127.0.0.1:3000/api/v1/teacher/assignments/262 => [200] OK
+91. [GET] http://127.0.0.1:3000/teacher/assignments?offeringId=32&_rsc=3calr => [200] OK
+94. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/assignments?page=1&pageSize=20 => [200] OK
+
+Note: 43 static requests not shown, run with "static" option to see them.

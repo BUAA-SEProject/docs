@@ -21,14 +21,18 @@
 | P1-R2-006 | P1 | 学生 | 编程正式提交后提交详情页不自动刷新判题终态 | 已回归 | `164-r2-student-programming-polling-assignment-before-submit.png`；`165-r2-student-programming-polling-submit-accepted.png`；`student-programming-polling-submit-57-network.txt` |
 | P2-R2-007 | P2 | 教师 | 添加课程成员成功后弹窗不关闭且列表不刷新 | 已回归 | `173-r2-teacher-members-add-import-visible.png`；`teacher-members-add-import-status-network.txt` |
 | P2-R2-008 | P2 | 教师 | 已发布作业仍暴露可点击编辑入口并触发后端 400 | 已回归 | `178-r2-teacher-assignment-published-edit-blocked.png`；`teacher-assignment-edit-close-network.txt` |
+| NFR-004 | NFR | 全角色 | 全站关键页 console/network 归因未形成独立证据 | 已回归 | `full-route-console-network-scan-20260610.md` |
+| E2E-R2-GATE-001 | P1 | 教师/E2E | 成员添加 E2E 等待旧成功提示导致当前 `just e2e-real` 失败 | 已回归 | `13-current-just-e2e-real-after-test-fix-20260611.log`；`16-current-just-e2e-real-after-mcp-member-regression-20260611.log`；`current-mcp-member-add-regression-20260611.md` |
 
 ## 3. P0 阻塞问题
 
-- [x] P1-R2-004 实验报告评阅发布后学生端未显示教师评语
+无。
 
 ## 4. P1 高优先级问题
 
+- [x] P1-R2-004 实验报告评阅发布后学生端未显示教师评语
 - [x] P1-R2-006 编程正式提交后提交详情页不自动刷新判题终态
+- [x] E2E-R2-GATE-001 成员添加 E2E 等待旧成功提示导致当前 `just e2e-real` 失败
 
 ## 5. P2 体验问题
 
@@ -185,10 +189,11 @@
   - 截图：`product-full-verification-round2-screenshots/173-r2-teacher-members-add-import-visible.png`；`product-full-verification-round2-screenshots/174-r2-teacher-member-status-dropped.png`；`product-full-verification-round2-screenshots/175-r2-teacher-member-status-restored.png`
   - 网络：`product-full-verification-round2-evidence/runtime/teacher-members-add-import-status-network.txt`，包含 `POST /members/batch` 200、`POST /members/import` 200、两次 `PATCH /members/454/status` 200。
   - 控制台：`product-full-verification-round2-evidence/runtime/teacher-members-add-import-status-console.txt`，warning/error 为 0。
+  - 当前补充 MCP 回归：教师 `U-TA1` 在 `/teacher/courses/2/members` 添加用户 `e2e-mcp-member-20260610172354`（ID `496`）到教学班 `A1`；弹窗关闭，成员搜索结果显示目标行，console 0 errors / 0 warnings，`POST /api/v1/teacher/course-offerings/2/members/batch` 200，见 `product-full-verification-round2-evidence/runtime/current-mcp-member-add-regression-20260611.md`。
 - 命令验证：
   - 命令：`npm test -- src/tests/unit/course/teacher-members-page.test.tsx`、`npm test -- src/tests/unit/api/query-keys.contract.test.ts`
   - 结果：成员页定向单测 1 file / 7 tests passed；query key 契约单测 1 file / 6 tests passed。
-- Commit：待本轮提交。
+- Commit：`web` `d7a5837 fix(course): 刷新新增课程成员`；当前 E2E gate 修复 `web` `0d187f9 test(e2e): 稳定课程成员添加断言`；`docs` 为本清单所在提交。
 - 剩余风险：本轮留下临时开课 `32`、教学班 `234` 和临时成员账号作为补证数据；未污染固定演示课程 `2`。
 
 ### P2-R2-008 已发布作业仍暴露可点击编辑入口并触发后端 400
@@ -220,7 +225,7 @@
   - 结果：通过，exit 0。
   - 命令：`cd docs && npm run docs:build`
   - 结果：通过，exit 0。
-- Commit：待本轮提交。
+- Commit：`web` `0c773bd fix(assignment): 禁用非草稿作业编辑`；`docs` 为本清单所在提交。
 - 剩余风险：当前稳定 API 和页面入口未提供作业撤回或重新发布；本轮留下临时作业 `261`、`262` 作为 MCP 补证数据。
 
 ## 8. 第三阶段补证记录
@@ -262,3 +267,5 @@
 | STUDENT-018 | 已补证 | 以学生账号打开 `/student/notifications`，对 `MCP-R2-20260610-143804` 公告通知点击“标记已读”，顶部未读徽标从 32 降到 31，目标行按钮消失。 | `126-r2-student-notification-before-mark-read.png`；`127-r2-student-notification-after-mark-read.png`；`product-full-verification-round2-evidence/runtime/student-notifications-after-mark-read-network.txt` |
 | RUNTIME-005 | 已补证 | 保存通知相关 Playwright MCP 网络摘要，覆盖通知流、未读数、全部已读和单条已读请求。 | `teacher-notifications-after-network.txt`；`student-notifications-after-mark-read-network.txt` |
 | RUNTIME-002 | 已补证 | 保存教师资源、学生文件题附件、学生实验报告附件和教师端实验报告附件下载哈希，证明上传下载一致。 | `teacher-resource-upload-sha256.txt`；`student-structured-upload-sha256.txt`；`student-lab-report-attachment-sha256.txt`；`teacher-lab-report-attachment-sha256.txt` |
+| NFR-004 | 已补证 | 使用 Playwright MCP 对公共、管理员、教师、学生、开课助教、班级助教共 55 个 route / 角色组合执行 console/network 归因；复核后无意外 console error、无意外业务 4xx/5xx、无未解释 request failure。 | `product-full-verification-round2-evidence/runtime/full-route-console-network-scan-20260610.md` |
+| E2E-R2-GATE-001 | 已补证 | 2026-06-11 当前补跑 `just e2e-real` 时，`full-organization-structure.spec.ts` 等待已被新交互移除的“添加成功 1 人，失败 0 人。”提示而失败；成员表实际已回显新增用户。修复 E2E helper 后，同一 spec 定向通过，完整 `just e2e-real` 重新通过 `50 passed (4.4m)`；当前 MCP 成员添加回归后再次补跑 `just e2e-real` 通过 `50 passed (3.7m)`。 | `product-full-verification-round2-evidence/commands/12-current-just-e2e-real-20260611.log`；`product-full-verification-round2-evidence/commands/13-current-just-e2e-real-after-test-fix-20260611.log`；`product-full-verification-round2-evidence/commands/16-current-just-e2e-real-after-mcp-member-regression-20260611.log`；`product-full-verification-round2-evidence/runtime/current-mcp-member-add-regression-20260611.md` |
