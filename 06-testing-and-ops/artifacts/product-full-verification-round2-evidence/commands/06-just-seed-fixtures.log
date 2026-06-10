@@ -1,0 +1,23 @@
+command: just seed-fixtures
+started_at: 2026-06-10T02:03:31+08:00
+
+
+== seed fixtures ==
+{
+  "baseUrl": "http://127.0.0.1:18080",
+  "fixtureCounts": {
+    "bootstrap": 3,
+    "api": 6,
+    "sql": 1,
+    "reused": 46,
+    "reset": 7
+  },
+  "caseCount": 22,
+  "passedCount": 22,
+  "failedCount": 0,
+  "status": "passed",
+  "failures": []
+}
+
+finished_at: 2026-06-10T02:03:43+08:00
+exit_code=0

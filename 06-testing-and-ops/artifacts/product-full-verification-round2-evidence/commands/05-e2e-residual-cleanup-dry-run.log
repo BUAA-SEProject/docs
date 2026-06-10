@@ -1,0 +1,121 @@
+command: cd server && scripts/ops/e2e-residual-cleanup.sh
+started_at: 2026-06-10T02:03:24+08:00
+
+BEGIN
+CREATE TABLE
+INSERT 0 6
+SELECT 74
+SELECT 0
+SELECT 67
+SELECT 9
+SELECT 0
+SELECT 1
+SELECT 18
+SELECT 3
+SELECT 12
+SELECT 0
+SELECT 3
+SELECT 3
+SELECT 3
+SELECT 9
+SELECT 58
+cleanup preview counts
+           target           | count 
+----------------------------+-------
+ academic_terms             |     3
+ assignments                |    67
+ auth_groups                |     0
+ course_announcements       |     0
+ course_catalogs            |     3
+ course_discussions         |     9
+ course_offerings           |     3
+ course_resources           |     1
+ judge_environment_profiles |     3
+ labs                       |    12
+ object_keys                |    58
+ org_units                  |     9
+ question_bank_questions    |    18
+ teaching_classes           |     0
+ users                      |    74
+(15 rows)
+
+matched object keys for MinIO cleanup
+                                                object_key                                                 
+-----------------------------------------------------------------------------------------------------------
+ course-resources/2/offering/7886b4fe-4465-4776-bf60-415c6d9d4ab3-mcp-upload-resource-20260609.txt
+ judge-jobs/25/artifact-manifest.json
+ judge-jobs/25/detail-report.json
+ judge-jobs/25/source-snapshot.json
+ judge-jobs/26/artifact-manifest.json
+ judge-jobs/26/detail-report.json
+ judge-jobs/26/source-snapshot.json
+ judge-jobs/27/artifact-manifest.json
+ judge-jobs/27/detail-report.json
+ judge-jobs/27/source-snapshot.json
+ judge-jobs/28/artifact-manifest.json
+ judge-jobs/28/detail-report.json
+ judge-jobs/28/source-snapshot.json
+ judge-jobs/29/artifact-manifest.json
+ judge-jobs/29/detail-report.json
+ judge-jobs/29/source-snapshot.json
+ judge-jobs/30/artifact-manifest.json
+ judge-jobs/30/detail-report.json
+ judge-jobs/30/source-snapshot.json
+ judge-jobs/31/artifact-manifest.json
+ judge-jobs/31/detail-report.json
+ judge-jobs/31/source-snapshot.json
+ judge-jobs/32/artifact-manifest.json
+ judge-jobs/32/detail-report.json
+ judge-jobs/32/source-snapshot.json
+ judge-jobs/35/artifact-manifest.json
+ judge-jobs/35/detail-report.json
+ judge-jobs/35/source-snapshot.json
+ judge-jobs/36/artifact-manifest.json
+ judge-jobs/36/detail-report.json
+ judge-jobs/36/source-snapshot.json
+ judge-jobs/37/artifact-manifest.json
+ judge-jobs/37/detail-report.json
+ judge-jobs/37/source-snapshot.json
+ judge-jobs/38/artifact-manifest.json
+ judge-jobs/38/detail-report.json
+ judge-jobs/38/source-snapshot.json
+ lab-report-attachments/36/271/4882bde5-f665-49b5-a520-482ff7b85ca4-E2E-mq6d72cr-net6sn-lab-attachment.txt
+ lab-report-attachments/40/301/8c3dbf81-a9f4-414d-8a01-26041a74b79f-E2E-mq6i3cqs-8wbc48-lab-attachment.txt
+ lab-report-attachments/44/339/f42a7c64-d09e-4487-b01c-63476a68bdd9-E2E-mq6wy31i-nf785d-lab-attachment.txt
+ programming-sample-runs/17/detail-report.json
+ programming-sample-runs/17/source-snapshot.json
+ programming-sample-runs/18/detail-report.json
+ programming-sample-runs/18/source-snapshot.json
+ programming-sample-runs/19/detail-report.json
+ programming-sample-runs/19/source-snapshot.json
+ programming-sample-runs/20/detail-report.json
+ programming-sample-runs/20/source-snapshot.json
+ programming-sample-runs/24/detail-report.json
+ programming-sample-runs/24/source-snapshot.json
+ programming-sample-runs/25/detail-report.json
+ programming-sample-runs/25/source-snapshot.json
+ submission-artifacts/174/266/89cdb86a8b10418180e3b8b3701596e9/E2E-mq6d5y2h-w2exfg-submission-artifact.txt
+ submission-artifacts/175/266/006dce9156694d29a3bf46c320756369/E2E-mq6d5zxd-ydrl4b-judge-artifact.txt
+ submission-artifacts/196/296/389c11600e51409ba1a9b02c0d53cbc6/E2E-mq6i33ox-g2c9av-submission-artifact.txt
+ submission-artifacts/197/296/43c34f4d9b124b46a8f73384cf01d94d/E2E-mq6i3543-0uvlxr-judge-artifact.txt
+ submission-artifacts/219/334/d4d57969eb8f495a90acf9e9496ac82f/E2E-mq6wxshv-rozale-submission-artifact.txt
+ submission-artifacts/220/334/f9872823117249f28cd51439b81f14a7/E2E-mq6wxula-ebe7wk-judge-artifact.txt
+(58 rows)
+
+ROLLBACK
+mode: dry-run
+prefixes: E2E-, e2e-, MCP-, mcp-, FULLRUN-, fullrun-
+postgres: sql-preview
+minio: object-key-report-only
+redis: key-prefix-preview
+rabbitmq: queue-report-only
+minio: skipped object deletion; missing command: mc
+redis: preview patterns only
+redis pattern: aubb:local:cache:*
+redis pattern: aubb:local:ratelimit:*
+rabbitmq: queue report only
+rabbitmq queue: aubb.judge.jobs
+rabbitmq queue: aubb.judge.jobs.dlq
+
+finished_at: 2026-06-10T02:03:24+08:00
+exit_code=0

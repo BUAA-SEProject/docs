@@ -1,0 +1,123 @@
+# AUBB 产品全功能完整验证第二轮功能清单
+
+## 1. 清单元信息
+
+- 执行阶段：第二阶段重新完整交付验收
+- 创建时间：2026-06-10 CST
+- 最近更新：2026-06-10 CST
+- 工作区：`/Users/moorefoss/Code/AUBB`
+- 控制合同：`goal.md`、`goal-test.md`
+- 主报告：`product-full-verification-round2-report.md`
+- 彩排记录：`product-full-verification-round2-rehearsal-log.md`
+- 截图目录：`product-full-verification-round2-screenshots/`
+- 辅助证据目录：`product-full-verification-round2-evidence/`
+- 状态枚举：`通过`、`失败`、`阻塞`、`不适用`
+- 主证据规则：用户可见功能通过时必须有 Playwright MCP 页面操作证据。
+
+## 2. 输入来源
+
+- `web/src/app/`
+- `web/src/shared/routing/nav-config.ts`
+- `web/src/shared/routing/route-access.ts`
+- `server/docs/stable-api.md`
+- `server/docs/product-specs/`
+- `docs/04-development/frontend-design.md`
+- 第二轮真实浏览器中实际渲染的按钮、菜单、表单、筛选器、tabs、弹窗和链接。
+
+## 3. 清单表
+
+| 编号 | 角色 | 页面/对象 | 功能点 | 操作类型 | 主证据要求 | 状态 | 证据路径 | 问题编号 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| COMMON-001 | 无登录用户 | `/`、`/login` | 未登录默认入口与登录页 | 导航/页面 | Playwright MCP 截图与 URL | 通过 | `product-full-verification-round2-screenshots/001-login-page.png` | - |
+| COMMON-002 | 无登录用户 | `/login` | 登录页加载、公告、表单、显示密码 | 页面/表单 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/001-login-page.png` | - |
+| COMMON-003 | 无登录用户 | `/login` | 空表单错误态 | 表单校验 | Playwright MCP 操作与截图 | 失败 | `product-full-verification-round2-screenshots/115-r2-login-empty-submit.png` | P2-R2-001 |
+| COMMON-004 | 无登录用户 | `/admin` | 未登录访问受限页重定向 | 路由守卫 | Playwright MCP URL 与截图 | 通过 | `product-full-verification-round2-rehearsal-log.md` | - |
+| COMMON-005 | 已登录用户 | 顶栏搜索 | 全局搜索结果与跳转 | 搜索/导航 | Playwright MCP 操作与截图 | 阻塞 | 第二轮未单独执行搜索操作 | PENDING-MCP |
+| COMMON-006 | 已登录用户 | 通知入口 | 顶栏通知与通知页 | 导航/状态 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/043-student-notifications.png`; `product-full-verification-round2-screenshots/044-me-notifications.png`; `product-full-verification-round2-screenshots/107-r2-rehearsal3-me-notifications.png` | - |
+| COMMON-007 | 已登录用户 | 用户菜单 | 用户信息与退出登录 | 菜单/导航 | Playwright MCP 操作与截图 | 阻塞 | 第二轮未单独执行退出登录截图 | PENDING-MCP |
+| AUTH-001 | 学校管理员 | `/admin` | 管理员登录与治理首页 | 登录/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/002-admin-dashboard.png`; `product-full-verification-round2-screenshots/092-r2-rehearsal3-admin-dashboard.png` | - |
+| AUTH-002 | 教师 | `/teacher` | 教师登录与教学工作台 | 登录/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/013-teacher-dashboard.png`; `product-full-verification-round2-screenshots/096-r2-rehearsal3-teacher-dashboard.png` | - |
+| AUTH-003 | 学生 | `/student` | 学生登录与学习中心 | 登录/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/032-student-dashboard.png`; `product-full-verification-round2-screenshots/102-r2-rehearsal3-student-dashboard.png` | - |
+| AUTH-004 | 助教 | `/teacher` | 开课助教与班级助教登录 | 登录/角色 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/071-r2-rehearsal1-offering-ta-dashboard.png`; `product-full-verification-round2-screenshots/074-r2-rehearsal1-class-ta-dashboard.png` | - |
+| AUTH-005 | 缺档案用户 | `/profile-required` | 缺学术档案拦截 | 登录/路由守卫 | Playwright MCP 截图与辅助数据准备证据 | 通过 | `product-full-verification-round2-screenshots/053-profile-required-profileless-ta.png` | - |
+| AUTH-006 | 非授权角色 | `/admin`、`/teacher`、`/student` | 跨工作区禁止 | 路由守卫 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/049-student-forbidden-admin.png`; `product-full-verification-round2-screenshots/050-teacher-forbidden-admin.png`; `product-full-verification-round2-screenshots/108-r2-rehearsal3-student-forbidden-admin.png` | - |
+| AUTH-007 | 已登录用户 | `/me/notifications` | 通用通知中心直达 | 导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/044-me-notifications.png`; `product-full-verification-round2-screenshots/107-r2-rehearsal3-me-notifications.png` | - |
+| ADMIN-001 | 学校管理员 | `/admin` | 治理概览指标和入口 | 页面 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/002-admin-dashboard.png`; `product-full-verification-round2-screenshots/056-r2-rehearsal1-admin-dashboard.png` | - |
+| ADMIN-002 | 学校管理员 | `/admin/platform-config` | 平台配置查看与保存 | 表单/保存 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/003-admin-platform-config.png`; 已查看，未保存/恢复 | PENDING-MCP |
+| ADMIN-003 | 学校管理员 | `/admin/org-units` | 组织树查看、创建、编辑 | 表单/树 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/004-admin-org-units.png`; 已查看，未创建/编辑 | PENDING-MCP |
+| ADMIN-004 | 学校管理员 | `/admin/users` | 用户列表、搜索、筛选 | 表格/筛选 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/005-admin-users.png`; `product-full-verification-round2-screenshots/094-r2-rehearsal3-admin-users.png` | - |
+| ADMIN-005 | 学校管理员 | `/admin/users/[userId]` | 用户详情、身份和组织关联 | 详情 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/006-admin-user-detail.png`; `product-full-verification-round2-screenshots/013-admin-user-detail-teacher.png` | - |
+| ADMIN-006 | 学校管理员 | `/admin/academic-terms` | 学期创建/编辑 | 表单 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/007-admin-academic-terms.png`; 已查看，未创建/编辑 | PENDING-MCP |
+| ADMIN-007 | 学校管理员 | `/admin/course-catalogs` | 课程模板创建/编辑 | 表单 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/008-admin-course-catalogs.png`; 已查看，未创建/编辑 | PENDING-MCP |
+| ADMIN-008 | 学校管理员 | `/admin/course-offerings` | 开课列表、创建、跨学院管理 | 表单/权限 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/009-admin-course-offerings.png`; 已查看，未创建/编辑 | PENDING-MCP |
+| ADMIN-009 | 学校管理员 | `/admin/course-offerings/[offeringId]` | 开课详情和教学班 | 详情 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/010-admin-course-offering-detail.png`; `product-full-verification-round2-screenshots/079-r2-rehearsal2-admin-offering-detail.png` | - |
+| ADMIN-010 | 学校管理员 | `/admin/auth-explain` | 权限解释允许/拒绝 | 表单/分析 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/011-admin-auth-explain.png`; `product-full-verification-round2-screenshots/095-r2-rehearsal3-admin-auth-explain.png` | - |
+| ADMIN-011 | 学校管理员 | `/admin/audit-logs` | 审计筛选、详情、复制 JSON | 表格/详情 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/012-admin-audit-logs.png`; `product-full-verification-round2-screenshots/080-r2-rehearsal2-admin-audit-logs.png` | - |
+| TEACHER-001 | 教师 | `/teacher` | 教学工作台概览 | 页面/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/096-r2-rehearsal3-teacher-dashboard.png` | - |
+| TEACHER-002 | 教师 | `/teacher/courses` | 课程列表与进入课堂 | 列表/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/014-teacher-courses.png`; `product-full-verification-round2-screenshots/015-teacher-courses.png` | - |
+| TEACHER-003 | 教师 | `/teacher/courses/[offeringId]` | 课程工作区和上下文导航 | 详情/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/097-r2-rehearsal3-teacher-course.png` | - |
+| TEACHER-004 | 教师/助教 | `/teacher/courses/[offeringId]/members` | 成员管理、导入、状态变更 | 表格/表单 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/016-teacher-members.png`; `product-full-verification-round2-screenshots/113-r2-rehearsal3-class-ta-members.png`; 未导入/变更 | PENDING-MCP |
+| TEACHER-005 | 教师 | `/teacher/courses/[offeringId]/announcements` | 公告创建/列表 | 表单/列表 | Playwright MCP 操作与截图 | 部分通过 | `product-full-verification-round2-screenshots/017-teacher-announcements.png`; `product-full-verification-round2-screenshots/018-teacher-announcements.png`; 第二轮未新建公告 | PENDING-MCP |
+| TEACHER-006 | 教师 | `/teacher/courses/[offeringId]/resources` | 资源上传/下载 | 文件 | Playwright MCP 操作、下载校验 | 部分通过 | `product-full-verification-round2-screenshots/018-teacher-resources.png`; `product-full-verification-round2-screenshots/082-r2-rehearsal2-teacher-resources.png`; 第二轮未新上传/下载 | PENDING-MCP |
+| TEACHER-007 | 教师 | `/teacher/courses/[offeringId]/discussions` | 讨论创建/列表 | 表单/列表 | Playwright MCP 操作与截图 | 部分通过 | `product-full-verification-round2-screenshots/019-teacher-discussions.png`; `product-full-verification-round2-screenshots/020-teacher-discussions.png`; 第二轮未新建讨论 | PENDING-MCP |
+| TEACHER-008 | 教师 | `/teacher/courses/[offeringId]/discussions/[discussionId]` | 讨论详情、回复、锁定 | 详情/表单 | Playwright MCP 操作与截图 | 部分通过 | `product-full-verification-round2-screenshots/020-teacher-discussion-detail.png`; `product-full-verification-round2-screenshots/021-teacher-discussion-detail.png`; 第二轮未新回复/锁定 | PENDING-MCP |
+| TEACHER-009 | 教师 | `/teacher/courses/[offeringId]/question-bank` | 课程题库管理 | 表格/表单 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/098-r2-rehearsal3-teacher-question-bank.png`; 已查看，未创建/编辑题目 | PENDING-MCP |
+| TEACHER-010 | 教师 | `/teacher/courses/[offeringId]/judge-environments` | 判题环境管理 | 表格/表单 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/022-teacher-judge-envs.png`; 已查看，未创建/编辑/归档 | PENDING-MCP |
+| TEACHER-011 | 教师 | `/teacher/assignments` | 作业列表、筛选 | 表格/筛选 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/099-r2-rehearsal3-teacher-assignments.png` | - |
+| TEACHER-012 | 教师 | `/teacher/assignments/create` | 作业创建保存/发布 | 表单/发布 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/024-teacher-assignment-create.png`; `product-full-verification-round2-screenshots/025-teacher-assignment-create.png`; 未保存/发布 | PENDING-MCP |
+| TEACHER-013 | 教师 | `/teacher/assignments/[assignmentId]/edit` | 作业编辑、题目配置 | 表单 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/025-teacher-assignment-edit.png`; `product-full-verification-round2-screenshots/026-teacher-assignment-edit.png`; 未保存/发布 | PENDING-MCP |
+| TEACHER-014 | 教师 | `/teacher/submissions` | 提交列表、筛选、详情入口 | 表格/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/100-r2-rehearsal3-teacher-submissions.png` | - |
+| TEACHER-015 | 教师 | `/teacher/submissions/[submissionId]` | 提交详情、批改、重判 | 详情/操作 | Playwright MCP 操作与截图 | 部分通过 | `product-full-verification-round2-screenshots/027-teacher-submission-detail.png`; `product-full-verification-round2-screenshots/028-teacher-submission-detail.png`; 第二轮未保存批改/重判 | PENDING-MCP |
+| TEACHER-016 | 教师 | `/teacher/grading/gradebook` | 成绩册筛选、导出、发布 | 表格/导出 | Playwright MCP 操作与下载校验 | 部分通过 | `product-full-verification-round2-screenshots/085-r2-rehearsal2-teacher-gradebook.png`; 第二轮未重新下载/发布 | PENDING-MCP |
+| TEACHER-017 | 教师 | `/teacher/question-bank` | 全局题库入口 | 页面/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/029-teacher-question-bank-global.png`; `product-full-verification-round2-screenshots/030-teacher-question-bank-global.png` | - |
+| TEACHER-018 | 教师 | `/teacher/labs` | 实验列表、发布、评阅入口 | 表格/表单 | Playwright MCP 操作与截图 | 阻塞 | `product-full-verification-round2-screenshots/101-r2-rehearsal3-teacher-labs.png`; 实验创建/发布/评阅未执行 | PENDING-MCP |
+| TEACHER-019 | 教师 | `/teacher/notifications` | 通知列表、全部已读 | 页面/状态变更 | Playwright MCP 操作与截图 | 部分通过 | `product-full-verification-round2-screenshots/031-teacher-notifications.png`; `product-full-verification-round2-screenshots/032-teacher-notifications.png`; 第二轮未重新全部已读 | PENDING-MCP |
+| STUDENT-001 | 学生 | `/student` | 学习中心概览 | 页面/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/102-r2-rehearsal3-student-dashboard.png` | - |
+| STUDENT-002 | 学生 | `/student/courses` | 我的课程列表 | 列表/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/033-student-courses.png`; `product-full-verification-round2-screenshots/034-student-courses.png` | - |
+| STUDENT-003 | 学生 | `/student/courses/[classId]` | 课程详情、公告、资源、讨论入口 | 详情/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/034-student-course-detail.png`; `product-full-verification-round2-screenshots/035-student-course-detail.png` | - |
+| STUDENT-004 | 学生 | `/student/courses/[classId]/discussions/[discussionId]` | 讨论详情和回复 | 详情/表单 | Playwright MCP 操作与截图 | 部分通过 | `product-full-verification-round2-screenshots/035-student-discussion-detail.png`; `product-full-verification-round2-screenshots/036-student-discussion-detail.png`; 第二轮未新回复 | PENDING-MCP |
+| STUDENT-005 | 学生 | `/student/assignments` | 全部作业列表与主操作 | 列表/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/036-student-assignments.png`; `product-full-verification-round2-screenshots/037-student-assignments.png` | - |
+| STUDENT-006 | 学生 | `/student/assignments/[assignmentId]` | 作业详情与提交入口 | 详情/操作 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/037-student-assignment-detail.png`; `product-full-verification-round2-screenshots/038-student-assignment-detail.png` | - |
+| STUDENT-007 | 学生 | 结构化作业 | 单选题提交 | 表单/提交 | Playwright MCP 操作与提交详情 | 阻塞 | 第二轮未执行 | PENDING-MCP |
+| STUDENT-008 | 学生 | 结构化作业 | 多选题提交 | 表单/提交 | Playwright MCP 操作与提交详情 | 阻塞 | 第二轮未执行 | PENDING-MCP |
+| STUDENT-009 | 学生 | 结构化作业 | 填空题提交 | 表单/提交 | Playwright MCP 操作与提交详情 | 阻塞 | 第二轮未执行 | PENDING-MCP |
+| STUDENT-010 | 学生 | 结构化作业 | 简答 Markdown 预览和提交 | 表单/提交 | Playwright MCP 操作与提交详情 | 部分通过 | `product-full-verification-round2-screenshots/040-student-submission-detail.png`; 第二轮未新提交简答 | PENDING-MCP |
+| STUDENT-011 | 学生 | 结构化作业 | 文件题上传和提交 | 文件/提交 | Playwright MCP 操作与提交详情 | 阻塞 | 第二轮未执行 | PENDING-MCP |
+| STUDENT-012 | 学生 | `/student/assignments/[assignmentId]/workspace/[questionId]` | WebIDE 初始加载 | IDE | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/039-student-webide.png`; `product-full-verification-round2-screenshots/103-r2-rehearsal3-student-webide.png` | - |
+| STUDENT-013 | 学生 | WebIDE | 保存、历史、恢复 | IDE/保存 | Playwright MCP 操作与截图 | 部分通过 | `product-full-verification-round2-screenshots/039-student-webide.png`; 第二轮未新恢复历史 | PENDING-MCP |
+| STUDENT-014 | 学生 | WebIDE | 样例自测 | IDE/判题 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/054-student-webide-sample-run.png`; `product-full-verification-round2-screenshots/104-r2-rehearsal3-student-webide-run.png` | - |
+| STUDENT-015 | 学生 | 编程作业详情 | 正式提交编程题 | 提交/判题 | Playwright MCP 操作与提交详情 | 部分通过 | `product-full-verification-round2-screenshots/040-student-submission-detail.png`; 完整正式提交由 `just e2e-real` 覆盖 | - |
+| STUDENT-016 | 学生 | `/student/submissions/[submissionId]` | 提交详情、报告下载 | 详情/下载 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/040-student-submission-detail.png` | - |
+| STUDENT-017 | 学生 | `/student/grades` | 全部成绩与课程筛选 | 表格/筛选 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/041-student-grades.png`; `product-full-verification-round2-screenshots/106-r2-rehearsal3-student-grades.png` | - |
+| STUDENT-018 | 学生 | `/student/notifications` | 通知已读 | 页面/状态变更 | Playwright MCP 操作与截图 | 部分通过 | `product-full-verification-round2-screenshots/043-student-notifications.png`; 第二轮未新标记已读 | PENDING-MCP |
+| STUDENT-019 | 学生 | `/student/labs` | 实验列表、启动、停止 | 运行时 | Playwright MCP 操作与截图 | 部分通过 | `product-full-verification-round2-screenshots/042-student-labs.png`; `product-full-verification-round2-screenshots/105-r2-rehearsal3-student-labs.png`; 第二轮未新启动/停止 | PENDING-MCP |
+| STUDENT-020 | 学生 | 实验 Web 终端 | 连接、输入、输出 | 运行时/终端 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/055-student-lab-terminal-echo.png` | - |
+| STUDENT-021 | 学生 | 实验报告 | 草稿、附件、提交 | 表单/文件 | Playwright MCP 操作与截图 | 阻塞 | 第二轮未执行 | PENDING-MCP |
+| TA-001 | 开课助教 | `/teacher` | 开课助教工作台 | 登录/页面 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/071-r2-rehearsal1-offering-ta-dashboard.png` | - |
+| TA-002 | 开课助教 | 授权开课 | 开课助教允许动作 | 权限/导航 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/109-r2-rehearsal3-offering-ta-course.png` | - |
+| TA-003 | 开课助教 | 未授权开课 | 未授权开课拒绝 | 权限负例 | Playwright MCP 操作与截图 | 失败 | `product-full-verification-round2-screenshots/111-r2-rehearsal3-offering-ta-unauthorized-course.png` | P2-R2-002 |
+| TA-004 | 班级助教 | `/teacher` | 班级助教工作台 | 登录/页面 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/074-r2-rehearsal1-class-ta-dashboard.png` | - |
+| TA-005 | 班级助教 | 成员页 | 班级范围允许 | 权限/表格 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/113-r2-rehearsal3-class-ta-members.png` | - |
+| TA-006 | 学生 | `/teacher` | 学生禁止教师区 | 权限负例 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/049-student-forbidden-admin.png`; `product-full-verification-round2-screenshots/108-r2-rehearsal3-student-forbidden-admin.png` | - |
+| TA-007 | 学生 | `/admin` | 学生禁止管理区 | 权限负例 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/049-student-forbidden-admin.png`; `product-full-verification-round2-screenshots/108-r2-rehearsal3-student-forbidden-admin.png` | - |
+| TA-008 | 教师 | `/admin` | 教师禁止管理区 | 权限负例 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/050-teacher-forbidden-admin.png` | - |
+| TA-009 | 助教 | `/admin`、`/student` | 助教禁止非授权区 | 权限负例 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/112-r2-rehearsal3-offering-ta-forbidden-admin.png`; `product-full-verification-round2-screenshots/114-r2-rehearsal3-class-ta-forbidden-admin.png` | - |
+| TA-010 | 开课助教 | `/teacher/courses/999999` | 不存在开课错误态 | 权限/错误态 | Playwright MCP 截图 | 失败 | `product-full-verification-round2-screenshots/110-r2-rehearsal3-offering-ta-invalid-course.png` | P2-R2-003 |
+| RUNTIME-001 | 系统 | PostgreSQL | 业务数据、审计、提交、成绩记录 | 数据检查 | SQL/测试辅助证据 | 通过 | `product-full-verification-round2-evidence/commands/08-just-verify.log`; `product-full-verification-round2-evidence/commands/09-just-verify-full.log` | - |
+| RUNTIME-002 | 系统 | MinIO | 上传对象与下载一致性 | 对象存储 | E2E/命令辅助证据 | 部分通过 | `product-full-verification-round2-evidence/commands/07-just-e2e-real.log`; 第二轮未单独保存对象元数据 | - |
+| RUNTIME-003 | 系统 | RabbitMQ | 队列健康与判题消息 | 运行时 | 命令/日志辅助证据 | 通过 | `product-full-verification-round2-evidence/commands/04-just-healthcheck-strict.log`; `product-full-verification-round2-evidence/commands/07-just-e2e-real.log` | - |
+| RUNTIME-004 | 系统 | Redis | session、限流、缓存、通知未读 | 运行时 | 命令辅助证据 | 通过 | `product-full-verification-round2-evidence/commands/04-just-healthcheck-strict.log`; `product-full-verification-round2-evidence/commands/07-just-e2e-real.log` | - |
+| RUNTIME-005 | 系统 | 通知流 | 通知轮询/SSE 可用性 | 运行时 | Playwright MCP + 网络辅助证据 | 部分通过 | `product-full-verification-round2-screenshots/043-student-notifications.png`; `product-full-verification-round2-screenshots/107-r2-rehearsal3-me-notifications.png`; 第二轮未保存网络摘要 | - |
+| RUNTIME-006 | 系统 | go-judge | 编程题样例和正式判题 | 运行时/判题 | Playwright MCP + 后端辅助证据 | 通过 | `product-full-verification-round2-screenshots/104-r2-rehearsal3-student-webide-run.png`; `product-full-verification-round2-evidence/commands/07-just-e2e-real.log` | - |
+| RUNTIME-007 | 系统 | 实验运行时 | 实验会话和 Web 终端 | 运行时 | Playwright MCP + 后端辅助证据 | 通过 | `product-full-verification-round2-screenshots/055-student-lab-terminal-echo.png` | - |
+| RUNTIME-008 | 系统 | 审计日志 | 操作审计落库和页面可查 | 页面/数据 | Playwright MCP + SQL 辅助证据 | 通过 | `product-full-verification-round2-screenshots/012-admin-audit-logs.png`; `product-full-verification-round2-screenshots/080-r2-rehearsal2-admin-audit-logs.png` | - |
+| DOC-001 | 文档 | docs | 文档构建 | 命令 | `npm run docs:build` | 通过 | `product-full-verification-round2-evidence/commands/10-docs-build.log` | - |
+| DOC-002 | 文档 | stable API / 产品规格 | 文档存在和引用一致性 | 文档审查 | 文件检查 | 通过 | `product-full-verification-round2-report.md` 输入核对 | - |
+| NFR-001 | 前端 | 1280x800 | 桌面窄宽布局 | 响应式 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/051-nfr-1280-student-assignments.png` | - |
+| NFR-002 | 前端 | 1440x900 | 标准桌面布局 | 响应式 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/052-nfr-1440-admin-users.png` | - |
+| NFR-003 | 前端 | 390x844 | 移动布局基本可用 | 响应式 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/053-nfr-390-student-webide.png` | - |
+| NFR-004 | 前端 | 全站关键页 | console/network 错误归因 | 质量 | Playwright MCP console/network 摘要 | 阻塞 | 第二轮未保存完整逐页 console/network 归因 | PENDING-MCP |
+| NFR-005 | 前端 | 关键列表/表格/表单 | 溢出、重叠、空态、错误态 | 可用性 | Playwright MCP 观察 | 失败 | `product-full-verification-round2-screenshots/110-r2-rehearsal3-offering-ta-invalid-course.png`; `product-full-verification-round2-screenshots/111-r2-rehearsal3-offering-ta-unauthorized-course.png` | P2-R2-002/P2-R2-003 |
+| DEMO-001 | 全角色 | 演示彩排 1 | 登录到核心结果闭环 | 演示 | Playwright MCP 彩排记录 | 通过 | `product-full-verification-round2-rehearsal-log.md`; `056`-`076` 截图 | - |
+| DEMO-002 | 全角色 | 演示彩排 2 | 登录到核心结果闭环 | 演示 | Playwright MCP 彩排记录 | 通过 | `product-full-verification-round2-rehearsal-log.md`; `077`-`091` 截图 | - |
+| DEMO-003 | 全角色 | 演示彩排 3 | 登录到核心结果闭环 | 演示 | Playwright MCP 彩排记录 | 通过主线，发现 P2 | `product-full-verification-round2-rehearsal-log.md`; `092`-`114` 截图 | P2-R2-002/P2-R2-003 |

@@ -1,0 +1,78 @@
+{
+  "frontend": "http://127.0.0.1:3000",
+  "offering": {
+    "id": 2,
+    "code": "OFFER-A-2025F",
+    "name": "数据结构 2025 秋"
+  },
+  "classes": {
+    "a1": {
+      "id": 2,
+      "code": "A1"
+    },
+    "a2": {
+      "id": 3,
+      "code": "A2"
+    }
+  },
+  "users": {
+    "admin": {
+      "username": "U-SA1",
+      "id": 1
+    },
+    "teacher": {
+      "username": "U-TA1",
+      "id": 9
+    },
+    "student": {
+      "username": "U-ST1",
+      "id": 14
+    },
+    "offeringTa": {
+      "username": "mcp-r2-mq6z7s5j-yz44k-offering-ta",
+      "id": 389
+    },
+    "classTa": {
+      "username": "mcp-r2-mq6z7s5j-yz44k-class-ta",
+      "id": 390
+    }
+  },
+  "orgs": {
+    "schoolId": 1,
+    "collegeId": 7
+  },
+  "assignments": {
+    "programming": {
+      "id": 7,
+      "title": "Task-Programming-A1",
+      "questionId": 11
+    },
+    "a1": {
+      "id": 3,
+      "title": "Task-A1-Published"
+    },
+    "offering": {
+      "id": 2,
+      "title": "Task-Offering-Published"
+    },
+    "detail": {
+      "id": 3,
+      "title": "Task-A1-Published"
+    }
+  },
+  "discussions": {
+    "teacher": {
+      "id": 35,
+      "title": "E2E-mq6ybolg-qrulw4-teacher-mobile-discussion-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    },
+    "student": {
+      "id": 29,
+      "title": "MCP 全功能验证讨论 20260609-2023"
+    }
+  },
+  "submissions": {
+    "first": {
+      "id": 45
+    }
+  }
+}

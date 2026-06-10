@@ -1,0 +1,32 @@
+command: just healthcheck-strict
+started_at: 2026-06-10T02:03:05+08:00
+
+
+== tools ==
+[ok] just
+[ok] docker
+[ok] java
+[ok] npm
+[ok] curl
+
+== compose ==
+[ok] server/compose.yaml config
+
+== env ==
+[ok] env/e2e.env present
+[ok] strict E2E env names populated
+
+== ports ==
+[ok] backend port 18080 listening
+[ok] frontend port 3000 listening
+
+== http ==
+[ok] backend readiness
+[ok] backend OpenAPI
+[ok] frontend login
+
+== result ==
+healthcheck completed
+
+finished_at: 2026-06-10T02:03:06+08:00
+exit_code=0

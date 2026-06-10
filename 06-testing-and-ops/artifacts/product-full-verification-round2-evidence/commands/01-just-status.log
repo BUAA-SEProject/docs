@@ -1,0 +1,25 @@
+command: just status
+started_at: 2026-06-10T02:02:34+08:00
+
+
+== workspace ==
+root: /Users/moorefoss/Code/AUBB
+root git: not a git repository; use server/, web/, docs/ independently
+
+== server ==
+## main...origin/main [ahead 1]
+dirty entries: 0
+
+== web ==
+## main...origin/main [ahead 1]
+dirty entries: 0
+
+== docs ==
+## main...origin/main [ahead 5]
+dirty entries: 0
+
+== agent handoff ==
+dirty workspace: no
+
+finished_at: 2026-06-10T02:02:35+08:00
+exit_code=0
