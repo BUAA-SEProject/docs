@@ -139,3 +139,6 @@
 {"id":"R2-MCP-139","file":"product-full-verification-round2-screenshots/113-r2-rehearsal3-class-ta-members.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-140","file":"product-full-verification-round2-screenshots/114-r2-rehearsal3-class-ta-forbidden-admin.png","area":"管理员","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-141","file":"product-full-verification-round2-screenshots/115-r2-login-empty-submit.png","area":"公共/认证","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-142","file":"product-full-verification-round2-screenshots/116-r2-repair-login-empty-submit.png","area":"公共/认证","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-143","file":"product-full-verification-round2-screenshots/117-r2-repair-offering-ta-unauthorized-course.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-144","file":"product-full-verification-round2-screenshots/118-r2-repair-offering-ta-invalid-course.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}

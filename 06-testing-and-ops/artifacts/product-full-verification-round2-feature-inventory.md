@@ -30,7 +30,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | COMMON-001 | 无登录用户 | `/`、`/login` | 未登录默认入口与登录页 | 导航/页面 | Playwright MCP 截图与 URL | 通过 | `product-full-verification-round2-screenshots/001-login-page.png` | - |
 | COMMON-002 | 无登录用户 | `/login` | 登录页加载、公告、表单、显示密码 | 页面/表单 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/001-login-page.png` | - |
-| COMMON-003 | 无登录用户 | `/login` | 空表单错误态 | 表单校验 | Playwright MCP 操作与截图 | 失败 | `product-full-verification-round2-screenshots/115-r2-login-empty-submit.png` | P2-R2-001 |
+| COMMON-003 | 无登录用户 | `/login` | 空表单错误态 | 表单校验 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/116-r2-repair-login-empty-submit.png` | P2-R2-001 已回归 |
 | COMMON-004 | 无登录用户 | `/admin` | 未登录访问受限页重定向 | 路由守卫 | Playwright MCP URL 与截图 | 通过 | `product-full-verification-round2-rehearsal-log.md` | - |
 | COMMON-005 | 已登录用户 | 顶栏搜索 | 全局搜索结果与跳转 | 搜索/导航 | Playwright MCP 操作与截图 | 阻塞 | 第二轮未单独执行搜索操作 | PENDING-MCP |
 | COMMON-006 | 已登录用户 | 通知入口 | 顶栏通知与通知页 | 导航/状态 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/043-student-notifications.png`; `product-full-verification-round2-screenshots/044-me-notifications.png`; `product-full-verification-round2-screenshots/107-r2-rehearsal3-me-notifications.png` | - |
@@ -95,14 +95,14 @@
 | STUDENT-021 | 学生 | 实验报告 | 草稿、附件、提交 | 表单/文件 | Playwright MCP 操作与截图 | 阻塞 | 第二轮未执行 | PENDING-MCP |
 | TA-001 | 开课助教 | `/teacher` | 开课助教工作台 | 登录/页面 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/071-r2-rehearsal1-offering-ta-dashboard.png` | - |
 | TA-002 | 开课助教 | 授权开课 | 开课助教允许动作 | 权限/导航 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/109-r2-rehearsal3-offering-ta-course.png` | - |
-| TA-003 | 开课助教 | 未授权开课 | 未授权开课拒绝 | 权限负例 | Playwright MCP 操作与截图 | 失败 | `product-full-verification-round2-screenshots/111-r2-rehearsal3-offering-ta-unauthorized-course.png` | P2-R2-002 |
+| TA-003 | 开课助教 | 未授权开课 | 未授权开课拒绝 | 权限负例 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/117-r2-repair-offering-ta-unauthorized-course.png` | P2-R2-002 已回归 |
 | TA-004 | 班级助教 | `/teacher` | 班级助教工作台 | 登录/页面 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/074-r2-rehearsal1-class-ta-dashboard.png` | - |
 | TA-005 | 班级助教 | 成员页 | 班级范围允许 | 权限/表格 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/113-r2-rehearsal3-class-ta-members.png` | - |
 | TA-006 | 学生 | `/teacher` | 学生禁止教师区 | 权限负例 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/049-student-forbidden-admin.png`; `product-full-verification-round2-screenshots/108-r2-rehearsal3-student-forbidden-admin.png` | - |
 | TA-007 | 学生 | `/admin` | 学生禁止管理区 | 权限负例 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/049-student-forbidden-admin.png`; `product-full-verification-round2-screenshots/108-r2-rehearsal3-student-forbidden-admin.png` | - |
 | TA-008 | 教师 | `/admin` | 教师禁止管理区 | 权限负例 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/050-teacher-forbidden-admin.png` | - |
 | TA-009 | 助教 | `/admin`、`/student` | 助教禁止非授权区 | 权限负例 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/112-r2-rehearsal3-offering-ta-forbidden-admin.png`; `product-full-verification-round2-screenshots/114-r2-rehearsal3-class-ta-forbidden-admin.png` | - |
-| TA-010 | 开课助教 | `/teacher/courses/999999` | 不存在开课错误态 | 权限/错误态 | Playwright MCP 截图 | 失败 | `product-full-verification-round2-screenshots/110-r2-rehearsal3-offering-ta-invalid-course.png` | P2-R2-003 |
+| TA-010 | 开课助教 | `/teacher/courses/999999` | 不存在开课错误态 | 权限/错误态 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/118-r2-repair-offering-ta-invalid-course.png` | P2-R2-003 已回归 |
 | RUNTIME-001 | 系统 | PostgreSQL | 业务数据、审计、提交、成绩记录 | 数据检查 | SQL/测试辅助证据 | 通过 | `product-full-verification-round2-evidence/commands/08-just-verify.log`; `product-full-verification-round2-evidence/commands/09-just-verify-full.log` | - |
 | RUNTIME-002 | 系统 | MinIO | 上传对象与下载一致性 | 对象存储 | E2E/命令辅助证据 | 部分通过 | `product-full-verification-round2-evidence/commands/07-just-e2e-real.log`; 第二轮未单独保存对象元数据 | - |
 | RUNTIME-003 | 系统 | RabbitMQ | 队列健康与判题消息 | 运行时 | 命令/日志辅助证据 | 通过 | `product-full-verification-round2-evidence/commands/04-just-healthcheck-strict.log`; `product-full-verification-round2-evidence/commands/07-just-e2e-real.log` | - |
@@ -117,7 +117,7 @@
 | NFR-002 | 前端 | 1440x900 | 标准桌面布局 | 响应式 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/052-nfr-1440-admin-users.png` | - |
 | NFR-003 | 前端 | 390x844 | 移动布局基本可用 | 响应式 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/053-nfr-390-student-webide.png` | - |
 | NFR-004 | 前端 | 全站关键页 | console/network 错误归因 | 质量 | Playwright MCP console/network 摘要 | 阻塞 | 第二轮未保存完整逐页 console/network 归因 | PENDING-MCP |
-| NFR-005 | 前端 | 关键列表/表格/表单 | 溢出、重叠、空态、错误态 | 可用性 | Playwright MCP 观察 | 失败 | `product-full-verification-round2-screenshots/110-r2-rehearsal3-offering-ta-invalid-course.png`; `product-full-verification-round2-screenshots/111-r2-rehearsal3-offering-ta-unauthorized-course.png` | P2-R2-002/P2-R2-003 |
+| NFR-005 | 前端 | 关键列表/表格/表单 | 溢出、重叠、空态、错误态 | 可用性 | Playwright MCP 观察 | 通过 | `product-full-verification-round2-screenshots/116-r2-repair-login-empty-submit.png`; `product-full-verification-round2-screenshots/117-r2-repair-offering-ta-unauthorized-course.png`; `product-full-verification-round2-screenshots/118-r2-repair-offering-ta-invalid-course.png` | P2-R2-001/P2-R2-002/P2-R2-003 已回归 |
 | DEMO-001 | 全角色 | 演示彩排 1 | 登录到核心结果闭环 | 演示 | Playwright MCP 彩排记录 | 通过 | `product-full-verification-round2-rehearsal-log.md`; `056`-`076` 截图 | - |
 | DEMO-002 | 全角色 | 演示彩排 2 | 登录到核心结果闭环 | 演示 | Playwright MCP 彩排记录 | 通过 | `product-full-verification-round2-rehearsal-log.md`; `077`-`091` 截图 | - |
-| DEMO-003 | 全角色 | 演示彩排 3 | 登录到核心结果闭环 | 演示 | Playwright MCP 彩排记录 | 通过主线，发现 P2 | `product-full-verification-round2-rehearsal-log.md`; `092`-`114` 截图 | P2-R2-002/P2-R2-003 |
+| DEMO-003 | 全角色 | 演示彩排 3 | 登录到核心结果闭环 | 演示 | Playwright MCP 彩排记录 | 通过主线，P2 已回归 | `product-full-verification-round2-rehearsal-log.md`; `092`-`114`、`116`-`118` 截图 | P2-R2-002/P2-R2-003 已回归 |
