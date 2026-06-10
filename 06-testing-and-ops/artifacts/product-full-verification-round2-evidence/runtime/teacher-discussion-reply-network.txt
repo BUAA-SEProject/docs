@@ -1,0 +1,5 @@
+39. [GET] http://127.0.0.1:3000/api/v1/teacher/discussions/36 => [200] OK
+43. [POST] http://127.0.0.1:3000/api/v1/teacher/discussions/36/replies => [201] Created
+44. [GET] http://127.0.0.1:3000/api/v1/teacher/discussions/36 => [200] OK
+
+Note: 32 static requests not shown, run with "static" option to see them.

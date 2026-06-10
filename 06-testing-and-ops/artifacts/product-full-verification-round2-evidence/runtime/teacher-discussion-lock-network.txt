@@ -1,0 +1,7 @@
+40. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/discussions => [200] OK
+42. [PUT] http://127.0.0.1:3000/api/v1/teacher/discussions/36/lock-state => [200] OK
+43. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/discussions => [200] OK
+46. [GET] http://127.0.0.1:3000/teacher/courses/2/discussions/36?offeringId=2&_rsc=ysckp => [200] OK
+57. [GET] http://127.0.0.1:3000/api/v1/teacher/discussions/36 => [200] OK
+
+Note: 39 static requests not shown, run with "static" option to see them.

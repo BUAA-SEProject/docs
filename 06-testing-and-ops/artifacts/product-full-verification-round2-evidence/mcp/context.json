@@ -68,6 +68,13 @@
     "student": {
       "id": 29,
       "title": "MCP 全功能验证讨论 20260609-2023"
+    },
+    "round2Supplement": {
+      "id": 36,
+      "title": "MCP-R2-20260610-145754 教师讨论补证",
+      "teacherReply": "教师二次回复补证：MCP-R2-20260610-1533。",
+      "studentReply": "学生回复补证：MCP-R2-20260610-1537。",
+      "locked": true
     }
   },
   "submissions": {

@@ -151,3 +151,9 @@
 {"id":"R2-MCP-151","file":"product-full-verification-round2-screenshots/125-r2-teacher-announcement-created.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-152","file":"product-full-verification-round2-screenshots/126-r2-student-notification-before-mark-read.png","area":"学生","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-153","file":"product-full-verification-round2-screenshots/127-r2-student-notification-after-mark-read.png","area":"学生","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-154","file":"product-full-verification-round2-screenshots/128-r2-teacher-discussion-created.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-155","file":"product-full-verification-round2-screenshots/129-r2-teacher-discussion-reply-visible.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-156","file":"product-full-verification-round2-screenshots/130-r2-teacher-discussion-reply-posted.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-157","file":"product-full-verification-round2-screenshots/131-r2-student-discussion-reply-posted.png","area":"学生","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-158","file":"product-full-verification-round2-screenshots/132-r2-teacher-discussion-locked-list.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-159","file":"product-full-verification-round2-screenshots/133-r2-teacher-discussion-locked-detail.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
