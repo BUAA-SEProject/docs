@@ -20,6 +20,7 @@
 | P2-R2-005 | P2 | 学生 | 报告型实验误请求运行时 current session 产生 400 网络噪音 | 已回归 | MCP 网络观察未再出现 `/api/v1/me/labs/52/sessions/current` |
 | P1-R2-006 | P1 | 学生 | 编程正式提交后提交详情页不自动刷新判题终态 | 已回归 | `164-r2-student-programming-polling-assignment-before-submit.png`；`165-r2-student-programming-polling-submit-accepted.png`；`student-programming-polling-submit-57-network.txt` |
 | P2-R2-007 | P2 | 教师 | 添加课程成员成功后弹窗不关闭且列表不刷新 | 已回归 | `173-r2-teacher-members-add-import-visible.png`；`teacher-members-add-import-status-network.txt` |
+| P2-R2-008 | P2 | 教师 | 已发布作业仍暴露可点击编辑入口并触发后端 400 | 已回归 | `178-r2-teacher-assignment-published-edit-blocked.png`；`teacher-assignment-edit-close-network.txt` |
 
 ## 3. P0 阻塞问题
 
@@ -36,6 +37,7 @@
 - [x] P2-R2-003 不存在课程 ID 页面停留加载态并展示快捷入口
 - [x] P2-R2-005 报告型实验误请求运行时 current session 产生 400 网络噪音
 - [x] P2-R2-007 添加课程成员成功后弹窗不关闭且列表不刷新
+- [x] P2-R2-008 已发布作业仍暴露可点击编辑入口并触发后端 400
 
 ## 6. P3 优化项
 
@@ -189,6 +191,38 @@
 - Commit：待本轮提交。
 - 剩余风险：本轮留下临时开课 `32`、教学班 `234` 和临时成员账号作为补证数据；未污染固定演示课程 `2`。
 
+### P2-R2-008 已发布作业仍暴露可点击编辑入口并触发后端 400
+
+- 报告链接或位置：`product-full-verification-round2-report.md` 缺陷详情 P2-R2-008。
+- 修复状态：已回归
+- 修改文件：
+  - `web/src/app/(teacher)/teacher/assignments/page.tsx`
+  - `web/src/app/(teacher)/teacher/assignments/[assignmentId]/edit/page.tsx`
+  - `web/src/tests/unit/assignment/teacher-assignments-page.test.tsx`
+  - `web/src/tests/unit/assignment/teacher-assignment-edit-page.test.tsx`
+- 修复说明：作业列表仅对 `DRAFT` 作业提供编辑链接；非草稿作业显示禁用编辑按钮并提示“只有草稿作业可以编辑”。编辑页根据作业状态禁用“保存作业”，避免已发布作业继续提交 `PUT /api/v1/teacher/assignments/{id}` 后才暴露后端 400。
+- Playwright MCP 回归：
+  - 页面：`/teacher/assignments?offeringId=32`、`/teacher/assignments/261/edit?offeringId=32`、`/teacher/assignments/262/edit?offeringId=32`
+  - 账号：开课 `32` 的授课教师
+  - 步骤：创建作业 `261` 并发布；发布后进入编辑页，触发后端 `ASSIGNMENT_STATUS_INVALID` 确认根因；修复后刷新同一编辑页，页面显示“只有草稿作业可以编辑”且“保存作业”禁用；返回列表确认已发布作业编辑按钮禁用，随后关闭作业 `261`；另创建草稿作业 `262`，进入编辑页修改标题为 `MCP-R2-06102203 草稿编辑补证-EDIT` 并保存。
+  - 结果：已发布作业不再暴露可点击编辑链接；`POST /api/v1/teacher/assignments/261/close` 返回 200，列表显示“已关闭”；草稿作业编辑 `PUT /api/v1/teacher/assignments/262` 返回 200，列表显示 `-EDIT` 标题且状态保持“草稿”。
+  - 截图：`product-full-verification-round2-screenshots/176-r2-teacher-assignment-draft-created.png`；`177-r2-teacher-assignment-published-before-edit.png`；`178-r2-teacher-assignment-published-edit-blocked.png`；`179-r2-teacher-assignment-closed.png`；`180-r2-teacher-assignment-draft-edit-form.png`；`181-r2-teacher-assignment-draft-edited.png`
+  - 网络：`product-full-verification-round2-evidence/runtime/teacher-assignment-edit-close-network.txt`；`product-full-verification-round2-evidence/runtime/teacher-assignment-draft-edit-network.txt`
+  - 控制台：`product-full-verification-round2-evidence/runtime/teacher-assignment-edit-close-console.txt`、`teacher-assignment-draft-edit-console.txt`，warning/error 均为 0。
+- 命令验证：
+  - 命令：`npm test -- src/tests/unit/assignment/teacher-assignments-page.test.tsx src/tests/unit/assignment/teacher-assignment-edit-page.test.tsx`
+  - 结果：2 files / 9 tests passed。
+  - 命令：`npm run lint`
+  - 结果：通过，exit 0。
+  - 命令：`npm run typecheck`
+  - 结果：通过，exit 0。
+  - 命令：`npm run build`
+  - 结果：通过，exit 0。
+  - 命令：`cd docs && npm run docs:build`
+  - 结果：通过，exit 0。
+- Commit：待本轮提交。
+- 剩余风险：当前稳定 API 和页面入口未提供作业撤回或重新发布；本轮留下临时作业 `261`、`262` 作为 MCP 补证数据。
+
 ## 8. 第三阶段补证记录
 
 本节记录第二轮清单中仍缺少 MCP 主证据的补漏验证；若补证中发现并修复代码问题，对应缺陷记录见第 7 节。
@@ -209,6 +243,7 @@
 | TEACHER-009-STRUCTURED | 已补证 | 以教师账号继续在课程题库新增单选、多选、填空、文件题，作为结构化作业题目来源。 | `137-r2-teacher-question-bank-structured-types-created.png`；`product-full-verification-round2-evidence/runtime/teacher-question-bank-structured-types-network.txt` |
 | TEACHER-010 | 已补证 | 以教师账号打开 `/teacher/courses/2/judge-environments?offeringId=2`，点击“新增配置”，创建 `MCP-R2-20260610-1611 Python3 判题环境补证`；提交后列表显示新配置、语言、运行环境和可用状态。 | `136-r2-teacher-judge-environment-created.png`；`product-full-verification-round2-evidence/runtime/teacher-judge-environment-create-network.txt` |
 | TEACHER-012 | 已补证 | 以教师账号打开 `/teacher/assignments/create?offeringId=2`，创建结构化作业 `259`，包含单选、多选、填空、文件题并发布。 | `138-r2-teacher-assignment-create-filled.png`；`139-r2-teacher-assignment-published.png`；`teacher-assignment-create-network.txt`；`teacher-assignment-publish-network.txt` |
+| TEACHER-013 | 已补证 | 以开课 `32` 的授课教师账号创建作业 `261` 并发布；补证中发现并修复 P2-R2-008。修复后已发布作业编辑入口禁用，编辑页显示“只有草稿作业可以编辑”，随后关闭作业 `261`；另创建草稿作业 `262`，编辑标题为 `MCP-R2-06102203 草稿编辑补证-EDIT` 并保存。当前稳定 API 和页面入口未提供作业撤回或重新发布。 | `176-r2-teacher-assignment-draft-created.png`；`177-r2-teacher-assignment-published-before-edit.png`；`178-r2-teacher-assignment-published-edit-blocked.png`；`179-r2-teacher-assignment-closed.png`；`180-r2-teacher-assignment-draft-edit-form.png`；`181-r2-teacher-assignment-draft-edited.png`；`product-full-verification-round2-evidence/runtime/teacher-assignment-edit-close-network.txt`；`product-full-verification-round2-evidence/runtime/teacher-assignment-draft-edit-network.txt` |
 | TEACHER-015 | 已补证 | 以教师账号打开提交 `55`，查看学生结构化答案和文件题附件，为文件题保存人工分 `8` 与反馈。 | `142-r2-teacher-submission-55-before-grade.png`；`143-r2-teacher-submission-55-after-grade.png`；`teacher-submission-55-grade-network.txt` |
 | TEACHER-016 | 已补证 | 以教师账号打开成绩册，发布作业 `259` 成绩。 | `144-r2-teacher-gradebook-259-before-publish.png`；`145-r2-teacher-gradebook-259-after-publish.png`；`teacher-gradebook-259-publish-network.txt` |
 | TEACHER-018 | 已补证 | 以教师账号创建并发布报告型实验 `52`，打开学生报告 `21`，保存并发布评阅。 | `148-r2-teacher-report-lab-created-published.png`；`152-r2-teacher-lab-report-detail-before-review.png`；`153-r2-teacher-lab-report-reviewed-published.png`；`teacher-report-lab-create-publish-network.txt`；`teacher-lab-report-review-publish-network.txt` |

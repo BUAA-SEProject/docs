@@ -199,3 +199,9 @@
 {"id":"R2-MCP-199","file":"product-full-verification-round2-screenshots/173-r2-teacher-members-add-import-visible.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-200","file":"product-full-verification-round2-screenshots/174-r2-teacher-member-status-dropped.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-201","file":"product-full-verification-round2-screenshots/175-r2-teacher-member-status-restored.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-202","file":"product-full-verification-round2-screenshots/176-r2-teacher-assignment-draft-created.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-203","file":"product-full-verification-round2-screenshots/177-r2-teacher-assignment-published-before-edit.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-204","file":"product-full-verification-round2-screenshots/178-r2-teacher-assignment-published-edit-blocked.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-205","file":"product-full-verification-round2-screenshots/179-r2-teacher-assignment-closed.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-206","file":"product-full-verification-round2-screenshots/180-r2-teacher-assignment-draft-edit-form.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-207","file":"product-full-verification-round2-screenshots/181-r2-teacher-assignment-draft-edited.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
