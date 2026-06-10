@@ -205,3 +205,6 @@
 {"id":"R2-MCP-205","file":"product-full-verification-round2-screenshots/179-r2-teacher-assignment-closed.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-206","file":"product-full-verification-round2-screenshots/180-r2-teacher-assignment-draft-edit-form.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-207","file":"product-full-verification-round2-screenshots/181-r2-teacher-assignment-draft-edited.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-208","file":"product-full-verification-round2-screenshots/182-r2-teacher-question-bank-edited-archived.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-209","file":"product-full-verification-round2-screenshots/183-r2-teacher-judge-environment-edited-archived.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-210","file":"product-full-verification-round2-screenshots/184-r2-teacher-lab-edited-closed.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}

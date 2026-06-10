@@ -1,0 +1,9 @@
+Playwright MCP console summary for TEACHER-018 lab edit/publish/close补证.
+
+Context:
+- URL: http://127.0.0.1:3000/teacher/labs?offeringId=32&teachingClassId=234
+- Account: offering 32 teacher
+
+Result:
+- Errors: 0
+- Warnings: 0

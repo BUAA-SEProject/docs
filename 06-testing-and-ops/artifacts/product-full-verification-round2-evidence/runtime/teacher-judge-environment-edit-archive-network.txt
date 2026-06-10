@@ -1,0 +1,19 @@
+Playwright MCP network summary for TEACHER-010 judge environment edit/archive补证.
+
+Context:
+- URL: http://127.0.0.1:3000/teacher/courses/32/judge-environments?offeringId=32
+- Account: offering 32 teacher
+- Temporary data: profile 40, name `MCP-R2-06102255 Python 判题环境补证-EDIT`
+
+Observed requests:
+- GET /api/v1/teacher/course-offerings/32/judge-environment-profiles?includeArchived=false => 200
+- POST /api/v1/teacher/course-offerings/32/judge-environment-profiles => 201
+- GET /api/v1/teacher/course-offerings/32/judge-environment-profiles?includeArchived=false => 200
+- PUT /api/v1/teacher/judge-environment-profiles/40 => 200
+- GET /api/v1/teacher/course-offerings/32/judge-environment-profiles?includeArchived=false => 200
+- POST /api/v1/teacher/judge-environment-profiles/40/archive => 200
+- GET /api/v1/teacher/course-offerings/32/judge-environment-profiles?includeArchived=false => 200
+- GET /api/v1/teacher/course-offerings/32/judge-environment-profiles?includeArchived=true => 200
+
+Result:
+- Create, edit, archive, default-list refresh, and include-archived query all succeeded.

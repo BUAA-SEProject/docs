@@ -1,0 +1,9 @@
+Playwright MCP console summary for TEACHER-009 question bank edit/archive补证.
+
+Context:
+- URL: http://127.0.0.1:3000/teacher/courses/32/question-bank?offeringId=32
+- Account: offering 32 teacher
+
+Result:
+- Errors: 0
+- Warnings: 0

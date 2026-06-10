@@ -1,0 +1,20 @@
+Playwright MCP network summary for TEACHER-018 lab edit/publish/close补证.
+
+Context:
+- URL: http://127.0.0.1:3000/teacher/labs?offeringId=32&teachingClassId=234
+- Account: offering 32 teacher
+- Temporary data: lab 53, title `MCP-R2-06102302 实验编辑关闭补证-EDIT`
+
+Observed requests:
+- GET /api/v1/teacher/course-offerings/32/labs?teachingClassId=234&page=1&pageSize=50 => 200
+- POST /api/v1/teacher/course-offerings/32/labs => 201
+- GET /api/v1/teacher/course-offerings/32/labs?teachingClassId=234&page=1&pageSize=50 => 200
+- PUT /api/v1/teacher/labs/53 => 200
+- GET /api/v1/teacher/course-offerings/32/labs?teachingClassId=234&page=1&pageSize=50 => 200
+- POST /api/v1/teacher/labs/53/publish => 200
+- GET /api/v1/teacher/course-offerings/32/labs?teachingClassId=234&page=1&pageSize=50 => 200
+- POST /api/v1/teacher/labs/53/close => 200
+- GET /api/v1/teacher/course-offerings/32/labs?teachingClassId=234&page=1&pageSize=50 => 200
+
+Result:
+- Create, edit, publish, close, and list refresh all succeeded.
