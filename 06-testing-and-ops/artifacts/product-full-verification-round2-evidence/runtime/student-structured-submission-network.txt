@@ -1,0 +1,10 @@
+40. [GET] http://127.0.0.1:3000/api/v1/me/assignments/259 => [200] OK
+41. [GET] http://127.0.0.1:3000/api/v1/me/assignments/259/submissions => [200] OK
+49. [POST] http://127.0.0.1:3000/api/v1/me/assignments/259/submission-artifacts => [201] Created
+51. [POST] http://127.0.0.1:3000/api/v1/me/assignments/259/submissions => [201] Created
+52. [GET] http://127.0.0.1:3000/api/v1/me/assignments/259/submissions => [200] OK
+53. [GET] http://127.0.0.1:3000/student/submissions/55?assignmentId=259&_rsc=y0kkn => [200] OK
+60. [GET] http://127.0.0.1:3000/api/v1/me/submissions/55 => [200] OK
+61. [GET] http://127.0.0.1:3000/api/v1/me/submissions/55/judge-jobs => [200] OK
+
+Note: 39 static requests not shown, run with "static" option to see them.

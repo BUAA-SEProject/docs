@@ -1,0 +1,13 @@
+40. [GET] http://127.0.0.1:3000/api/v1/me/assignments/260 => [200] OK
+41. [GET] http://127.0.0.1:3000/api/v1/me/assignments/260/submissions => [200] OK
+44. [GET] http://127.0.0.1:3000/api/v1/me/assignments/260/programming-questions/553/workspace => [200] OK
+45. [POST] http://127.0.0.1:3000/api/v1/me/assignments/260/submissions => [201] Created
+46. [GET] http://127.0.0.1:3000/api/v1/me/assignments/260/submissions => [200] OK
+47. [GET] http://127.0.0.1:3000/student/submissions/57?offeringId=2&classId=2&assignmentId=260&_rsc=1q8xi => [200] OK
+54. [GET] http://127.0.0.1:3000/api/v1/me/submissions/57 => [200] OK
+55. [GET] http://127.0.0.1:3000/api/v1/me/submissions/57/judge-jobs => [200] OK
+56. [GET] http://127.0.0.1:3000/api/v1/me/submissions/57/judge-jobs => [200] OK
+57. [GET] http://127.0.0.1:3000/api/v1/me/submissions/57/judge-jobs => [200] OK
+58. [GET] http://127.0.0.1:3000/api/v1/me/submissions/57 => [200] OK
+
+Note: 39 static requests not shown, run with "static" option to see them.

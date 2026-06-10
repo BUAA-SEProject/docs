@@ -1,0 +1,11 @@
+38. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/question-bank/questions?includeArchived=false&page=1&pageSize=20 => [200] OK
+44. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/question-bank/questions => [201] Created
+45. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/question-bank/questions?includeArchived=false&page=1&pageSize=20 => [200] OK
+50. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/question-bank/questions => [201] Created
+51. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/question-bank/questions?includeArchived=false&page=1&pageSize=20 => [200] OK
+56. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/question-bank/questions => [201] Created
+57. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/question-bank/questions?includeArchived=false&page=1&pageSize=20 => [200] OK
+62. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/question-bank/questions => [201] Created
+63. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/question-bank/questions?includeArchived=false&page=1&pageSize=20 => [200] OK
+
+Note: 31 static requests not shown, run with "static" option to see them.

@@ -1,0 +1,2 @@
+6c9a2719e3c4baeb18ee455e01ffad17969b1945782799289814b86af5926796  docs/06-testing-and-ops/artifacts/product-full-verification-round2-evidence/runtime/teacher-resource-upload-sample.md
+6c9a2719e3c4baeb18ee455e01ffad17969b1945782799289814b86af5926796  docs/06-testing-and-ops/artifacts/product-full-verification-round2-evidence/runtime/teacher-resource-upload-downloaded.md

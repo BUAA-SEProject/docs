@@ -1,0 +1,4 @@
+45. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/assignments => [201] Created
+55. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/assignments?teachingClassId=2&page=1&pageSize=20 => [200] OK
+
+Note: 37 static requests not shown, run with "static" option to see them.

@@ -18,6 +18,7 @@
 | P2-R2-003 | P2 | 开课助教 | 不存在课程 ID 页面停留加载态并展示快捷入口 | 已回归 | `118-r2-repair-offering-ta-invalid-course.png` |
 | P1-R2-004 | P1 | 学生 | 实验报告评阅发布后学生端未显示教师评语 | 已回归 | `154-r2-student-lab-report-feedback-visible.png` |
 | P2-R2-005 | P2 | 学生 | 报告型实验误请求运行时 current session 产生 400 网络噪音 | 已回归 | MCP 网络观察未再出现 `/api/v1/me/labs/52/sessions/current` |
+| P1-R2-006 | P1 | 学生 | 编程正式提交后提交详情页不自动刷新判题终态 | 已回归 | `164-r2-student-programming-polling-assignment-before-submit.png`；`165-r2-student-programming-polling-submit-accepted.png`；`student-programming-polling-submit-57-network.txt` |
 
 ## 3. P0 阻塞问题
 
@@ -25,7 +26,7 @@
 
 ## 4. P1 高优先级问题
 
-无。
+- [x] P1-R2-006 编程正式提交后提交详情页不自动刷新判题终态
 
 ## 5. P2 体验问题
 
@@ -141,6 +142,27 @@
 - Commit：`web` `1618469 fix(lab): 显示实验报告教师反馈`；`docs` 为本清单所在提交。
 - 剩余风险：终端型实验仍按原逻辑查询 current session；报告型实验不展示运行时状态。
 
+### P1-R2-006 编程正式提交后提交详情页不自动刷新判题终态
+
+- 报告链接或位置：`product-full-verification-round2-report.md` 缺陷详情 P1-R2-006。
+- 修复状态：已回归
+- 修改文件：
+  - `web/src/app/(student)/student/submissions/[submissionId]/page.tsx`
+  - `web/src/features/judge/hooks/use-judge-query.ts`
+  - `web/src/tests/unit/submission/student-submission-detail-page.test.tsx`
+- 修复说明：学生提交详情页在存在 `PENDING` / `RUNNING` 判题任务时每 3 秒轮询 judge jobs；当判题任务从运行态进入终态后刷新提交详情，确保答案分数和反馈自动回填，并在终态后停止轮询。
+- Playwright MCP 回归：
+  - 页面：`/student/assignments/260?offeringId=2&classId=2`、`/student/submissions/57?offeringId=2&classId=2&assignmentId=260`
+  - 账号：学生 `U-ST1`
+  - 步骤：创建临时编程作业 `260`，模板代码包含短暂 `sleep` 以保持运行中状态；学生从作业详情点击“提交答案”，进入提交 `57` 详情页等待。
+  - 结果：无需手动刷新，页面自动显示 `ACCEPTED / 100 分`；网络摘要包含 3 次 `GET /api/v1/me/submissions/57/judge-jobs`，随后自动请求 `GET /api/v1/me/submissions/57`。
+  - 截图：`product-full-verification-round2-screenshots/164-r2-student-programming-polling-assignment-before-submit.png`；`product-full-verification-round2-screenshots/165-r2-student-programming-polling-submit-accepted.png`
+- 命令验证：
+  - 命令：`npm test -- src/tests/unit/submission/student-submission-detail-page.test.tsx`、`npm run lint`、`npm run typecheck`、`npm run build`、根目录 `just verify`、`cd docs && npm run docs:build`
+  - 结果：学生提交详情页定向单测 1 file / 5 tests passed；web lint/typecheck/build 通过；`just verify` 通过，后端 357 tests / 0 failures，web lint/typecheck 和 docs build 通过；docs build 单独通过。
+- Commit：`web` `e4b0f21 fix(judge): 自动刷新学生判题结果`；`docs` 为本清单所在提交。
+- 剩余风险：临时作业 `260` 与提交 `57` 为本轮回归残留测试数据；不污染固定演示作业 `7`。
+
 ## 8. 第三阶段补证记录
 
 本节记录不需要应用代码修改、但第二轮清单中仍缺少 MCP 主证据的补漏验证。
@@ -163,6 +185,9 @@
 | STUDENT-007~011 | 已补证 | 以学生账号打开作业 `259`，提交单选 A、多选 A/B、填空“下载”和文件题附件；提交详情回显分题答案，附件下载 SHA256 与源文件一致。 | `140-r2-student-structured-assignment-filled.png`；`141-r2-student-structured-submission-detail.png`；`student-structured-submission-network.txt`；`student-structured-upload-sha256.txt` |
 | STUDENT-016~017 | 已补证 | 教师发布作业 `259` 成绩后，学生成绩页显示 `23 / 23`、`已发布`、提交 `55`；学生提交详情显示教师文件题反馈。 | `146-r2-student-gradebook-259-published.png`；`147-r2-student-submission-55-feedback-visible.png`；`student-grade-feedback-259-network.txt` |
 | STUDENT-021 | 已补证 | 以学生账号选择实验 `52`，填写 Markdown 报告、上传附件、保存草稿、正式提交；教师发布评阅后，学生端回查教师评语可见。 | `149-r2-student-lab-report-filled-attachment.png`；`150-r2-student-lab-report-draft-saved.png`；`151-r2-student-lab-report-submitted.png`；`154-r2-student-lab-report-feedback-visible.png`；`student-lab-report-submit-network.txt`；`student-lab-report-attachment-sha256.txt`；`student-lab-report-feedback-network.txt` |
+| STUDENT-013 | 已补证 | 以学生账号打开 WebIDE `/student/assignments/7/workspace/11`，打开历史面板，预览 v6 后执行恢复，当前代码回到原始两行求和程序，并运行自测得到 `ACCEPTED`。 | `158-r2-student-webide-before-save.png`；`159-r2-student-webide-saved-probe.png`；`160-r2-student-webide-restored.png`；`161-r2-student-webide-restored-run-accepted.png`；`student-webide-save-restore-network.txt`；`student-webide-console-after-restore.txt` |
+| STUDENT-015 | 已补证 | 以学生账号从作业详情 `/student/assignments/7` 点击“提交答案”，生成提交 `56`；修复前提交详情页等待后仍显示“运行中”，刷新后显示 `ACCEPTED / 100 分`。修复后使用临时作业 `260` 生成提交 `57`，详情页无需手动刷新自动显示 `ACCEPTED / 100 分`。 | `162-r2-student-programming-submit-accepted.png`；`164-r2-student-programming-polling-assignment-before-submit.png`；`165-r2-student-programming-polling-submit-accepted.png`；`student-programming-submit-56-network.txt`；`student-programming-polling-submit-57-network.txt`；`student-programming-polling-submit-57-console.txt` |
+| STUDENT-019 | 已补证 | 以学生账号选择终端实验 `16`，从运行中状态点击“停止环境”后页面显示“未启动”，再点击“启动环境”后显示“运行中”。 | `155-r2-student-lab-session-running-before-stop.png`；`156-r2-student-lab-session-stopped.png`；`157-r2-student-lab-session-started.png`；`student-lab-session-stop-start-network.txt` |
 | STUDENT-018 | 已补证 | 以学生账号打开 `/student/notifications`，对 `MCP-R2-20260610-143804` 公告通知点击“标记已读”，顶部未读徽标从 32 降到 31，目标行按钮消失。 | `126-r2-student-notification-before-mark-read.png`；`127-r2-student-notification-after-mark-read.png`；`product-full-verification-round2-evidence/runtime/student-notifications-after-mark-read-network.txt` |
 | RUNTIME-005 | 已补证 | 保存通知相关 Playwright MCP 网络摘要，覆盖通知流、未读数、全部已读和单条已读请求。 | `teacher-notifications-after-network.txt`；`student-notifications-after-mark-read-network.txt` |
 | RUNTIME-002 | 已补证 | 保存教师资源、学生文件题附件、学生实验报告附件和教师端实验报告附件下载哈希，证明上传下载一致。 | `teacher-resource-upload-sha256.txt`；`student-structured-upload-sha256.txt`；`student-lab-report-attachment-sha256.txt`；`teacher-lab-report-attachment-sha256.txt` |

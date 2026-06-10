@@ -1,0 +1,7 @@
+42. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/gradebook?teachingClassId=2&studentUserId=14&page=1&pageSize=20 => [200] OK
+43. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/gradebook/report?teachingClassId=2&studentUserId=14 => [200] OK
+46. [POST] http://127.0.0.1:3000/api/v1/teacher/assignments/259/grades/publish => [200] OK
+47. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/gradebook?teachingClassId=2&studentUserId=14&page=1&pageSize=20 => [200] OK
+48. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/gradebook/report?teachingClassId=2&studentUserId=14 => [200] OK
+
+Note: 31 static requests not shown, run with "static" option to see them.

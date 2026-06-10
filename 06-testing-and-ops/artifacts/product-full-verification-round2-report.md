@@ -18,9 +18,9 @@
 
 当前结论：`不通过`
 
-第二轮命令门禁全部通过，Playwright MCP 已形成 180 张截图证据，其中 3 张为第三阶段补漏回归截图，4 张为公共认证补充截图，5 张为公告发布和通知状态变更补充截图，6 张为讨论创建、回复和锁定补充截图，1 张为教师资源上传下载补充截图，1 张为教师题库新增简答题补充截图，1 张为教师判题环境新增配置补充截图，12 张为题库结构化题型、作业创建发布、学生结构化提交、教师批改、成绩发布与学生反馈补充截图，6 张为报告型实验创建发布、学生报告提交、教师评阅发布与学生反馈回查补充截图。三次演示彩排主线均已执行并记录。第一阶段修复后的 WebIDE 样例自测、编程题判题和实验 Web 终端主线在第二轮中均能演示。
+第二轮命令门禁全部通过，Playwright MCP 已形成 191 张截图证据，其中 3 张为第三阶段补漏回归截图，4 张为公共认证补充截图，5 张为公告发布和通知状态变更补充截图，6 张为讨论创建、回复和锁定补充截图，1 张为教师资源上传下载补充截图，1 张为教师题库新增简答题补充截图，1 张为教师判题环境新增配置补充截图，12 张为题库结构化题型、作业创建发布、学生结构化提交、教师批改、成绩发布与学生反馈补充截图，6 张为报告型实验创建发布、学生报告提交、教师评阅发布与学生反馈回查补充截图，11 张为学生 WebIDE 历史恢复、正式提交和实验会话启停补充截图，其中 2 张为 P1-R2-006 自动轮询回归截图。三次演示彩排主线均已执行并记录。第一阶段修复后的 WebIDE 样例自测、编程题判题和实验 Web 终端主线在第二轮中均能演示。
 
-第三阶段已修复并回归第二轮报告中的 3 个 P2 可理解性问题；补证过程中又发现并修复 `P1-R2-004`：实验报告评阅发布后学生端未显示教师评语，以及 `P2-R2-005`：报告型实验误请求运行时 current session 产生 400 网络噪音。已完成 `web` 定向单测、lint、typecheck、build、根目录 `just verify` 和 docs build。后续补充 MCP 验证已覆盖教师公告新建、教师资源上传下载、教师题库新增简答题、教师结构化题型新增、教师判题环境新增配置、教师作业创建发布、教师讨论创建/回复/锁定、教师通知全部已读、学生讨论回复、学生结构化作业提交、文件题附件上传下载、教师提交批改、成绩发布、学生成绩/反馈回查、实验创建发布、实验报告提交、教师评阅发布、学生实验反馈回查、报告型实验不再触发运行时会话查询、学生通知单条已读和通知网络摘要。本轮仍不能写为 `通过` 或 `有条件通过`，原因是仍存在强制项阻塞：管理员保存/创建、成员导入/状态变更、编辑/关闭/归档类动作以及完整逐页 console/network 归因未形成 MCP 主证据。根据 `goal-test.md`，强制项未证明时必须保持 `阻塞`。
+第三阶段已修复并回归第二轮报告中的 3 个 P2 可理解性问题；补证过程中又发现并修复 `P1-R2-004`：实验报告评阅发布后学生端未显示教师评语，以及 `P2-R2-005`：报告型实验误请求运行时 current session 产生 400 网络噪音。继续补证学生 WebIDE 和编程正式提交时发现并修复 `P1-R2-006`：正式提交后学生提交详情页停留“运行中”，刷新同一页面后才显示 `ACCEPTED / 100 分`。修复后通过临时编程作业 `260` 和学生提交 `57` 完成 MCP 回归：提交详情页无需手动刷新，网络摘要显示 3 次 `GET /api/v1/me/submissions/57/judge-jobs` 轮询后自动请求 `GET /api/v1/me/submissions/57` 并显示 `ACCEPTED / 100 分`。后续补充 MCP 验证已覆盖教师公告新建、教师资源上传下载、教师题库新增简答题、教师结构化题型新增、教师判题环境新增配置、教师作业创建发布、教师讨论创建/回复/锁定、教师通知全部已读、学生讨论回复、学生结构化作业提交、文件题附件上传下载、教师提交批改、成绩发布、学生成绩/反馈回查、实验创建发布、实验报告提交、教师评阅发布、学生实验反馈回查、报告型实验不再触发运行时会话查询、学生通知单条已读、通知网络摘要、学生 WebIDE 历史恢复、正式提交自动刷新和实验会话启停。本轮仍不能写为 `通过` 或 `有条件通过`，原因是仍存在强制项阻塞：管理员保存/创建、成员导入/状态变更、编辑/关闭/归档类动作以及完整逐页 console/network 归因未形成 MCP 主证据。根据 `goal-test.md`，强制项未证明时必须保持 `阻塞`。
 
 ## 3. 上次缺口复核
 
@@ -68,11 +68,11 @@
 ## 6. 全功能清单摘要
 
 - 第二轮清单覆盖公共认证、管理员、教师、学生、助教、运行时、文档、NFR 和演示彩排。
-- 截图证据数量：`180` 张 PNG。
+- 截图证据数量：`191` 张 PNG。
 - 命令辅助证据数量：`10` 个命令日志。
 - 当前清单状态：
-  - `通过`：登录、路由守卫、三角色首页、管理员治理/用户/权限/审计、教师课程、公告创建、资源上传下载、题库新增、判题环境新增、作业创建发布、提交批改、成绩发布、实验创建发布和报告评阅、讨论创建/回复/锁定、教师/学生通知已读状态变更、学生课程、讨论回复、结构化作业提交、文件附件、WebIDE、成绩/反馈、实验报告、助教授权与拒绝边界、命令门禁、三次彩排主线。
-  - `失败`：第二轮 P2-R2-001、P2-R2-002、P2-R2-003 和补证发现的 P1-R2-004、P2-R2-005 已在第三阶段修复并回归，当前无未回归 P0/P1/P2 失败项。
+  - `通过`：登录、路由守卫、三角色首页、管理员治理/用户/权限/审计、教师课程、公告创建、资源上传下载、题库新增、判题环境新增、作业创建发布、提交批改、成绩发布、实验创建发布和报告评阅、讨论创建/回复/锁定、教师/学生通知已读状态变更、学生课程、讨论回复、结构化作业提交、文件附件、WebIDE、WebIDE 历史恢复、编程题正式提交、成绩/反馈、实验会话启停、实验报告、助教授权与拒绝边界、命令门禁、三次彩排主线。
+  - `失败`：当前无未修复的 P1/P2 失败；第二轮 P2-R2-001、P2-R2-002、P2-R2-003、补证发现的 P1-R2-004、P2-R2-005、P1-R2-006 已在第三阶段修复并回归。
   - `阻塞`：管理员保存/创建、成员导入/状态变更、编辑/关闭/归档类动作以及完整逐页 console/network 归因仍未形成 MCP 主证据。
 
 ## 7. 逐角色验证结果
@@ -82,7 +82,7 @@
 | 无登录用户 | 通过 | `/login` 可加载，未登录访问 `/admin` 会回到登录；空表单提交已显示应用内错误说明，见 P2-R2-001 第三阶段回归。 |
 | 学校管理员 | 阻塞 | 治理概览、平台配置查看、组织树、用户列表/详情、开课详情、权限解释、审计日志均有 MCP 截图；保存/创建/编辑类动作仍阻塞。 |
 | 教师 | 阻塞 | 教学工作台、课程工作区、公告创建、资源上传下载、题库新增简答题和结构化题型、判题环境新增配置、讨论创建/回复/锁定、作业创建发布、提交批改、成绩册发布、实验创建发布、实验报告评阅发布、通知全部已读均有 MCP 证据；成员导入/状态变更、编辑/关闭/归档类动作仍阻塞。 |
-| 学生 | 阻塞 | 学习中心、课程、讨论详情与回复、作业详情、结构化题提交、文件题附件上传下载、WebIDE、样例自测、提交详情、成绩、实验终端、实验报告提交、发布后教师评语回查、通知单条已读均有 MCP 证据；WebIDE 历史恢复、实验会话新启动/停止等非本轮补证动作仍未逐项执行。 |
+| 学生 | 通过 | 学习中心、课程、讨论详情与回复、作业详情、结构化题提交、文件题附件上传下载、WebIDE、历史恢复、样例自测、正式提交、提交详情、成绩、实验终端、实验会话启停、实验报告提交、发布后教师评语回查、通知单条已读均有 MCP 证据。 |
 | 开课助教 | 通过 | 授权课程与管理员禁止边界通过；未授权或不存在课程上下文已收敛为课程不可访问态，见 P2-R2-002/P2-R2-003 第三阶段回归。 |
 | 班级助教 | 通过 | 登录、班级成员页、管理员禁止边界有 MCP 截图。 |
 | 缺档案用户 | 通过 | 以第一轮和第二轮上下文准备的缺档案账号证明 `/profile-required` 可达，证据继承第二轮前置数据和截图 `053-profile-required-profileless-ta.png`。 |
@@ -114,10 +114,10 @@
 | STUDENT-007~009 | 通过 | `140-r2-student-structured-assignment-filled.png`、`141-r2-student-structured-submission-detail.png`、`student-structured-submission-network.txt` | 学生提交作业 `259`，单选 A、多选 A/B、填空“下载”均在提交详情回显；接口 `POST /api/v1/me/assignments/259/submissions` 返回 201，生成提交 `55`。 |
 | STUDENT-010 | 通过 | `037/038-student-assignment-detail.png`、`040-student-submission-detail.png`、`141-r2-student-structured-submission-detail.png` | 简答/结构化提交详情可达；本轮结构化提交详情和既有简答提交详情均可显示。 |
 | STUDENT-011 | 通过 | `140-r2-student-structured-assignment-filled.png`、`141-r2-student-structured-submission-detail.png`、`student-structured-upload-sha256.txt` | 文件题附件上传后提交详情可见；下载文件与源文件 SHA256 一致。 |
-| STUDENT-012~014 | 通过 | `039-student-webide.png`、`054-student-webide-sample-run.png`、`066-r2-rehearsal1-student-webide-run.png`、`104-r2-rehearsal3-student-webide-run.png` | WebIDE 可打开，运行自测显示 `ACCEPTED` / 通过。 |
-| STUDENT-015~016 | 通过 | `040-student-submission-detail.png`、`141-r2-student-structured-submission-detail.png`、`147-r2-student-submission-55-feedback-visible.png`、`07-just-e2e-real.log` | 编程题正式提交闭环由真实 E2E 覆盖；结构化提交 `55` 的详情页可见分题答案和教师文件题反馈。 |
+| STUDENT-012~014 | 通过 | `039-student-webide.png`、`054-student-webide-sample-run.png`、`066-r2-rehearsal1-student-webide-run.png`、`104-r2-rehearsal3-student-webide-run.png`、`158-r2-student-webide-before-save.png`、`159-r2-student-webide-saved-probe.png`、`160-r2-student-webide-restored.png`、`161-r2-student-webide-restored-run-accepted.png`、`student-webide-save-restore-network.txt` | WebIDE 可打开；历史面板可查看 v6 预览，恢复后生成 v8“恢复 v6”，编辑器回到原始两行求和代码，恢复后运行自测显示 `ACCEPTED` / 通过。 |
+| STUDENT-015~016 | 通过 | `040-student-submission-detail.png`、`141-r2-student-structured-submission-detail.png`、`147-r2-student-submission-55-feedback-visible.png`、`162-r2-student-programming-submit-accepted.png`、`164-r2-student-programming-polling-assignment-before-submit.png`、`165-r2-student-programming-polling-submit-accepted.png`、`student-programming-submit-56-network.txt`、`student-programming-polling-submit-57-network.txt`、`07-just-e2e-real.log` | 编程题正式提交已通过真实页面生成提交 `56`，刷新同一详情页后显示 `ACCEPTED / 100 分`；P1-R2-006 修复后，以临时作业 `260` 生成提交 `57`，提交详情页无需手动刷新，网络摘要显示 3 次 `judge-jobs` 轮询后自动刷新提交详情并显示 `ACCEPTED / 100 分`。 |
 | STUDENT-017~018 | 通过 | `041-student-grades.png`、`043-student-notifications.png`、`106/107` 彩排截图、`126/127`、`146-r2-student-gradebook-259-published.png` | 成绩和通知入口可达；学生成绩页显示作业 `259` 为 `23 / 23`、`已发布`、提交 `55`；学生端对 `MCP-R2-20260610-143804` 公告通知执行单条标记已读后未读徽标 32 -> 31，目标行按钮消失。 |
-| STUDENT-019~020 | 通过 | `042-student-labs.png`、`055-student-lab-terminal-echo.png`、`105-r2-rehearsal3-student-labs.png` | 实验列表和 Web 终端可演示，终端输出包含 `round2-terminal`。 |
+| STUDENT-019~020 | 通过 | `042-student-labs.png`、`055-student-lab-terminal-echo.png`、`105-r2-rehearsal3-student-labs.png`、`155-r2-student-lab-session-running-before-stop.png`、`156-r2-student-lab-session-stopped.png`、`157-r2-student-lab-session-started.png`、`student-lab-session-stop-start-network.txt` | 实验列表和 Web 终端可演示，终端输出包含 `round2-terminal`；终端实验 `16` 停止后页面显示“未启动”，随后重新启动显示“运行中”，网络摘要包含 `POST /sessions` 201 和 current session 200。 |
 | STUDENT-021 | 通过 | `149-r2-student-lab-report-filled-attachment.png`、`150-r2-student-lab-report-draft-saved.png`、`151-r2-student-lab-report-submitted.png`、`154-r2-student-lab-report-feedback-visible.png`、`student-lab-report-submit-network.txt`、`student-lab-report-attachment-sha256.txt`、`student-lab-report-feedback-network.txt` | 学生选择实验 `52`，填写 Markdown 报告、上传附件、保存草稿、确认正式提交；教师评阅发布后学生端显示 `已发布` 与教师评语，附件下载 SHA256 一致。 |
 
 ## 10. 教师闭环验证
@@ -167,8 +167,8 @@
 | RUNTIME-003 | 通过 | `just healthcheck-strict`、`just e2e-real` 日志 | RabbitMQ 依赖健康，真实 E2E 判题链路通过。 |
 | RUNTIME-004 | 通过 | `just healthcheck-strict`、`just e2e-real` 日志 | Redis 依赖健康，限流/登录真实 E2E 通过。 |
 | RUNTIME-005 | 通过 | `123/124`、`126/127`、`teacher-notifications-after-network.txt`、`student-notifications-after-mark-read-network.txt` | 通知页、未读入口、SSE/轮询请求、教师全部已读和学生单条已读可用；网络摘要包含 `GET /api/v1/me/notifications/stream`、`GET /unread-count`、`POST /read-all`、`POST /{id}/read` 的成功记录。 |
-| RUNTIME-006 | 通过 | `054`、`066`、`104` WebIDE 自测截图，`07-just-e2e-real.log` | go-judge / fake judge 主线返回 `ACCEPTED`。 |
-| RUNTIME-007 | 通过 | `055-student-lab-terminal-echo.png` | 实验 Web 终端已连接并输出 `round2-terminal`。 |
+| RUNTIME-006 | 通过 | `054`、`066`、`104`、`161`、`162`、`164`、`165` WebIDE/提交截图，`student-webide-save-restore-network.txt`、`student-programming-submit-56-network.txt`、`student-programming-polling-submit-57-network.txt`、`07-just-e2e-real.log` | go-judge / fake judge 主线返回 `ACCEPTED`；P1-R2-006 修复后，学生提交详情页对运行中判题任务执行轮询，并在终态后自动刷新提交详情。 |
+| RUNTIME-007 | 通过 | `055-student-lab-terminal-echo.png`、`155`、`156`、`157`、`student-lab-session-stop-start-network.txt` | 实验 Web 终端已连接并输出 `round2-terminal`；实验会话停止和重新启动均可见。 |
 | RUNTIME-008 | 通过 | `012`、`059`、`080` 审计日志截图 | 审计日志页面可查。 |
 
 ## 14. 文档一致性验证
@@ -305,13 +305,46 @@
 - 修复说明：学生实验页先从实验清单判断选中实验类型，只有 `TERMINAL` 实验才启用 `useMyCurrentLabSessionQuery`；报告型实验传入 `0` 触发 hook 的 `enabled: !!labId` 禁用查询。
 - 修复状态：已回归
 
+### P1-R2-006 编程正式提交后学生提交详情页不自动刷新判题终态
+
+- 严重级别：P1
+- 功能清单编号：STUDENT-015、RUNTIME-006
+- 模块：web/student submissions、web/judge query
+- 角色：学生
+- 页面或对象：`/student/assignments/7`、`/student/submissions/56?assignmentId=7`
+- 操作步骤：
+  1. 学生打开 WebIDE `/student/assignments/7/workspace/11`。
+  2. 通过历史面板恢复 v6，确认代码为两行求和程序，并运行自测得到 `ACCEPTED`。
+  3. 返回作业详情 `/student/assignments/7`，点击“提交答案”。
+  4. 页面跳转到 `/student/submissions/56?assignmentId=7`，等待 30 秒以上。
+- 实际表现：提交详情页持续显示“运行中 / 未知状态 / 0 分 / 暂无输出”，期间没有继续请求 `/api/v1/me/submissions/56/judge-jobs`；手动刷新同一 URL 后显示“已完成 / 通过 / 17 ms / 3 MB”，答案反馈为 `ACCEPTED，2/2 个测试点通过，得分 100/100`。
+- 期望表现：提交后进入详情页时应持续轮询运行中的判题任务，判题终态到达后刷新提交详情和判题结果，无需人工刷新即可看到 `ACCEPTED / 100 分`。
+- 影响说明：正式提交是编程题演示主线；如果结果页停留“运行中”，演示者必须人工刷新才能证明判题通过，足以造成主线卡顿。
+- 证据：
+  - 提交后未刷新截图：MCP 快照显示提交 `56` 页面长期停留“运行中”。
+  - 刷新后终态截图：`product-full-verification-round2-screenshots/162-r2-student-programming-submit-accepted.png`
+  - 网络摘要：`product-full-verification-round2-evidence/runtime/student-programming-submit-56-network.txt`，首次详情页只请求一次 `GET /api/v1/me/submissions/56/judge-jobs`；刷新后再次请求并显示终态。
+  - 控制台摘要：`product-full-verification-round2-evidence/runtime/student-programming-submit-56-console.txt`，无新增 warning/error。
+- 修复说明：
+  - `web/src/features/judge/hooks/use-judge-query.ts` 支持向学生 judge jobs 查询传入 `refetchInterval`。
+  - `web/src/app/(student)/student/submissions/[submissionId]/page.tsx` 在存在 `PENDING` / `RUNNING` 判题任务时每 3 秒轮询；检测到判题任务从运行态进入终态后刷新提交详情，以同步答案分数和反馈。
+  - `web/src/tests/unit/submission/student-submission-detail-page.test.tsx` 增加单测，覆盖运行中判题任务触发轮询、终态后停止轮询并刷新提交详情。
+- 修复后回归：
+  - 定向单测：`npm test -- src/tests/unit/submission/student-submission-detail-page.test.tsx`，`1 passed / 5 tests passed`。
+  - MCP 页面：临时编程作业 `260`，学生提交 `57`，提交前截图 `164-r2-student-programming-polling-assignment-before-submit.png`，自动刷新终态截图 `165-r2-student-programming-polling-submit-accepted.png`。
+  - MCP 网络：`product-full-verification-round2-evidence/runtime/student-programming-polling-submit-57-network.txt` 包含提交后 3 次 `GET /api/v1/me/submissions/57/judge-jobs`，随后自动请求 `GET /api/v1/me/submissions/57` 并在页面显示 `ACCEPTED / 100 分`。
+  - MCP 控制台：`product-full-verification-round2-evidence/runtime/student-programming-polling-submit-57-console.txt`，warning/error 为 0。
+- 是否阻塞演示彩排：是，影响编程题正式提交结果展示。
+- 是否阻塞后续功能验证：否，后端判题和刷新后终态已证明可用。
+- 修复状态：已回归
+
 ## 18. 阻塞项与不适用项
 
-当前阻塞项主要是第二轮未形成 MCP 主证据的真实写入动作。已补证项包括教师公告新建、教师资源上传下载、教师题库新增简答题与结构化题型新增、教师判题环境新增配置、教师作业创建发布、教师提交批改与成绩发布、教师实验创建发布与报告评阅发布、教师讨论创建/回复/锁定、教师通知全部已读、学生讨论回复、学生结构化作业提交、文件题附件、学生成绩/反馈回查、学生实验报告提交与教师评语回查、学生通知单条已读和通知网络摘要，不再列为阻塞：
+当前阻塞项主要是第二轮未形成 MCP 主证据的真实写入动作。已补证项包括教师公告新建、教师资源上传下载、教师题库新增简答题与结构化题型新增、教师判题环境新增配置、教师作业创建发布、教师提交批改与成绩发布、教师实验创建发布与报告评阅发布、教师讨论创建/回复/锁定、教师通知全部已读、学生讨论回复、学生结构化作业提交、文件题附件、学生 WebIDE 历史恢复、编程正式提交、学生成绩/反馈回查、学生实验会话启停、学生实验报告提交与教师评语回查、学生通知单条已读和通知网络摘要，不再列为阻塞：
 
 - 管理员：平台配置保存/恢复、组织节点创建/编辑、学期创建/编辑、课程模板创建/编辑、开课创建/编辑、共同管理学院选择、教学班创建/编辑。
 - 教师：成员添加/导入/状态变更，题库编辑/归档，判题环境编辑/归档，作业编辑/关闭/撤回/重新发布，实验编辑/关闭。
-- 学生：WebIDE 历史恢复、实验会话新启动/停止等本轮未重复执行的非报告型动作。
+- 学生：当前强制项均已形成 MCP 主证据；P1-R2-006 已修复并通过 MCP 回归。
 - 非功能：完整逐页 console/network 归因文件未单独保存。
 
 这些阻塞项不是当前已知代码缺陷的充分证据，但会阻止本轮验收写为 `通过`。
@@ -325,8 +358,9 @@
 3. P2-R2-003：不存在课程 ID 已收敛为课程不可访问态，不再停留加载态或展示快捷入口。
 4. P1-R2-004：实验报告评阅发布后学生端已显示教师评语，完成 TDD 单测和 MCP 回归。
 5. P2-R2-005：报告型实验已停止查询运行时 current session，完成 TDD 单测和 MCP 网络回归。
+6. P1-R2-006：编程正式提交后学生提交详情页不自动刷新判题终态，已完成 TDD 单测和 MCP 自动轮询回归。
 
-其余阻塞项应优先补 MCP 写入动作验证；如果验证中发现真实缺陷，再追加编号进入下一轮修复清单。当前第三阶段补证已覆盖教师公告新建、教师资源上传下载、教师题库新增简答题与结构化题型新增、教师判题环境新增配置、教师作业创建发布、教师提交批改、成绩发布、教师实验创建发布、实验报告评阅发布、教师讨论创建/回复/锁定、教师通知全部已读、学生讨论回复、学生结构化提交、文件题附件上传下载、学生成绩/反馈回查、学生实验报告提交与教师评语回查、报告型实验不再查询运行时 current session、学生通知单条已读和通知网络摘要；其中 P1-R2-004 和 P2-R2-005 涉及应用代码修改，其余补证不涉及应用代码修改。
+其余阻塞项应优先补 MCP 写入动作验证；如果验证中发现真实缺陷，再追加编号进入下一轮修复清单。当前第三阶段补证已覆盖教师公告新建、教师资源上传下载、教师题库新增简答题与结构化题型新增、教师判题环境新增配置、教师作业创建发布、教师提交批改、成绩发布、教师实验创建发布、实验报告评阅发布、教师讨论创建/回复/锁定、教师通知全部已读、学生讨论回复、学生结构化提交、文件题附件上传下载、学生 WebIDE 历史恢复、编程正式提交自动刷新、学生成绩/反馈回查、学生实验会话启停、学生实验报告提交与教师评语回查、报告型实验不再查询运行时 current session、学生通知单条已读和通知网络摘要；其中 P1-R2-004、P2-R2-005 和 P1-R2-006 涉及应用代码修改，其余补证不涉及应用代码修改。
 
 ## 20. 最终 just status 与提交信息
 
@@ -334,4 +368,4 @@
 - 第三阶段修复前 `just status`：`server/` dirty entries 0；`web/` dirty entries 5；`docs/` dirty entries 3，另有 ignored round2 repair checklist 和 116-118 截图需要 `git add -f`。
 - 第三阶段代码提交：`web` `5ea8296 fix(frontend): 修复登录与课程错误态`；`web` `1618469 fix(lab): 显示实验报告教师反馈`。
 - 第三阶段 docs 产物提交：以本报告所在 `docs/` 提交为准。
-- 当前剩余状态：第二轮仍有部分强制写入动作缺少 MCP 主证据，总体验收保持 `不通过`；公告、资源、题库新增、判题环境新增、作业创建发布、学生结构化提交、文件题、提交批改、成绩发布、实验创建发布、实验报告提交/评阅/反馈、报告型实验网络噪音、讨论与通知状态变更已补齐，下一步应优先补齐管理员保存/创建、成员导入/状态变更、编辑/关闭/归档类动作以及完整逐页 console/network 归因，发现真实缺陷后再追加编号进入下一轮修复清单。
+- 当前剩余状态：第二轮仍有部分强制写入动作缺少 MCP 主证据，总体验收保持 `不通过`；公告、资源、题库新增、判题环境新增、作业创建发布、学生结构化提交、文件题、WebIDE 历史恢复、编程正式提交自动刷新、提交批改、成绩发布、实验创建发布、学生实验会话启停、实验报告提交/评阅/反馈、报告型实验网络噪音、讨论与通知状态变更已补齐；下一步应优先补齐管理员保存/创建、成员导入/状态变更、编辑/关闭/归档类动作以及完整逐页 console/network 归因，发现真实缺陷后再追加编号进入下一轮修复清单。

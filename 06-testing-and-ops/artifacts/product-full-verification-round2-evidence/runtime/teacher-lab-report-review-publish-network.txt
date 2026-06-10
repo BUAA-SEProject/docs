@@ -1,0 +1,8 @@
+48. [GET] http://127.0.0.1:3000/api/v1/teacher/labs/52/reports?page=1&pageSize=20 => [200] OK
+50. [GET] http://127.0.0.1:3000/api/v1/teacher/lab-reports/21 => [200] OK
+53. [PUT] http://127.0.0.1:3000/api/v1/teacher/lab-reports/21/review => [200] OK
+54. [GET] http://127.0.0.1:3000/api/v1/teacher/labs/52/reports?page=1&pageSize=20 => [200] OK
+57. [POST] http://127.0.0.1:3000/api/v1/teacher/lab-reports/21/publish => [200] OK
+58. [GET] http://127.0.0.1:3000/api/v1/teacher/labs/52/reports?page=1&pageSize=20 => [200] OK
+
+Note: 33 static requests not shown, run with "static" option to see them.

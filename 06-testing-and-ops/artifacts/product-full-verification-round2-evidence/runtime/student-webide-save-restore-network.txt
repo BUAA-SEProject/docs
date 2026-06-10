@@ -1,0 +1,14 @@
+41. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/workspace => [200] OK
+55. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/workspace/revisions => [200] OK
+56. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/sample-runs => [200] OK
+61. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/workspace/revisions/80 => [200] OK
+68. [POST] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/workspace/revisions/80/restore => [200] OK
+69. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/workspace => [200] OK
+70. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/workspace/revisions => [200] OK
+71. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/workspace/revisions/80 => [200] OK
+72. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/workspace/revisions => [200] OK
+73. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/workspace/revisions/80 => [200] OK
+75. [POST] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/sample-runs => [201] Created
+76. [GET] http://127.0.0.1:3000/api/v1/me/assignments/7/programming-questions/11/sample-runs => [200] OK
+
+Note: 47 static requests not shown, run with "static" option to see them.

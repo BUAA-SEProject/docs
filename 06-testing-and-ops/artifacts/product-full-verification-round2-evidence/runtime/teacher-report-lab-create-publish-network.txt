@@ -1,0 +1,7 @@
+42. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/labs?teachingClassId=2&page=1&pageSize=50 => [200] OK
+46. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/labs => [201] Created
+47. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/labs?teachingClassId=2&page=1&pageSize=50 => [200] OK
+51. [POST] http://127.0.0.1:3000/api/v1/teacher/labs/52/publish => [200] OK
+52. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/labs?teachingClassId=2&page=1&pageSize=50 => [200] OK
+
+Note: 33 static requests not shown, run with "static" option to see them.

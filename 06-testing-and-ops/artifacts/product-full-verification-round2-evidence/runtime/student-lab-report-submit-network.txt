@@ -1,0 +1,15 @@
+43. [GET] http://127.0.0.1:3000/api/v1/me/course-classes/2/labs?page=1&pageSize=50 => [200] OK
+52. [GET] http://127.0.0.1:3000/api/v1/me/labs/52/report => [200] OK
+53. [GET] http://127.0.0.1:3000/api/v1/me/labs/52/sessions/current => [400] Bad Request
+54. [GET] http://127.0.0.1:3000/api/v1/me/labs/52/sessions/current => [400] Bad Request
+59. [POST] http://127.0.0.1:3000/api/v1/me/labs/52/attachments => [201] Created
+61. [PUT] http://127.0.0.1:3000/api/v1/me/labs/52/report => [200] OK
+62. [GET] http://127.0.0.1:3000/api/v1/me/labs/52/report => [200] OK
+66. [PUT] http://127.0.0.1:3000/api/v1/me/labs/52/report => [200] OK
+67. [GET] http://127.0.0.1:3000/api/v1/me/labs/52/report => [200] OK
+68. [GET] http://127.0.0.1:3000/api/v1/me/course-classes/2/labs?page=1&pageSize=50 => [200] OK
+69. [GET] http://127.0.0.1:3000/api/v1/me/labs/52/report => [200] OK
+70. [GET] http://127.0.0.1:3000/api/v1/me/labs/52/sessions/current => [400] Bad Request
+71. [GET] http://127.0.0.1:3000/api/v1/me/labs/52/sessions/current => [400] Bad Request
+
+Note: 34 static requests not shown, run with "static" option to see them.

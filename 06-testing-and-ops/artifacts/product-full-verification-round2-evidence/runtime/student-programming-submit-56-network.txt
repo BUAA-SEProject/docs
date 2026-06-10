@@ -1,0 +1,4 @@
+39. [GET] http://127.0.0.1:3000/api/v1/me/submissions/56 => [200] OK
+40. [GET] http://127.0.0.1:3000/api/v1/me/submissions/56/judge-jobs => [200] OK
+
+Note: 32 static requests not shown, run with "static" option to see them.

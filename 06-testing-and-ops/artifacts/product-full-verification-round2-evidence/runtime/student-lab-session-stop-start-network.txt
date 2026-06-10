@@ -1,0 +1,11 @@
+45. [GET] http://127.0.0.1:3000/api/v1/me/labs/16/report => [200] OK
+46. [GET] http://127.0.0.1:3000/api/v1/me/labs/16/sessions/current => [200] OK
+50. [GET] http://127.0.0.1:3000/api/v1/me/labs/16/sessions/current => [404] Not Found
+51. [GET] http://127.0.0.1:3000/api/v1/me/labs/16/sessions/current => [404] Not Found
+55. [POST] http://127.0.0.1:3000/api/v1/me/labs/16/sessions => [201] Created
+56. [GET] http://127.0.0.1:3000/api/v1/me/labs/16/sessions/current => [200] OK
+58. [GET] http://127.0.0.1:3000/api/v1/me/labs/16/report => [200] OK
+59. [GET] http://127.0.0.1:3000/api/v1/me/labs/16/sessions/current => [200] OK
+60. [GET] http://127.0.0.1:3000/api/v1/me/labs/16/sessions/current => [200] OK
+
+Note: 34 static requests not shown, run with "static" option to see them.

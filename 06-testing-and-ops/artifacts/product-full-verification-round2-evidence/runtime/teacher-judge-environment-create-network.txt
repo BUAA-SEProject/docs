@@ -1,0 +1,5 @@
+40. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/judge-environment-profiles?includeArchived=false => [200] OK
+44. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/judge-environment-profiles => [201] Created
+45. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/judge-environment-profiles?includeArchived=false => [200] OK
+
+Note: 33 static requests not shown, run with "static" option to see them.
