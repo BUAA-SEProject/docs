@@ -1,0 +1,12 @@
+38. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members?page=1&pageSize=20 => [200] OK
+47. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members/batch => [200] OK
+48. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members?page=1&pageSize=20 => [200] OK
+49. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members?page=1&pageSize=20 => [200] OK
+54. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members/import => [200] OK
+55. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members?page=1&pageSize=20 => [200] OK
+59. [PATCH] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members/454/status => [200] OK
+60. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members?page=1&pageSize=20 => [200] OK
+64. [PATCH] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members/454/status => [200] OK
+65. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/32/members?page=1&pageSize=20 => [200] OK
+
+Note: 31 static requests not shown, run with "static" option to see them.

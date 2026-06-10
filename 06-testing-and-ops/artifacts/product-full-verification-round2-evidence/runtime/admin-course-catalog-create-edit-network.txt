@@ -1,0 +1,7 @@
+40. [GET] http://127.0.0.1:3000/api/v1/admin/course-catalogs?page=1&pageSize=20 => [200] OK
+49. [POST] http://127.0.0.1:3000/api/v1/admin/course-catalogs => [201] Created
+50. [GET] http://127.0.0.1:3000/api/v1/admin/course-catalogs?page=1&pageSize=20 => [200] OK
+53. [PUT] http://127.0.0.1:3000/api/v1/admin/course-catalogs/26 => [200] OK
+54. [GET] http://127.0.0.1:3000/api/v1/admin/course-catalogs?page=1&pageSize=20 => [200] OK
+
+Note: 33 static requests not shown, run with "static" option to see them.

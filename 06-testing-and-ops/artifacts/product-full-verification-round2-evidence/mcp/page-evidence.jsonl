@@ -189,3 +189,13 @@
 {"id":"R2-MCP-189","file":"product-full-verification-round2-screenshots/163-r2-student-programming-submit-auto-refresh.png","area":"学生","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-190","file":"product-full-verification-round2-screenshots/164-r2-student-programming-polling-assignment-before-submit.png","area":"学生","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-191","file":"product-full-verification-round2-screenshots/165-r2-student-programming-polling-submit-accepted.png","area":"学生","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-192","file":"product-full-verification-round2-screenshots/166-r2-admin-platform-config-saved-marker.png","area":"管理员","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-193","file":"product-full-verification-round2-screenshots/167-r2-admin-platform-config-restored.png","area":"管理员","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-194","file":"product-full-verification-round2-screenshots/168-r2-admin-org-unit-created.png","area":"管理员","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-195","file":"product-full-verification-round2-screenshots/169-r2-admin-academic-term-created-edited.png","area":"管理员","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-196","file":"product-full-verification-round2-screenshots/170-r2-admin-course-catalog-created-edited.png","area":"管理员","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-197","file":"product-full-verification-round2-screenshots/171-r2-admin-course-offering-created-edited.png","area":"管理员","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-198","file":"product-full-verification-round2-screenshots/172-r2-teacher-teaching-class-created.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-199","file":"product-full-verification-round2-screenshots/173-r2-teacher-members-add-import-visible.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-200","file":"product-full-verification-round2-screenshots/174-r2-teacher-member-status-dropped.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-201","file":"product-full-verification-round2-screenshots/175-r2-teacher-member-status-restored.png","area":"教师","source":"Playwright MCP screenshot","status":"captured"}

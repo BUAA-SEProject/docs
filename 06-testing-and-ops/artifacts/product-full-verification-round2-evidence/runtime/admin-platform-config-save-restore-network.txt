@@ -1,0 +1,7 @@
+38. [GET] http://127.0.0.1:3000/api/v1/admin/platform-config/current => [200] OK
+42. [PUT] http://127.0.0.1:3000/api/v1/admin/platform-config/current => [200] OK
+43. [GET] http://127.0.0.1:3000/api/v1/admin/platform-config/current => [200] OK
+66. [PUT] http://127.0.0.1:3000/api/v1/admin/platform-config/current => [200] OK
+67. [GET] http://127.0.0.1:3000/api/v1/admin/platform-config/current => [200] OK
+
+Note: 31 static requests not shown, run with "static" option to see them.

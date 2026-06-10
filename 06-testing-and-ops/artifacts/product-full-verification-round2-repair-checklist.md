@@ -19,6 +19,7 @@
 | P1-R2-004 | P1 | 学生 | 实验报告评阅发布后学生端未显示教师评语 | 已回归 | `154-r2-student-lab-report-feedback-visible.png` |
 | P2-R2-005 | P2 | 学生 | 报告型实验误请求运行时 current session 产生 400 网络噪音 | 已回归 | MCP 网络观察未再出现 `/api/v1/me/labs/52/sessions/current` |
 | P1-R2-006 | P1 | 学生 | 编程正式提交后提交详情页不自动刷新判题终态 | 已回归 | `164-r2-student-programming-polling-assignment-before-submit.png`；`165-r2-student-programming-polling-submit-accepted.png`；`student-programming-polling-submit-57-network.txt` |
+| P2-R2-007 | P2 | 教师 | 添加课程成员成功后弹窗不关闭且列表不刷新 | 已回归 | `173-r2-teacher-members-add-import-visible.png`；`teacher-members-add-import-status-network.txt` |
 
 ## 3. P0 阻塞问题
 
@@ -34,6 +35,7 @@
 - [x] P2-R2-002 未授权开课上下文仍展示快捷入口
 - [x] P2-R2-003 不存在课程 ID 页面停留加载态并展示快捷入口
 - [x] P2-R2-005 报告型实验误请求运行时 current session 产生 400 网络噪音
+- [x] P2-R2-007 添加课程成员成功后弹窗不关闭且列表不刷新
 
 ## 6. P3 优化项
 
@@ -163,12 +165,43 @@
 - Commit：`web` `e4b0f21 fix(judge): 自动刷新学生判题结果`；`docs` 为本清单所在提交。
 - 剩余风险：临时作业 `260` 与提交 `57` 为本轮回归残留测试数据；不污染固定演示作业 `7`。
 
+### P2-R2-007 添加课程成员成功后弹窗不关闭且列表不刷新
+
+- 报告链接或位置：`product-full-verification-round2-report.md` 缺陷详情 P2-R2-007。
+- 修复状态：已回归
+- 修改文件：
+  - `web/src/app/(teacher)/teacher/courses/[offeringId]/members/page.tsx`
+  - `web/src/shared/api/query-keys.ts`
+  - `web/src/tests/unit/course/teacher-members-page.test.tsx`
+  - `web/src/tests/unit/api/query-keys.contract.test.ts`
+- 修复说明：添加成员 mutation 成功后关闭弹窗并主动刷新当前成员列表；课程列表类 query key 在省略筛选参数时返回前缀 key，确保成员、公告、资源和讨论列表 mutation 能正确失效带筛选参数的查询。
+- Playwright MCP 回归：
+  - 页面：`/teacher/courses/32/members`
+  - 账号：开课 `32` 的授课教师
+  - 步骤：点击“添加成员”，填写用户 ID `393`，选择 `MCP-R2-06102037 教学班` 后提交；随后通过 CSV 导入 `mcp-r2-0610205203-member-import`，并对该导入成员执行停用和恢复。
+  - 结果：添加成功后弹窗关闭，成员列表自动显示 `MCP-R2-0610210555-member-add-fixed`；CSV 导入后列表显示 `MCP-R2-0610205203-member-import`；停用后目标行显示“已停用/恢复”，恢复后回到“已激活/停用”。
+  - 截图：`product-full-verification-round2-screenshots/173-r2-teacher-members-add-import-visible.png`；`product-full-verification-round2-screenshots/174-r2-teacher-member-status-dropped.png`；`product-full-verification-round2-screenshots/175-r2-teacher-member-status-restored.png`
+  - 网络：`product-full-verification-round2-evidence/runtime/teacher-members-add-import-status-network.txt`，包含 `POST /members/batch` 200、`POST /members/import` 200、两次 `PATCH /members/454/status` 200。
+  - 控制台：`product-full-verification-round2-evidence/runtime/teacher-members-add-import-status-console.txt`，warning/error 为 0。
+- 命令验证：
+  - 命令：`npm test -- src/tests/unit/course/teacher-members-page.test.tsx`、`npm test -- src/tests/unit/api/query-keys.contract.test.ts`
+  - 结果：成员页定向单测 1 file / 7 tests passed；query key 契约单测 1 file / 6 tests passed。
+- Commit：待本轮提交。
+- 剩余风险：本轮留下临时开课 `32`、教学班 `234` 和临时成员账号作为补证数据；未污染固定演示课程 `2`。
+
 ## 8. 第三阶段补证记录
 
-本节记录不需要应用代码修改、但第二轮清单中仍缺少 MCP 主证据的补漏验证。
+本节记录第二轮清单中仍缺少 MCP 主证据的补漏验证；若补证中发现并修复代码问题，对应缺陷记录见第 7 节。
 
 | 清单编号 | 状态 | MCP 操作 | 证据 |
 | --- | --- | --- | --- |
+| ADMIN-002 | 已补证 | 以管理员账号打开 `/admin/platform-config`，将页脚文字从 `© 2026 AUBB Team` 临时保存为 `© 2026 AUBB Team · MCP-R2-ADMIN-0610`，随后恢复原值并再次保存；页面保持在平台配置表单，最终字段值已回到原值。 | `166-r2-admin-platform-config-saved-marker.png`；`167-r2-admin-platform-config-restored.png`；`product-full-verification-round2-evidence/runtime/admin-platform-config-save-restore-network.txt`；`product-full-verification-round2-evidence/runtime/admin-platform-config-save-restore-console.txt` |
+| ADMIN-003 | 已补证 | 以管理员账号打开 `/admin/org-units`，在学校根节点下新建学院 `MCP-R2-06101946 学院` / `MCP-R2-COL-06101946`；提交后树列表显示新节点。当前稳定接口清单仅包含 `POST /api/v1/admin/org-units`，页面未提供组织节点编辑入口。 | `168-r2-admin-org-unit-created.png`；`product-full-verification-round2-evidence/runtime/admin-org-unit-create-network.txt`；`product-full-verification-round2-evidence/runtime/admin-org-unit-create-console.txt` |
+| ADMIN-006 | 已补证 | 以管理员账号打开 `/admin/academic-terms`，创建学期 `MCP-R2-06101952 学期` / `MCP-R2-TERM-06101952`；随后点击该行“编辑学期”，将名称改为 `MCP-R2-06101952 学期-EDIT` 并保存。 | `169-r2-admin-academic-term-created-edited.png`；`product-full-verification-round2-evidence/runtime/admin-academic-term-create-edit-network.txt`；`product-full-verification-round2-evidence/runtime/admin-academic-term-create-edit-console.txt` |
+| ADMIN-007 | 已补证 | 以管理员账号打开 `/admin/course-catalogs`，创建课程模板 `MCP-R2-06102000 课程模板` / `MCP-R2-CAT-06102000`；随后点击该行“编辑”，将名称改为 `MCP-R2-06102000 课程模板-EDIT` 并保存。 | `170-r2-admin-course-catalog-created-edited.png`；`product-full-verification-round2-evidence/runtime/admin-course-catalog-create-edit-network.txt`；`product-full-verification-round2-evidence/runtime/admin-course-catalog-create-edit-console.txt` |
+| ADMIN-008 | 已补证 | 以管理员账号打开 `/admin/course-offerings`，基于课程模板 `MCP-R2-06102000 课程模板-EDIT` 创建开课 `MCP-R2-06102015 开课实例` / `MCP-R2-OFF-06102015`；主开课学院由模板自动锁定为 `MCP-R2-06101946 学院`，共同管理学院选择 `E2EMQ56QUX7DG2EVPORG-共管学院`，主讲教师选择 `e2emq6yao1yyb2we2org-offering-teacher`；随后进入开课 `32` 详情，将名称改为 `MCP-R2-06102015 开课实例-EDIT`、容量改为 `60` 并保存。 | `171-r2-admin-course-offering-created-edited.png`；`product-full-verification-round2-evidence/runtime/admin-course-offering-create-edit-network.txt`；`product-full-verification-round2-evidence/runtime/admin-course-offering-create-edit-console.txt` |
+| TEACHER-003-CLASS | 已补证 | 以开课 `32` 的授课教师账号打开 `/teacher/courses/32`，在课程工作台填写班级名称 `MCP-R2-06102037 教学班`、班级编码 `MCP-R2-CLS-06102037` 并点击“创建班级”；页面列表显示新教学班，后端返回教学班 ID `234`。 | `172-r2-teacher-teaching-class-created.png`；`product-full-verification-round2-evidence/runtime/teacher-teaching-class-create-network.txt`；`product-full-verification-round2-evidence/runtime/teacher-teaching-class-create-console.txt` |
+| TEACHER-004 | 已补证 | 以开课 `32` 的授课教师账号打开 `/teacher/courses/32/members`，通过“添加成员”添加学生 `mcp-r2-0610210555-member-add-fixed`；通过 CSV `teacher-members-import-mcp-r2-0610205203.csv` 导入 `mcp-r2-0610205203-member-import`；随后对导入成员执行停用和恢复。补证中发现并修复 P2-R2-007。 | `173-r2-teacher-members-add-import-visible.png`；`174-r2-teacher-member-status-dropped.png`；`175-r2-teacher-member-status-restored.png`；`product-full-verification-round2-evidence/runtime/teacher-members-add-import-status-network.txt`；`product-full-verification-round2-evidence/runtime/teacher-members-add-import-status-console.txt` |
 | TEACHER-005 | 已补证 | 以教师账号打开 `/teacher/courses/2/announcements`，新建公告 `MCP-R2-20260610-143804`，提交后列表第一条显示新公告。 | `125-r2-teacher-announcement-created.png`；`product-full-verification-round2-evidence/runtime/teacher-announcement-create-network.txt` |
 | TEACHER-006 | 已补证 | 以教师账号打开 `/teacher/courses/2/resources?offeringId=2`，在“上传资源”弹窗填写标题 `MCP-R2-20260610-1553 教师资源补证` 和说明，选择 `teacher-resource-upload-sample.md` 后提交；列表显示新资源、大小、上传时间和下载入口，并下载同一文件校验哈希。 | `134-r2-teacher-resource-uploaded.png`；`product-full-verification-round2-evidence/runtime/teacher-resource-upload-network.txt`；`product-full-verification-round2-evidence/runtime/teacher-resource-upload-sha256.txt` |
 | TEACHER-007 | 已补证 | 以教师账号打开 `/teacher/courses/2/discussions?offeringId=2`，新建讨论 `MCP-R2-20260610-145754 教师讨论补证`，提交后列表第一条显示新讨论。 | `128-r2-teacher-discussion-created.png`；`product-full-verification-round2-evidence/runtime/teacher-discussion-create-network.txt` |

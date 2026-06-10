@@ -1,0 +1,26 @@
+Create stage MCP network output, transcribed from Playwright MCP output immediately after UI submit before navigating to detail:
+40. [GET] http://127.0.0.1:3000/api/v1/admin/course-offerings?page=1&pageSize=20 => [200] OK
+65. [POST] http://127.0.0.1:3000/api/v1/admin/course-offerings => [201] Created
+66. [GET] http://127.0.0.1:3000/api/v1/admin/course-offerings?page=1&pageSize=20 => [200] OK
+
+Create stage response summary:
+id=32
+catalogId=26
+catalogCode=MCP-R2-CAT-06102000
+catalogName=MCP-R2-06102000 课程模板-EDIT
+termId=15
+termCode=E2EMQ57GIOJPE4YNAORG-TERM
+offeringCode=MCP-R2-OFF-06102015
+offeringName=MCP-R2-06102015 开课实例
+primaryCollege=MCP-R2-06101946 学院
+managingColleges=MCP-R2-06101946 学院, E2EMQ56QUX7DG2EVPORG-共管学院
+instructors=e2emq6yao1yyb2we2org-offering-teacher
+capacity=50
+status=DRAFT
+
+Detail/edit stage MCP network output exported from detail page:
+38. [GET] http://127.0.0.1:3000/api/v1/admin/course-offerings/32 => [200] OK
+41. [PUT] http://127.0.0.1:3000/api/v1/admin/course-offerings/32 => [200] OK
+42. [GET] http://127.0.0.1:3000/api/v1/admin/course-offerings/32 => [200] OK
+
+Note: 31 static requests not shown, run with "static" option to see them.
