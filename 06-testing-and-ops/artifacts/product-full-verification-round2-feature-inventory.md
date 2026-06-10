@@ -32,9 +32,9 @@
 | COMMON-002 | 无登录用户 | `/login` | 登录页加载、公告、表单、显示密码 | 页面/表单 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/001-login-page.png` | - |
 | COMMON-003 | 无登录用户 | `/login` | 空表单错误态 | 表单校验 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/116-r2-repair-login-empty-submit.png` | P2-R2-001 已回归 |
 | COMMON-004 | 无登录用户 | `/admin` | 未登录访问受限页重定向 | 路由守卫 | Playwright MCP URL 与截图 | 通过 | `product-full-verification-round2-rehearsal-log.md` | - |
-| COMMON-005 | 已登录用户 | 顶栏搜索 | 全局搜索结果与跳转 | 搜索/导航 | Playwright MCP 操作与截图 | 阻塞 | 第二轮未单独执行搜索操作 | PENDING-MCP |
+| COMMON-005 | 已登录用户 | 顶栏搜索 | 全局搜索结果与跳转 | 搜索/导航 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/119-r2-common-global-search-results.png`; `product-full-verification-round2-screenshots/120-r2-common-global-search-gradebook.png` | - |
 | COMMON-006 | 已登录用户 | 通知入口 | 顶栏通知与通知页 | 导航/状态 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/043-student-notifications.png`; `product-full-verification-round2-screenshots/044-me-notifications.png`; `product-full-verification-round2-screenshots/107-r2-rehearsal3-me-notifications.png` | - |
-| COMMON-007 | 已登录用户 | 用户菜单 | 用户信息与退出登录 | 菜单/导航 | Playwright MCP 操作与截图 | 阻塞 | 第二轮未单独执行退出登录截图 | PENDING-MCP |
+| COMMON-007 | 已登录用户 | 用户菜单 | 用户信息与退出登录 | 菜单/导航 | Playwright MCP 操作与截图 | 通过 | `product-full-verification-round2-screenshots/121-r2-common-user-menu.png`; `product-full-verification-round2-screenshots/122-r2-common-logout-login-page.png` | - |
 | AUTH-001 | 学校管理员 | `/admin` | 管理员登录与治理首页 | 登录/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/002-admin-dashboard.png`; `product-full-verification-round2-screenshots/092-r2-rehearsal3-admin-dashboard.png` | - |
 | AUTH-002 | 教师 | `/teacher` | 教师登录与教学工作台 | 登录/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/013-teacher-dashboard.png`; `product-full-verification-round2-screenshots/096-r2-rehearsal3-teacher-dashboard.png` | - |
 | AUTH-003 | 学生 | `/student` | 学生登录与学习中心 | 登录/导航 | Playwright MCP 截图 | 通过 | `product-full-verification-round2-screenshots/032-student-dashboard.png`; `product-full-verification-round2-screenshots/102-r2-rehearsal3-student-dashboard.png` | - |

@@ -142,3 +142,7 @@
 {"id":"R2-MCP-142","file":"product-full-verification-round2-screenshots/116-r2-repair-login-empty-submit.png","area":"公共/认证","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-143","file":"product-full-verification-round2-screenshots/117-r2-repair-offering-ta-unauthorized-course.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
 {"id":"R2-MCP-144","file":"product-full-verification-round2-screenshots/118-r2-repair-offering-ta-invalid-course.png","area":"教师/助教","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-145","file":"product-full-verification-round2-screenshots/119-r2-common-global-search-results.png","area":"公共/认证","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-146","file":"product-full-verification-round2-screenshots/120-r2-common-global-search-gradebook.png","area":"公共/认证","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-147","file":"product-full-verification-round2-screenshots/121-r2-common-user-menu.png","area":"公共/认证","source":"Playwright MCP screenshot","status":"captured"}
+{"id":"R2-MCP-148","file":"product-full-verification-round2-screenshots/122-r2-common-logout-login-page.png","area":"公共/认证","source":"Playwright MCP screenshot","status":"captured"}

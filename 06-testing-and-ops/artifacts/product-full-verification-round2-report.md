@@ -18,7 +18,7 @@
 
 当前结论：`不通过`
 
-第二轮命令门禁全部通过，Playwright MCP 已形成 144 张截图证据，其中 3 张为第三阶段补漏回归截图。三次演示彩排主线均已执行并记录。第一阶段修复后的 WebIDE 样例自测、编程题判题和实验 Web 终端主线在第二轮中均能演示。
+第二轮命令门禁全部通过，Playwright MCP 已形成 148 张截图证据，其中 3 张为第三阶段补漏回归截图，4 张为公共认证补充截图。三次演示彩排主线均已执行并记录。第一阶段修复后的 WebIDE 样例自测、编程题判题和实验 Web 终端主线在第二轮中均能演示。
 
 第三阶段已修复并回归第二轮报告中的 3 个 P2 可理解性问题，并完成 `web` 定向单测、lint、typecheck、build、根目录 `just verify` 和 docs build。本轮仍不能写为 `通过` 或 `有条件通过`，原因是仍存在强制项阻塞：部分创建/编辑/发布/上传提交类强制动作未形成 MCP 主证据。根据 `goal-test.md`，强制项未证明时必须保持 `阻塞`。
 
@@ -68,7 +68,7 @@
 ## 6. 全功能清单摘要
 
 - 第二轮清单覆盖公共认证、管理员、教师、学生、助教、运行时、文档、NFR 和演示彩排。
-- 截图证据数量：`144` 张 PNG。
+- 截图证据数量：`148` 张 PNG。
 - 命令辅助证据数量：`10` 个命令日志。
 - 当前清单状态：
   - `通过`：登录、路由守卫、三角色首页、管理员治理/用户/权限/审计、教师课程/作业/提交/成绩/实验入口、学生课程/作业/WebIDE/成绩/实验/通知、助教授权与拒绝边界、命令门禁、三次彩排主线。
@@ -95,9 +95,9 @@
 | COMMON-002 | 通过 | `001-login-page.png` | 登录页显示平台说明、用户名/密码表单、显示密码按钮和公告。 |
 | COMMON-003 | 通过 | `116-r2-repair-login-empty-submit.png` | 空表单提交后停留登录页，表单顶部显示“请输入用户名和密码”，用户名和密码输入框均进入 invalid 状态，见 P2-R2-001。 |
 | COMMON-004 | 通过 | MCP 彩排 1 匿名 `/admin` 重定向记录 | 未登录访问受限页会跳转登录。 |
-| COMMON-005 | 通过 | `044-me-notifications.png`、彩排截图 `069`、`107` | 通知入口和通用通知中心可达；全局搜索入口在顶栏可见。 |
+| COMMON-005 | 通过 | `119-r2-common-global-search-results.png`、`120-r2-common-global-search-gradebook.png` | 顶栏搜索输入“成绩”后显示“全部成绩 / 教师端”结果，并可跳转到 `/teacher/grading/gradebook`。 |
 | COMMON-006 | 通过 | `043-student-notifications.png`、`044-me-notifications.png`、`031/032-teacher-notifications.png` | 学生、教师通知页可见，通知列表真实渲染。 |
-| COMMON-007 | 通过 | `045/047` 助教、`032/033` 学生、`056/060/096` 教师/管理员页面顶栏 | 顶栏显示用户身份、角色工作区和通知入口。 |
+| COMMON-007 | 通过 | `121-r2-common-user-menu.png`、`122-r2-common-logout-login-page.png` | 用户菜单显示教师身份、用户名和退出登录入口；点击退出登录后回到 `/login`。 |
 | AUTH-001 | 通过 | `002-admin-dashboard.png`、`056-r2-rehearsal1-admin-dashboard.png`、`092-r2-rehearsal3-admin-dashboard.png` | 管理员登录进入治理首页。 |
 | AUTH-002 | 通过 | `013/014-teacher-dashboard.png`、`060-r2-rehearsal1-teacher-dashboard.png`、`096-r2-rehearsal3-teacher-dashboard.png` | 教师登录进入教学工作台。 |
 | AUTH-003 | 通过 | `032/033-student-dashboard.png`、`064-r2-rehearsal1-student-dashboard.png`、`102-r2-rehearsal3-student-dashboard.png` | 学生登录进入学习中心。 |
