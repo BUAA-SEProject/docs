@@ -98,3 +98,14 @@
   - 结果：定向单测 2 files / 11 tests passed；web lint/typecheck/build 通过；`just verify` 通过，后端 357 tests / 0 failures，web lint/typecheck 和 docs build 通过；docs build 单独通过。
 - Commit：`web` `5ea8296 fix(frontend): 修复登录与课程错误态`；`docs` 为本清单所在提交。
 - 剩余风险：同 P2-R2-002；不存在和未授权课程共用统一不可访问文案。
+
+## 8. 第三阶段补证记录
+
+本节记录不需要应用代码修改、但第二轮清单中仍缺少 MCP 主证据的补漏验证。
+
+| 清单编号 | 状态 | MCP 操作 | 证据 |
+| --- | --- | --- | --- |
+| TEACHER-005 | 已补证 | 以教师账号打开 `/teacher/courses/2/announcements`，新建公告 `MCP-R2-20260610-143804`，提交后列表第一条显示新公告。 | `125-r2-teacher-announcement-created.png`；`product-full-verification-round2-evidence/runtime/teacher-announcement-create-network.txt` |
+| TEACHER-019 | 已补证 | 以教师账号打开 `/teacher/notifications`，点击“全部已读”，顶部未读徽标从 9 清零。 | `123-r2-teacher-notifications-before-read-all.png`；`124-r2-teacher-notifications-after-read-all.png`；`product-full-verification-round2-evidence/runtime/teacher-notifications-after-network.txt` |
+| STUDENT-018 | 已补证 | 以学生账号打开 `/student/notifications`，对 `MCP-R2-20260610-143804` 公告通知点击“标记已读”，顶部未读徽标从 32 降到 31，目标行按钮消失。 | `126-r2-student-notification-before-mark-read.png`；`127-r2-student-notification-after-mark-read.png`；`product-full-verification-round2-evidence/runtime/student-notifications-after-mark-read-network.txt` |
+| RUNTIME-005 | 已补证 | 保存通知相关 Playwright MCP 网络摘要，覆盖通知流、未读数、全部已读和单条已读请求。 | `teacher-notifications-after-network.txt`；`student-notifications-after-mark-read-network.txt` |

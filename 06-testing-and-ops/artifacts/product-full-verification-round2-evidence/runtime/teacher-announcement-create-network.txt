@@ -1,0 +1,14 @@
+2. [GET] http://127.0.0.1:3000/api/v1/me/notifications/stream => [200] OK
+3. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count
+37. [GET] http://127.0.0.1:3000/api/v1/me/notifications/stream => [FAILED] net::ERR_ABORTED
+38. [GET] http://127.0.0.1:3000/api/v1/me/notifications/stream => [200] OK
+39. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+42. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/announcements => [200] OK
+43. [GET] http://127.0.0.1:3000/api/v1/me/notifications/stream => [FAILED] net::ERR_ABORTED
+44. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+45. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+46. [POST] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/announcements => [201] Created
+47. [GET] http://127.0.0.1:3000/api/v1/teacher/course-offerings/2/announcements => [200] OK
+48. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+
+Note: 33 static requests not shown, run with "static" option to see them.

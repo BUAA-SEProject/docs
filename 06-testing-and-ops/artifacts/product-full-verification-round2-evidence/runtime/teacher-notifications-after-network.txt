@@ -1,0 +1,17 @@
+30. [GET] http://127.0.0.1:3000/teacher/notifications?_rsc=13mli => [200] OK
+31. [GET] http://127.0.0.1:3000/teacher/notifications?_rsc=13mli => [200] OK
+46. [GET] http://127.0.0.1:3000/api/v1/me/notifications/stream => [FAILED] net::ERR_ABORTED
+47. [GET] http://127.0.0.1:3000/api/v1/me/notifications/stream => [200] OK
+48. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+49. [GET] http://127.0.0.1:3000/api/v1/me/notifications?page=1&pageSize=20 => [200] OK
+50. [GET] http://127.0.0.1:3000/api/v1/me/notifications/stream => [FAILED] net::ERR_ABORTED
+51. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+52. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+53. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+54. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+55. [POST] http://127.0.0.1:3000/api/v1/me/notifications/read-all => [200] OK
+56. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+57. [GET] http://127.0.0.1:3000/api/v1/me/notifications?page=1&pageSize=20 => [200] OK
+58. [GET] http://127.0.0.1:3000/api/v1/me/notifications/unread-count => [200] OK
+
+Note: 42 static requests not shown, run with "static" option to see them.

@@ -18,9 +18,9 @@
 
 当前结论：`不通过`
 
-第二轮命令门禁全部通过，Playwright MCP 已形成 148 张截图证据，其中 3 张为第三阶段补漏回归截图，4 张为公共认证补充截图。三次演示彩排主线均已执行并记录。第一阶段修复后的 WebIDE 样例自测、编程题判题和实验 Web 终端主线在第二轮中均能演示。
+第二轮命令门禁全部通过，Playwright MCP 已形成 153 张截图证据，其中 3 张为第三阶段补漏回归截图，4 张为公共认证补充截图，5 张为公告发布和通知状态变更补充截图。三次演示彩排主线均已执行并记录。第一阶段修复后的 WebIDE 样例自测、编程题判题和实验 Web 终端主线在第二轮中均能演示。
 
-第三阶段已修复并回归第二轮报告中的 3 个 P2 可理解性问题，并完成 `web` 定向单测、lint、typecheck、build、根目录 `just verify` 和 docs build。本轮仍不能写为 `通过` 或 `有条件通过`，原因是仍存在强制项阻塞：部分创建/编辑/发布/上传提交类强制动作未形成 MCP 主证据。根据 `goal-test.md`，强制项未证明时必须保持 `阻塞`。
+第三阶段已修复并回归第二轮报告中的 3 个 P2 可理解性问题，并完成 `web` 定向单测、lint、typecheck、build、根目录 `just verify` 和 docs build。后续补充 MCP 验证已覆盖教师公告新建、教师通知全部已读、学生通知单条已读和通知网络摘要。本轮仍不能写为 `通过` 或 `有条件通过`，原因是仍存在强制项阻塞：部分创建/编辑/发布/上传提交类强制动作未形成 MCP 主证据。根据 `goal-test.md`，强制项未证明时必须保持 `阻塞`。
 
 ## 3. 上次缺口复核
 
@@ -68,10 +68,10 @@
 ## 6. 全功能清单摘要
 
 - 第二轮清单覆盖公共认证、管理员、教师、学生、助教、运行时、文档、NFR 和演示彩排。
-- 截图证据数量：`148` 张 PNG。
+- 截图证据数量：`153` 张 PNG。
 - 命令辅助证据数量：`10` 个命令日志。
 - 当前清单状态：
-  - `通过`：登录、路由守卫、三角色首页、管理员治理/用户/权限/审计、教师课程/作业/提交/成绩/实验入口、学生课程/作业/WebIDE/成绩/实验/通知、助教授权与拒绝边界、命令门禁、三次彩排主线。
+  - `通过`：登录、路由守卫、三角色首页、管理员治理/用户/权限/审计、教师课程/作业/提交/成绩/实验入口、教师公告创建、教师/学生通知已读状态变更、学生课程/作业/WebIDE/成绩/实验/通知、助教授权与拒绝边界、命令门禁、三次彩排主线。
   - `失败`：第二轮 P2-R2-001、P2-R2-002、P2-R2-003 已在第三阶段补漏修复并回归，当前无未回归 P2 失败项。
   - `阻塞`：需要真实创建/编辑/发布/文件上传/报告提交但本轮未形成 MCP 主证据的强制动作。
 
@@ -81,8 +81,8 @@
 | --- | --- | --- |
 | 无登录用户 | 部分通过 | `/login` 可加载，未登录访问 `/admin` 会回到登录；空表单提交已显示应用内错误说明，见 P2-R2-001 第三阶段回归。 |
 | 学校管理员 | 部分通过 | 治理概览、平台配置查看、组织树、用户列表/详情、开课详情、权限解释、审计日志均有 MCP 截图；保存/创建/编辑类动作仍阻塞。 |
-| 教师 | 部分通过 | 教学工作台、课程工作区、资源/讨论/题库/判题环境入口、作业、提交、成绩册、实验、通知均有 MCP 截图；题库/判题环境/作业/实验的创建发布类动作仍阻塞。 |
-| 学生 | 部分通过 | 学习中心、课程、讨论、作业详情、WebIDE、样例自测、提交详情、成绩、实验终端、通知均有 MCP 截图；客观题、文件题和实验报告正式提交仍阻塞。 |
+| 教师 | 部分通过 | 教学工作台、课程工作区、公告创建、资源/讨论/题库/判题环境入口、作业、提交、成绩册、实验、通知全部已读均有 MCP 证据；题库/判题环境/作业/实验的创建发布类动作仍阻塞。 |
+| 学生 | 部分通过 | 学习中心、课程、讨论、作业详情、WebIDE、样例自测、提交详情、成绩、实验终端、通知单条已读均有 MCP 证据；客观题、文件题和实验报告正式提交仍阻塞。 |
 | 开课助教 | 通过主线 | 授权课程与管理员禁止边界通过；未授权或不存在课程上下文已收敛为课程不可访问态，见 P2-R2-002/P2-R2-003 第三阶段回归。 |
 | 班级助教 | 通过主线 | 登录、班级成员页、管理员禁止边界有 MCP 截图。 |
 | 缺档案用户 | 通过 | 以第一轮和第二轮上下文准备的缺档案账号证明 `/profile-required` 可达，证据继承第二轮前置数据和截图 `053-profile-required-profileless-ta.png`。 |
@@ -96,7 +96,7 @@
 | COMMON-003 | 通过 | `116-r2-repair-login-empty-submit.png` | 空表单提交后停留登录页，表单顶部显示“请输入用户名和密码”，用户名和密码输入框均进入 invalid 状态，见 P2-R2-001。 |
 | COMMON-004 | 通过 | MCP 彩排 1 匿名 `/admin` 重定向记录 | 未登录访问受限页会跳转登录。 |
 | COMMON-005 | 通过 | `119-r2-common-global-search-results.png`、`120-r2-common-global-search-gradebook.png` | 顶栏搜索输入“成绩”后显示“全部成绩 / 教师端”结果，并可跳转到 `/teacher/grading/gradebook`。 |
-| COMMON-006 | 通过 | `043-student-notifications.png`、`044-me-notifications.png`、`031/032-teacher-notifications.png` | 学生、教师通知页可见，通知列表真实渲染。 |
+| COMMON-006 | 通过 | `043-student-notifications.png`、`044-me-notifications.png`、`123/124`、`126/127` | 学生、教师通知页可见，通知列表真实渲染；教师全部已读和学生单条已读均完成页面状态变更。 |
 | COMMON-007 | 通过 | `121-r2-common-user-menu.png`、`122-r2-common-logout-login-page.png` | 用户菜单显示教师身份、用户名和退出登录入口；点击退出登录后回到 `/login`。 |
 | AUTH-001 | 通过 | `002-admin-dashboard.png`、`056-r2-rehearsal1-admin-dashboard.png`、`092-r2-rehearsal3-admin-dashboard.png` | 管理员登录进入治理首页。 |
 | AUTH-002 | 通过 | `013/014-teacher-dashboard.png`、`060-r2-rehearsal1-teacher-dashboard.png`、`096-r2-rehearsal3-teacher-dashboard.png` | 教师登录进入教学工作台。 |
@@ -116,7 +116,7 @@
 | STUDENT-011 | 阻塞 | 清单记录 | 文件题上传和对象存储记录未形成第二轮 MCP 主证据。 |
 | STUDENT-012~014 | 通过 | `039-student-webide.png`、`054-student-webide-sample-run.png`、`066-r2-rehearsal1-student-webide-run.png`、`104-r2-rehearsal3-student-webide-run.png` | WebIDE 可打开，运行自测显示 `ACCEPTED` / 通过。 |
 | STUDENT-015~016 | 通过 | `040-student-submission-detail.png`、`07-just-e2e-real.log` | 编程题正式提交闭环由真实 E2E 覆盖，提交详情页面可达；本轮 MCP 未重复点击正式提交按钮。 |
-| STUDENT-017~018 | 通过 | `041-student-grades.png`、`043-student-notifications.png`、`106/107` 彩排截图 | 成绩和通知入口可达。 |
+| STUDENT-017~018 | 通过 | `041-student-grades.png`、`043-student-notifications.png`、`106/107` 彩排截图、`126/127` | 成绩和通知入口可达；学生端对 `MCP-R2-20260610-143804` 公告通知执行单条标记已读后未读徽标 32 -> 31，目标行按钮消失。 |
 | STUDENT-019~020 | 通过 | `042-student-labs.png`、`055-student-lab-terminal-echo.png`、`105-r2-rehearsal3-student-labs.png` | 实验列表和 Web 终端可演示，终端输出包含 `round2-terminal`。 |
 | STUDENT-021 | 阻塞 | 清单记录 | 实验报告草稿、附件和正式提交未形成第二轮 MCP 主证据。 |
 
@@ -126,12 +126,13 @@
 | --- | --- | --- | --- |
 | TEACHER-001~003 | 通过 | `013`-`016`、`060`-`061`、`096`-`097` | 教师首页、课程列表、课程工作区和上下文导航可达。 |
 | TEACHER-004 | 部分通过 | `016/017-teacher-members.png`、`075/113-r2-rehearsal*-class-ta-members.png` | 成员页可达；导入、添加和状态变更未执行，仍阻塞。 |
-| TEACHER-005~008 | 通过 | `017`-`021`、`082-r2-rehearsal2-teacher-resources.png` | 公告、资源、讨论列表和详情页面可达；第二轮未新增创建动作。 |
+| TEACHER-005 | 通过 | `017/018`、`125-r2-teacher-announcement-created.png`、`teacher-announcement-create-network.txt` | 公告页可达；已新建 `MCP-R2-20260610-143804` 公告，列表可见，接口 `POST /api/v1/teacher/course-offerings/2/announcements` 返回 201。 |
+| TEACHER-006~008 | 部分通过 | `018`-`021`、`082-r2-rehearsal2-teacher-resources.png` | 资源、讨论列表和详情页面可达；资源上传下载、讨论创建/回复/锁定仍未形成本轮新增 MCP 主证据。 |
 | TEACHER-009~010 | 部分通过 | `021/022/023-teacher-question-bank-course.png`、`098-r2-rehearsal3-teacher-question-bank.png` | 题库和判题环境页面可达；创建/编辑/归档未形成 MCP 主证据。 |
 | TEACHER-011~013 | 部分通过 | `023`-`026`、`083/099` 彩排截图 | 作业列表、创建表单、编辑页可达；保存/发布未执行，仍阻塞。 |
 | TEACHER-014~016 | 通过 | `026`-`029`、`062/063/084/085/100` 彩排截图 | 提交列表、提交详情和成绩册页面可达。 |
 | TEACHER-017~018 | 部分通过 | `029/030-teacher-question-bank-global.png`、`030/031-teacher-labs.png`、`086/101` 彩排截图 | 全局题库和实验页可达；实验创建/发布/关闭和报告评阅未形成 MCP 主证据。 |
-| TEACHER-019 | 通过 | `031/032-teacher-notifications.png` | 教师通知页可达。 |
+| TEACHER-019 | 通过 | `031/032-teacher-notifications.png`、`123/124`、`teacher-notifications-after-network.txt` | 教师通知页可达；点击“全部已读”后顶部未读徽标从 9 清零，接口 `POST /api/v1/me/notifications/read-all` 返回 200。 |
 
 ## 11. 管理员闭环验证
 
@@ -163,7 +164,7 @@
 | RUNTIME-002 | 部分通过 | `just e2e-real` 日志、资源页面截图 | 真实 E2E 覆盖资源上传下载；本轮未单独保存 MinIO 元数据。 |
 | RUNTIME-003 | 通过 | `just healthcheck-strict`、`just e2e-real` 日志 | RabbitMQ 依赖健康，真实 E2E 判题链路通过。 |
 | RUNTIME-004 | 通过 | `just healthcheck-strict`、`just e2e-real` 日志 | Redis 依赖健康，限流/登录真实 E2E 通过。 |
-| RUNTIME-005 | 通过 | `043/044/107` 通知截图 | 通知页和未读入口可用。 |
+| RUNTIME-005 | 通过 | `123/124`、`126/127`、`teacher-notifications-after-network.txt`、`student-notifications-after-mark-read-network.txt` | 通知页、未读入口、SSE/轮询请求、教师全部已读和学生单条已读可用；网络摘要包含 `GET /api/v1/me/notifications/stream`、`GET /unread-count`、`POST /read-all`、`POST /{id}/read` 的成功记录。 |
 | RUNTIME-006 | 通过 | `054`、`066`、`104` WebIDE 自测截图，`07-just-e2e-real.log` | go-judge / fake judge 主线返回 `ACCEPTED`。 |
 | RUNTIME-007 | 通过 | `055-student-lab-terminal-echo.png` | 实验 Web 终端已连接并输出 `round2-terminal`。 |
 | RUNTIME-008 | 通过 | `012`、`059`、`080` 审计日志截图 | 审计日志页面可查。 |
@@ -262,10 +263,10 @@
 
 ## 18. 阻塞项与不适用项
 
-当前阻塞项主要是第二轮未形成 MCP 主证据的真实写入动作：
+当前阻塞项主要是第二轮未形成 MCP 主证据的真实写入动作。已补证项包括教师公告新建、教师通知全部已读、学生通知单条已读和通知网络摘要，不再列为阻塞：
 
 - 管理员：平台配置保存/恢复、组织节点创建/编辑、学期创建/编辑、课程模板创建/编辑、开课创建/编辑、共同管理学院选择、教学班创建/编辑。
-- 教师：成员添加/导入/状态变更，题库多题型创建/编辑，判题环境创建/编辑/归档，作业创建保存/发布/编辑，作业关闭/撤回/重新发布，实验创建/发布/关闭，实验报告评阅。
+- 教师：成员添加/导入/状态变更，资源上传下载，讨论创建/回复/锁定，题库多题型创建/编辑，判题环境创建/编辑/归档，作业创建保存/发布/编辑，作业关闭/撤回/重新发布，实验创建/发布/关闭，实验报告评阅。
 - 学生：单选、多选、填空、文件题提交，实验报告草稿/附件/正式提交。
 - 非功能：完整逐页 console/network 归因文件未单独保存。
 
@@ -279,7 +280,7 @@
 2. P2-R2-002：未授权课程上下文已收敛为课程不可访问态，不再展示快捷入口。
 3. P2-R2-003：不存在课程 ID 已收敛为课程不可访问态，不再停留加载态或展示快捷入口。
 
-其余阻塞项应优先补 MCP 写入动作验证；如果验证中发现真实缺陷，再追加编号进入下一轮修复清单。
+其余阻塞项应优先补 MCP 写入动作验证；如果验证中发现真实缺陷，再追加编号进入下一轮修复清单。当前第三阶段补证已覆盖教师公告新建、教师通知全部已读、学生通知单条已读和通知网络摘要，未涉及应用代码修改。
 
 ## 20. 最终 just status 与提交信息
 
@@ -287,4 +288,4 @@
 - 第三阶段修复前 `just status`：`server/` dirty entries 0；`web/` dirty entries 5；`docs/` dirty entries 3，另有 ignored round2 repair checklist 和 116-118 截图需要 `git add -f`。
 - 第三阶段代码提交：`web` `5ea8296 fix(frontend): 修复登录与课程错误态`。
 - 第三阶段 docs 产物提交：以本报告所在 `docs/` 提交为准。
-- 当前剩余状态：第二轮仍有强制写入动作缺少 MCP 主证据，总体验收保持 `不通过`；下一步应优先补齐这些写入动作验证，发现真实缺陷后再追加编号进入下一轮修复清单。
+- 当前剩余状态：第二轮仍有强制写入动作缺少 MCP 主证据，总体验收保持 `不通过`；公告与通知状态变更已补齐，下一步应优先补齐管理员保存/创建、教师资源/讨论/题库/判题环境/作业/实验、学生结构化提交/文件题/实验报告等写入动作验证，发现真实缺陷后再追加编号进入下一轮修复清单。
