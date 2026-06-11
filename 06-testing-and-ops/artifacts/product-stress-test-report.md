@@ -19,6 +19,7 @@
 - 2026-06-11 修复批次结论：已完成第一批 P1 高频读路径与压测脚本修复，并通过后端单测/集成门禁；但尚未复跑 `PERF_PROFILE=contract` 全量压力测试，故本报告总体验收结论仍保持“不通过”。
 - 2026-06-11 P1 复测与第八批修复结论：已复跑读请求 / 判题轮询 / 通知轮询 P1 诊断和九轮 read-label 混合读诊断，证明认证 principal cache、提交列表批量答案加载、`/auth/me` 默认快照读取、access token 会话活跃缓存预热、教师提交列表敏感 scope 预解析、会话活跃缓存入口无事务、认证 principal 缓存入口无事务、通知轮询缓存入口无事务均有收益；第八批 no-tx 复测确认通知未读数 500 并发 5xx 从 1302 降到 13，但混合读总 5xx 升到 14238，200/500 并发仍有 5xx/P99 超阈值，P1 仍为失败。
 - 2026-06-12 第九批修复结论：作业列表、提交列表、成绩册高频读入口已移除外层读事务，perf runner 增加 `MAX_STAGE_CONCURRENCY` / `MAX_STAGE_COUNT` 诊断开关，并将默认 Hikari 取连接等待从 500ms 调整为 2500ms。短诊断证明 `read_request_ladder`、`judge_polling`、`notification_polling` 的 50/200 并发均为 0 个 5xx；但尚未执行 500/1000 阶段和完整 `PERF_PROFILE=contract` 全合同复测，故总体验收结论仍保持“不通过”。
+- 2026-06-12 第十批代码修复结论：`STRESS-06120151-read500-after-stage-timeout` 证明 500 阶段仍有 1 个 `teacher_gradebook` 500，服务日志定位到成绩册数据库查询等待 Hikari 连接超时。第十批已修复 perf runner stage 卡死风险，新增成绩册页短 TTL 缓存、班级成绩册 no-tx、Redis 前缀删除和成绩写后缓存失效；目标单测通过。修复后完整压力阶梯尚未执行，因此总体验收结论仍保持“不通过”。
 - 已证明容量边界：读请求 50/200 并发短诊断通过；判题轮询 50/200 并发短诊断通过；通知轮询 50/200 并发短诊断通过；文件上传 10 并发、文件下载 100 并发通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过。
 - 未证明或失败范围：读请求 500/1000 并发尚未重测；写入链路 10 并发即出现 429；判题轮询 500 并发尚未重测；通知查询 500 并发尚未重测；soak 100 并发 10 分钟出现 429，未满足无错误稳定性要求；未证明 Kubernetes 实验运行时容量。
 - 真实 go-judge 判题结论：失败。数据准备阶段触发了 1 次真实编程提交，判题轮询 50 并发通过，但 200/500 并发失败；未完成五类结果、报告下载和重评容量证明。
@@ -83,6 +84,7 @@
 | 36 | 作业/提交/成绩册高频入口事务边界定向测试 | 通过 | `bash ./mvnw -Dtest=AssignmentApplicationServiceTests,SubmissionApplicationServiceTests,GradebookApplicationServiceTests,GradebookQueryRepositoryTests test`；10 个 Java 测试通过，固定作业列表、提交列表、成绩册读入口不再声明外层 `@Transactional`。 |
 | 37 | 第九批修复后 read ladder 50/200 短诊断 | 通过 | `raw/STRESS-06120105-read-after-hikaritimeout/read_after_hikaritimeout_results.json`；50 并发 65192 请求全 200，P99 48.70ms；200 并发 133697 请求全 200，P99 2418.45ms，5xx=0。服务日志未出现 Hikari/事务错误。 |
 | 38 | 第九批修复后 judge/notification 50/200 短诊断 | 通过 | `raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`；judge 50/200 均 5xx=0，P99 14.88ms / 85.46ms；notification 50/200 均 5xx=0，P99 18.63ms / 23.28ms。服务日志未出现 Hikari/事务错误。 |
+| 39 | 第十批 runner 与成绩册热点修复目标单测 | 通过 | `bash ./mvnw -Dtest=GradebookApplicationServiceTests,RedisCacheServiceTests,GradingApplicationServiceTests test`；13 个 Java 测试通过。`/opt/miniconda3/bin/python3 -m unittest ops/perf/run_perf_suite_test.py`；9 个 Python 测试通过。 |
 
 ## 4.1 2026-06-11 第一批修复记录
 
@@ -152,6 +154,15 @@
 - 修复前后对比：`STRESS-06120049-read-after-assignmenttx` 证明作业列表外层事务移除后 50 并发 67845 请求 0 个 5xx，但 200 并发仍有 131 个 5xx；`STRESS-06120058-read-after-submission-gradebooktx` 在提交/成绩册事务边界修复后，200 并发 5xx 降为 79；`STRESS-06120105-read-after-hikaritimeout` 在 Hikari 等待阈值修复后，200 并发 133697 请求全 200、5xx=0。
 - P1 短诊断结果：`STRESS-06120105-read-after-hikaritimeout` 读请求 50/200 均通过；`STRESS-06120111-judge-notif-after-hikaritimeout` 判题轮询和通知轮询 50/200 均通过。所有本轮最终服务日志均未出现 `CannotCreateTransactionException`、`Connection is not available` 或 `SQLTransientConnectionException`。
 - 当前限制：本批只证明 P1 50/200 短诊断恢复；尚未复跑 read ladder 500/1000、判题/通知 500、完整 `PERF_PROFILE=contract`、soak、写入 429、Kubernetes Web 终端和 7.2-7.15 专项，因此总体验收仍不是通过。
+
+## 4.10 2026-06-12 第十批 runner stage 超时与成绩册页缓存修复计划
+
+- 修复计划文档：详见 `product-stress-test-repair-plan.md`。
+- 新增证据：`STRESS-06120151-read500-after-stage-timeout` 中 read ladder 500 阶段总请求 `142801`、5xx=`1`，唯一 500 落在 `teacher_gradebook`；服务日志显示 `GradebookQueryRepository.loadAssignmentBackedRows` 等待 Hikari 连接超时，`total=48, active=48, idle=0, waiting=257`。
+- runner 修复：为 `run_perf_suite.py` 增加 `PERF_REQUEST_TIMEOUT_SECONDS`、`PERF_STAGE_TIMEOUT_GRACE_SECONDS`、stage 级 `asyncio.wait_for`、挂起 worker 取消和 `EXC:StageTimeout` 统计；`summarize_result` 使用 `flush=True`，避免长阶段结束前无输出。
+- 成绩册修复：教师成绩册页和学生我的成绩册增加 `gradebook-page-ttl` 短 TTL 缓存；整课、班级、学生我的成绩册入口均不声明外层只读事务；`CacheService` 增加 `evictByPrefix`，Redis 用 SCAN 删除同一开课前缀；成绩发布和人工批改事务提交后清理 `teacherGradebookPage` 与 `myGradebook`。
+- 目标验证：`GradebookApplicationServiceTests`、`RedisCacheServiceTests`、`GradingApplicationServiceTests` 共 13 个 Java 测试通过；`run_perf_suite_test.py` 共 9 个 Python 测试通过。
+- 当前限制：本批尚未执行修复后 500/1000 压力阶梯，不能把 P1-STRESS-001/P1-STRESS-002 改为通过；完整合同仍需复测。
 
 ## 5. 压测数据准备
 
