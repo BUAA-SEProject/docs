@@ -1,0 +1,153 @@
+[
+  {
+    "scenario": "read_request_ladder",
+    "concurrency": 50,
+    "durationSeconds": 120,
+    "totalRequests": 53433,
+    "rps": 444.94,
+    "avgMs": 38.05,
+    "p50Ms": 20.05,
+    "p95Ms": 98.51,
+    "p99Ms": 138.17,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "200": 53433
+    }
+  },
+  {
+    "scenario": "read_request_ladder",
+    "concurrency": 200,
+    "durationSeconds": 180,
+    "totalRequests": 93262,
+    "rps": 517.32,
+    "avgMs": 309.98,
+    "p50Ms": 186.08,
+    "p95Ms": 667.45,
+    "p99Ms": 2535.92,
+    "errorRate": 0.0061,
+    "fiveXx": 142,
+    "statuses": {
+      "200": 92694,
+      "500": 142,
+      "401": 426
+    }
+  },
+  {
+    "scenario": "read_request_ladder",
+    "concurrency": 500,
+    "durationSeconds": 180,
+    "totalRequests": 120221,
+    "rps": 659.4,
+    "avgMs": 682.09,
+    "p50Ms": 531.31,
+    "p95Ms": 2576.98,
+    "p99Ms": 2935.81,
+    "errorRate": 0.2254,
+    "fiveXx": 8284,
+    "statuses": {
+      "200": 93129,
+      "401": 18808,
+      "500": 8284
+    }
+  },
+  {
+    "scenario": "judge_polling",
+    "concurrency": 50,
+    "durationSeconds": 120,
+    "totalRequests": 78041,
+    "rps": 639.5,
+    "avgMs": 6.17,
+    "p50Ms": 4.95,
+    "p95Ms": 7.41,
+    "p99Ms": 12.94,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "200": 78041
+    }
+  },
+  {
+    "scenario": "judge_polling",
+    "concurrency": 200,
+    "durationSeconds": 180,
+    "totalRequests": 279478,
+    "rps": 1551.5,
+    "avgMs": 54.61,
+    "p50Ms": 36.64,
+    "p95Ms": 75.44,
+    "p99Ms": 129.37,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "200": 279478
+    }
+  },
+  {
+    "scenario": "judge_polling",
+    "concurrency": 500,
+    "durationSeconds": 180,
+    "totalRequests": 287240,
+    "rps": 1576.19,
+    "avgMs": 241.54,
+    "p50Ms": 91.88,
+    "p95Ms": 584.69,
+    "p99Ms": 2520.81,
+    "errorRate": 0.0377,
+    "fiveXx": 2905,
+    "statuses": {
+      "200": 276423,
+      "401": 7912,
+      "500": 2905
+    }
+  },
+  {
+    "scenario": "notification_polling",
+    "concurrency": 50,
+    "durationSeconds": 120,
+    "totalRequests": 73234,
+    "rps": 610.18,
+    "avgMs": 10.53,
+    "p50Ms": 6.65,
+    "p95Ms": 11.17,
+    "p99Ms": 13.94,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "200": 73234
+    }
+  },
+  {
+    "scenario": "notification_polling",
+    "concurrency": 200,
+    "durationSeconds": 180,
+    "totalRequests": 456689,
+    "rps": 2509.67,
+    "avgMs": 6.84,
+    "p50Ms": 3.73,
+    "p95Ms": 8.31,
+    "p99Ms": 22.91,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "200": 456689
+    }
+  },
+  {
+    "scenario": "notification_polling",
+    "concurrency": 500,
+    "durationSeconds": 180,
+    "totalRequests": 588990,
+    "rps": 3268.45,
+    "avgMs": 68.91,
+    "p50Ms": 37.17,
+    "p95Ms": 134.51,
+    "p99Ms": 282.8,
+    "errorRate": 0.0,
+    "fiveXx": 1,
+    "statuses": {
+      "200": 588989,
+      "500": 1
+    }
+  }
+]

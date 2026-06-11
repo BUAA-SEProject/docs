@@ -1,0 +1,5228 @@
+[
+  {
+    "ts": 1781171063.8797991,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.06%",
+        "mem": "42.88MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "37.79%",
+        "mem": "107.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.02%",
+        "mem": "9.586MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.07MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "80.61MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 13
+  },
+  {
+    "ts": 1781171071.110253,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.77%",
+        "mem": "326.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.03%",
+        "mem": "107.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.37%",
+        "mem": "9.648MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.08%",
+        "mem": "12.07MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "3.07%",
+        "mem": "80.7MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 38
+  },
+  {
+    "ts": 1781171078.3143392,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.08%",
+        "mem": "369.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.49%",
+        "mem": "107.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.16%",
+        "mem": "9.664MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "80.69MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 42
+  },
+  {
+    "ts": 1781171085.5254269,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.10%",
+        "mem": "374.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "69.88%",
+        "mem": "107.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.23%",
+        "mem": "9.684MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "80.69MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171092.748832,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.30%",
+        "mem": "375.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.39%",
+        "mem": "107.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.15%",
+        "mem": "9.703MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "80.69MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171099.962285,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.32%",
+        "mem": "375.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.49%",
+        "mem": "107.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.30%",
+        "mem": "9.703MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "80.69MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171107.127272,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.08%",
+        "mem": "375.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.36%",
+        "mem": "107.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.29%",
+        "mem": "9.711MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "80.69MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171114.328227,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.26%",
+        "mem": "375.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.34%",
+        "mem": "107.5MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.35%",
+        "mem": "9.711MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "80.69MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171121.5349498,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.77%",
+        "mem": "375.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.29%",
+        "mem": "107.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.09%",
+        "mem": "9.711MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.56%",
+        "mem": "80.69MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171128.694188,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.06%",
+        "mem": "376.2MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "25.36%",
+        "mem": "203.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.71%",
+        "mem": "9.715MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "80.69MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171135.915721,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.17%",
+        "mem": "376.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.34%",
+        "mem": "107.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.24%",
+        "mem": "9.703MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.03%",
+        "mem": "82.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171143.145797,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "1.40%",
+        "mem": "376.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.90%",
+        "mem": "107.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.09%",
+        "mem": "9.699MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "82.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171150.33248,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "376.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.36%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.37%",
+        "mem": "9.703MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "82.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171157.550347,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "390.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.51%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.99%",
+        "mem": "9.715MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.11%",
+        "mem": "82.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171164.788408,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.34%",
+        "mem": "392MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.38%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.57%",
+        "mem": "9.707MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "82.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171171.990931,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "4.27%",
+        "mem": "392.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.28%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.23%",
+        "mem": "9.723MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.33%",
+        "mem": "82.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171179.202604,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.41%",
+        "mem": "392MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.17%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.42%",
+        "mem": "9.723MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "82.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 43
+  },
+  {
+    "ts": 1781171186.479048,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.19%",
+        "mem": "453.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.38%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.96%",
+        "mem": "9.715MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "82.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171193.7774668,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.12%",
+        "mem": "478MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "2.69%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.41%",
+        "mem": "9.703MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.08MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "82.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171201.062397,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.15%",
+        "mem": "480.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.40%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.10%",
+        "mem": "9.703MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "82.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171208.320319,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "13.15%",
+        "mem": "480.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.26%",
+        "mem": "107.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.00%",
+        "mem": "9.703MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "82.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171215.642315,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.25%",
+        "mem": "480.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.39%",
+        "mem": "107.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.16%",
+        "mem": "9.957MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.08%",
+        "mem": "82.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171222.945044,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.19%",
+        "mem": "481.2MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.37%",
+        "mem": "107.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.39%",
+        "mem": "9.707MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "82.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171230.242312,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "23.15%",
+        "mem": "480.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.49%",
+        "mem": "107.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.19%",
+        "mem": "9.711MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "82.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171237.551583,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "8.79%",
+        "mem": "480.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.45%",
+        "mem": "107.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.26%",
+        "mem": "9.723MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.27%",
+        "mem": "82.87MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171244.891546,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.17%",
+        "mem": "481.2MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "30.84%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.92%",
+        "mem": "9.98MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "82.87MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171252.192926,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.62%",
+        "mem": "481.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.38%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.95%",
+        "mem": "9.734MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.27%",
+        "mem": "85.1MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171259.493469,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.11%",
+        "mem": "481.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.28%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.19%",
+        "mem": "10MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171266.743047,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.05%",
+        "mem": "481.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "51.42%",
+        "mem": "219.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.00%",
+        "mem": "9.758MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.16%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171274.079531,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "11.35%",
+        "mem": "481.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.75%",
+        "mem": "107.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.45%",
+        "mem": "9.996MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171281.3723469,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.40%",
+        "mem": "481.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.47%",
+        "mem": "107.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.03%",
+        "mem": "9.73MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.43%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171288.6819022,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.16%",
+        "mem": "481.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.77%",
+        "mem": "107.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.36%",
+        "mem": "9.988MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171296.01211,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "15.92%",
+        "mem": "481.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.41%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.20%",
+        "mem": "9.75MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171303.3228722,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "9.29%",
+        "mem": "481.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "41.08%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.14%",
+        "mem": "9.746MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.03%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171310.609798,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "1.42%",
+        "mem": "484.2MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.38%",
+        "mem": "107.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.42%",
+        "mem": "9.754MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171317.924447,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.51%",
+        "mem": "482.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.27%",
+        "mem": "107.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.27%",
+        "mem": "9.832MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.08MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171325.196239,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.27%",
+        "mem": "482.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.35%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.41%",
+        "mem": "9.832MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "85.08MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171332.5114849,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.24%",
+        "mem": "482.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.39%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.63%",
+        "mem": "9.93MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.08%",
+        "mem": "85.08MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171339.8655171,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.29%",
+        "mem": "482.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.00%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.66%",
+        "mem": "10.15MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.08MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171347.124609,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "34.20%",
+        "mem": "482.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.55%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.38%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "85.08MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171354.3682969,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.09%",
+        "mem": "482.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.99%",
+        "mem": "107.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.22%",
+        "mem": "9.891MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.08MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171361.609437,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.08%",
+        "mem": "482.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "58.61%",
+        "mem": "213.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.05%",
+        "mem": "10.14MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.22%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171368.944331,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.18%",
+        "mem": "482.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.17%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.06%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "85.09MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171376.2574248,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.06%",
+        "mem": "483.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.33%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.39%",
+        "mem": "9.895MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "85.11MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171383.588234,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.89%",
+        "mem": "482.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.88%",
+        "mem": "107.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.04%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "85.11MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171390.8739069,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "1.07%",
+        "mem": "483.2MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.51%",
+        "mem": "107.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.17%",
+        "mem": "10.13MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "85.11MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171398.1556742,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "104.14%",
+        "mem": "482.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "58.31%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.73%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.11MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171405.4789371,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.10%",
+        "mem": "483.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.44%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.19%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "85.11MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171412.74083,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.07%",
+        "mem": "483.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.18%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.43%",
+        "mem": "10.12MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.27%",
+        "mem": "85.12MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171420.115778,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.07%",
+        "mem": "483MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.86%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.25%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.11MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171427.382625,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.07%",
+        "mem": "483MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.44%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.61%",
+        "mem": "9.895MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.09%",
+        "mem": "85.11MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171434.689458,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.03%",
+        "mem": "483.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "53.47%",
+        "mem": "209.5MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.09%",
+        "mem": "9.91MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.15MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171442.033037,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.07%",
+        "mem": "483.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.42%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.27%",
+        "mem": "9.918MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.15MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171449.352791,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "89.85%",
+        "mem": "483.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.21%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.35%",
+        "mem": "9.926MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "85.15MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171456.6784792,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "75.74%",
+        "mem": "483.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.33%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.94%",
+        "mem": "10.16MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "85.15MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171464.007751,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.76%",
+        "mem": "483.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.20%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.79%",
+        "mem": "9.926MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.15MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171471.3252668,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "1.36%",
+        "mem": "483.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.33%",
+        "mem": "107.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.15%",
+        "mem": "9.918MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.09%",
+        "mem": "85.15MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171478.638644,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.13%",
+        "mem": "483.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.44%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.54%",
+        "mem": "10.15MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.15MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171485.954695,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "86.82%",
+        "mem": "483.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.25%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.04%",
+        "mem": "9.922MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "85.15MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171493.2195158,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.06%",
+        "mem": "484MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.58%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.15%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.36%",
+        "mem": "85.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171500.545504,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.10%",
+        "mem": "483.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.08%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.34%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171507.838156,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.13%",
+        "mem": "483.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.41%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.36%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.09%",
+        "mem": "85.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171515.134494,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.05%",
+        "mem": "484MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.82%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.75%",
+        "mem": "9.898MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "85.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171522.404852,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.13%",
+        "mem": "484.2MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.53%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.28%",
+        "mem": "9.898MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.12%",
+        "mem": "85.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171529.717661,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "89.17%",
+        "mem": "484MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.65%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.93%",
+        "mem": "10.16MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "85.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171536.992598,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.16%",
+        "mem": "484MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.44%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.35%",
+        "mem": "9.902MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.31%",
+        "mem": "85.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171544.3151329,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "4.13%",
+        "mem": "484MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.74%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.01%",
+        "mem": "9.902MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "85.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171551.523548,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.37%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.11%",
+        "mem": "9.895MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "2.16%",
+        "mem": "86.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171558.726002,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.10%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.68%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.22%",
+        "mem": "9.891MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "86.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171565.91852,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.14%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.37%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.90%",
+        "mem": "9.902MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.13%",
+        "mem": "86.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171573.0952451,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.07%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.40%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.20%",
+        "mem": "9.891MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "86.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171580.290045,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.10%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.05%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.15%",
+        "mem": "9.898MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "86.79MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171587.5026329,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.09%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.43%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.04%",
+        "mem": "9.902MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "86.79MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171594.667846,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.07%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.78%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.04%",
+        "mem": "9.902MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "86.79MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171601.8223941,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.03%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.42%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.12%",
+        "mem": "10.15MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.14%",
+        "mem": "86.79MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171609.0244071,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.04%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.65%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.17%",
+        "mem": "9.891MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "86.79MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171616.184801,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.60%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "2.09%",
+        "mem": "109.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.14%",
+        "mem": "9.895MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "88.75MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171623.3346481,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.49%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.36%",
+        "mem": "10.15MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.75MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171630.53374,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.08%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.42%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.35%",
+        "mem": "9.906MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.75MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171637.686441,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.05%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.35%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.96%",
+        "mem": "9.898MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "88.75MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171644.865142,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.03%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.89%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.29%",
+        "mem": "9.91MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "88.75MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171652.073092,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.04%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.35%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.40%",
+        "mem": "9.898MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.75MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171659.224044,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "61.39%",
+        "mem": "217MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.68%",
+        "mem": "9.902MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "88.75MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171666.422456,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.43%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.31%",
+        "mem": "9.898MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "88.75MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171673.610684,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.08%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.37%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.45%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.51%",
+        "mem": "88.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171680.828925,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.17%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.40%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.43%",
+        "mem": "10.13MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.12%",
+        "mem": "88.79MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171688.059455,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.37%",
+        "mem": "488.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.29%",
+        "mem": "107.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.11%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.79MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171695.240192,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.43%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "63.59%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.43%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "88.79MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171702.462655,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.43%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.40%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.34%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.03%",
+        "mem": "88.78MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171709.674436,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.49%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.24%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "88.78MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171716.874221,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.41%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.46%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.31%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.29%",
+        "mem": "88.78MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171724.048357,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.35%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.98%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.12%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.88%",
+        "mem": "88.78MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171731.251394,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "1.21%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.94%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.92%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "7.05%",
+        "mem": "88.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171738.4630332,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.29%",
+        "mem": "488.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.44%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.28%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171745.634979,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.92%",
+        "mem": "488.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.32%",
+        "mem": "108.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.14%",
+        "mem": "10.14MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "88.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171752.8267121,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.46%",
+        "mem": "488.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.40%",
+        "mem": "108.5MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.19%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "88.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171760.037476,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.49%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.89%",
+        "mem": "108.5MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.12%",
+        "mem": "10.13MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "88.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171767.242752,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.48%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.35%",
+        "mem": "108.5MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.12%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "88.81MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171774.4621062,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.40%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.83%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.18%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.16%",
+        "mem": "88.85MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171781.68495,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.42%",
+        "mem": "488.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.42%",
+        "mem": "108.3MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.14%",
+        "mem": "9.883MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.15%",
+        "mem": "88.8MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171788.918616,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.45%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "59.69%",
+        "mem": "108.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.70%",
+        "mem": "9.883MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "88.84MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171796.0915399,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "4.16%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.35%",
+        "mem": "108.3MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.10%",
+        "mem": "9.891MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "88.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171803.3288121,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.42%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.54%",
+        "mem": "108.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.15%",
+        "mem": "10.39MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "88.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171810.547363,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.27%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.24%",
+        "mem": "108.5MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.46%",
+        "mem": "10.12MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171817.767456,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.41%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.39%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.11%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.15%",
+        "mem": "88.84MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171824.969226,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "45.37%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.66%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.09%",
+        "mem": "88.84MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171832.1883771,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.42%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.46%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.31%",
+        "mem": "9.883MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.84MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171839.389769,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.42%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.66%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.04%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "88.84MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171846.5927129,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "2.87%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.36%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.11%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "88.84MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171853.906823,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.70%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.98%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.07%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.87MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171861.1814568,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.45%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.33%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.36%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.88MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171868.4793541,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.20%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.46%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.24%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.88MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171875.7903628,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.07%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.91%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.34%",
+        "mem": "10.12MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "88.88MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171883.0895848,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.03%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "59.32%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.68%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "88.88MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171890.342956,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.23%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.93%",
+        "mem": "107.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.53%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "88.88MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171897.6546822,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.68%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.34%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.17%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.01%",
+        "mem": "88.88MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171904.9287858,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.07%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.32%",
+        "mem": "108.5MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.46%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.52%",
+        "mem": "88.88MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171912.22366,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.17%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.49%",
+        "mem": "108.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.27%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "14.78%",
+        "mem": "88.86MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171919.5184839,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.15%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "52.60%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.22%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "12.85%",
+        "mem": "95.56MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171926.8346171,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.21%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.38%",
+        "mem": "108MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.20%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.93%",
+        "mem": "107.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171934.131541,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.12%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.26%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.29%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "12.09MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "107.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171941.4162261,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.05%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.94%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.68%",
+        "mem": "10.13MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "107.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171948.718708,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.10%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.29%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.97%",
+        "mem": "10.13MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "107.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171955.992349,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "5.83%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.37%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.22%",
+        "mem": "9.875MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.03%",
+        "mem": "107.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171963.276958,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.26%",
+        "mem": "488.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.35%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.99%",
+        "mem": "9.887MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "107.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171970.574185,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.17%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.89%",
+        "mem": "106MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.36%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "107.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171977.855375,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.91%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.30%",
+        "mem": "108.3MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.05%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "109.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171985.121695,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.13%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.83%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.59%",
+        "mem": "9.879MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.64%",
+        "mem": "109.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171992.367316,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.35%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.39%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.13%",
+        "mem": "9.883MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "109.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781171999.6930828,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.18%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "59.75%",
+        "mem": "108.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.47%",
+        "mem": "10.13MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "113.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172006.956507,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.18%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.48%",
+        "mem": "108.3MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.45%",
+        "mem": "9.883MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.11%",
+        "mem": "113.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172014.275807,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.14%",
+        "mem": "487.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.14%",
+        "mem": "108.3MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.28%",
+        "mem": "9.883MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "113.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172021.614202,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.22%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.37%",
+        "mem": "108.5MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.37%",
+        "mem": "10.12MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.13%",
+        "mem": "113.2MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172028.9442298,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.17%",
+        "mem": "487.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.58%",
+        "mem": "108.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.15%",
+        "mem": "9.883MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "113.3MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172036.132788,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.27%",
+        "mem": "494.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "51.10%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.12%",
+        "mem": "10.11MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.89%",
+        "mem": "113.3MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172043.30418,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "494.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.43%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.30%",
+        "mem": "10.13MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "113.3MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172050.5338829,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.04%",
+        "mem": "494.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.58%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.96%",
+        "mem": "10.13MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "113.3MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172057.746641,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.05%",
+        "mem": "494.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.40%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.07%",
+        "mem": "10.42MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.15%",
+        "mem": "113.3MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172064.959211,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.04%",
+        "mem": "494.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.34%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.16%",
+        "mem": "10.17MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "113.3MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172072.180047,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.05%",
+        "mem": "494.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.36%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.33%",
+        "mem": "10.17MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "113.3MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172079.380209,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "494.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.54%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.80%",
+        "mem": "10.17MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "113.3MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172086.588675,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "494.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.31%",
+        "mem": "108.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.39%",
+        "mem": "10.18MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "113.3MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172093.832096,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.05%",
+        "mem": "495.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.64%",
+        "mem": "108.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.11%",
+        "mem": "10.2MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "113.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172101.048558,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "495.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.03%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.21%",
+        "mem": "10.42MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.11%",
+        "mem": "113.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172108.223605,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.96%",
+        "mem": "496.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.37%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.19%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "113.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172115.420979,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "495.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.92%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.21%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "113.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172122.629335,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "495.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.81%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.11%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.16%",
+        "mem": "113.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172129.857506,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.20%",
+        "mem": "495.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.48%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.30%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172137.0804322,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "495.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.41%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.18%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.30%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172144.318284,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "496MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.12%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.32%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172151.493896,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "1.05%",
+        "mem": "497MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "58.26%",
+        "mem": "212.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.67%",
+        "mem": "10.25MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.64%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172158.663423,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.91%",
+        "mem": "497MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.33%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.19%",
+        "mem": "10.25MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172165.824341,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "497.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.97%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.76%",
+        "mem": "10.29MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.67%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172172.973077,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "498.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "62.50%",
+        "mem": "205.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.82%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172180.1698198,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.88%",
+        "mem": "498.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.37%",
+        "mem": "108.3MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.18%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172187.367691,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "499.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.43%",
+        "mem": "108.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.43%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172194.5252402,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "500.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "66.79%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.07%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172201.741648,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.05%",
+        "mem": "501.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.36%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.47%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.13%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172208.897262,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "501.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.48%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.26%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172216.047026,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "502MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "66.19%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.56%",
+        "mem": "10.29MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.88%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172223.260244,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "502.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.42%",
+        "mem": "108.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.13%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.08%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172230.475785,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "502.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.94%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.27%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172237.652689,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "503MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "68.65%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.69%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.09%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172244.847392,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.06%",
+        "mem": "504.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.07%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.25%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.07%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172252.043831,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "504.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.37%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.19%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172259.1975482,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.47%",
+        "mem": "507MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "66.07%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.03%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.02%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172266.355971,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "505.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.41%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.30%",
+        "mem": "10.25MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.46%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172273.564502,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "506.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.33%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.20%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.08%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172280.7531798,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.33%",
+        "mem": "506.8MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "68.91%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.03%",
+        "mem": "10.44MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.01%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172287.961023,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "507.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.38%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.24%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172295.1795468,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.03%",
+        "mem": "508MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.13%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.09%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172302.364404,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "508MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "65.56%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.50%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.41%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172309.529089,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "508.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.60%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.25%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.08%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172316.733057,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "508.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.40%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.46%",
+        "mem": "10.2MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.65%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172323.942515,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "508.6MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "68.91%",
+        "mem": "109.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.54%",
+        "mem": "10.44MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.4MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172331.1105862,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "1.07%",
+        "mem": "508.7MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.33%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.20%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.05%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.54%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172338.3092852,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.06%",
+        "mem": "508.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.40%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.48%",
+        "mem": "10.23MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172345.503424,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.03%",
+        "mem": "508.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "40.51%",
+        "mem": "207.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.13%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172352.711118,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "508.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.44%",
+        "mem": "108.4MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.14%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172359.890538,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "508.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.46%",
+        "mem": "108.6MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.26%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172367.1364899,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.06%",
+        "mem": "508.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.45%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "2.53%",
+        "mem": "10.47MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.47%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172374.354694,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.05%",
+        "mem": "508.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.16%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.18%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172381.58222,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "508.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.35%",
+        "mem": "109.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.29%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.11%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172388.801801,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "508.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.44%",
+        "mem": "109.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.40%",
+        "mem": "10.44MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.06%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172396.015813,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.04%",
+        "mem": "500.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.77%",
+        "mem": "109.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.18%",
+        "mem": "10.24MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172403.260845,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.17%",
+        "mem": "500.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.41%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.10%",
+        "mem": "10.24MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172410.474956,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "4.05%",
+        "mem": "500.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.53%",
+        "mem": "109.2MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.20%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.02%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172417.74909,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "492.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.34%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.95%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.72%",
+        "mem": "114.6MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172424.9680798,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "493.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.37%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.39%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172432.188823,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "493.5MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.50%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.30%",
+        "mem": "10.19MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.01%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172439.399452,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "475.1MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.52%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.37%",
+        "mem": "10.44MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 48
+  },
+  {
+    "ts": 1781172446.6217449,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "468MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "25.27%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.90%",
+        "mem": "10.2MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.01%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.04%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172453.8478389,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.06%",
+        "mem": "469.3MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.36%",
+        "mem": "108.7MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.46%",
+        "mem": "10.25MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.6MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172461.05443,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "3.74%",
+        "mem": "464.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.24%",
+        "mem": "108.8MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.13%",
+        "mem": "10.22MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.05%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.08%",
+        "mem": "114.6MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172468.274299,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "429MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "46.48%",
+        "mem": "108.9MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.69%",
+        "mem": "10.21MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.47%",
+        "mem": "114.6MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 48
+  },
+  {
+    "ts": 1781172475.451766,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "430.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.01%",
+        "mem": "109.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.18%",
+        "mem": "10.46MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.03%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.05%",
+        "mem": "114.6MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172482.644429,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.01%",
+        "mem": "430.4MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.44%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.12%",
+        "mem": "10.21MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.6MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172489.863348,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.02%",
+        "mem": "434.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "58.28%",
+        "mem": "109.1MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.93%",
+        "mem": "10.46MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.6MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172497.0902689,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "434.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "0.37%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.31%",
+        "mem": "10.46MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.17%",
+        "mem": "114.6MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172504.3038259,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "0.00%",
+        "mem": "434.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "1.32%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "1.44%",
+        "mem": "10.21MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.00%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "0.00%",
+        "mem": "114.6MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  },
+  {
+    "ts": 1781172511.509675,
+    "containers": {
+      "server-postgres-1": {
+        "cpu": "2.64%",
+        "mem": "434.9MiB / 7.75GiB"
+      },
+      "server-rabbitmq-1": {
+        "cpu": "60.65%",
+        "mem": "109MiB / 7.75GiB"
+      },
+      "server-redis-1": {
+        "cpu": "0.56%",
+        "mem": "10.21MiB / 7.75GiB"
+      },
+      "server-go-judge-1": {
+        "cpu": "0.04%",
+        "mem": "14.01MiB / 7.75GiB"
+      },
+      "server-minio-1": {
+        "cpu": "1.61%",
+        "mem": "114.5MiB / 7.75GiB"
+      }
+    },
+    "pgConnections": 49
+  }
+]

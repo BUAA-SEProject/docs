@@ -1,0 +1,20 @@
+
+== preflight ==
+
+== docker dependencies ==
+ Container server-redis-1 Running 
+ Container server-go-judge-1 Running 
+ Container server-minio-1 Running 
+ Container server-rabbitmq-1 Running 
+ Container server-postgres-1 Running 
+
+== backend ==
+backend port 18080 already listening; not starting another backend
+
+== frontend ==
+frontend port 3000 already listening; not starting another frontend
+
+== ready ==
+backend:  http://127.0.0.1:18080
+frontend: http://127.0.0.1:3000
+logs:     /Users/moorefoss/Code/AUBB/.aubb/run/logs
