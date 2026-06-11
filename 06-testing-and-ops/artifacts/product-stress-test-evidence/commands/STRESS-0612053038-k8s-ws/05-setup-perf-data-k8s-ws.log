@@ -1,0 +1,14 @@
+== setup perf data ==
+RUN_ID=STRESS-0612053038-k8s-ws
+BASE_URL=http://127.0.0.1:18080
+ARTIFACT_DIR=/tmp/aubb-STRESS-0612053038-k8s-ws
+STUDENT_COUNT=80
+ACTIVE_SUBMITTERS=20
+ADMIN_USERNAME_SOURCE=AUBB_E2E_ADMIN_USERNAME
+ADMIN_PASSWORD_PRESENT=yes
+started_at=2026-06-12T05:32:11+08:00
+finished_at=2026-06-12T05:32:25+08:00
+exit_code=0
+manifest_path=/tmp/aubb-STRESS-0612053038-k8s-ws/manifest.json
+stderr_tail_begin
+stderr_tail_end

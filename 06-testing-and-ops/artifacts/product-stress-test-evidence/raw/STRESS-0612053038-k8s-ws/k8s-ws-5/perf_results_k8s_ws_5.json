@@ -1,0 +1,27 @@
+[
+  {
+    "scenario": "lab_terminal_websocket",
+    "concurrency": 5,
+    "durationSeconds": 600,
+    "totalRequests": 155,
+    "rps": 0.26,
+    "avgMs": 45.66,
+    "p50Ms": 41.06,
+    "p95Ms": 79.1,
+    "p99Ms": 365.25,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "201": 125,
+      "200": 30
+    },
+    "terminalStats": {
+      "sessionRunning": 5,
+      "wsConnected": 115,
+      "wsCommandOk": 115,
+      "initialCommandOk": 5,
+      "reconnectCommandOk": 5,
+      "resetCommandOk": 5
+    }
+  }
+]

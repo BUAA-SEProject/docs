@@ -1,0 +1,16 @@
+== kubectl version ==
+Client Version: v1.34.1
+Kustomize Version: v5.7.1
+== context ==
+kind-aubb-lab-dev
+== namespace ==
+NAME        STATUS   AGE
+aubb-labs   Active   3d16h
+== auth can-i ==
+yes
+yes
+yes
+== current pods ==
+No resources found in aubb-labs namespace.
+== metrics ==
+error: Metrics API not available

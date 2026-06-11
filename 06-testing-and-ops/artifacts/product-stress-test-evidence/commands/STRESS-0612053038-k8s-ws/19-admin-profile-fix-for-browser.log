@@ -1,0 +1,18 @@
+# admin profile fix for browser regression
+timestamp=2026-06-12T06:11:17+0800
+api=http://127.0.0.1:18080/api/v1
+target_user=stress-0612053038-k8s-ws-stu-001
+admin_login_status=200
+user_search_status=200
+user_id=1003
+profile_update_status=200
+{
+  "id": 1003,
+  "username": "stress-0612053038-k8s-ws-stu-001",
+  "hasAcademicProfile": true,
+  "academicProfile": {
+    "academicId": "stress-0612053038-k8s-ws-stu-001-profile",
+    "identityType": "STUDENT",
+    "profileStatus": "ACTIVE"
+  }
+}

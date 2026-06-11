@@ -1,0 +1,73 @@
+== dev-down ==
+
+== local processes ==
+[stop] web tmux session aubb-web
+[stop] server tmux session aubb-server
+[skip] web pid 99862n not running
+[skip] server pid 99676n not running
+
+== docker dependencies ==
+ Container server-rabbitmq-1 Stopping
+ Container server-redis-1 Stopping
+ Container server-go-judge-1 Stopping
+ Container server-minio-1 Stopping
+ Container server-postgres-1 Stopping
+ Container server-go-judge-1 Stopped
+ Container server-go-judge-1 Removing
+ Container server-go-judge-1 Removed
+ Container server-minio-1 Stopped
+ Container server-minio-1 Removing
+ Container server-minio-1 Removed
+ Container server-postgres-1 Stopped
+ Container server-postgres-1 Removing
+ Container server-postgres-1 Removed
+ Container server-redis-1 Stopped
+ Container server-redis-1 Removing
+ Container server-redis-1 Removed
+ Container server-rabbitmq-1 Stopped
+ Container server-rabbitmq-1 Removing
+ Container server-rabbitmq-1 Removed
+ Network server_default Removing
+ Network server_default Removed
+
+== done ==
+volumes were not removed
+== docker deps ==
+ Network server_default Creating
+ Network server_default Created
+ Container server-minio-1 Creating
+ Container server-redis-1 Creating
+ Container server-rabbitmq-1 Creating
+ Container server-postgres-1 Creating
+ Container server-go-judge-1 Creating
+ Container server-minio-1 Created
+ Container server-go-judge-1 Created
+ Container server-rabbitmq-1 Created
+ Container server-redis-1 Created
+ Container server-postgres-1 Created
+ Container server-go-judge-1 Starting
+ Container server-redis-1 Starting
+ Container server-rabbitmq-1 Starting
+ Container server-postgres-1 Starting
+ Container server-minio-1 Starting
+ Container server-go-judge-1 Started
+ Container server-minio-1 Started
+ Container server-redis-1 Started
+ Container server-rabbitmq-1 Started
+ Container server-postgres-1 Started
+== start backend kubernetes runtime ==
+backend tmux session: aubb-server
+kubeconfig_copy=/Users/moorefoss/Code/AUBB/.aubb/run/kind-aubb-lab-dev.kubeconfig
+== wait backend ==
+curl: (7) Failed to connect to 127.0.0.1 port 18080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18080 after 0 ms: Couldn't connect to server
+backend readiness ok after 9s
+== start frontend ==
+curl: (7) Failed to connect to 127.0.0.1 port 3000 after 0 ms: Couldn't connect to server
+frontend login ok after 2s

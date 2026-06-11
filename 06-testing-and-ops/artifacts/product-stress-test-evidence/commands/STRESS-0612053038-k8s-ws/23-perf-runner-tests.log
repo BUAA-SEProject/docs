@@ -1,0 +1,7 @@
+........{"scenario": "mixed_read", "concurrency": 10, "durationSeconds": 1, "totalRequests": 4, "rps": 4000.0, "avgMs": 82.5, "p50Ms": 100.0, "p95Ms": 200.0, "p99Ms": 200.0, "errorRate": 0.5, "fiveXx": 1, "statuses": {"200": 2, "401": 1, "500": 1}, "endpointStats": {"auth_me": {"totalRequests": 2, "avgMs": 15.0, "p50Ms": 10.0, "p95Ms": 20.0, "p99Ms": 20.0, "errorRate": 0.0, "fiveXx": 0, "statuses": {"200": 2}}, "teacher_gradebook": {"totalRequests": 2, "avgMs": 150.0, "p50Ms": 100.0, "p95Ms": 200.0, "p99Ms": 200.0, "errorRate": 1.0, "fiveXx": 1, "statuses": {"401": 1, "500": 1}}}}
+.{"scenario": "lab_terminal_websocket", "concurrency": 5, "durationSeconds": 600, "totalRequests": 0, "rps": 0, "avgMs": 0, "p50Ms": 0, "p95Ms": 0, "p99Ms": 0, "errorRate": 1.0, "fiveXx": 0, "statuses": {"SKIPPED:LAB_TERMINAL_TARGET_MISSING": 1}}
+...
+----------------------------------------------------------------------
+Ran 12 tests in 0.015s
+
+OK

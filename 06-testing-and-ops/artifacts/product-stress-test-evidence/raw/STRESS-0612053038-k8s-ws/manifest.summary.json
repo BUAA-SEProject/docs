@@ -1,0 +1,13 @@
+{
+  "runId": "STRESS-0612053038-k8s-ws",
+  "studentCount": 80,
+  "labStudentCount": 40,
+  "terminalLabId": 86,
+  "labEnvironmentProfileId": 1,
+  "offeringId": 63,
+  "classIds": [
+    398,
+    399
+  ],
+  "judgeJobId": 78
+}

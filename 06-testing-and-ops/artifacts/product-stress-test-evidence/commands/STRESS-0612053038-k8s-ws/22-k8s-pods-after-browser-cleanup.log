@@ -1,0 +1,35 @@
+# k8s pods after browser terminal cleanup
+timestamp=2026-06-12T06:16:41+0800
+No resources found in aubb-labs namespace.
+
+# events tail
+10m         Normal   Pulled      pod/aubb-lab-stress-1587   Container image "alpine:3.20" already present on machine and can be accessed by the pod
+10m         Normal   Pulled      pod/aubb-lab-stress-1601   Container image "alpine:3.20" already present on machine and can be accessed by the pod
+10m         Normal   Created     pod/aubb-lab-stress-1601   Container created
+10m         Normal   Started     pod/aubb-lab-stress-1601   Container started
+10m         Normal   Pulled      pod/aubb-lab-stress-1602   Container image "alpine:3.20" already present on machine and can be accessed by the pod
+10m         Normal   Killing     pod/aubb-lab-stress-1598   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1594   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1597   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1599   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1602   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1601   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1587   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1586   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1596   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1603   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1595   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1600   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1588   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1589   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1604   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1592   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1591   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1593   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1590   Stopping container workspace
+10m         Normal   Killing     pod/aubb-lab-stress-1605   Stopping container workspace
+2m54s       Normal   Scheduled   pod/aubb-lab-stress-1606   Successfully assigned aubb-labs/aubb-lab-stress-1606 to aubb-lab-dev-control-plane
+2m54s       Normal   Pulled      pod/aubb-lab-stress-1606   Container image "alpine:3.20" already present on machine and can be accessed by the pod
+2m54s       Normal   Created     pod/aubb-lab-stress-1606   Container created
+2m53s       Normal   Started     pod/aubb-lab-stress-1606   Container started
+73s         Normal   Killing     pod/aubb-lab-stress-1606   Stopping container workspace

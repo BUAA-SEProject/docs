@@ -1,0 +1,58 @@
+Total messages: 3 (Errors: 1, Warnings: 0)
+Returning 55 messages for level "error"
+
+[ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://127.0.0.1:3000/api/v1/auth/me:0
+[ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://127.0.0.1:3000/api/v1/auth/refresh:0
+[ERROR] Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://127.0.0.1:3000/api/v1/me/notifications/stream:0
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/api/v1/me/notifications/unread-count:0
+[ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2790
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/__nextjs_original-stack-frames:0
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/__nextjs_font/geist-latin.woff2:0
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/api/v1/me/notifications/unread-count:0
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=fh2j2bkbwe3plsyFLJHq0' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/api/v1/me/notifications/unread-count:0
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/api/v1/me/notifications/unread-count:0
+[ERROR] Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://127.0.0.1:3000/api/v1/me/notifications/stream:0
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/api/v1/me/notifications/unread-count:0
+[ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2790
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/__nextjs_font/geist-latin.woff2:0
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/__nextjs_original-stack-frames:0
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=6eQXw25-oaSQeb2ko-GWU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/api/v1/me/notifications/unread-count:0
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=6eQXw25-oaSQeb2ko-GWU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=6eQXw25-oaSQeb2ko-GWU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=6eQXw25-oaSQeb2ko-GWU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=6eQXw25-oaSQeb2ko-GWU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=6eQXw25-oaSQeb2ko-GWU' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://127.0.0.1:3000/api/v1/me/notifications/unread-count:0
+[ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/api/v1/me/labs/85/sessions/current:0
+[ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/api/v1/me/labs/85/sessions/current:0
+[ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/api/v1/me/labs/85/sessions/current:0
+[ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/api/v1/me/labs/85/sessions/current:0
+[ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/api/v1/me/labs/85/sessions/current:0
+[ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/api/v1/me/labs/85/sessions/current:0
+[ERROR] Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://127.0.0.1:3000/api/v1/me/notifications/stream:0
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/api/v1/me/notifications/unread-count:0
+[ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2790
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/__nextjs_original-stack-frames:0
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/__nextjs_font/geist-latin.woff2:0
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=kf3dg292m-bBu9RmKnovE' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/api/v1/me/notifications/unread-count:0
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=kf3dg292m-bBu9RmKnovE' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=kf3dg292m-bBu9RmKnovE' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=kf3dg292m-bBu9RmKnovE' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=kf3dg292m-bBu9RmKnovE' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] WebSocket connection to 'ws://127.0.0.1:3000/_next/webpack-hmr?id=kf3dg292m-bBu9RmKnovE' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/api/v1/me/labs/86/sessions/current:0
+network error
+network error
+network error

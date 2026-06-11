@@ -1,0 +1,15 @@
+# browser k8s terminal regression
+timestamp=2026-06-12T06:16:41+0800
+tool=playwright_mcp
+url=http://127.0.0.1:3000/student/labs?classId=398&offeringId=63
+account=stress-0612053038-k8s-ws-stu-001
+profile_fix_log=commands/STRESS-0612053038-k8s-ws/19-admin-profile-fix-for-browser.log
+selected_lab=STRESS-0612053038-k8s-ws 终端实验压测
+observed_before_start=未启动
+observed_after_start=运行中
+observed_terminal_status=已连接
+terminal_echo=UI-K8S-WS-OK observed in xterm text
+observed_after_stop=未启动
+screenshot=../../product-stress-test-screenshots/STRESS-0612053038-k8s-ws/browser-k8s-terminal-connected.png
+console_errors=commands/STRESS-0612053038-k8s-ws/console-browser-errors.txt
+note=console file is all=true and includes prior dev-server restart / old-session errors; primary assertion is terminal connected plus echo returned before stop.

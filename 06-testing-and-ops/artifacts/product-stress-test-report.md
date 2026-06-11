@@ -8,24 +8,25 @@
 - 目标环境：本地真实前后端与本地 Docker 依赖，不对生产或外部真实用户环境压测
 - 前端地址：`http://127.0.0.1:3000`
 - 后端地址：`http://127.0.0.1:18080`
-- 运行时模式：基础合同复测使用本地 fake 实验运行时；2026-06-12 第十二批另以 `AUBB_LAB_RUNTIME_MODE=kubernetes` 手工启动后端，完成真实 Kubernetes Web 终端单会话 smoke，不声明 Kubernetes 并发容量
+- 运行时模式：基础合同复测使用本地 fake 实验运行时；2026-06-12 第十二批以 `AUBB_LAB_RUNTIME_MODE=kubernetes` 手工启动后端完成真实 Kubernetes Web 终端单会话 smoke，第十三批继续完成真实 Kubernetes WebSocket 5/10/20 并发 10 分钟专项
 - 机器配置摘要：MacBookPro18,3，8 CPU，16 GiB 内存，macOS 26.5.1；Java 25.0.3，Docker 29.4.3，Node 24.15.0，npm 11.14.1。证据：`product-stress-test-evidence/commands/20-machine-and-tool-summary.log`
 - 初始 `just status` 摘要：`server/`、`web/`、`docs/` 均在 `main...origin/main`，dirty entries 均为 `0`；AUBB root 不是 git 仓库
 - 最终 `just status` 摘要：`server/`、`web/`、`docs/` dirty entries 均为 `0`；`server/` 因提交 `447fa75 feat(perf): 补齐合同压测场景` ahead 1，`docs/` 因提交压力测试报告与证据 ahead 1。初次最终状态证据见 `product-stress-test-evidence/commands/34-final-just-status-post-docs-commit.log`；覆盖矩阵补录后的最终状态证据见 `product-stress-test-evidence/commands/38-final-just-status-post-coverage-matrix-commit.log`。`docs/06-testing-and-ops/artifacts/` 为 docs 仓库忽略目录，本轮压力测试报告和证据已按合同使用 `git add -f` 纳入 docs 子仓库提交范围。
 
 ## 2. 总体结论
 
-- 结论：不通过全平台合同容量目标。第十一批已修复核心 runner 中的高并发 5xx 和写路径 429；第十二批已打通真实 Kubernetes Web 终端单会话链路并修复学生页启动后不自动刷新 session 的问题。但 500/1000 读请求长尾仍超过 `goal-stress.md` 严格阈值，Kubernetes/WebSocket 5/10/20 并发容量和多个专项覆盖仍未关闭。
+- 结论：不通过全平台合同容量目标。第十一批已修复核心 runner 中的高并发 5xx 和写路径 429；第十二批已打通真实 Kubernetes Web 终端单会话链路并修复学生页启动后不自动刷新 session 的问题；第十三批已证明真实 Kubernetes WebSocket 5/10/20 并发 10 分钟、命令 I/O、重连、重置和停止清理通过。但 500/1000 读请求长尾仍超过 `goal-stress.md` 严格阈值，真实 go-judge、SSE、文件/报表、30 分钟 soak 和多个专项覆盖仍未关闭。
 - 2026-06-11 修复批次结论：已完成第一批 P1 高频读路径与压测脚本修复，并通过后端单测/集成门禁；但尚未复跑 `PERF_PROFILE=contract` 全量压力测试，故本报告总体验收结论仍保持“不通过”。
 - 2026-06-11 P1 复测与第八批修复结论：已复跑读请求 / 判题轮询 / 通知轮询 P1 诊断和九轮 read-label 混合读诊断，证明认证 principal cache、提交列表批量答案加载、`/auth/me` 默认快照读取、access token 会话活跃缓存预热、教师提交列表敏感 scope 预解析、会话活跃缓存入口无事务、认证 principal 缓存入口无事务、通知轮询缓存入口无事务均有收益；第八批 no-tx 复测确认通知未读数 500 并发 5xx 从 1302 降到 13，但混合读总 5xx 升到 14238，200/500 并发仍有 5xx/P99 超阈值，P1 仍为失败。
 - 2026-06-12 第九批修复结论：作业列表、提交列表、成绩册高频读入口已移除外层读事务，perf runner 增加 `MAX_STAGE_CONCURRENCY` / `MAX_STAGE_COUNT` 诊断开关，并将默认 Hikari 取连接等待从 500ms 调整为 2500ms。短诊断证明 `read_request_ladder`、`judge_polling`、`notification_polling` 的 50/200 并发均为 0 个 5xx；但尚未执行 500/1000 阶段和完整 `PERF_PROFILE=contract` 全合同复测，故总体验收结论仍保持“不通过”。
 - 2026-06-12 第十批代码修复结论：`STRESS-06120151-read500-after-stage-timeout` 证明 500 阶段仍有 1 个 `teacher_gradebook` 500，服务日志定位到成绩册数据库查询等待 Hikari 连接超时。第十批已修复 perf runner stage 卡死风险，新增成绩册页短 TTL 缓存、班级成绩册 no-tx、Redis 前缀删除和成绩写后缓存失效；目标单测通过。修复后完整压力阶梯尚未执行，因此总体验收结论仍保持“不通过”。
 - 2026-06-12 第十一批修复结论：`STRESS-0612022949/contract-run` 完整合同复测中 read ladder 500/1000 各有 1 个 5xx，write path 30/50 出现 429。第十一批新增我的提交列表 assignment/page 短 TTL 缓存和写后失效，将 `submission-create` 默认限流从 10/min 调整为 60/min。修复后 `cache-fix-targeted` 证明 read ladder 50/200/500/1000 与 write path 10/30/50/100 均 0 错误、0 个 5xx、写路径 0 个 429；`cache-fix-soak` 证明 100 并发 10 分钟 smoke soak 0 错误。
 - 2026-06-12 第十二批修复结论：`STRESS-0612045100-k8s-runtime` 证明 `kind-aubb-lab-dev` / `aubb-labs` 下真实 Kubernetes 单会话链路通过：API+WebSocket smoke 创建 `aubb-lab-stress-1533`，Pod Running、重启 0、WebSocket 初连和重连均观察到 `AUBB_K8S_EXEC_OK`，停止后 namespace 无残留 Pod；Playwright MCP 学生实验页创建 `aubb-lab-stress-1535`，页面从“正在启动”自动刷新到“运行中”，打开 Web 终端并停止清理成功。前端修复为 `useMyCurrentLabSessionQuery` 在 `REQUESTED` / `PROVISIONING` 期间 2 秒轮询。
-- 已证明容量边界：读请求 50/200/500/1000 在修复后均 5xx=0；写路径 10/30/50/100 在修复后均 429=0、5xx=0；判题轮询 50/200/500 通过；通知轮询 50/200/500 通过；文件上传 10 并发、文件下载 100 并发通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过；真实 Kubernetes Web 终端单会话 smoke 通过；100 并发 10 分钟 smoke soak 通过。
-- 未证明或失败范围：读请求 500/1000 长尾仍超过 P95 < 500ms、P99 < 1500ms 的严格阈值；登录风暴未执行；真实 go-judge 缺少 5 类结果、报告下载和重评容量；SSE 100/300 未执行；完整 30 分钟 soak 未执行；未证明 Kubernetes session / WebSocket 5/10/20 并发、10 分钟连接保持、重置链路和资源曲线。
+- 2026-06-12 第十三批修复结论：`STRESS-0612053038-k8s-ws` 证明真实 Kubernetes WebSocket 5/10/20 并发均可保持 10 分钟：错误率 0、5xx=0，Pod 峰值分别为 5/10/20，重启 0，初连、周期命令、重连、重置和停止清理均成功；Playwright MCP 学生实验页回归再次验证“运行中”、“已连接”和 `UI-K8S-WS-OK` echo 回显，停止后 `aubb-labs` namespace 无残留 Pod。Metrics API 不可用，Kubernetes CPU/内存曲线仍列入可观测性缺口。
+- 已证明容量边界：读请求 50/200/500/1000 在修复后均 5xx=0；写路径 10/30/50/100 在修复后均 429=0、5xx=0；判题轮询 50/200/500 通过；通知轮询 50/200/500 通过；文件上传 10 并发、文件下载 100 并发通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过；真实 Kubernetes Web 终端 5/10/20 并发 10 分钟通过；100 并发 10 分钟 smoke soak 通过。
+- 未证明或失败范围：读请求 500/1000 长尾仍超过 P95 < 500ms、P99 < 1500ms 的严格阈值；登录风暴未执行；真实 go-judge 缺少 5 类结果、报告下载和重评容量；SSE 100/300 未执行；完整 30 分钟 soak 未执行；Kubernetes CPU/内存曲线因 Metrics API 不可用未记录。
 - 真实 go-judge 判题结论：失败。数据准备阶段触发了 1 次真实编程提交，判题轮询 50/200/500 已通过，但未完成真实提交 5/10/20、五类结果、报告下载和重评容量证明。
-- Web 终端 / Kubernetes runtime 结论：阻塞。真实 Kubernetes 单会话、WebSocket 命令 I/O、重连、停止清理和学生页自动刷新已通过；但未执行合同要求的 5/10/20 并发、长连接保持、重置链路和资源曲线，不能声明 Web 终端生产容量通过。
+- Web 终端 / Kubernetes runtime 结论：通过。真实 Kubernetes 单会话、WebSocket 命令 I/O、重连、停止清理、学生页自动刷新，以及 5/10/20 并发 10 分钟连接保持和重置链路均已通过；剩余限制是本地 Metrics API 不可用，不能给出 Kubernetes CPU/内存曲线。
 - 是否建议对外交付：不建议按当前合同容量目标交付；若必须演示或内测，应限定为低并发、明确限流，并先完成连接池/读路径优化与重测。
 - 交付限制或建议：继续治理 JDBC 连接池耗尽；最新 8 分钟阶梯已确认认证与通知缓存入口基本不再在命中时打开事务，但成绩册、提交、作业和课程列表等业务读路径仍会在高并发阶段耗尽连接池。下一批应优先削减这些业务读端点的事务与查询占用。
 
@@ -94,6 +95,9 @@
 | 44 | 第十二批 Kubernetes runtime 环境与健康检查 | 通过 | `commands/STRESS-0612045100-k8s-runtime/02-k8s-current-state.log`；当前 context 为 `kind-aubb-lab-dev`，namespace `aubb-labs` 存在，Pod/exec RBAC 通过。`04-healthcheck-strict-k8s-runtime.log` 通过。 |
 | 45 | 第十二批真实 Kubernetes WebSocket smoke | 通过 | `raw/STRESS-0612045100-k8s-runtime/k8s-terminal-smoke.json`；`aubb-lab-stress-1533` Pod Running、WebSocket 初连/重连均观察 `AUBB_K8S_EXEC_OK`，停止后 namespace 无残留 Pod。 |
 | 46 | 第十二批前端 session 轮询修复与 Playwright MCP 回归 | 通过 | `npm test -- use-lab-query` 3 个单元测试通过；Playwright MCP 学生实验页从“正在启动”自动刷新到“运行中”并打开 Web 终端，截图见 `product-stress-test-screenshots/STRESS-0612045100-k8s-runtime/student-terminal-connected.png`。 |
+| 47 | 第十三批 Kubernetes WebSocket 并发 runner 单测 | 通过 | `/opt/miniconda3/bin/python3 -m unittest ops/perf/run_perf_suite_test.py`；新增 `lab_terminal_websocket` 合同计划、WebSocket URL、精确并发过滤和缺目标失败测试，12 个 Python 测试通过。 |
+| 48 | 第十三批真实 Kubernetes WebSocket 5/10/20 并发 | 通过 | `raw/STRESS-0612053038-k8s-ws/k8s-ws-5/perf_results_k8s_ws_5.json`、`k8s-ws-10/perf_results_k8s_ws_10.json`、`k8s-ws-20/perf_results_k8s_ws_20.json`；5/10/20 并发均 600 秒，错误率 0、5xx=0，初连/重连/重置成功，Pod 峰值 5/10/20、重启 0。 |
+| 49 | 第十三批 Playwright MCP 学生 Web 终端回归与清理 | 通过 | `commands/STRESS-0612053038-k8s-ws/21-browser-k8s-terminal-regression.log`；页面观察“运行中”“已连接”和 `UI-K8S-WS-OK` echo 回显。`22-k8s-pods-after-browser-cleanup.log` 显示 namespace 无残留 Pod，截图见 `product-stress-test-screenshots/STRESS-0612053038-k8s-ws/browser-k8s-terminal-connected.png`。 |
 
 ## 4.1 2026-06-11 第一批修复记录
 
@@ -179,7 +183,7 @@
 - 代码修复：`SubmissionApplicationService.listMySubmissions(...)` 增加 `mySubmissionAssignment` 与 `mySubmissionPage` 短 TTL 缓存，TTL 默认为 `PT5S`；缓存 key 包含 assignment/user/page/pageSize，提交成功后按 assignment+user 前缀清理我的提交页缓存。提交创建、附件上传等写路径仍走实时 DB 校验，不使用缓存判断状态或开放时间。
 - 限流修复：`submission-create` 默认限流从 10/min 调整为 60/min，保留 `AUBB_REDIS_RATE_LIMIT_SUBMISSION_CREATE_LIMIT` 环境变量覆盖能力；集成测试继续用 1/min 覆写验证 429 语义。
 - 目标验证：`SubmissionApplicationServiceTests` 与 `RedisProtectedEndpointRateLimitIntegrationTests` 共 8 个测试通过；`STRESS-0612022949/cache-fix-targeted` 中 read ladder 50/200/500/1000 均 0 错误、5xx=0，write path 10/30/50/100 均 0 错误、5xx=0、429=0；`cache-fix-soak` 100 并发 10 分钟 384751 请求，错误率 0，5xx=0。
-- 当前限制：核心 5xx/429 缺陷已关闭；但 500/1000 读请求 P95/P99 仍超过 `goal-stress.md` 严格阈值，且真实 Kubernetes Web 终端、SSE 100/300、真实 go-judge 五类结果和多个专项仍未执行。
+- 当前限制：核心 5xx/429 缺陷已关闭；但 500/1000 读请求 P95/P99 仍超过 `goal-stress.md` 严格阈值。第十一批结束时真实 Kubernetes Web 终端、SSE 100/300、真实 go-judge 五类结果和多个专项仍未执行；其中 Web 终端已在第十二/十三批补齐。
 
 ## 4.12 2026-06-12 第十二批 Kubernetes Web 终端单会话修复记录
 
@@ -188,7 +192,16 @@
 - API + WebSocket smoke：创建并发布 `STRESS-0612045100-k8s-runtime Linux Shell`，学生启动 session `1533`，后端返回 `runtimeKind=KUBERNETES`、`runtimeNamespace=aubb-labs`、`runtimePodName=aubb-lab-stress-1533`；Pod Running 且 `workspace` 重启 0；WebSocket 初连和重连均观察到 `AUBB_K8S_EXEC_OK`；停止后 namespace 无残留 Pod。证据：`raw/STRESS-0612045100-k8s-runtime/k8s-terminal-smoke.json`、`commands/STRESS-0612045100-k8s-runtime/05-k8s-terminal-api-websocket-smoke.log`。
 - 页面缺陷与修复：Playwright MCP 首次页面启动 session `1534` 时，Kubernetes Pod 已 Running，但页面仍停在“正在启动”，因为当前会话查询不会在 `PROVISIONING` 下持续刷新。修复后 `useMyCurrentLabSessionQuery` 对 `REQUESTED` / `PROVISIONING` 开启 2 秒轮询，`RUNNING` / `STOPPED` 等稳定态停止轮询；`npm test -- use-lab-query` 通过 3 个单元测试。
 - 页面回归：Playwright MCP 学生实验页启动 session `1535` 后，页面自动从“正在启动”刷新到“运行中”，打开 Web 终端并保存截图；随后页面停止环境，DB 中 session 为 `STOPPED`，namespace 无残留 Pod。证据：`product-stress-test-screenshots/STRESS-0612045100-k8s-runtime/student-terminal-connected.png`、`commands/STRESS-0612045100-k8s-runtime/10-k8s-events-after-playwright-terminal.log`、`11-k8s-pods-after-playwright-cleanup.log`。
-- 当前限制：本批不是压力测试；未执行 Kubernetes session / WebSocket 5/10/20 并发、10 分钟连接保持、重置链路和资源曲线，因此 7.12 仍为 `阻塞`。
+- 当前限制：本批不是压力测试；第十二批结束时尚未执行 Kubernetes session / WebSocket 5/10/20 并发、10 分钟连接保持、重置链路和资源曲线，因此当时 7.12 仍为 `阻塞`；第十三批已关闭 5/10/20 并发、连接保持和重置链路，资源曲线中的 CPU/内存指标继续归入 7.15 可观测性缺口。
+
+## 4.13 2026-06-12 第十三批 Kubernetes WebSocket 并发修复记录
+
+- runner 修复：`run_perf_suite.py` 新增 `lab_terminal_websocket` 合同场景，覆盖 5/10/20 并发各 600 秒；每个 worker 启动真实 lab session，要求后端返回 `runtimeKind=KUBERNETES`，通过 WebSocket 执行初始 echo、周期 keepalive echo、重连 echo、reset echo，并在 `finally` 停止 session；`ONLY_STAGE_CONCURRENCY` 用于按并发精确分段复测。
+- 目标验证：`run_perf_suite_test.py` 新增合同计划、600 秒时长、精确并发过滤、WebSocket URL 和缺少目标时失败测试；`/opt/miniconda3/bin/python3 -m unittest ops/perf/run_perf_suite_test.py` 共 12 个测试通过。
+- 真实并发证据：`STRESS-0612053038-k8s-ws` 在 `kind-aubb-lab-dev` / `aubb-labs` 下完成 5/10/20 并发，每档持续 600 秒。5 并发总请求 155、P95 79.10ms、P99 365.25ms；10 并发总请求 310、P95 93.82ms、P99 2223.45ms；20 并发总请求 657、P95 142.91ms、P99 2230.11ms。三档错误率均为 0、5xx=0，初连/重连/重置计数分别为 5/5/5、10/10/10、20/20/20。
+- Pod 资源采样：5/10/20 并发的 Pod 峰值分别为 5/10/20，所有采样 Pod 均为 Running 且 ready，最大重启数 0；每档结束后 namespace 无残留 Pod。Metrics API 当前不可用，因此不记录 Kubernetes CPU/内存曲线。证据：`product-stress-test-evidence/resources/STRESS-0612053038-k8s-ws/resource-summary-k8s-ws.md`、`commands/STRESS-0612053038-k8s-ws/07-k8s-events-after-ws-5.log`、`11-k8s-events-after-ws-10.log`、`15-k8s-events-after-ws-20.log`。
+- 页面回归：补齐 generated student 学术档案后，Playwright MCP 登录 `stress-0612053038-k8s-ws-stu-001`，打开学生实验页并启动本轮终端实验；页面观察到“运行中”“已连接”，xterm 内 `UI-K8S-WS-OK` echo 回显成功，随后页面停止环境并确认 namespace 无残留 Pod。证据：`commands/STRESS-0612053038-k8s-ws/19-admin-profile-fix-for-browser.log`、`21-browser-k8s-terminal-regression.log`、`22-k8s-pods-after-browser-cleanup.log`、`product-stress-test-screenshots/STRESS-0612053038-k8s-ws/browser-k8s-terminal-connected.png`。
+- 当前限制：7.12 Web 终端并发容量已关闭；但 `just dev-up` 仍未原生注入 Kubernetes runtime env，且本地 Metrics API 不可用，Kubernetes CPU/内存曲线继续作为 7.15 可观测性缺口。
 
 ## 5. 压测数据准备
 
@@ -214,7 +227,8 @@
 | 文件上传下载压测 | 上传 5/10；下载 20/100 | 上传各 1 分钟；下载各 2 分钟 | 上传 16.86/31.93；下载 221.27/729.38 | 上传 17.53/21.53 ms；下载 19.16/68.41 ms | 上传 24.43/30.34 ms；下载 24.00/106.99 ms | 0 | 0 | 阻塞 | `raw/STRESS-0612022949/contract-run/perf_results_contract.json`；教师课程资源子集通过，但缺少全部文件类型、20MiB 文件和 SHA256 记录。 |
 | 通知轮询 / SSE 子集 | 轮询 50/200/500；SSE 20 | 2/3/3 分钟；SSE 1 分钟 | 592.43 / 2518.92 / 3580.69；SSE 27.24 | 12.11 / 9.83 / 71.38 ms；SSE 17.44 ms | 17.79 / 21.94 / 109.31 ms；SSE 29.29 ms | 0 | 0 | 阻塞 | `raw/STRESS-0612022949/contract-run/perf_results_contract.json`；通知轮询通过，SSE 100/300 未执行。 |
 | 实验运行时专项 | 10 | 1 分钟 | 50.46 | 39.01 ms | 46.52 ms | 0 | 0 | 阻塞 | fake runtime 子集通过；真实 Kubernetes 单会话 smoke 在下一行单独记录；Kubernetes/WebSocket 并发容量未执行。 |
-| Kubernetes Web 终端单会话 smoke | 1 | 单会话 | 不适用 | 不适用 | 不适用 | 0 | 0 | 阻塞 | `raw/STRESS-0612045100-k8s-runtime/k8s-terminal-smoke.json`；真实 Pod、WebSocket 命令 I/O、重连和清理通过；5/10/20 并发容量未执行。 |
+| Kubernetes Web 终端单会话 smoke | 1 | 单会话 | 不适用 | 不适用 | 不适用 | 0 | 0 | 通过 | `raw/STRESS-0612045100-k8s-runtime/k8s-terminal-smoke.json`；真实 Pod、WebSocket 命令 I/O、重连和清理通过。 |
+| Kubernetes WebSocket 并发专项 | 5/10/20 | 各 10 分钟 | 0.26 / 0.51 / 1.09 | 79.10 / 93.82 / 142.91 ms | 365.25 / 2223.45 / 2230.11 ms | 0 / 0 / 0 | 0 / 0 / 0 | 通过 | `raw/STRESS-0612053038-k8s-ws/k8s-ws-5/perf_results_k8s_ws_5.json`、`k8s-ws-10/perf_results_k8s_ws_10.json`、`k8s-ws-20/perf_results_k8s_ws_20.json`；命令 I/O、重连、重置、停止清理均通过。 |
 | Soak 稳定性复测 | 100 | 10 分钟 | 640.96 | 20.36 ms | 54.17 ms | 0 | 0 | 阻塞 | `raw/STRESS-0612022949/cache-fix-soak/perf_results_cache_fix_soak.json`；10 分钟 smoke soak 通过，完整 30 分钟和 Kubernetes/WebSocket 混合未执行。 |
 
 ## 7. 资源采样与瓶颈分析
@@ -229,6 +243,7 @@
 - 第九批资源与日志：`STRESS-06120105-read-after-hikaritimeout` 读请求 50/200 短诊断的服务日志未出现 `CannotCreateTransactionException`、`Connection is not available` 或 `SQLTransientConnectionException`；200 并发 P99 `2418.45ms`，5xx=0。`STRESS-06120111-judge-notif-after-hikaritimeout` 判题和通知 50/200 短诊断同样未出现 Hikari/事务错误，judge 200 P99 `85.46ms`，notification 200 P99 `23.28ms`。证据：`raw/STRESS-06120105-read-after-hikaritimeout/read_after_hikaritimeout_results.json`、`raw/STRESS-06120105-read-after-hikaritimeout/server.log`、`raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`、`raw/STRESS-06120111-judge-notif-after-hikaritimeout/server.log`。
 - 第十一批资源与日志：`STRESS-0612022949/cache-fix-targeted` PostgreSQL 连接 min/max/avg 为 14/49/46.49，PostgreSQL CPU max 87.56%；`STRESS-0612022949/cache-fix-soak` PostgreSQL 连接 min/max/avg 为 45/49/48.14，PostgreSQL CPU max 5.14%。修复后日志未出现 `CannotGetJdbcConnectionException`、`SQLTransientConnectionException`、`Connection is not available`、`RATE_LIMIT_EXCEEDED` 或 429。证据：`product-stress-test-evidence/resources/STRESS-0612022949/resource-summary-cache-fix.md`、`raw/STRESS-0612022949/cache-fix-targeted/resource_samples.json`、`raw/STRESS-0612022949/cache-fix-soak/resource_samples.json`。
 - 第十二批 Kubernetes 资源与日志：真实 runtime smoke 使用 `aubb-labs` namespace，`aubb-lab-stress-1533` 和 `aubb-lab-stress-1535` 均成功调度到 `aubb-lab-dev-control-plane`，镜像 `alpine:3.20` 已在节点可访问，容器创建/启动正常，停止后 namespace 无残留 Pod。Metrics API 当前不可用，因此本批只记录 Pod phase、事件、重启次数和清理状态，不记录 Kubernetes CPU/内存曲线。证据：`product-stress-test-evidence/resources/STRESS-0612045100-k8s-runtime/resource-summary-k8s-runtime.md`、`commands/STRESS-0612045100-k8s-runtime/10-k8s-events-after-playwright-terminal.log`、`commands/STRESS-0612045100-k8s-runtime/11-k8s-pods-after-playwright-cleanup.log`。
+- 第十三批 Kubernetes WebSocket 并发资源：`STRESS-0612053038-k8s-ws` 5/10/20 并发各 10 分钟，Pod 峰值分别为 5/10/20，所有采样 Pod 均 Running 且 ready，最大重启数 0；每档压测后和 Playwright MCP 页面回归后 namespace 均无残留 Pod。Metrics API 当前仍不可用，因此不记录 Kubernetes CPU/内存曲线。证据：`product-stress-test-evidence/resources/STRESS-0612053038-k8s-ws/resource-summary-k8s-ws.md`、`commands/STRESS-0612053038-k8s-ws/08-k8s-pods-after-ws-5-cleanup.log`、`12-k8s-pods-after-ws-10-cleanup.log`、`16-k8s-pods-after-ws-20-cleanup.log`、`22-k8s-pods-after-browser-cleanup.log`。
 
 ## 8. Playwright MCP 压测前后页面回归
 
@@ -246,10 +261,12 @@
 - `STRESS-0611132804`：正式压测数据集，包含 80 名学生、课程/班级、作业、编程提交、课程资源、fake runtime 终端实验，以及压测过程中产生的提交、资源上传、实验会话和通知读请求记录。
 - `STRESS-0612022949`：最新复测数据集，包含 80 名学生、课程/班级、作业、编程提交、课程资源、fake runtime 终端实验，以及第十一批 targeted/soak 复测产生的提交与读请求记录。
 - `STRESS-0612045100-k8s-runtime`：第十二批真实 Kubernetes Web 终端单会话数据，包含 1 个测试 lab 和已停止的 Kubernetes session 记录；停止后 `aubb-labs` namespace 无残留 Pod。
+- `STRESS-0612053038-k8s-ws`：第十三批真实 Kubernetes WebSocket 并发数据，包含 80 名学生、1 个终端实验和已停止的 Kubernetes session 记录；5/10/20 并发与页面回归后 `aubb-labs` namespace 均无残留 Pod。
 - 私有 manifest：`/tmp/aubb-STRESS-0611132804/manifest.json`，含本地临时压测账号密码，仅供本机复跑；不提交。
 - 私有 manifest：`/tmp/aubb-STRESS-0612022949/manifest.json`，含本地临时压测账号密码，仅供本机复跑；不提交。
-- 清理建议：以 `STRESS-0611131857`、`STRESS-0611132135`、`STRESS-0611132804`、`STRESS-0612022949`、`STRESS-0612045100-k8s-runtime` 前缀清理本地压测组织、账号、课程、作业、资源和实验数据；清理前保留当前 artifacts 作为证据。
+- 私有 manifest：`/tmp/aubb-STRESS-0612053038-k8s-ws/manifest.json`，含本地临时压测账号密码，仅供本机复跑；不提交。
+- 清理建议：以 `STRESS-0611131857`、`STRESS-0611132135`、`STRESS-0611132804`、`STRESS-0612022949`、`STRESS-0612045100-k8s-runtime`、`STRESS-0612053038-k8s-ws` 前缀清理本地压测组织、账号、课程、作业、资源和实验数据；清理前保留当前 artifacts 作为证据。
 
 ## 11. 最终建议
 
-最终建议：不通过全平台合同容量。第十一批已经把核心 runner 中的高并发 5xx 和写路径 429 修复，并用 targeted read/write 与 10 分钟 smoke soak 证明；第十二批打通真实 Kubernetes Web 终端单会话，并修复学生页启动后不轮询导致页面卡在“正在启动”的缺陷。但 500/1000 读请求长尾仍超过严格阈值，Kubernetes/WebSocket 5/10/20 并发容量、SSE 100/300、真实 go-judge 五类结果/重评/报告下载、30 分钟完整 soak 和 7.2-7.15 多个专项仍未关闭。下一轮应优先治理读请求长尾，并补真实执行链路容量专项。
+最终建议：不通过全平台合同容量。第十一批已经把核心 runner 中的高并发 5xx 和写路径 429 修复，并用 targeted read/write 与 10 分钟 smoke soak 证明；第十二批打通真实 Kubernetes Web 终端单会话，并修复学生页启动后不轮询导致页面卡在“正在启动”的缺陷；第十三批进一步证明 Kubernetes WebSocket 5/10/20 并发 10 分钟通过。但 500/1000 读请求长尾仍超过严格阈值，SSE 100/300、真实 go-judge 五类结果/重评/报告下载、30 分钟完整 soak、Kubernetes CPU/内存曲线和 7.2-7.15 多个专项仍未关闭。下一轮应优先治理读请求长尾，并补真实执行链路容量专项。

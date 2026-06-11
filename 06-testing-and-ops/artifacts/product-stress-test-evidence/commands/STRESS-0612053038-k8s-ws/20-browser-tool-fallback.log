@@ -1,0 +1,5 @@
+# browser tool fallback
+timestamp=2026-06-12T06:11:50+0800
+in_app_browser=iab unavailable from browser-client
+fallback=playwright_mcp
+reason=Browser is not available: iab

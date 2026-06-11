@@ -1,0 +1,22 @@
+
+== workspace ==
+root: /Users/moorefoss/Code/AUBB
+root git: not a git repository; use server/, web/, docs/ independently
+
+== server ==
+## main...origin/main [ahead 13]
+ M ops/perf/run_perf_suite.py
+ M ops/perf/run_perf_suite_test.py
+dirty entries: 2
+
+== web ==
+## main...origin/main [ahead 3]
+dirty entries: 0
+
+== docs ==
+## main...origin/main [ahead 14]
+dirty entries: 0
+
+== agent handoff ==
+dirty workspace: yes (2 entries across subrepos)
+next action: inspect before editing; commit only scoped changes; do not reset unrelated work
