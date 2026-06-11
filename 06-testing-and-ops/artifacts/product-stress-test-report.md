@@ -16,6 +16,7 @@
 ## 2. 总体结论
 
 - 结论：不通过合同容量目标。系统在低并发和若干专项链路可恢复可用，但高并发读请求、判题轮询、通知轮询触发 5xx，写入与 soak 出现 429，不能按本合同容量阈值直接对外交付。
+- 2026-06-11 修复批次结论：已完成第一批 P1 高频读路径与压测脚本修复，并通过后端单测/集成门禁；但尚未复跑 `PERF_PROFILE=contract` 全量压力测试，故本报告总体验收结论仍保持“不通过”。
 - 已证明容量边界：读请求 50 并发 2 分钟通过；判题轮询 50 并发 2 分钟通过；文件上传 10 并发、文件下载 100 并发通过；通知查询 200 并发 3 分钟通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过。
 - 未证明或失败范围：读请求 200/500 并发失败；写入链路 10 并发即出现 429；判题轮询 200/500 并发失败；通知查询 500 并发失败；soak 100 并发 10 分钟出现 429，未满足无错误稳定性要求；未证明 Kubernetes 实验运行时容量。
 - 真实 go-judge 判题结论：失败。数据准备阶段触发了 1 次真实编程提交，判题轮询 50 并发通过，但 200/500 并发失败；未完成五类结果、报告下载和重评容量证明。
@@ -51,6 +52,16 @@
 | 7 | `just verify` | 通过 | `product-stress-test-evidence/commands/07-just-verify.log`；后端 `357` tests 通过，web lint/typecheck 通过，docs build 通过。 |
 | 8 | `just verify-full` | 通过 | `product-stress-test-evidence/commands/08-just-verify-full.log`；后端 `357` tests 通过，web lint/typecheck、`71` files / `281` unit tests、Next build、docs build 通过。 |
 | 9 | `cd docs && npm run docs:build` | 通过 | `product-stress-test-evidence/commands/09-docs-build-pre-stress.log`、`27-docs-build-completion-audit.log`、`31-docs-build-post-report-audit.log`、`36-docs-build-after-coverage-matrix.log`；VitePress build 通过，保留既有 chunk size warning。 |
+| 10 | 后端 P1 高频读路径靶向测试与压测脚本单测 | 通过 | `product-stress-test-evidence/commands/40-server-p1-read-path-targeted-tests-20260611.log`；JWT 转换、JWT 紧凑合同、认证 principal 缓存、判题报告缓存、通知缓存、相关集成测试共 `44` 个 Java 测试通过，`ops/perf/run_perf_suite_test.py` 共 `3` 个 Python 测试通过。 |
+| 11 | `cd server && bash ./mvnw test` | 通过 | `product-stress-test-evidence/commands/41-server-mvn-test-after-p1-read-path-fixes-20260611.log`；后端 `362` tests 通过，`BUILD SUCCESS`。 |
+
+## 4.1 2026-06-11 第一批修复记录
+
+- 认证读路径：保持 access token 紧凑合同，不把权限码和 group binding 快照写入 JWT；新增按 `sessionId + userId + permissionVersion` 缓存的服务端认证 principal 快照，减少高频请求重复读取权限/组织绑定。
+- 判题轮询读路径：学生读取本人判题报告时新增授权后 owner/report 缓存，降低高频轮询对判题、提交、作业和授权查询链路的压力。
+- 通知轮询读路径：默认通知列表 `page=1&pageSize=20` 增加短 TTL 缓存；已读、全部已读和通知 fanout 会同时清理未读数与默认列表缓存。
+- 写入压测脚本：`write_path` 提交流量按学生账号分摊，避免 10 并发压测集中命中同一学生账号而把账号级限流误判为业务写入容量。
+- 当前限制：上述修复只证明代码门禁通过；仍需复跑合同压测、补 K8s runtime/WebSocket 真实证据、补 Playwright MCP 前后页面回归，才能把失败项改为通过。
 
 ## 5. 压测数据准备
 
