@@ -1,0 +1,14 @@
+E
+======================================================================
+ERROR: test_stress_prefixed_student_usernames_match_server_normalization (server.ops.perf.setup_perf_data_test.PerfDataUsernameNormalizationTests.test_stress_prefixed_student_usernames_match_server_normalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/moorefoss/Code/AUBB/server/ops/perf/setup_perf_data_test.py", line 16, in test_stress_prefixed_student_usernames_match_server_normalization
+    self.assertEqual(setup_perf_data.imported_username(raw_username), normalized_username)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'setup_perf_data' has no attribute 'imported_username'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

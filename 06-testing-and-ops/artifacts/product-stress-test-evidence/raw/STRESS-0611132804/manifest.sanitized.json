@@ -1,0 +1,400 @@
+{
+  "baseUrl": "http://127.0.0.1:18080",
+  "runId": "STRESS-0611132804",
+  "artifactDir": "/tmp/aubb-STRESS-0611132804",
+  "admin": {
+    "username": "U-SA1",
+    "password": "[REDACTED]"
+  },
+  "teacher": {
+    "username": "STRESS-0611132804-teacher",
+    "password": "[REDACTED]",
+    "userId": 719
+  },
+  "students": [
+    {
+      "username": "stress-0611132804-stu-001",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-002",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-003",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-004",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-005",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-006",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-007",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-008",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-009",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-010",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-011",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-012",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-013",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-014",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-015",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-016",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-017",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-018",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-019",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-020",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-021",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-022",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-023",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-024",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-025",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-026",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-027",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-028",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-029",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-030",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-031",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-032",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-033",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-034",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-035",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-036",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-037",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-038",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-039",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-040",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-041",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-042",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-043",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-044",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-045",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-046",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-047",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-048",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-049",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-050",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-051",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-052",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-053",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-054",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-055",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-056",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-057",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-058",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-059",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-060",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-061",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-062",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-063",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-064",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-065",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-066",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-067",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-068",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-069",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-070",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-071",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-072",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-073",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-074",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-075",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-076",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-077",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-078",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-079",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0611132804-stu-080",
+      "password": "[REDACTED]"
+    }
+  ],
+  "offeringId": 54,
+  "classIds": [
+    350,
+    351
+  ],
+  "objectiveAssignmentId": 376,
+  "objectiveQuestionId": 804,
+  "writeAssignmentId": 377,
+  "writeQuestionId": 805,
+  "judgeAssignmentId": 378,
+  "judgeSubmissionId": 129,
+  "judgeJobId": 67,
+  "courseResourceId": 53,
+  "terminalLabId": 74,
+  "labEnvironmentProfileId": 1,
+  "labStudentUsernames": [
+    "stress-0611132804-stu-001",
+    "stress-0611132804-stu-003",
+    "stress-0611132804-stu-005",
+    "stress-0611132804-stu-007",
+    "stress-0611132804-stu-009",
+    "stress-0611132804-stu-011",
+    "stress-0611132804-stu-013",
+    "stress-0611132804-stu-015",
+    "stress-0611132804-stu-017",
+    "stress-0611132804-stu-019",
+    "stress-0611132804-stu-021",
+    "stress-0611132804-stu-023",
+    "stress-0611132804-stu-025",
+    "stress-0611132804-stu-027",
+    "stress-0611132804-stu-029",
+    "stress-0611132804-stu-031",
+    "stress-0611132804-stu-033",
+    "stress-0611132804-stu-035",
+    "stress-0611132804-stu-037",
+    "stress-0611132804-stu-039",
+    "stress-0611132804-stu-041",
+    "stress-0611132804-stu-043",
+    "stress-0611132804-stu-045",
+    "stress-0611132804-stu-047",
+    "stress-0611132804-stu-049",
+    "stress-0611132804-stu-051",
+    "stress-0611132804-stu-053",
+    "stress-0611132804-stu-055",
+    "stress-0611132804-stu-057",
+    "stress-0611132804-stu-059",
+    "stress-0611132804-stu-061",
+    "stress-0611132804-stu-063",
+    "stress-0611132804-stu-065",
+    "stress-0611132804-stu-067",
+    "stress-0611132804-stu-069",
+    "stress-0611132804-stu-071",
+    "stress-0611132804-stu-073",
+    "stress-0611132804-stu-075",
+    "stress-0611132804-stu-077",
+    "stress-0611132804-stu-079"
+  ],
+  "studentGradebookSummary": {
+    "assignmentCount": 2,
+    "submittedCount": 1,
+    "gradedCount": 1,
+    "totalFinalScore": 10,
+    "totalMaxScore": 20
+  }
+}

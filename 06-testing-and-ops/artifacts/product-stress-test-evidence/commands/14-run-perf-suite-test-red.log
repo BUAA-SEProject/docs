@@ -1,0 +1,23 @@
+EE
+======================================================================
+ERROR: test_contract_profile_contains_required_scenarios (server.ops.perf.run_perf_suite_test.PerfSuiteContractProfileTests.test_contract_profile_contains_required_scenarios)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/moorefoss/Code/AUBB/server/ops/perf/run_perf_suite_test.py", line 12, in test_contract_profile_contains_required_scenarios
+    plan = run_perf_suite.build_scenario_plan("contract")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'run_perf_suite' has no attribute 'build_scenario_plan'
+
+======================================================================
+ERROR: test_contract_profile_keeps_required_duration_floors (server.ops.perf.run_perf_suite_test.PerfSuiteContractProfileTests.test_contract_profile_keeps_required_duration_floors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/moorefoss/Code/AUBB/server/ops/perf/run_perf_suite_test.py", line 30, in test_contract_profile_keeps_required_duration_floors
+    plan = run_perf_suite.build_scenario_plan("contract")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'run_perf_suite' has no attribute 'build_scenario_plan'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (errors=2)

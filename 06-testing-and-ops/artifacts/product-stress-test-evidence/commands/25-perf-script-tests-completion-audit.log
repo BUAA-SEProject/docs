@@ -1,0 +1,33 @@
+EE
+======================================================================
+ERROR: setup_perf_data_test (unittest.loader._FailedTest.setup_perf_data_test)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: setup_perf_data_test
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/Users/moorefoss/Code/AUBB/server/ops/perf/setup_perf_data_test.py", line 7, in <module>
+    import setup_perf_data
+  File "/Users/moorefoss/Code/AUBB/server/ops/perf/setup_perf_data.py", line 10, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+
+
+======================================================================
+ERROR: run_perf_suite_test (unittest.loader._FailedTest.run_perf_suite_test)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: run_perf_suite_test
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/Users/moorefoss/Code/AUBB/server/ops/perf/run_perf_suite_test.py", line 7, in <module>
+    import run_perf_suite
+  File "/Users/moorefoss/Code/AUBB/server/ops/perf/run_perf_suite.py", line 12, in <module>
+    import aiohttp
+ModuleNotFoundError: No module named 'aiohttp'
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+FAILED (errors=2)

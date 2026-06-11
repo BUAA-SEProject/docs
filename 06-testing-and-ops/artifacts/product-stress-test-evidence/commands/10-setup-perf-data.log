@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/moorefoss/Code/AUBB/server/ops/perf/setup_perf_data.py", line 295, in <module>
+    main()
+    ~~~~^^
+  File "/Users/moorefoss/Code/AUBB/server/ops/perf/setup_perf_data.py", line 191, in main
+    "userId": student_map[student["username"]],
+              ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'STRESS-0611131857-stu-001'
+
+Sanitized manifest: /Users/moorefoss/Code/AUBB/docs/06-testing-and-ops/artifacts/product-stress-test-evidence/raw/STRESS-0611131857/manifest.sanitized.json
+Private manifest: /tmp/aubb-STRESS-0611131857/manifest.json

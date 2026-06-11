@@ -1,0 +1,160 @@
+8312496:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8312594:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=271)
+8312604:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8312702:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 507ms (total=48, active=48, idle=0, waiting=270)
+8312710:2026-06-11T13:59:58.210+08:00 ERROR 50010 --- [-18080-exec-144] [AUBB-Server,08edc742e878f821338c9757e92d28ff,73286f4a05b21dd4] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8312712:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8312869:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 508ms (total=48, active=46, idle=2, waiting=271)
+8312879:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8312977:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=268)
+8312987:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8313085:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 507ms (total=48, active=48, idle=0, waiting=270)
+8313095:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8313193:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 503ms (total=48, active=48, idle=0, waiting=271)
+8313201:2026-06-11T13:59:58.252+08:00 ERROR 50010 --- [o-18080-exec-17] [AUBB-Server,12a94e81684cf3f69bce837eb4cbd116,98ba002fbef2ce4f] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8313203:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8313360:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 504ms (total=48, active=48, idle=0, waiting=269)
+8313368:2026-06-11T13:59:58.267+08:00 ERROR 50010 --- [-18080-exec-180] [AUBB-Server,bd24cdfb05c21105fa934d3a56356240,1a66a8dd0b630bdf] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8313370:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8313527:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=271)
+8313537:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8313635:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 502ms (total=48, active=48, idle=0, waiting=270)
+8313643:2026-06-11T13:59:58.273+08:00 ERROR 50010 --- [-18080-exec-232] [AUBB-Server,b8a8c06d67117d4fd4a45a4a35c980de,ea0757a1c8104b7c] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8313645:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8313802:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 502ms (total=48, active=48, idle=0, waiting=270)
+8313812:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8313910:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 502ms (total=48, active=48, idle=0, waiting=269)
+8313920:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8314018:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 503ms (total=48, active=48, idle=0, waiting=270)
+8314028:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8314126:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=47, idle=1, waiting=270)
+8314136:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8314234:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=270)
+8314244:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8314342:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=270)
+8314350:2026-06-11T13:59:58.359+08:00 ERROR 50010 --- [-18080-exec-285] [AUBB-Server,07915e00583a5bae28079ffcffb3acdd,b58751850478de9e] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8314352:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8314509:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=271)
+8314517:2026-06-11T13:59:58.383+08:00 ERROR 50010 --- [-18080-exec-185] [AUBB-Server,7f3e9486fbffdcb7ff6b05b79b57716d,b87971b645104531] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8314519:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8314676:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 503ms (total=48, active=48, idle=0, waiting=271)
+8314686:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8314784:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=271)
+8314794:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8314892:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=271)
+8314900:2026-06-11T13:59:58.486+08:00 ERROR 50010 --- [-18080-exec-233] [AUBB-Server,dbc8d46bcdf3b2aaad888ddea92cfedb,03cd70f0cdea2e35] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8314902:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8315059:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=270)
+8315069:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8315167:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=270)
+8315175:2026-06-11T13:59:58.504+08:00 ERROR 50010 --- [-18080-exec-243] [AUBB-Server,151e6ee44298ce9dfd6f99f0dde8883d,0a11fe8106e1792d] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8315177:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8315334:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=47, idle=1, waiting=271)
+8315344:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8315442:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 502ms (total=48, active=47, idle=1, waiting=269)
+8315450:2026-06-11T13:59:58.510+08:00 ERROR 50010 --- [-18080-exec-204] [AUBB-Server,d9c42c08c8bfa53075a01fae27d5e4ae,d88a4f69a92c0945] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8315452:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8315609:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=47, idle=1, waiting=271)
+8315617:2026-06-11T13:59:58.512+08:00 ERROR 50010 --- [-18080-exec-270] [AUBB-Server,1dcdf325f868dbca0afcb1b8fa2727bc,df513f9c2fd7063b] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8315619:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8315776:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=47, idle=1, waiting=269)
+8315786:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8315884:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=270)
+8315894:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8315992:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=270)
+8316002:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8316100:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 502ms (total=48, active=48, idle=0, waiting=268)
+8316110:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8316208:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=270)
+8316216:2026-06-11T13:59:58.554+08:00 ERROR 50010 --- [-18080-exec-280] [AUBB-Server,fce74a8581243bbfc8135991fb337d51,c0471b21c08bb1f8] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8316218:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8316375:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=271)
+8316385:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8316483:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 504ms (total=48, active=48, idle=0, waiting=271)
+8316493:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8316591:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=47, idle=1, waiting=271)
+8316599:2026-06-11T13:59:58.576+08:00 ERROR 50010 --- [-18080-exec-142] [AUBB-Server,7ab21f7cd764fe55a3f40d655aaf40c6,7ff70ce632b2d7cf] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8316601:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8316758:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=47, idle=1, waiting=271)
+8316766:2026-06-11T13:59:58.581+08:00 ERROR 50010 --- [-18080-exec-305] [AUBB-Server,b789700b409e273db0987a1a30812b3c,c57ca6672fc622ad] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8316768:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8316925:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=269)
+8316935:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8317033:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=271)
+8317041:2026-06-11T13:59:58.621+08:00 ERROR 50010 --- [-18080-exec-238] [AUBB-Server,7a8681eb93f48de1b38884e4c69cf4e0,dadff7e8830239ee] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8317043:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8317200:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=47, idle=1, waiting=271)
+8317210:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8317308:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=47, idle=1, waiting=270)
+8317318:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8317416:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=46, idle=2, waiting=270)
+8317426:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8317524:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 504ms (total=48, active=48, idle=0, waiting=269)
+8317534:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8317632:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=270)
+8317640:2026-06-11T13:59:58.651+08:00 ERROR 50010 --- [o-18080-exec-94] [AUBB-Server,505c3111a7a80920a06797e9103e805e,ad67e6b8f9946cb2] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8317642:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8317799:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 503ms (total=48, active=48, idle=0, waiting=270)
+8317809:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8317903:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=271)
+8317913:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8318011:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=271)
+8318021:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8318119:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 505ms (total=48, active=47, idle=1, waiting=264)
+8318129:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8318227:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 503ms (total=48, active=48, idle=0, waiting=270)
+8318235:2026-06-11T13:59:58.705+08:00 ERROR 50010 --- [-18080-exec-257] [AUBB-Server,0ded21399afbd6f732198b420af4e1ab,7dbb266f329ff3a3] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8318237:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8318394:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=270)
+8318402:2026-06-11T13:59:58.712+08:00 ERROR 50010 --- [o-18080-exec-41] [AUBB-Server,964be9c4e99d6acb269e7f5769f273fb,455970f99125278d] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8318404:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8318561:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=271)
+8318569:2026-06-11T13:59:58.725+08:00 ERROR 50010 --- [-18080-exec-131] [AUBB-Server,e3a631a13a608c9bece8985dea76688d,db7604994c940535] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8318571:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8318728:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=271)
+8318736:2026-06-11T13:59:58.728+08:00 ERROR 50010 --- [-18080-exec-288] [AUBB-Server,3bea948c067bf75c6201813198a7c22b,be2b1986241ec890] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8318738:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8318895:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=271)
+8318903:2026-06-11T13:59:58.749+08:00 ERROR 50010 --- [-18080-exec-103] [AUBB-Server,ac80008ac262c804d35bc421279584c3,db7cd52449e74c7c] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8318905:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8319062:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=271)
+8319072:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8319170:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=271)
+8319178:2026-06-11T13:59:58.799+08:00 ERROR 50010 --- [-18080-exec-129] [AUBB-Server,7e0120739abe0914b933a262fb4f8381,59cf32fba0be731f] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8319180:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8319337:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=47, idle=1, waiting=271)
+8319347:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8319445:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 510ms (total=48, active=47, idle=1, waiting=271)
+8319455:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8319553:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 505ms (total=48, active=48, idle=0, waiting=265)
+8319563:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8319661:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 504ms (total=48, active=48, idle=1, waiting=227)
+8319671:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8319769:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=223)
+8319777:2026-06-11T13:59:58.862+08:00 ERROR 50010 --- [-18080-exec-309] [AUBB-Server,7b00298aac37665e3b49fc235e44f1d7,b961f53e3ce9950b] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8319779:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8319936:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=215)
+8319944:2026-06-11T13:59:58.868+08:00 ERROR 50010 --- [o-18080-exec-80] [AUBB-Server,1fb8b1002e310b5ccf73219d6283f2e3,fdfa9ccd5a04c658] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8319946:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8320103:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=205)
+8320111:2026-06-11T13:59:58.878+08:00 ERROR 50010 --- [-18080-exec-213] [AUBB-Server,c08ff31faf28fc82270286897d193782,daf012e0e7ce8f36] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+8320113:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8320270:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=178)
+8320280:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8320378:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=158)
+8320388:org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+8320486:Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 507ms (total=48, active=48, idle=0, waiting=49)
+8320494:2026-06-11T14:00:28.638+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320529:2026-06-11T14:01:28.632+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320564:2026-06-11T14:02:28.650+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320599:2026-06-11T14:03:28.652+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320634:2026-06-11T14:04:28.653+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320669:2026-06-11T14:05:28.638+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320704:2026-06-11T14:06:28.639+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320739:2026-06-11T14:07:28.650+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320774:2026-06-11T14:08:28.644+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320809:2026-06-11T14:09:28.645+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320844:2026-06-11T14:10:28.638+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320879:2026-06-11T14:11:28.656+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320914:2026-06-11T14:12:28.679+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+8320949:2026-06-11T14:13:28.651+08:00  WARN 50010 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
