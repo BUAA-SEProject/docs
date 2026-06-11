@@ -6,7 +6,7 @@
 
 | 合同编号 | 场景 | 阈值 | 实际负载 | 实际结果 | 状态 | 证据路径 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 7.1 | 公共入口、认证与基础读请求 | 读请求 P95 < 500ms、P99 < 1500ms、错误率 < 1%、5xx=0；登录风暴单独统计 | 读请求 50/200/500 并发 2/3/3 分钟；第二批修复后补 read-label 端点级复测 | 首次合同压测 200/500 失败。第二批修复后 50 并发通过；200 并发 P95 506.48ms、错误率 0.25%、5xx 61；500 并发 P95 2517.38ms、错误率 19.84%、5xx 7971。登录风暴未单独完成。 | 失败 | `product-stress-test-evidence/raw/STRESS-0611132804/contract-run/perf_results_contract.json`；`product-stress-test-evidence/raw/STRESS-06111832-readlabels-bulkfix/read-label-results.json`；`server-log-stress-errors-excerpt.log` |
+| 7.1 | 公共入口、认证与基础读请求 | 读请求 P95 < 500ms、P99 < 1500ms、错误率 < 1%、5xx=0；登录风暴单独统计 | 读请求 50/200/500 并发 2/3/3 分钟；第三批修复后补 read-label 端点级复测 | 首次合同压测 200/500 失败。第三批修复后 50 并发通过；200 并发 P95 480.59ms、错误率 0.19%、5xx 47、P99 2454.08ms；500 并发 P95 2484.19ms、错误率 19.55%、5xx 7139。登录风暴未单独完成。 | 失败 | `product-stress-test-evidence/raw/STRESS-0611132804/contract-run/perf_results_contract.json`；`product-stress-test-evidence/raw/STRESS-06111855-authcache/read-label-results.json`；`server-log-stress-errors-excerpt.log` |
 | 7.2 | 管理员治理、IAM 与审计压测 | 治理读 20/50/100，并发写 5/10/20，用户导入 100/500 | 数据准备阶段执行管理员创建和 80 学生导入；未执行治理专项阶梯 | 仅有功能/E2E 和数据准备证据；500 用户导入和审计专项压测未完成。 | 阻塞 | `product-stress-test-evidence/commands/17-setup-perf-data-contract.log`；`manifest.sanitized.json` |
 | 7.3 | 课程主数据、教学组织与课堂内容压测 | 读 50/200/500，写 10/30/50，成员 100/500 导入 | 数据准备创建开课、2 个教学班和 80 名学生；混合读请求覆盖部分课程/成绩读取 | 未执行课程、成员导入、公告、讨论、回复、锁定等专项压力阶梯。 | 阻塞 | `manifest.sanitized.json`；`perf_results_contract.json` |
 | 7.4 | 题库、判题环境与作业生命周期压测 | 题库/作业读 50/200/500，写 5/10/20，发布/关闭 | 数据准备创建并发布 `STRESS-*` 客观题、结构化作业和编程作业 | 未执行题库、判题环境、作业编辑/发布/关闭专项压力阶梯。 | 阻塞 | `manifest.sanitized.json`；`product-stress-test-evidence/commands/06-just-e2e-real.log` |
@@ -27,5 +27,5 @@
 - 资源采样：`product-stress-test-evidence/raw/STRESS-0611132804/contract-run/resource_samples.json`，共 358 个样本。
 - 资源摘要：`product-stress-test-evidence/resources/resource-summary-STRESS-0611132804.md`。
 - 高并发 5xx 根因摘录：`product-stress-test-evidence/raw/STRESS-0611132804/server-log-stress-errors-excerpt.log`。
-- 端点级读请求诊断：`product-stress-test-evidence/raw/STRESS-06111820-readlabels/read-label-results.json` 与 `product-stress-test-evidence/raw/STRESS-06111832-readlabels-bulkfix/read-label-results.json`。
+- 端点级读请求诊断：`product-stress-test-evidence/raw/STRESS-06111820-readlabels/read-label-results.json`、`product-stress-test-evidence/raw/STRESS-06111832-readlabels-bulkfix/read-label-results.json` 与 `product-stress-test-evidence/raw/STRESS-06111855-authcache/read-label-results.json`。
 - 前后真实页面证据：`product-stress-test-screenshots/pre-*.png` 与 `product-stress-test-screenshots/post-*.png`。

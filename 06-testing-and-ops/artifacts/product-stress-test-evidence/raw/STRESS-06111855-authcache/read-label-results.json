@@ -1,0 +1,418 @@
+[
+  {
+    "scenario": "read_request_ladder",
+    "concurrency": 50,
+    "durationSeconds": 120,
+    "totalRequests": 60011,
+    "rps": 499.71,
+    "avgMs": 26.23,
+    "p50Ms": 15.24,
+    "p95Ms": 53.89,
+    "p99Ms": 91.54,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "200": 60011
+    },
+    "endpointStats": {
+      "auth_me": {
+        "totalRequests": 6668,
+        "avgMs": 5.12,
+        "p50Ms": 3.19,
+        "p95Ms": 7.2,
+        "p99Ms": 12.46,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 6668
+        }
+      },
+      "my_assignments": {
+        "totalRequests": 6668,
+        "avgMs": 25.37,
+        "p50Ms": 14.84,
+        "p95Ms": 32.74,
+        "p99Ms": 47.68,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 6668
+        }
+      },
+      "my_courses": {
+        "totalRequests": 6668,
+        "avgMs": 7.29,
+        "p50Ms": 4.09,
+        "p95Ms": 9.65,
+        "p99Ms": 16.8,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 6668
+        }
+      },
+      "my_submissions": {
+        "totalRequests": 6668,
+        "avgMs": 25.79,
+        "p50Ms": 16.04,
+        "p95Ms": 36.7,
+        "p99Ms": 53.03,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 6668
+        }
+      },
+      "notification_unread_count": {
+        "totalRequests": 6668,
+        "avgMs": 6.67,
+        "p50Ms": 4.19,
+        "p95Ms": 9.6,
+        "p99Ms": 15.77,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 6668
+        }
+      },
+      "student_gradebook": {
+        "totalRequests": 6668,
+        "avgMs": 24.08,
+        "p50Ms": 15.39,
+        "p95Ms": 34.07,
+        "p99Ms": 47.08,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 6668
+        }
+      },
+      "teacher_assignment_submissions": {
+        "totalRequests": 6668,
+        "avgMs": 78.77,
+        "p50Ms": 50.87,
+        "p95Ms": 95.76,
+        "p99Ms": 250.88,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 6668
+        }
+      },
+      "teacher_assignments": {
+        "totalRequests": 6668,
+        "avgMs": 30.29,
+        "p50Ms": 18.65,
+        "p95Ms": 41.94,
+        "p99Ms": 60.83,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 6668
+        }
+      },
+      "teacher_gradebook": {
+        "totalRequests": 6667,
+        "avgMs": 32.7,
+        "p50Ms": 19.59,
+        "p95Ms": 40.95,
+        "p99Ms": 57.82,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 6667
+        }
+      }
+    }
+  },
+  {
+    "scenario": "read_request_ladder",
+    "concurrency": 200,
+    "durationSeconds": 180,
+    "totalRequests": 113937,
+    "rps": 632.14,
+    "avgMs": 240.94,
+    "p50Ms": 143.57,
+    "p95Ms": 480.59,
+    "p99Ms": 2454.08,
+    "errorRate": 0.0019,
+    "fiveXx": 47,
+    "statuses": {
+      "200": 113719,
+      "401": 171,
+      "500": 47
+    },
+    "endpointStats": {
+      "auth_me": {
+        "totalRequests": 12660,
+        "avgMs": 133.57,
+        "p50Ms": 75.06,
+        "p95Ms": 280.28,
+        "p99Ms": 2342.08,
+        "errorRate": 0.0013,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 12644,
+          "401": 16
+        }
+      },
+      "my_assignments": {
+        "totalRequests": 12660,
+        "avgMs": 235.27,
+        "p50Ms": 137.43,
+        "p95Ms": 446.05,
+        "p99Ms": 2439.03,
+        "errorRate": 0.0021,
+        "fiveXx": 7,
+        "statuses": {
+          "200": 12634,
+          "401": 19,
+          "500": 7
+        }
+      },
+      "my_courses": {
+        "totalRequests": 12660,
+        "avgMs": 176.97,
+        "p50Ms": 97.23,
+        "p95Ms": 361.32,
+        "p99Ms": 2393.46,
+        "errorRate": 0.0017,
+        "fiveXx": 4,
+        "statuses": {
+          "200": 12638,
+          "401": 18,
+          "500": 4
+        }
+      },
+      "my_submissions": {
+        "totalRequests": 12660,
+        "avgMs": 255.35,
+        "p50Ms": 152.72,
+        "p95Ms": 488.43,
+        "p99Ms": 2461.74,
+        "errorRate": 0.0025,
+        "fiveXx": 7,
+        "statuses": {
+          "200": 12628,
+          "401": 25,
+          "500": 7
+        }
+      },
+      "notification_unread_count": {
+        "totalRequests": 12659,
+        "avgMs": 176.43,
+        "p50Ms": 96.69,
+        "p95Ms": 363.31,
+        "p99Ms": 2390.44,
+        "errorRate": 0.002,
+        "fiveXx": 6,
+        "statuses": {
+          "200": 12634,
+          "500": 6,
+          "401": 19
+        }
+      },
+      "student_gradebook": {
+        "totalRequests": 12660,
+        "avgMs": 243.03,
+        "p50Ms": 143.1,
+        "p95Ms": 473.08,
+        "p99Ms": 2449.8,
+        "errorRate": 0.0022,
+        "fiveXx": 6,
+        "statuses": {
+          "200": 12632,
+          "401": 22,
+          "500": 6
+        }
+      },
+      "teacher_assignment_submissions": {
+        "totalRequests": 12659,
+        "avgMs": 433.79,
+        "p50Ms": 285.67,
+        "p95Ms": 2352.85,
+        "p99Ms": 2571.07,
+        "errorRate": 0.0015,
+        "fiveXx": 3,
+        "statuses": {
+          "200": 12640,
+          "401": 16,
+          "500": 3
+        }
+      },
+      "teacher_assignments": {
+        "totalRequests": 12659,
+        "avgMs": 265.85,
+        "p50Ms": 165.59,
+        "p95Ms": 501.28,
+        "p99Ms": 2452.55,
+        "errorRate": 0.0021,
+        "fiveXx": 6,
+        "statuses": {
+          "200": 12633,
+          "500": 6,
+          "401": 20
+        }
+      },
+      "teacher_gradebook": {
+        "totalRequests": 12660,
+        "avgMs": 248.21,
+        "p50Ms": 152.69,
+        "p95Ms": 477.44,
+        "p99Ms": 2437.28,
+        "errorRate": 0.0019,
+        "fiveXx": 8,
+        "statuses": {
+          "200": 12636,
+          "500": 8,
+          "401": 16
+        }
+      }
+    }
+  },
+  {
+    "scenario": "read_request_ladder",
+    "concurrency": 500,
+    "durationSeconds": 180,
+    "totalRequests": 140528,
+    "rps": 771.55,
+    "avgMs": 571.67,
+    "p50Ms": 398.25,
+    "p95Ms": 2484.19,
+    "p99Ms": 2855.29,
+    "errorRate": 0.1955,
+    "fiveXx": 7139,
+    "statuses": {
+      "200": 113059,
+      "401": 20330,
+      "500": 7139
+    },
+    "endpointStats": {
+      "auth_me": {
+        "totalRequests": 15614,
+        "avgMs": 428.03,
+        "p50Ms": 237.73,
+        "p95Ms": 2371.75,
+        "p99Ms": 2738.44,
+        "errorRate": 0.1447,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 13354,
+          "401": 2260
+        }
+      },
+      "my_assignments": {
+        "totalRequests": 15614,
+        "avgMs": 563.19,
+        "p50Ms": 380.89,
+        "p95Ms": 2471.87,
+        "p99Ms": 2825.79,
+        "errorRate": 0.1957,
+        "fiveXx": 792,
+        "statuses": {
+          "200": 12558,
+          "401": 2264,
+          "500": 792
+        }
+      },
+      "my_courses": {
+        "totalRequests": 15614,
+        "avgMs": 505.72,
+        "p50Ms": 330.22,
+        "p95Ms": 2427.71,
+        "p99Ms": 2813.3,
+        "errorRate": 0.1849,
+        "fiveXx": 629,
+        "statuses": {
+          "200": 12727,
+          "401": 2258,
+          "500": 629
+        }
+      },
+      "my_submissions": {
+        "totalRequests": 15614,
+        "avgMs": 602.3,
+        "p50Ms": 439.45,
+        "p95Ms": 2511.79,
+        "p99Ms": 2875.39,
+        "errorRate": 0.2139,
+        "fiveXx": 1017,
+        "statuses": {
+          "200": 12274,
+          "401": 2323,
+          "500": 1017
+        }
+      },
+      "notification_unread_count": {
+        "totalRequests": 15615,
+        "avgMs": 508.25,
+        "p50Ms": 333.1,
+        "p95Ms": 2426.45,
+        "p99Ms": 2816.45,
+        "errorRate": 0.1867,
+        "fiveXx": 699,
+        "statuses": {
+          "200": 12699,
+          "401": 2217,
+          "500": 699
+        }
+      },
+      "student_gradebook": {
+        "totalRequests": 15614,
+        "avgMs": 577.76,
+        "p50Ms": 393.49,
+        "p95Ms": 2488.72,
+        "p99Ms": 2858.85,
+        "errorRate": 0.1974,
+        "fiveXx": 851,
+        "statuses": {
+          "200": 12532,
+          "401": 2231,
+          "500": 851
+        }
+      },
+      "teacher_assignment_submissions": {
+        "totalRequests": 15614,
+        "avgMs": 744.36,
+        "p50Ms": 575.09,
+        "p95Ms": 2616.81,
+        "p99Ms": 2945.56,
+        "errorRate": 0.2083,
+        "fiveXx": 995,
+        "statuses": {
+          "200": 12361,
+          "401": 2258,
+          "500": 995
+        }
+      },
+      "teacher_assignments": {
+        "totalRequests": 15615,
+        "avgMs": 613.85,
+        "p50Ms": 459.88,
+        "p95Ms": 2512.22,
+        "p99Ms": 2871.5,
+        "errorRate": 0.2161,
+        "fiveXx": 1106,
+        "statuses": {
+          "200": 12240,
+          "401": 2269,
+          "500": 1106
+        }
+      },
+      "teacher_gradebook": {
+        "totalRequests": 15614,
+        "avgMs": 601.62,
+        "p50Ms": 439.75,
+        "p95Ms": 2513.17,
+        "p99Ms": 2867.06,
+        "errorRate": 0.2113,
+        "fiveXx": 1050,
+        "statuses": {
+          "200": 12314,
+          "401": 2250,
+          "500": 1050
+        }
+      }
+    }
+  }
+]
