@@ -17,7 +17,7 @@
 
 - 结论：不通过合同容量目标。系统在低并发和若干专项链路可恢复可用，但高并发读请求、判题轮询、通知轮询触发 5xx，写入与 soak 出现 429，不能按本合同容量阈值直接对外交付。
 - 2026-06-11 修复批次结论：已完成第一批 P1 高频读路径与压测脚本修复，并通过后端单测/集成门禁；但尚未复跑 `PERF_PROFILE=contract` 全量压力测试，故本报告总体验收结论仍保持“不通过”。
-- 2026-06-11 P1 复测与第三批修复结论：已复跑读请求 / 判题轮询 / 通知轮询 P1 诊断和三轮 read-label 混合读诊断，证明认证 principal cache、提交列表批量答案加载、`/auth/me` 默认快照读取均有收益；但最新 read-label 复测在 200 并发仍有 47 个 5xx、P99 2454.08ms，500 并发错误率 19.55%、5xx 7139，P1 仍为失败。
+- 2026-06-11 P1 复测与第四批修复结论：已复跑读请求 / 判题轮询 / 通知轮询 P1 诊断和四轮 read-label 混合读诊断，证明认证 principal cache、提交列表批量答案加载、`/auth/me` 默认快照读取、access token 会话活跃缓存预热均有收益；第四批复测已移除 `isAccessTokenActive` 读库栈，但最新 read-label 复测在 200 并发仍有 60 个 5xx、P99 2460.62ms，500 并发错误率 18.82%、5xx 7040，P1 仍为失败。
 - 已证明容量边界：读请求 50 并发 2 分钟通过；判题轮询 50 并发 2 分钟通过；文件上传 10 并发、文件下载 100 并发通过；通知查询 200 并发 3 分钟通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过。
 - 未证明或失败范围：读请求 200/500 并发失败；写入链路 10 并发即出现 429；判题轮询 200/500 并发失败；通知查询 500 并发失败；soak 100 并发 10 分钟出现 429，未满足无错误稳定性要求；未证明 Kubernetes 实验运行时容量。
 - 真实 go-judge 判题结论：失败。数据准备阶段触发了 1 次真实编程提交，判题轮询 50 并发通过，但 200/500 并发失败；未完成五类结果、报告下载和重评容量证明。
@@ -61,6 +61,9 @@
 | 15 | read-label 修复后复测 | 失败 | `product-stress-test-evidence/commands/55-read-label-diagnosis-after-submission-bulk-answer-fix-20260611.log`；`raw/STRESS-06111832-readlabels-bulkfix/read-label-results.json`。50/200/500 并发均改善，但 200/500 仍不达标。 |
 | 16 | auth principal cache 修复后启动与健康检查 | 通过 | `product-stress-test-evidence/commands/58-dev-restart-after-auth-principal-cache-fix-20260611.log`；`59-healthcheck-strict-after-auth-principal-cache-fix-20260611.log`。 |
 | 17 | auth principal cache 修复后 read-label 复测 | 失败 | `product-stress-test-evidence/commands/60-read-label-diagnosis-after-auth-principal-cache-fix-20260611.log`；`raw/STRESS-06111855-authcache/read-label-results.json`。`auth_me` 200/500 并发 5xx 降为 0，但混合读 200/500 仍不达标。 |
+| 18 | auth session active cache 修复后启动、健康检查与定向测试 | 通过 | `product-stress-test-evidence/commands/64-dev-restart-after-auth-session-cache-fix-20260611.log`；`65-healthcheck-strict-after-auth-session-cache-fix-20260611.log`；`67-server-auth-session-cache-targeted-tests-20260611.log`；`68-perf-runner-artifact-dir-tests-20260611.log`。 |
+| 19 | auth session active cache 修复后 read-label 复测 | 失败 | `product-stress-test-evidence/commands/66-read-label-diagnosis-after-auth-session-cache-fix-20260611.log`；`raw/STRESS-06111935-sessionactive/read-label-results.json`。`auth_me` 200/500 并发 5xx 仍为 0，采样栈不再出现 `isAccessTokenActive`，但混合读 200/500 仍不达标。 |
+| 20 | auth session active cache 修复后完整非浏览器门禁 | 通过 | `product-stress-test-evidence/commands/69-server-mvn-test-after-auth-session-cache-fix-20260611.log`；后端 `366` 个测试通过。`product-stress-test-evidence/commands/70-docs-build-after-auth-session-cache-fix-20260611.log`；docs build 通过，保留既有 chunk size warning。 |
 
 ## 4.1 2026-06-11 第一批修复记录
 
@@ -84,6 +87,14 @@
 - 定向验证：新增 `authMeShouldUseSessionSnapshotByDefaultAndRefreshWhenNoCacheRequested` 和 `warmPrincipalForAccessTokenShouldSeedAccessTokenCacheWithoutReloadingPrincipal`，保留会话撤销、logout 后 access token 失效、显式 no-cache 刷新用户资料的安全语义。
 - 修复后 read-label：`STRESS-06111855-authcache` 中 50 并发 RPS 492.72 -> 499.71、P95 55.06ms -> 53.89ms；200 并发 RPS 602.28 -> 632.14、P95 506.48ms -> 480.59ms、错误率 0.25% -> 0.19%、5xx 61 -> 47；500 并发 RPS 734.96 -> 771.55、错误率 19.84% -> 19.55%、5xx 7971 -> 7139。`auth_me` 200/500 并发 5xx 均降为 0，但 P1 仍失败。
 
+## 4.4 2026-06-11 第四批会话活跃缓存与 runner 修复记录
+
+- 代码修复：`authSessionActiveTtl` 默认值从 `30s` 提升到 `5m`，签发 access token 时预热 `authSessionActive` 缓存；logout、refresh token 撤销、用户全会话失效仍保留显式驱逐。
+- runner 修复：`run_perf_suite.py` 在资源采样线程启动前创建 `ARTIFACT_DIR`，避免 read-label 复测结束写入 `resource_samples.json` 时因目录不存在崩溃。
+- 定向验证：新增 `AuthSessionApplicationServiceTests.createSessionShouldWarmAccessTokenSessionActiveCache` 和 `run_perf_suite_test.py` artifact 目录创建单测；保留认证集成测试、会话撤销、logout 后 access token 失效、认证 principal 缓存测试。
+- 修复后 read-label：`STRESS-06111935-sessionactive` 中 50 并发 RPS 499.71 -> 515.46、P95 53.89ms -> 50.41ms；200 并发 P95 480.59ms -> 487.35ms、5xx 47 -> 60、P99 2454.08ms -> 2460.62ms；500 并发错误率 19.55% -> 18.82%、5xx 7139 -> 7040。P1 仍失败。
+- 栈与端点分布：复测采样窗口未再出现 `isAccessTokenActive` 读库栈；剩余 5xx 集中在 `SubmissionApplicationService`、`GradebookApplicationService` 相关业务读路径，500 并发最重标签为 `teacher_gradebook`、`teacher_assignments`、`teacher_assignment_submissions` 和 `my_submissions`。
+
 ## 5. 压测数据准备
 
 - 数据前缀：正式压测数据集为 `STRESS-0611132804`。后端会把 username 归一化为小写，manifest 中学生账号显示为 `stress-0611132804-*`。
@@ -102,7 +113,7 @@
 | 场景 | 并发 | 持续时间 | RPS/TPS | P95 | P99 | 错误率 | 5xx | 状态 | 证据 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 读请求阶梯压测 | 50/200/500 | 2/3/3 分钟 | 343.39 / 412.42 / 561.39 | 163.45 / 2358.92 / 2719.35 ms | 259.3 / 2658.49 / 3106.37 ms | 0 / 2.07% / 29.03% | 0 / 478 / 9514 | 失败 | `raw/STRESS-0611132804/contract-run/perf_results_contract.json`；50 并发通过，200 起失败。 |
-| 读请求端点级复测 | 50/200/500 | 2/3/3 分钟 | 499.71 / 632.14 / 771.55 | 53.89 / 480.59 / 2484.19 ms | 91.54 / 2454.08 / 2855.29 ms | 0 / 0.19% / 19.55% | 0 / 47 / 7139 | 失败 | `raw/STRESS-06111855-authcache/read-label-results.json`；第三批修复后 200 并发 P95 达标，但 5xx/P99 未达标，500 仍失败。 |
+| 读请求端点级复测 | 50/200/500 | 2/3/3 分钟 | 515.46 / 628.03 / 765.37 | 50.41 / 487.35 / 2498.12 ms | 70.92 / 2460.62 / 2873.75 ms | 0 / 0.21% / 18.82% | 0 / 60 / 7040 | 失败 | `raw/STRESS-06111935-sessionactive/read-label-results.json`；第四批修复后 200 并发 P95 仍接近合同线，但 5xx/P99 未达标，500 仍失败。 |
 | 写入链路压测 | 10 | 1 分钟 | 29.63 TPS | 65.0 ms | 72.36 ms | 11.16% | 0 | 失败 | `perf_results_contract.json`；201=160，429=201。 |
 | 判题与轮询压测 | 50/200/500 | 2/3/3 分钟 | 458.1 / 636.57 / 719.32 | 43.29 / 430.98 / 2525.36 ms | 56.5 / 2425.23 / 2886.32 ms | 0 / 0.07% / 14.8% | 0 / 26 / 7133 | 失败 | 50 并发通过，200 起出现 5xx。 |
 | 文件上传下载压测 | 上传 5/10；下载 20/100 | 上传各 1 分钟；下载各 2 分钟 | 上传 16.21/31.32；下载 209.61/494.95 | 上传 20.56/28.41 ms；下载 25.07/132.02 ms | 上传 22.8/37.63 ms；下载 29.63/2272.05 ms | 0 | 0 | 阻塞 | `perf_results_contract.json`；教师课程资源子集通过，但缺少全部文件类型、20MiB 文件和 SHA256 记录。 |
@@ -118,7 +129,7 @@
 - PostgreSQL 活跃连接峰值：49。
 - 容器峰值：PostgreSQL CPU 102.66%、内存 706.9 MiB；RabbitMQ CPU 67.8%、内存 215.0 MiB；MinIO CPU 14.48%、内存 311.7 MiB；Redis CPU 8.21%、内存 10.42 MiB；go-judge CPU 2.03%、内存 20.11 MiB。
 - 主要瓶颈：后端日志显示高并发失败期间 Hikari 连接池耗尽，`total=48, active=48, idle=0, waiting=...`，导致 `CannotCreateTransactionException` 和 500。证据：`raw/STRESS-0611132804/server-log-stress-errors-excerpt.log`。
-- 复测资源：`STRESS-06111800-diagnose` PostgreSQL 连接采样峰值 49、平均 48.30；`STRESS-06111820-readlabels`、`STRESS-06111832-readlabels-bulkfix`、`STRESS-06111855-authcache` 均记录 Hikari 等待峰值 274，第三批复测 PostgreSQL 连接峰值 49、平均 46.55，Redis 错误计数为 0。证据：`raw/STRESS-06111800-diagnose/resource-summary.json`、`raw/STRESS-06111820-readlabels/server-log-window-summary.log`、`raw/STRESS-06111832-readlabels-bulkfix/server-log-window-summary.log`、`raw/STRESS-06111855-authcache/server-log-window-summary.log`。
+- 复测资源：`STRESS-06111800-diagnose` PostgreSQL 连接采样峰值 49、平均 48.30；`STRESS-06111820-readlabels`、`STRESS-06111832-readlabels-bulkfix`、`STRESS-06111855-authcache` 均记录 Hikari 等待峰值 274；第四批 `STRESS-06111935-sessionactive` PostgreSQL 连接采样 min/max/avg 均为 49，Hikari 等待峰值 275，Redis 错误计数为 0。证据：`raw/STRESS-06111800-diagnose/resource-summary.json`、`raw/STRESS-06111820-readlabels/server-log-window-summary.log`、`raw/STRESS-06111832-readlabels-bulkfix/server-log-window-summary.log`、`raw/STRESS-06111855-authcache/server-log-window-summary.log`、`raw/STRESS-06111935-sessionactive/resource-summary.json`、`raw/STRESS-06111935-sessionactive/server-log-window-summary.log`。
 
 ## 8. Playwright MCP 压测前后页面回归
 
@@ -139,4 +150,4 @@
 
 ## 11. 最终建议
 
-最终建议：不通过。当前系统可以支撑低并发演示和部分专项能力，但不满足交付前压力测试合同中读、写、判题、通知和 soak 的容量/错误率阈值。下一轮应优先修复授权服务和业务读端点的连接占用，继续降低 JDBC/Hikari 等待，再处理通知列表高并发查询与写入限流策略，然后使用同一 runner 和场景矩阵复测。
+最终建议：不通过。当前系统可以支撑低并发演示和部分专项能力，但不满足交付前压力测试合同中读、写、判题、通知和 soak 的容量/错误率阈值。认证/会话读库热点已通过缓存预热移出最新采样栈；下一轮应优先修复 `SubmissionApplicationService` 与 `GradebookApplicationService` 的业务读路径连接占用，继续降低 JDBC/Hikari 等待，再处理通知列表高并发查询与写入限流策略，然后使用同一 runner 和场景矩阵复测。
