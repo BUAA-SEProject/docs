@@ -1,0 +1,6 @@
+LAST SEEN   TYPE     REASON      OBJECT                     MESSAGE
+48s         Normal   Scheduled   pod/aubb-lab-stress-1533   Successfully assigned aubb-labs/aubb-lab-stress-1533 to aubb-lab-dev-control-plane
+48s         Normal   Pulled      pod/aubb-lab-stress-1533   Container image "alpine:3.20" already present on machine and can be accessed by the pod
+48s         Normal   Created     pod/aubb-lab-stress-1533   Container created
+48s         Normal   Started     pod/aubb-lab-stress-1533   Container started
+43s         Normal   Killing     pod/aubb-lab-stress-1533   Stopping container workspace

@@ -1,0 +1,5 @@
+  id  | lab_id | status  | runtime_kind | runtime_namespace |   runtime_pod_name   | failure_reason 
+------+--------+---------+--------------+-------------------+----------------------+----------------
+ 1533 |     85 | STOPPED | KUBERNETES   | aubb-labs         | aubb-lab-stress-1533 | 
+(1 row)
+

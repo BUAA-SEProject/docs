@@ -1,0 +1,34 @@
+Docker: ServerVersion=29.4.3 OSType=linux Architecture=aarch64 CPUs=8 Mem=8321994752
+kubectl: clientVersion:
+  buildDate: "2025-09-09T19:44:50Z"
+  compiler: gc
+  gitCommit: 93248f9ae092f571eb870b7664c534bfc7d00f03
+  gitTreeState: clean
+  gitVersion: v1.34.1
+  goVersion: go1.24.6
+  major: "1"
+  minor: "34"
+  platform: darwin/arm64
+kustomizeVersion: v5.7.1
+
+kind: kind v0.32.0 go1.26.3 darwin/arm64
+context: kind-aubb-lab-dev
+CURRENT   NAME                CLUSTER             AUTHINFO            NAMESPACE
+*         kind-aubb-lab-dev   kind-aubb-lab-dev   kind-aubb-lab-dev   
+NAME                         STATUS   ROLES           AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                       KERNEL-VERSION             CONTAINER-RUNTIME
+aubb-lab-dev-control-plane   Ready    control-plane   3d16h   v1.36.1   172.19.0.2    <none>        Debian GNU/Linux 13 (trixie)   6.12.76-linuxkit (arm64)   containerd://2.3.1
+NAME                 STATUS   AGE
+aubb-labs            Active   3d16h
+default              Active   3d16h
+kube-node-lease      Active   3d16h
+kube-public          Active   3d16h
+kube-system          Active   3d16h
+local-path-storage   Active   3d16h
+yes
+yes
+yes
+yes
+No resources found in aubb-labs namespace.
+No resources found in aubb-labs namespace.
+error: Metrics API not available
+error: Metrics API not available

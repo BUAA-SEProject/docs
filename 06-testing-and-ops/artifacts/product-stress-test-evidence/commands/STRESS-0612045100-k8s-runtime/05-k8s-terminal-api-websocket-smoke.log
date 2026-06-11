@@ -1,0 +1,19 @@
+{"at":"2026-06-11T21:00:39.585Z","event":"login-ok","role":"teacher","username":"u-ta1"}
+{"at":"2026-06-11T21:00:39.700Z","event":"login-ok","role":"student","username":"u-st1"}
+{"at":"2026-06-11T21:00:39.710Z","event":"profile-selected","id":1,"code":"linux-shell-basic","image":"alpine:3.20","shellCommand":"/bin/sh"}
+{"at":"2026-06-11T21:00:39.734Z","event":"lab-created","labId":85,"title":"STRESS-0612045100-k8s-runtime Linux Shell","labType":"TERMINAL","status":"DRAFT"}
+{"at":"2026-06-11T21:00:39.764Z","event":"lab-published","labId":85,"status":"PUBLISHED"}
+{"at":"2026-06-11T21:00:39.778Z","event":"student-lab-visible","labId":85,"visible":true,"listedCount":8}
+{"at":"2026-06-11T21:00:40.091Z","event":"session-started","sessionId":1533,"status":"PROVISIONING","runtimeKind":"KUBERNETES","runtimeNamespace":"aubb-labs","runtimePodName":"aubb-lab-stress-1533"}
+{"at":"2026-06-11T21:00:40.115Z","event":"session-poll","sessionId":1533,"status":"PROVISIONING","runtimeKind":"KUBERNETES","runtimeNamespace":"aubb-labs","runtimePodName":"aubb-lab-stress-1533","failureReason":null}
+{"at":"2026-06-11T21:00:43.147Z","event":"session-poll","sessionId":1533,"status":"RUNNING","runtimeKind":"KUBERNETES","runtimeNamespace":"aubb-labs","runtimePodName":"aubb-lab-stress-1533","failureReason":null}
+{"at":"2026-06-11T21:00:43.337Z","event":"pod-running","pod":"aubb-lab-stress-1533","namespace":"aubb-labs","phase":"Running","nodeName":"aubb-lab-dev-control-plane","restarts":[{"name":"workspace","restartCount":0}]}
+{"at":"2026-06-11T21:00:43.381Z","event":"websocket-open","label":"initial","sessionId":1533}
+{"at":"2026-06-11T21:00:44.397Z","event":"websocket-command-ok","label":"initial","observedMarker":true,"openedMs":19}
+{"at":"2026-06-11T21:00:44.438Z","event":"websocket-open","label":"reconnect","sessionId":1533}
+{"at":"2026-06-11T21:00:45.449Z","event":"websocket-command-ok","label":"reconnect","observedMarker":true,"openedMs":3}
+{"at":"2026-06-11T21:00:45.506Z","event":"session-stopped","sessionId":1533,"status":"STOPPED","runtimeKind":"KUBERNETES","runtimePodName":"aubb-lab-stress-1533"}
+Error from server (NotFound): pods "aubb-lab-stress-1533" not found
+No resources found in aubb-labs namespace.
+{"at":"2026-06-11T21:00:47.682Z","event":"cleanup-state","stoppedStatus":"STOPPED","podState":"deleted","remainingPods":0}
+sanitized result written: docs/06-testing-and-ops/artifacts/product-stress-test-evidence/raw/STRESS-0612045100-k8s-runtime/k8s-terminal-smoke.json

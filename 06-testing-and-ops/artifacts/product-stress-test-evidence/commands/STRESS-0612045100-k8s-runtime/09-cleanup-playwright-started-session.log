@@ -1,0 +1,4 @@
+{"event":"current-before-stop","sessionId":1534,"status":"RUNNING","runtimeKind":"KUBERNETES","runtimePodName":"aubb-lab-stress-1534"}
+{"event":"stop-result","statusCode":200,"sessionId":1534,"status":"STOPPED","runtimeKind":"KUBERNETES","runtimePodName":"aubb-lab-stress-1534"}
+NAME                   READY   STATUS   RESTARTS   AGE     IP            NODE                         NOMINATED NODE   READINESS GATES
+aubb-lab-stress-1534   0/1     Error    0          5m15s   10.244.0.10   aubb-lab-dev-control-plane   <none>           <none>
