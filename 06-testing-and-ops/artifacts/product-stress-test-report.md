@@ -11,13 +11,15 @@
 - 运行时模式：本地 fake 实验运行时；本轮只证明 fake runtime 会话路径，不声明 Kubernetes 容量
 - 机器配置摘要：MacBookPro18,3，8 CPU，16 GiB 内存，macOS 26.5.1；Java 25.0.3，Docker 29.4.3，Node 24.15.0，npm 11.14.1。证据：`product-stress-test-evidence/commands/20-machine-and-tool-summary.log`
 - 初始 `just status` 摘要：`server/`、`web/`、`docs/` 均在 `main...origin/main`，dirty entries 均为 `0`；AUBB root 不是 git 仓库
-- 最终 `just status` 摘要：`server/`、`web/`、`docs/` dirty entries 均为 `0`；`server/` 因提交 `447fa75 feat(perf): 补齐合同压测场景` ahead 1，`docs/` 因提交压力测试报告与证据 ahead 1。最终状态证据见 `product-stress-test-evidence/commands/34-final-just-status-post-docs-commit.log`。`docs/06-testing-and-ops/artifacts/` 为 docs 仓库忽略目录，本轮压力测试报告和证据已按合同使用 `git add -f` 纳入 docs 子仓库提交范围。
+- 最终 `just status` 摘要：`server/`、`web/`、`docs/` dirty entries 均为 `0`；`server/` 因提交 `447fa75 feat(perf): 补齐合同压测场景` ahead 1，`docs/` 因提交压力测试报告与证据 ahead 1。初次最终状态证据见 `product-stress-test-evidence/commands/34-final-just-status-post-docs-commit.log`；覆盖矩阵补录后的最终状态证据见 `product-stress-test-evidence/commands/38-final-just-status-post-coverage-matrix-commit.log`。`docs/06-testing-and-ops/artifacts/` 为 docs 仓库忽略目录，本轮压力测试报告和证据已按合同使用 `git add -f` 纳入 docs 子仓库提交范围。
 
 ## 2. 总体结论
 
 - 结论：不通过合同容量目标。系统在低并发和若干专项链路可恢复可用，但高并发读请求、判题轮询、通知轮询触发 5xx，写入与 soak 出现 429，不能按本合同容量阈值直接对外交付。
 - 已证明容量边界：读请求 50 并发 2 分钟通过；判题轮询 50 并发 2 分钟通过；文件上传 10 并发、文件下载 100 并发通过；通知查询 200 并发 3 分钟通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过。
-- 未证明或失败范围：读请求 200/500 并发失败；写入链路 10 并发即出现 429；判题轮询 200/500 并发失败；通知查询 500 并发失败；soak 100 并发 10 分钟出现 429，未满足无错误稳定性要求；未覆盖 Kubernetes 实验运行时容量。
+- 未证明或失败范围：读请求 200/500 并发失败；写入链路 10 并发即出现 429；判题轮询 200/500 并发失败；通知查询 500 并发失败；soak 100 并发 10 分钟出现 429，未满足无错误稳定性要求；未证明 Kubernetes 实验运行时容量。
+- 真实 go-judge 判题结论：失败。数据准备阶段触发了 1 次真实编程提交，判题轮询 50 并发通过，但 200/500 并发失败；未完成五类结果、报告下载和重评容量证明。
+- Web 终端 / Kubernetes runtime 结论：阻塞。本轮只证明本地 fake runtime 10 并发 smoke，当前环境未配置真实 Kubernetes runtime，不能声明 Web 终端生产容量通过。
 - 是否建议对外交付：不建议按当前合同容量目标交付；若必须演示或内测，应限定为低并发、明确限流，并先完成连接池/读路径优化与重测。
 - 交付限制或建议：优先治理 JDBC 连接池耗尽和认证会话校验读库压力，复核写入限流策略是否符合预期容量，再按同一 `STRESS-*` 方案复测。
 
@@ -48,7 +50,7 @@
 | 6 | `just e2e-real` | 通过 | `product-stress-test-evidence/commands/06-just-e2e-real.log`；真实本地前后端 E2E `50 passed (4.0m)`。 |
 | 7 | `just verify` | 通过 | `product-stress-test-evidence/commands/07-just-verify.log`；后端 `357` tests 通过，web lint/typecheck 通过，docs build 通过。 |
 | 8 | `just verify-full` | 通过 | `product-stress-test-evidence/commands/08-just-verify-full.log`；后端 `357` tests 通过，web lint/typecheck、`71` files / `281` unit tests、Next build、docs build 通过。 |
-| 9 | `cd docs && npm run docs:build` | 通过 | `product-stress-test-evidence/commands/09-docs-build-pre-stress.log`、`27-docs-build-completion-audit.log`、`31-docs-build-post-report-audit.log`；VitePress build 通过，保留既有 chunk size warning。 |
+| 9 | `cd docs && npm run docs:build` | 通过 | `product-stress-test-evidence/commands/09-docs-build-pre-stress.log`、`27-docs-build-completion-audit.log`、`31-docs-build-post-report-audit.log`、`36-docs-build-after-coverage-matrix.log`；VitePress build 通过，保留既有 chunk size warning。 |
 
 ## 5. 压测数据准备
 
@@ -63,14 +65,16 @@
 
 ## 6. 场景结果总览
 
+完整覆盖矩阵见 `product-stress-test-coverage-matrix.md`，7.1-7.15 场景矩阵见 `product-stress-test-scenario-matrix.md`。本节只保留已执行压测结果摘要；未执行但必测的专项在矩阵中标为 `阻塞`，不再隐含为通过。
+
 | 场景 | 并发 | 持续时间 | RPS/TPS | P95 | P99 | 错误率 | 5xx | 状态 | 证据 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 读请求阶梯压测 | 50/200/500 | 2/3/3 分钟 | 343.39 / 412.42 / 561.39 | 163.45 / 2358.92 / 2719.35 ms | 259.3 / 2658.49 / 3106.37 ms | 0 / 2.07% / 29.03% | 0 / 478 / 9514 | 失败 | `raw/STRESS-0611132804/contract-run/perf_results_contract.json`；50 并发通过，200 起失败。 |
 | 写入链路压测 | 10 | 1 分钟 | 29.63 TPS | 65.0 ms | 72.36 ms | 11.16% | 0 | 失败 | `perf_results_contract.json`；201=160，429=201。 |
 | 判题与轮询压测 | 50/200/500 | 2/3/3 分钟 | 458.1 / 636.57 / 719.32 | 43.29 / 430.98 / 2525.36 ms | 56.5 / 2425.23 / 2886.32 ms | 0 / 0.07% / 14.8% | 0 / 26 / 7133 | 失败 | 50 并发通过，200 起出现 5xx。 |
-| 文件上传下载压测 | 上传 5/10；下载 20/100 | 上传各 1 分钟；下载各 2 分钟 | 上传 16.21/31.32；下载 209.61/494.95 | 上传 20.56/28.41 ms；下载 25.07/132.02 ms | 上传 22.8/37.63 ms；下载 29.63/2272.05 ms | 0 | 0 | 通过 | `perf_results_contract.json`；上传 2886 次，下载 84604 次。 |
+| 文件上传下载压测 | 上传 5/10；下载 20/100 | 上传各 1 分钟；下载各 2 分钟 | 上传 16.21/31.32；下载 209.61/494.95 | 上传 20.56/28.41 ms；下载 25.07/132.02 ms | 上传 22.8/37.63 ms；下载 29.63/2272.05 ms | 0 | 0 | 阻塞 | `perf_results_contract.json`；教师课程资源子集通过，但缺少全部文件类型、20MiB 文件和 SHA256 记录。 |
 | 通知与 SSE / 轮询专项 | 轮询 50/200/500；SSE 20 | 2/3/3 分钟；SSE 1 分钟 | 592.12 / 959.11 / 1036.95；SSE 28.17 | 14.85 / 219.73 / 2344.92 ms；SSE 39.35 ms | 26.25 / 2300.85 / 2692.38 ms；SSE 46.28 ms | 0 / 0 / 7.44%；SSE 0 | 0 / 0 / 5282；SSE 0 | 失败 | 50/200 轮询和 SSE 通过，500 轮询失败。 |
-| 实验运行时专项 | 10 | 1 分钟 | 48.72 | 45.6 ms | 51.85 ms | 0 | 0 | 通过 | fake runtime：201=1520，200=1520；不代表 Kubernetes 容量。 |
+| 实验运行时专项 | 10 | 1 分钟 | 48.72 | 45.6 ms | 51.85 ms | 0 | 0 | 阻塞 | fake runtime：201=1520，200=1520；真实 Kubernetes runtime、WebSocket 命令 I/O、重连和清理未执行。 |
 | Soak 稳定性测试 | 100 | 10 分钟 | 387.97 | 271.26 ms | 2281.26 ms | 1.31% | 0 | 失败 | 200=228798，201=1600，429=3069；服务压后健康检查和 MCP 页面回归通过。 |
 
 ## 7. 资源采样与瓶颈分析
