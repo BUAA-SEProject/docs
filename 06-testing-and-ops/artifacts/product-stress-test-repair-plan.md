@@ -14,6 +14,9 @@
 | P1-STRESS-005 / Kubernetes Web 终端真实 runtime | 真实 Kubernetes runtime 完全未证明；页面启动终端实验后，如果首个 current session 响应仍是 `PROVISIONING`，学生端不会继续刷新，导致真实 Pod 已 Running 但页面仍停在“正在启动”，无法打开终端。 | 手工以 `AUBB_LAB_RUNTIME_MODE=kubernetes` 启动后端并跑真实 Pod/WebSocket smoke；为 `useMyCurrentLabSessionQuery` 增加 `REQUESTED` / `PROVISIONING` 期间 2 秒轮询，稳定态停止轮询。 | 通过 | `npm test -- use-lab-query` 通过；`STRESS-0612045100-k8s-runtime` API+WebSocket smoke 通过；Playwright MCP 学生页从“正在启动”自动刷新到“运行中”并打开 Web 终端，截图见 `product-stress-test-screenshots/STRESS-0612045100-k8s-runtime/student-terminal-connected.png`。 |
 | P1-STRESS-005 / Kubernetes WebSocket 并发容量 | 第十二批只证明单会话真实 Pod/WebSocket/Playwright smoke，未证明 Kubernetes session / WebSocket 5/10/20 并发、10 分钟保持、重连、重置和清理。 | 为合同 runner 增加 `lab_terminal_websocket` 场景，5/10/20 并发各 600 秒；每个 worker 启动真实 Kubernetes session，执行初连 echo、重连 echo、周期 keepalive echo、reset echo，并采样 Pod phase/ready/restart/cleanup。 | 通过 | `STRESS-0612053038-k8s-ws` 三档错误率均为 0、5xx=0，初连/重连/重置分别 5/5/5、10/10/10、20/20/20 成功；Pod 峰值 5/10/20，最大重启 0，压测后和 Playwright MCP 回归后 namespace 无残留 Pod。 |
 | P1-STRESS-003 / 真实 go-judge 全链路 | 判题轮询已通过，但真实提交 5/10/20、sample-run 5/10/20、五类结果、报告下载和重评 5/10 未闭环；初版 go-judge runner 把不可访问学生混入班级作业且 sample-run 紧循环触发 403/429。 | 为数据准备输出结构化编程题、`judgeQuestionId`、`judgeAnswerId` 和 `judgeStudentUsernames`；runner 增加 `go_judge_sample_runs`、`go_judge_submission_chain`、`go_judge_requeue`，按作业可访问学生过滤 token，并对 sample-run 加用户级间隔；结果统计保留真实 verdict，同时把“编译失败”摘要归类为 `COMPILE_ERROR` 合同结果类别。 | 通过 | `STRESS-0612064213-gojudge` 证明 sample-run 5/10/20、真实提交 5/10/20、学生/教师报告下载、五类结果 SQL 汇总和重评 5/10 均错误率 0、5xx=0；`/opt/miniconda3/bin/python3 -m unittest ops/perf/run_perf_suite_test.py ops/perf/setup_perf_data_test.py` 共 24 个测试通过。 |
+| P2-STRESS-005 / 文件与对象存储专项 | 原合同 runner 只覆盖教师课程资源上传 5/10、下载 20/100，并且普通下载请求读取后丢弃响应体，无法形成 `goal-stress.md` 要求的 size、Content-Type、SHA256 证据。 | 扩展合同计划到上传 5/10/20、下载 20/100/300；上传 payload 默认按 64KiB、1MiB、20MiB 三档循环；下载改为专用 `run_file_download_scenario`，覆盖课程资源、判题报告、成绩册导出/报告、班级成绩册导出/报告，并在 manifest 提供时覆盖实验报告附件和提交附件。每个下载阶段写出 `file_download_integrity_<concurrency>.json`。 | 通过 | `/opt/miniconda3/bin/python3 -m unittest ops/perf/run_perf_suite_test.py` 共 21 个测试通过，覆盖文件下载目标矩阵和 SHA256/Content-Type/size 聚合。实际文件矩阵压测尚未执行，P2-STRESS-005 不能改为通过。 |
+| P1-STRESS-004 / SSE 长连接覆盖 | 原 `notification_sse` 只有 20 并发 60 秒，且 worker 读到短超时后关闭连接再重连，不能证明 20/100/300 的长连接保持。 | 将合同计划改为 SSE 20 并发 5 分钟、100/300 并发各 10 分钟；`run_sse_scenario` 每个 worker 建立一次 SSE 连接并保持到阶段结束，记录连接数、读取超时但未断连次数、读取 chunk 和保持至阶段结束计数。 | 通过 | `/opt/miniconda3/bin/python3 -m unittest ops/perf/run_perf_suite_test.py` 共 21 个测试通过，覆盖合同计划时长。实际 SSE 100/300 压测尚未执行，7.10 仍保持阻塞。 |
+| P2-STRESS-002 / 30 分钟 soak 合同 | 旧合同 profile 中 `soak_stability` 仍是 100 并发 10 分钟 smoke，不能直接证明 `goal-stress.md` 7.15 要求的 30 分钟容量边界。 | 将合同 profile 的 `soak_stability` 调整为 100 并发 1800 秒；保留 `MAX_STAGE_COUNT`、`MAX_STAGE_CONCURRENCY`、`ONLY_STAGE_CONCURRENCY` 诊断开关用于短诊断。 | 通过 | `/opt/miniconda3/bin/python3 -m unittest ops/perf/run_perf_suite_test.py` 共 21 个测试通过，覆盖 1800 秒计划。实际 30 分钟 soak 尚未执行，7.15 仍保持阻塞。 |
 
 ## 2. 本轮代码改动
 
@@ -30,6 +33,10 @@
 - `server/ops/perf/setup_perf_data.py`：新增结构化 go-judge 编程作业、真实 seed 提交、`judgeQuestionId` / `judgeAnswerId` / `judgeStudentUsernames` manifest 字段，确保 go-judge 压测使用作业可访问学生。
 - `server/ops/perf/run_perf_suite.py`：新增 `go_judge_sample_runs`、`go_judge_submission_chain`、`go_judge_requeue` 合同场景；sample-run 增加用户级间隔；真实提交链路下载学生/教师报告；统计保留真实 verdict 并输出合同结果类别。
 - `server/ops/perf/setup_perf_data_test.py`、`server/ops/perf/run_perf_suite_test.py`：覆盖结构化编程作业、学生过滤、sample-run 间隔、五类代码变体和编译失败分类。
+- `server/ops/perf/run_perf_suite.py`：合同 profile 补齐文件上传 20 并发、文件下载 300 并发、SSE 20/100/300 长连接保持和 30 分钟 soak；文件上传 payload 默认循环 64KiB、1MiB、20MiB 三档。
+- `server/ops/perf/run_perf_suite.py`：新增文件下载目标矩阵和 `run_file_download_scenario`，下载成功后汇总 Content-Type、文件大小、SHA256，并写出 `file_download_integrity_<concurrency>.json`。
+- `server/ops/perf/run_perf_suite.py`：`run_sse_scenario` 改为单连接保持到阶段结束，避免短连接反复重连误作 SSE 长连接容量证据。
+- `server/ops/perf/run_perf_suite_test.py`：覆盖文件下载目标矩阵、SHA256 聚合、SSE/文件/soak 合同计划。
 
 ## 3. 已执行验证
 
@@ -51,6 +58,7 @@
 | `STRESS-0612064213-gojudge` 真实提交 5/10/20 | 通过 | 三档各 300 秒，916 / 1646 / 2060 次提交，学生/教师报告下载均与提交数一致，错误率 0、5xx=0。 |
 | `STRESS-0612064213-gojudge` 五类结果 SQL 汇总 | 通过 | `ACCEPTED=916`、`WRONG_ANSWER=919`、`COMPILE_ERROR=925`、`RUNTIME_ERROR=931`、`TIME_LIMIT_EXCEEDED=932`，4623 个 job 均有报告对象。 |
 | `STRESS-0612064213-gojudge` requeue 5/10 | 通过 | 两档各 120 秒，创建 380 / 640 个 `MANUAL_REJUDGE` job，均 `SUCCEEDED`，错误率 0、5xx=0。 |
+| `/opt/miniconda3/bin/python3 -m unittest ops/perf/run_perf_suite_test.py` | 通过 | 21 个测试通过，覆盖本批文件矩阵、SHA256 聚合、SSE 长连接计划和 30 分钟 soak 计划。 |
 | `bash ./mvnw test` | 通过 | 385 个后端测试通过，0 失败。 |
 | `cd docs && npm run docs:build` | 通过 | VitePress 文档构建通过，仅保留既有 chunk size warning。 |
 | 本轮证据敏感信息扫描 | 通过 | `STRESS-0612053038-k8s-ws` 和 `STRESS-0612064213-gojudge` 证据目录未匹配 token、Authorization、cookie、私钥等敏感模式。 |
@@ -59,9 +67,10 @@
 
 | 项目 | 状态 | 原因 | 下一步 |
 | --- | --- | --- | --- |
-| 完整 `PERF_PROFILE=contract` 端到端复测 | 阻塞 | 本轮已重跑失败场景 read/write 和 10 分钟 soak；未在最后一次代码修复后重新执行包含文件、通知、SSE、fake lab_runtime 的完整端到端合同。 | 如需关闭“完整合同未复跑”风险，直接复用 `/tmp/aubb-STRESS-0612022949/manifest.json` 执行完整 profile。 |
+| 完整 `PERF_PROFILE=contract` 端到端复测 | 阻塞 | 本轮已重跑失败场景 read/write 和 10 分钟 smoke soak；第十五批已把合同 profile 对齐到文件 20/300、SSE 20/100/300 和 30 分钟 soak，但尚未执行新的完整端到端合同。 | 如需关闭“完整合同未复跑”风险，直接复用最新 manifest 执行完整 profile，并为文件矩阵保存 `file_download_integrity_<concurrency>.json`。 |
 | 严格读请求长尾阈值 | 失败 | 修复后 read ladder 500/1000 已无 5xx，但 500 并发 P95 2346.07ms、1000 并发 P95 2713.40ms，仍高于 `goal-stress.md` 的公共读请求 P95 < 500ms、P99 < 1500ms 阈值。 | 继续削减 `my_assignments`、`teacher_assignments`、`teacher_assignment_submissions` 等业务读端点 DB 占用，或重新定义本地极限并发容量边界。 |
-| 通知 500/SSE 100/300 | 阻塞 | `STRESS-0612022949/contract-run` 已证明通知 500 轮询和 SSE 20 通过；真实 go-judge 已由 `STRESS-0612064213-gojudge` 关闭。SSE 100/300 和 10 分钟保持仍未执行。 | 补 SSE 长连接和事件触发恢复测试。 |
+| 通知 500/SSE 100/300 | 阻塞 | `STRESS-0612022949/contract-run` 已证明通知 500 轮询和旧 SSE 20 子集通过；第十五批已修正 SSE runner 为长连接保持并补 20/100/300 计划，但尚未执行。 | 执行 `SCENARIOS=notification_sse PERF_PROFILE=contract`，记录 20/100/300 连接成功率、断线率和保持至阶段结束计数。 |
+| 文件与对象存储矩阵 | 阻塞 | 第十五批已让 runner 覆盖文件上传 20、下载 300、课程资源、判题报告、成绩册导出/报告和可选附件 SHA256 汇总；尚未执行真实文件矩阵压测，也尚未扩展数据准备生成学生文件题附件和实验报告附件 manifest。 | 执行 `SCENARIOS=file_upload,file_download PERF_PROFILE=contract`；如要覆盖学生文件题/实验报告附件，先扩展 `setup_perf_data.py` 生成 `submissionArtifactId`、`labReportAttachmentId`。 |
 | Kubernetes CPU/内存曲线与 runtime 启动治理 | 阻塞 | 第十三批已完成 WebSocket/Kubernetes 5/10/20 并发容量，但本地 Metrics API 不可用，`kubectl top` 无法记录 Pod CPU/内存；`just dev-up` 默认脚本仍未原生传入 Kubernetes runtime env。 | 启用 metrics-server 或替代 Pod 资源采样；整理 `just dev-up`/文档化命令，使真实 Kubernetes runtime 启动入口可复用。 |
 
 ## 5. 当前结论
