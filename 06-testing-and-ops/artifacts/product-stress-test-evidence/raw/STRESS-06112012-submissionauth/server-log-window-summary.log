@@ -1,0 +1,11 @@
+generatedAt=2026-06-11T12:24:00.901Z
+source=/Users/moorefoss/Code/AUBB/.aubb/run/logs/server.log
+windowStart=2026-06-11T20:13:20+08:00
+windowEnd=2026-06-11T20:21:19+08:00
+counts={"connectionTimeout":21953,"cannotCreateTransaction":21953,"unhandledException":16114,"hikariNotAdded":0,"housekeeperStats":0,"redisErrors":0,"redisAvailability":0,"authSessionActiveStack":15117}
+maxWaiting=0
+maxWaitingLine=
+
+firstSamples:
+
+lastSamples:

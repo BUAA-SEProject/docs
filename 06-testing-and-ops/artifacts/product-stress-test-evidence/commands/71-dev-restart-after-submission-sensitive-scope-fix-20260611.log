@@ -1,0 +1,72 @@
+
+== local processes ==
+[stop] web tmux session aubb-web
+[stop] server tmux session aubb-server
+[skip] web pid 89117 not running
+[stop] server pid 88916
+
+== docker dependencies ==
+ Container server-postgres-1 Stopping 
+ Container server-minio-1 Stopping 
+ Container server-rabbitmq-1 Stopping 
+ Container server-go-judge-1 Stopping 
+ Container server-redis-1 Stopping 
+ Container server-minio-1 Stopped 
+ Container server-minio-1 Removing 
+ Container server-minio-1 Removed 
+ Container server-go-judge-1 Stopped 
+ Container server-go-judge-1 Removing 
+ Container server-go-judge-1 Removed 
+ Container server-postgres-1 Stopped 
+ Container server-postgres-1 Removing 
+ Container server-postgres-1 Removed 
+ Container server-redis-1 Stopped 
+ Container server-redis-1 Removing 
+ Container server-redis-1 Removed 
+ Container server-rabbitmq-1 Stopped 
+ Container server-rabbitmq-1 Removing 
+ Container server-rabbitmq-1 Removed 
+ Network server_default Removing 
+ Network server_default Removed 
+
+== done ==
+volumes were not removed
+
+== preflight ==
+
+== docker dependencies ==
+ Network server_default Creating 
+ Network server_default Created 
+ Container server-postgres-1 Creating 
+ Container server-minio-1 Creating 
+ Container server-rabbitmq-1 Creating 
+ Container server-redis-1 Creating 
+ Container server-go-judge-1 Creating 
+ Container server-go-judge-1 Created 
+ Container server-minio-1 Created 
+ Container server-redis-1 Created 
+ Container server-rabbitmq-1 Created 
+ Container server-postgres-1 Created 
+ Container server-go-judge-1 Starting 
+ Container server-minio-1 Starting 
+ Container server-postgres-1 Starting 
+ Container server-rabbitmq-1 Starting 
+ Container server-redis-1 Starting 
+ Container server-redis-1 Started 
+ Container server-postgres-1 Started 
+ Container server-go-judge-1 Started 
+ Container server-rabbitmq-1 Started 
+ Container server-minio-1 Started 
+
+== backend ==
+server session: aubb-server
+backend log: /Users/moorefoss/Code/AUBB/.aubb/run/logs/server.log
+
+== frontend ==
+web session: aubb-web
+frontend log: /Users/moorefoss/Code/AUBB/.aubb/run/logs/web.log
+
+== ready ==
+backend:  http://127.0.0.1:18080
+frontend: http://127.0.0.1:3000
+logs:     /Users/moorefoss/Code/AUBB/.aubb/run/logs
