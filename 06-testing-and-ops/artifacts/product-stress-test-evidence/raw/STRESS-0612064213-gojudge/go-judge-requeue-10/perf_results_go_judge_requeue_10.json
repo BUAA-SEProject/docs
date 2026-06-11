@@ -1,0 +1,25 @@
+[
+  {
+    "scenario": "go_judge_requeue",
+    "concurrency": 10,
+    "durationSeconds": 120,
+    "totalRequests": 2007,
+    "rps": 16.62,
+    "avgMs": 108.28,
+    "p50Ms": 64.22,
+    "p95Ms": 123.63,
+    "p99Ms": 2837.33,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "201": 640,
+      "200": 1367
+    },
+    "judgeStats": {
+      "requeueCreated": 640,
+      "requeueTerminal": 640,
+      "requeueStatus:SUCCEEDED": 640,
+      "requeueVerdict:ACCEPTED": 640
+    }
+  }
+]

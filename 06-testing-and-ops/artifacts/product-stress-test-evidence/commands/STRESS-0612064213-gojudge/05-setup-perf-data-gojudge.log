@@ -1,0 +1,5 @@
+setup_perf_data exit=0
+runId=STRESS-0612064213-gojudge
+privateManifest=/tmp/aubb-STRESS-0612064213-gojudge/manifest.json
+studentCount=80
+activeSubmitters=20

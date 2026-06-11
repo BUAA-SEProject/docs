@@ -1,0 +1,26 @@
+[
+  {
+    "scenario": "go_judge_sample_runs",
+    "concurrency": 20,
+    "durationSeconds": 120,
+    "totalRequests": 520,
+    "rps": 4.1,
+    "avgMs": 422.71,
+    "p50Ms": 68.91,
+    "p95Ms": 3003.34,
+    "p99Ms": 3190.96,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "201": 520
+    },
+    "judgeStats": {
+      "sampleRunCreated": 520,
+      "sampleRunStatus:SUCCEEDED": 520,
+      "sampleRunVerdict:ACCEPTED": 104,
+      "sampleRunVerdict:RUNTIME_ERROR": 208,
+      "sampleRunVerdict:WRONG_ANSWER": 104,
+      "sampleRunVerdict:TIME_LIMIT_EXCEEDED": 104
+    }
+  }
+]

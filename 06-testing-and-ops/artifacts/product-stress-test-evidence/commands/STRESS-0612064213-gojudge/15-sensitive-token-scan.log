@@ -1,0 +1,3 @@
+command=rg --pcre2 sensitive patterns raw/commands/resources STRESS-0612064213-gojudge
+scan_exit=0
+result=no sensitive matches

@@ -1,0 +1,5 @@
+command=PERF_PROFILE=contract SCENARIOS=go_judge_sample_runs ONLY_STAGE_CONCURRENCY=10 PERF_MANIFEST=/tmp/aubb-STRESS-0612064213-gojudge/manifest.json ARTIFACT_DIR=../docs/06-testing-and-ops/artifacts/product-stress-test-evidence/raw/STRESS-0612064213-gojudge/go-judge-sample-10 PERF_RESULTS_NAME=perf_results_go_judge_sample_10.json COMPOSE_PREFIX=server /opt/miniconda3/bin/python3 ops/perf/run_perf_suite.py
+started_at_utc=2026-06-11T22:47:53Z
+{"scenario": "go_judge_sample_runs", "concurrency": 10, "durationSeconds": 120, "totalRequests": 229999, "rps": 1915.34, "avgMs": 5.09, "p50Ms": 2.91, "p95Ms": 4.16, "p99Ms": 6.22, "errorRate": 0.9991, "fiveXx": 0, "statuses": {"403": 200, "201": 200, "429": 229599}}
+finished_at_utc=2026-06-11T22:50:06Z
+exit=0

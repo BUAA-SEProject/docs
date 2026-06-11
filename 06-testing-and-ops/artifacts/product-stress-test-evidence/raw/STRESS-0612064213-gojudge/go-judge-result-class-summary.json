@@ -1,0 +1,56 @@
+{
+    "runId": "STRESS-0612064213-gojudge",
+    "totals": {
+        "total_jobs": 4623,
+        "total_report_jobs": 4623
+    },
+    "classes": [
+        {
+            "jobs": 916,
+            "verdict": "ACCEPTED",
+            "max_time_ms": 32,
+            "p95_time_ms": 15,
+            "report_jobs": 916,
+            "result_class": "ACCEPTED",
+            "trigger_type": "AUTO"
+        },
+        {
+            "jobs": 925,
+            "verdict": "RUNTIME_ERROR",
+            "max_time_ms": 27,
+            "p95_time_ms": 14,
+            "report_jobs": 925,
+            "result_class": "COMPILE_ERROR",
+            "trigger_type": "AUTO"
+        },
+        {
+            "jobs": 931,
+            "verdict": "RUNTIME_ERROR",
+            "max_time_ms": 32,
+            "p95_time_ms": 14,
+            "report_jobs": 931,
+            "result_class": "RUNTIME_ERROR",
+            "trigger_type": "AUTO"
+        },
+        {
+            "jobs": 932,
+            "verdict": "TIME_LIMIT_EXCEEDED",
+            "max_time_ms": 2209,
+            "p95_time_ms": 2199,
+            "report_jobs": 932,
+            "result_class": "TIME_LIMIT_EXCEEDED",
+            "trigger_type": "AUTO"
+        },
+        {
+            "jobs": 919,
+            "verdict": "WRONG_ANSWER",
+            "max_time_ms": 37,
+            "p95_time_ms": 14,
+            "report_jobs": 919,
+            "result_class": "WRONG_ANSWER",
+            "trigger_type": "AUTO"
+        }
+    ],
+    "questionId": 912,
+    "assignmentId": 434
+}

@@ -1,0 +1,444 @@
+{
+  "baseUrl": "http://127.0.0.1:18080",
+  "runId": "STRESS-0612064213-gojudge",
+  "artifactDir": "/tmp/aubb-STRESS-0612064213-gojudge",
+  "admin": {
+    "username": "U-SA1",
+    "password": "[REDACTED]"
+  },
+  "teacher": {
+    "username": "STRESS-0612064213-gojudge-teacher",
+    "password": "[REDACTED]",
+    "userId": 1083
+  },
+  "students": [
+    {
+      "username": "stress-0612064213-gojudge-stu-001",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-002",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-003",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-004",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-005",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-006",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-007",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-008",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-009",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-010",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-011",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-012",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-013",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-014",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-015",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-016",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-017",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-018",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-019",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-020",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-021",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-022",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-023",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-024",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-025",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-026",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-027",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-028",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-029",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-030",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-031",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-032",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-033",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-034",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-035",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-036",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-037",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-038",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-039",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-040",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-041",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-042",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-043",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-044",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-045",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-046",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-047",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-048",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-049",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-050",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-051",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-052",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-053",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-054",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-055",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-056",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-057",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-058",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-059",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-060",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-061",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-062",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-063",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-064",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-065",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-066",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-067",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-068",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-069",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-070",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-071",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-072",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-073",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-074",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-075",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-076",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-077",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-078",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-079",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-0612064213-gojudge-stu-080",
+      "password": "[REDACTED]"
+    }
+  ],
+  "offeringId": 64,
+  "classIds": [
+    400,
+    401
+  ],
+  "objectiveAssignmentId": 432,
+  "objectiveQuestionId": 910,
+  "writeAssignmentId": 433,
+  "writeQuestionId": 911,
+  "judgeAssignmentId": 434,
+  "judgeQuestionId": 912,
+  "judgeSubmissionId": 35126,
+  "judgeAnswerId": 35297,
+  "judgeJobId": 79,
+  "courseResourceId": 5940,
+  "terminalLabId": 87,
+  "labEnvironmentProfileId": 1,
+  "labStudentUsernames": [
+    "stress-0612064213-gojudge-stu-001",
+    "stress-0612064213-gojudge-stu-003",
+    "stress-0612064213-gojudge-stu-005",
+    "stress-0612064213-gojudge-stu-007",
+    "stress-0612064213-gojudge-stu-009",
+    "stress-0612064213-gojudge-stu-011",
+    "stress-0612064213-gojudge-stu-013",
+    "stress-0612064213-gojudge-stu-015",
+    "stress-0612064213-gojudge-stu-017",
+    "stress-0612064213-gojudge-stu-019",
+    "stress-0612064213-gojudge-stu-021",
+    "stress-0612064213-gojudge-stu-023",
+    "stress-0612064213-gojudge-stu-025",
+    "stress-0612064213-gojudge-stu-027",
+    "stress-0612064213-gojudge-stu-029",
+    "stress-0612064213-gojudge-stu-031",
+    "stress-0612064213-gojudge-stu-033",
+    "stress-0612064213-gojudge-stu-035",
+    "stress-0612064213-gojudge-stu-037",
+    "stress-0612064213-gojudge-stu-039",
+    "stress-0612064213-gojudge-stu-041",
+    "stress-0612064213-gojudge-stu-043",
+    "stress-0612064213-gojudge-stu-045",
+    "stress-0612064213-gojudge-stu-047",
+    "stress-0612064213-gojudge-stu-049",
+    "stress-0612064213-gojudge-stu-051",
+    "stress-0612064213-gojudge-stu-053",
+    "stress-0612064213-gojudge-stu-055",
+    "stress-0612064213-gojudge-stu-057",
+    "stress-0612064213-gojudge-stu-059",
+    "stress-0612064213-gojudge-stu-061",
+    "stress-0612064213-gojudge-stu-063",
+    "stress-0612064213-gojudge-stu-065",
+    "stress-0612064213-gojudge-stu-067",
+    "stress-0612064213-gojudge-stu-069",
+    "stress-0612064213-gojudge-stu-071",
+    "stress-0612064213-gojudge-stu-073",
+    "stress-0612064213-gojudge-stu-075",
+    "stress-0612064213-gojudge-stu-077",
+    "stress-0612064213-gojudge-stu-079"
+  ],
+  "studentGradebookSummary": {
+    "assignmentCount": 3,
+    "submittedCount": 1,
+    "gradedCount": 1,
+    "totalFinalScore": 10,
+    "totalMaxScore": 120
+  },
+  "judgeStudentUsernames": [
+    "stress-0612064213-gojudge-stu-001",
+    "stress-0612064213-gojudge-stu-003",
+    "stress-0612064213-gojudge-stu-005",
+    "stress-0612064213-gojudge-stu-007",
+    "stress-0612064213-gojudge-stu-009",
+    "stress-0612064213-gojudge-stu-011",
+    "stress-0612064213-gojudge-stu-013",
+    "stress-0612064213-gojudge-stu-015",
+    "stress-0612064213-gojudge-stu-017",
+    "stress-0612064213-gojudge-stu-019",
+    "stress-0612064213-gojudge-stu-021",
+    "stress-0612064213-gojudge-stu-023",
+    "stress-0612064213-gojudge-stu-025",
+    "stress-0612064213-gojudge-stu-027",
+    "stress-0612064213-gojudge-stu-029",
+    "stress-0612064213-gojudge-stu-031",
+    "stress-0612064213-gojudge-stu-033",
+    "stress-0612064213-gojudge-stu-035",
+    "stress-0612064213-gojudge-stu-037",
+    "stress-0612064213-gojudge-stu-039",
+    "stress-0612064213-gojudge-stu-041",
+    "stress-0612064213-gojudge-stu-043",
+    "stress-0612064213-gojudge-stu-045",
+    "stress-0612064213-gojudge-stu-047",
+    "stress-0612064213-gojudge-stu-049",
+    "stress-0612064213-gojudge-stu-051",
+    "stress-0612064213-gojudge-stu-053",
+    "stress-0612064213-gojudge-stu-055",
+    "stress-0612064213-gojudge-stu-057",
+    "stress-0612064213-gojudge-stu-059",
+    "stress-0612064213-gojudge-stu-061",
+    "stress-0612064213-gojudge-stu-063",
+    "stress-0612064213-gojudge-stu-065",
+    "stress-0612064213-gojudge-stu-067",
+    "stress-0612064213-gojudge-stu-069",
+    "stress-0612064213-gojudge-stu-071",
+    "stress-0612064213-gojudge-stu-073",
+    "stress-0612064213-gojudge-stu-075",
+    "stress-0612064213-gojudge-stu-077",
+    "stress-0612064213-gojudge-stu-079"
+  ]
+}

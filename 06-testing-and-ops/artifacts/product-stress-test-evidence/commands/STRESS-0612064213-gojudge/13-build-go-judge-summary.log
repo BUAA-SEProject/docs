@@ -1,0 +1,153 @@
+output=docs/06-testing-and-ops/artifacts/product-stress-test-evidence/raw/STRESS-0612064213-gojudge/go-judge-specialty-summary.json
+{
+  "runId": "STRESS-0612064213-gojudge",
+  "sampleRuns": [
+    {
+      "concurrency": 5,
+      "totalRequests": 130,
+      "p95Ms": 2961.07,
+      "p99Ms": 3289.41,
+      "errorRate": 0.0,
+      "statuses": {
+        "201": 130
+      }
+    },
+    {
+      "concurrency": 10,
+      "totalRequests": 260,
+      "p95Ms": 2990.27,
+      "p99Ms": 3209.16,
+      "errorRate": 0.0,
+      "statuses": {
+        "201": 260
+      }
+    },
+    {
+      "concurrency": 20,
+      "totalRequests": 520,
+      "p95Ms": 3003.34,
+      "p99Ms": 3190.96,
+      "errorRate": 0.0,
+      "statuses": {
+        "201": 520
+      }
+    }
+  ],
+  "submissionChain": [
+    {
+      "concurrency": 5,
+      "totalRequests": 4634,
+      "p95Ms": 30.17,
+      "p99Ms": 36.55,
+      "errorRate": 0.0,
+      "statuses": {
+        "201": 916,
+        "200": 3718
+      },
+      "submissions": 916,
+      "studentReports": 916,
+      "teacherReports": 916
+    },
+    {
+      "concurrency": 10,
+      "totalRequests": 8536,
+      "p95Ms": 30.85,
+      "p99Ms": 38.82,
+      "errorRate": 0.0,
+      "statuses": {
+        "201": 1646,
+        "200": 6890
+      },
+      "submissions": 1646,
+      "studentReports": 1646,
+      "teacherReports": 1646
+    },
+    {
+      "concurrency": 20,
+      "totalRequests": 12170,
+      "p95Ms": 58.09,
+      "p99Ms": 69.77,
+      "errorRate": 0.0,
+      "statuses": {
+        "201": 2060,
+        "200": 10110
+      },
+      "submissions": 2060,
+      "studentReports": 2060,
+      "teacherReports": 2060
+    }
+  ],
+  "requeue": [
+    {
+      "concurrency": 5,
+      "totalRequests": 1140,
+      "p95Ms": 51.46,
+      "p99Ms": 61.99,
+      "errorRate": 0.0,
+      "statuses": {
+        "201": 380,
+        "200": 760
+      },
+      "requeueCreated": 380
+    },
+    {
+      "concurrency": 10,
+      "totalRequests": 2007,
+      "p95Ms": 123.63,
+      "p99Ms": 2837.33,
+      "errorRate": 0.0,
+      "statuses": {
+        "201": 640,
+        "200": 1367
+      },
+      "requeueCreated": 640
+    }
+  ],
+  "resultClasses": [
+    {
+      "jobs": 916,
+      "verdict": "ACCEPTED",
+      "max_time_ms": 32,
+      "p95_time_ms": 15,
+      "report_jobs": 916,
+      "result_class": "ACCEPTED",
+      "trigger_type": "AUTO"
+    },
+    {
+      "jobs": 925,
+      "verdict": "RUNTIME_ERROR",
+      "max_time_ms": 27,
+      "p95_time_ms": 14,
+      "report_jobs": 925,
+      "result_class": "COMPILE_ERROR",
+      "trigger_type": "AUTO"
+    },
+    {
+      "jobs": 931,
+      "verdict": "RUNTIME_ERROR",
+      "max_time_ms": 32,
+      "p95_time_ms": 14,
+      "report_jobs": 931,
+      "result_class": "RUNTIME_ERROR",
+      "trigger_type": "AUTO"
+    },
+    {
+      "jobs": 932,
+      "verdict": "TIME_LIMIT_EXCEEDED",
+      "max_time_ms": 2209,
+      "p95_time_ms": 2199,
+      "report_jobs": 932,
+      "result_class": "TIME_LIMIT_EXCEEDED",
+      "trigger_type": "AUTO"
+    },
+    {
+      "jobs": 919,
+      "verdict": "WRONG_ANSWER",
+      "max_time_ms": 37,
+      "p95_time_ms": 14,
+      "report_jobs": 919,
+      "result_class": "WRONG_ANSWER",
+      "trigger_type": "AUTO"
+    }
+  ]
+}

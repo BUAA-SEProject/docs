@@ -1,0 +1,17 @@
+manifest=/tmp/aubb-STRESS-0612064213-gojudge/manifest.json
+{
+  "runId": "STRESS-0612064213-gojudge",
+  "judgeAssignmentId": 434,
+  "judgeQuestionId": 912,
+  "judgeSubmissionId": 35126,
+  "judgeAnswerId": 35297,
+  "judgeJobId": 79,
+  "judgeStudentCount": 40,
+  "firstJudgeStudents": [
+    "stress-0612064213-gojudge-stu-001",
+    "stress-0612064213-gojudge-stu-003",
+    "stress-0612064213-gojudge-stu-005",
+    "stress-0612064213-gojudge-stu-007",
+    "stress-0612064213-gojudge-stu-009"
+  ]
+}

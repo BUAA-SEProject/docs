@@ -1,0 +1,10 @@
+Fri Jun 12 06:42:28 CST 2026
+server-postgres-1            Up About an hour (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+server-redis-1               Up About an hour (healthy)   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
+server-rabbitmq-1            Up About an hour (healthy)   0.0.0.0:5672->5672/tcp, [::]:5672->5672/tcp, 0.0.0.0:15672->15672/tcp, [::]:15672->15672/tcp
+server-go-judge-1            Up About an hour             0.0.0.0:5050->5050/tcp, [::]:5050->5050/tcp
+server-minio-1               Up About an hour (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, [::]:9000-9001->9000-9001/tcp
+aubb-lab-dev-control-plane   Up 3 days                    127.0.0.1:59914->6443/tcp
+{"BlockIO":"5.87MB / 35.7MB","CPUPerc":"0.00%","Container":"928380378dfeda16c79c91e74d60b09b5f0d71df6dc3580a2c3c913cb05201c1","ID":"928380378dfe","MemPerc":"0.70%","MemUsage":"55.56MiB / 7.75GiB","Name":"server-postgres-1","NetIO":"9.37MB / 9.79MB","PIDs":"18"}
+{"BlockIO":"17.1MB / 602kB","CPUPerc":"0.39%","Container":"906d0a9a3e87ceaf59b12e5cdee3f070360ab693c23b572585ce1476b98770a0","ID":"906d0a9a3e87","MemPerc":"1.42%","MemUsage":"112.6MiB / 7.75GiB","Name":"server-rabbitmq-1","NetIO":"2.46kB / 126B","PIDs":"41"}
+{"BlockIO":"131kB / 0B","CPUPerc":"0.00%","Container":"ff1191fea51edd5af060d046403aa2f72a9f5f2e780cd0d27597e8a04bcd7aa7","ID":"ff1191fea51e","MemPerc":"0.19%","MemUsage":"15.2MiB / 7.75GiB","Name":"server-go-judge-1","NetIO":"9.08kB / 5.08kB","PIDs":"13"}

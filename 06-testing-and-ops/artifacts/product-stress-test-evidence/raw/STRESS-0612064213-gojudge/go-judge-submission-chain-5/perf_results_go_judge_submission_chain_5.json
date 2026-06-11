@@ -1,0 +1,30 @@
+[
+  {
+    "scenario": "go_judge_submission_chain",
+    "concurrency": 5,
+    "durationSeconds": 300,
+    "totalRequests": 4634,
+    "rps": 15.41,
+    "avgMs": 16.55,
+    "p50Ms": 14.44,
+    "p95Ms": 30.17,
+    "p99Ms": 36.55,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "201": 916,
+      "200": 3718
+    },
+    "judgeStats": {
+      "submissionCreated": 916,
+      "jobTerminal": 916,
+      "jobStatus:SUCCEEDED": 916,
+      "jobVerdict:RUNTIME_ERROR": 369,
+      "jobVerdict:ACCEPTED": 182,
+      "jobVerdict:WRONG_ANSWER": 183,
+      "studentReportDownloaded": 916,
+      "teacherReportDownloaded": 916,
+      "jobVerdict:TIME_LIMIT_EXCEEDED": 182
+    }
+  }
+]

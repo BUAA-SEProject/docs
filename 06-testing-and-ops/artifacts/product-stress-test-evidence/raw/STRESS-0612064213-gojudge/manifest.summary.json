@@ -1,0 +1,18 @@
+{
+  "runId": "STRESS-0612064213-gojudge",
+  "baseUrl": "http://127.0.0.1:18080",
+  "studentCount": 80,
+  "judgeStudentCount": 40,
+  "offeringId": 64,
+  "classIds": [
+    400,
+    401
+  ],
+  "judgeAssignmentId": 434,
+  "judgeQuestionId": 912,
+  "judgeSubmissionId": 35126,
+  "judgeAnswerId": 35297,
+  "judgeJobId": 79,
+  "courseResourceId": 5940,
+  "terminalLabId": 87
+}
