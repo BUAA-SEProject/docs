@@ -1,0 +1,8 @@
+{
+  "sampleCount": 67,
+  "pgConnections": {
+    "min": 13,
+    "max": 49,
+    "avg": 44.64179104477612
+  }
+}

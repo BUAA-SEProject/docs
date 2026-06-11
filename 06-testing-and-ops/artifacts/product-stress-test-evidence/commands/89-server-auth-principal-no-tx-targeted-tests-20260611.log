@@ -1,0 +1,279 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------< com.aubb:server >---------------------------
+[INFO] Building AUBB-Server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- enforcer:3.6.2:enforce (enforce-java-version) @ server ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO]
+[INFO] --- spotless:3.2.1:check (spotless-check) @ server ---
+[INFO] Spotless.Java is keeping 568 files clean - 0 needs changes to be clean, 0 were already clean, 568 were skipped because caching determined they were already clean
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 52 resources from src/main/resources to target/classes
+[INFO]
+[INFO] --- compiler:3.14.1:compile (default-compile) @ server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ server ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO]
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO]
+[INFO] --- surefire:3.5.5:test (default-test) @ server ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.aubb.server.config.JwtPrincipalAuthenticationConverterTests
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/Users/moorefoss/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.567 s -- in com.aubb.server.config.JwtPrincipalAuthenticationConverterTests
+[INFO] Running com.aubb.server.integration.AuthApiIntegrationTests
+21:32:32.296 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.aubb.server.integration.AuthApiIntegrationTests]: AuthApiIntegrationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:32:32.432 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.aubb.server.AubbServerApplication for test class com.aubb.server.integration.AuthApiIntegrationTests
+21:32:32.467 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.aubb.server.integration.AuthApiIntegrationTests]: AuthApiIntegrationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:32:32.468 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.aubb.server.integration.AbstractNonRateLimitedIntegrationTest]: AbstractNonRateLimitedIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:32:32.468 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.aubb.server.integration.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:32:32.471 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.aubb.server.AubbServerApplication for test class com.aubb.server.integration.AuthApiIntegrationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.5)
+
+2026-06-11T21:32:32.653+08:00  INFO 37028 --- [           main] [AUBB-Server,,] org.testcontainers.images.PullPolicy     : Image pull policy will be performed by: DefaultPullPolicy()
+2026-06-11T21:32:32.655+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.t.utility.ImageNameSubstitutor         : Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2026-06-11T21:32:32.666+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] org.testcontainers.DockerClientFactory   : Testcontainers version: 2.0.4
+2026-06-11T21:32:32.812+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] o.t.d.DockerClientProviderStrategy       : Loaded org.testcontainers.dockerclient.UnixSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2026-06-11T21:32:33.027+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] o.t.d.DockerClientProviderStrategy       : Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
+2026-06-11T21:32:33.028+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] org.testcontainers.DockerClientFactory   : Docker host IP address is localhost
+2026-06-11T21:32:33.039+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] org.testcontainers.DockerClientFactory   : Connected to docker:
+  Server Version: 29.4.3
+  API Version: 1.54
+  Operating System: Docker Desktop
+  Total Memory: 7936 MB
+  Labels:
+    com.docker.desktop.address=unix:///Users/moorefoss/Library/Containers/com.docker.docker/Data/docker-cli.sock
+2026-06-11T21:32:33.193+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] tc.testcontainers/ryuk:0.14.0            : Creating container for image: testcontainers/ryuk:0.14.0
+2026-06-11T21:32:33.313+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] o.t.utility.RegistryAuthLocator          : Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
+2026-06-11T21:32:33.384+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 is starting: 82cb113620344f24a2296f647e57d477d80e2ce43c7dd4d8abf90ad47cd07038
+2026-06-11T21:32:33.630+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 started in PT0.436883S
+2026-06-11T21:32:33.638+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] o.t.utility.RyukResourceReaper           : Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2026-06-11T21:32:33.639+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] org.testcontainers.DockerClientFactory   : Checking the system...
+2026-06-11T21:32:33.639+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] org.testcontainers.DockerClientFactory   : ✔︎ Docker server version should be at least 1.6.0
+2026-06-11T21:32:33.639+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] tc.redis:7.4-alpine                      : Creating container for image: redis:7.4-alpine
+2026-06-11T21:32:33.674+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] tc.redis:7.4-alpine                      : Container redis:7.4-alpine is starting: c3b5f09b48343f9b7d16bb3d3e81954bf40a1e76cfa5fdbdbee9b53cad01d4ab
+2026-06-11T21:32:33.791+08:00  INFO 37028 --- [ers-lifecycle-0] [AUBB-Server,,] tc.redis:7.4-alpine                      : Container redis:7.4-alpine started in PT0.151312S
+2026-06-11T21:32:33.798+08:00  INFO 37028 --- [           main] [AUBB-Server,,] c.a.s.i.AuthApiIntegrationTests          : Starting AuthApiIntegrationTests using Java 25.0.3 with PID 37028 (started by moorefoss in /Users/moorefoss/Code/AUBB/server)
+2026-06-11T21:32:33.799+08:00  INFO 37028 --- [           main] [AUBB-Server,,] c.a.s.i.AuthApiIntegrationTests          : No active profile set, falling back to 1 default profile: "default"
+2026-06-11T21:32:34.955+08:00  INFO 37028 --- [           main] [AUBB-Server,,] tc.postgres:16                           : Creating container for image: postgres:16
+2026-06-11T21:32:35.020+08:00  INFO 37028 --- [           main] [AUBB-Server,,] tc.postgres:16                           : Container postgres:16 is starting: e4bbd738b5acca4676873ba939a4c30c98d9611ec0a827689120a709515e188b
+2026-06-11T21:32:35.888+08:00  INFO 37028 --- [           main] [AUBB-Server,,] tc.postgres:16                           : Container postgres:16 started in PT0.93338S
+2026-06-11T21:32:35.889+08:00  INFO 37028 --- [           main] [AUBB-Server,,] tc.postgres:16                           : Container is started (JDBC URL: jdbc:postgresql://localhost:51900/aubb?loggerLevel=OFF)
+ _ _   |_  _ _|_. ___ _ |    _
+| | |\/|_)(_| | |_\  |_)||_|_\
+     /               |
+                        3.5.15
+2026-06-11T21:32:36.270+08:00  INFO 37028 --- [           main] [AUBB-Server,,] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:51900/aubb?loggerLevel=OFF (PostgreSQL 16.14)
+2026-06-11T21:32:36.313+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-06-11T21:32:36.315+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbValidate     : Successfully validated 52 migrations (execution time 00:00.027s)
+2026-06-11T21:32:36.324+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-06-11T21:32:36.369+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-06-11T21:32:36.379+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - phase2 platform governance and iam"
+2026-06-11T21:32:36.410+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - user profile and membership extension"
+2026-06-11T21:32:36.432+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - course system first slice"
+2026-06-11T21:32:36.474+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - assignment first slice"
+2026-06-11T21:32:36.487+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - submission first slice"
+2026-06-11T21:32:36.501+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - submission artifact slice"
+2026-06-11T21:32:36.515+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - judge first slice"
+2026-06-11T21:32:36.529+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - judge go judge execution"
+2026-06-11T21:32:36.547+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "9 - structured assignment foundation"
+2026-06-11T21:32:36.576+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "10 - grading first slice"
+2026-06-11T21:32:36.588+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "11 - structured programming judge phase1"
+2026-06-11T21:32:36.599+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "12 - programming workspace and sample runs"
+2026-06-11T21:32:36.613+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "13 - programming workspace file tree phase1"
+2026-06-11T21:32:36.622+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "14 - question bank lifecycle phase2"
+2026-06-11T21:32:36.632+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "15 - question bank tags phase1"
+2026-06-11T21:32:36.645+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "16 - judge queue and reports phase1"
+2026-06-11T21:32:36.653+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "17 - online ide phase2"
+2026-06-11T21:32:36.666+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "18 - question bank categories phase2"
+2026-06-11T21:32:36.676+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "19 - judge environment profiles phase1"
+2026-06-11T21:32:36.687+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "20 - assignment grade weights phase1"
+2026-06-11T21:32:36.695+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "21 - grade appeals phase1"
+2026-06-11T21:32:36.707+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "22 - programming judge failed status"
+2026-06-11T21:32:36.716+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "23 - auth sessions refresh tokens"
+2026-06-11T21:32:36.728+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "24 - single school root guard"
+2026-06-11T21:32:36.735+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "25 - judge artifact object storage phase1"
+2026-06-11T21:32:36.743+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "26 - lab report mvp"
+2026-06-11T21:32:36.758+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "27 - notification center mvp"
+2026-06-11T21:32:36.771+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "28 - db paginated permission filter indexes"
+2026-06-11T21:32:36.778+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "29 - judge artifact tracking phase2"
+2026-06-11T21:32:36.785+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "30 - grade publish snapshots v1"
+2026-06-11T21:32:36.797+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "31 - course announcements mvp"
+2026-06-11T21:32:36.806+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "32 - course resources mvp"
+2026-06-11T21:32:36.816+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "33 - course discussions mvp"
+2026-06-11T21:32:36.834+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "34 - authz group rbac abac foundation"
+2026-06-11T21:32:36.856+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "35 - course member extended roles"
+2026-06-11T21:32:36.864+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "36 - submission and member perf indexes"
+2026-06-11T21:32:36.879+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "37 - permission system data layer foundation"
+2026-06-11T21:32:36.923+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "38 - class ta grade export compat"
+2026-06-11T21:32:36.930+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "39 - member status transferred compat"
+2026-06-11T21:32:36.939+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "40 - legacy role bindings backfill"
+2026-06-11T21:32:36.946+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "41 - course member transfer history support"
+2026-06-11T21:32:36.953+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "42 - discussion and lab permission compat"
+2026-06-11T21:32:36.962+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "43 - authz builtin role permission compat"
+2026-06-11T21:32:36.968+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "44 - offering teacher member manage compat"
+2026-06-11T21:32:36.975+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "45 - question bank manage role compat"
+2026-06-11T21:32:36.982+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "46 - legacy binding activation tolerance"
+2026-06-11T21:32:36.989+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "47 - expand legacy binding activation tolerance window"
+2026-06-11T21:32:36.996+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "48 - simplify gradebook remove weight snapshots appeals"
+2026-06-11T21:32:37.009+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "49 - fill blank question type"
+2026-06-11T21:32:37.016+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "50 - offering ta teacher side permissions"
+2026-06-11T21:32:37.024+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "51 - course resource description markdown"
+2026-06-11T21:32:37.032+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "52 - lab terminal environment foundation"
+2026-06-11T21:32:37.048+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Successfully applied 52 migrations to schema "public", now at version v52 (execution time 00:00.341s)
+2026-06-11T21:32:37.353+08:00  WARN 37028 --- [           main] [AUBB-Server,,] i.n.r.d.DnsServerAddressStreamProviders  : Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+2026-06-11T21:32:38.836+08:00  INFO 37028 --- [           main] [AUBB-Server,,] m.e.s.MybatisPlusApplicationContextAware : Register ApplicationContext instances org.springframework.web.context.support.GenericWebApplicationContext@45984654
+2026-06-11T21:32:39.136+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-06-11T21:32:39.136+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-06-11T21:32:39.138+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-06-11T21:32:39.143+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 7 ms
+2026-06-11T21:32:39.212+08:00  INFO 37028 --- [           main] [AUBB-Server,,] c.a.s.i.AuthApiIntegrationTests          : Started AuthApiIntegrationTests in 6.711 seconds (process running for 8.001)
+2026-06-11T21:32:39.274+08:00  INFO 37028 --- [           main] [AUBB-Server,,] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-11T21:32:39.288+08:00  INFO 37028 --- [           main] [AUBB-Server,,] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@770644a3
+2026-06-11T21:32:39.290+08:00  INFO 37028 --- [           main] [AUBB-Server,,] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-11T21:32:40.501+08:00  INFO 37028 --- [           main] [AUBB-Server,32cd150b3d84e1ae75d890b9ae2e792d,b00a52ddc2f45eb7] c.a.s.c.redis.RedisAvailabilityTracker   : Redis 增强链路恢复可用
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.73 s -- in com.aubb.server.integration.AuthApiIntegrationTests
+[INFO] Running com.aubb.server.integration.AuthzJwtSessionIntegrationTests
+2026-06-11T21:32:51.953+08:00  INFO 37028 --- [           main] [AUBB-Server,,] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.aubb.server.integration.AuthzJwtSessionIntegrationTests]: AuthzJwtSessionIntegrationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-06-11T21:32:51.955+08:00  INFO 37028 --- [           main] [AUBB-Server,,] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.aubb.server.AubbServerApplication for test class com.aubb.server.integration.AuthzJwtSessionIntegrationTests
+2026-06-11T21:32:51.955+08:00  INFO 37028 --- [           main] [AUBB-Server,,] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.aubb.server.integration.AuthzJwtSessionIntegrationTests]: AuthzJwtSessionIntegrationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-06-11T21:32:51.955+08:00  INFO 37028 --- [           main] [AUBB-Server,,] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.aubb.server.integration.AbstractNonRateLimitedIntegrationTest]: AbstractNonRateLimitedIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-06-11T21:32:51.955+08:00  INFO 37028 --- [           main] [AUBB-Server,,] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.aubb.server.integration.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-06-11T21:32:51.956+08:00  INFO 37028 --- [           main] [AUBB-Server,,] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.aubb.server.AubbServerApplication for test class com.aubb.server.integration.AuthzJwtSessionIntegrationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.5)
+
+2026-06-11T21:32:51.983+08:00  INFO 37028 --- [           main] [AUBB-Server,,] c.a.s.i.AuthzJwtSessionIntegrationTests  : Starting AuthzJwtSessionIntegrationTests using Java 25.0.3 with PID 37028 (started by moorefoss in /Users/moorefoss/Code/AUBB/server)
+2026-06-11T21:32:51.983+08:00  INFO 37028 --- [           main] [AUBB-Server,,] c.a.s.i.AuthzJwtSessionIntegrationTests  : No active profile set, falling back to 1 default profile: "default"
+2026-06-11T21:32:52.319+08:00  INFO 37028 --- [           main] [AUBB-Server,,] tc.postgres:16                           : Creating container for image: postgres:16
+2026-06-11T21:32:52.415+08:00  INFO 37028 --- [           main] [AUBB-Server,,] tc.postgres:16                           : Container postgres:16 is starting: 43ed09b77f208f1f248d3242e2f98b7eb286d5885182bab9a4ff960ab3ab64bb
+2026-06-11T21:32:53.254+08:00  INFO 37028 --- [           main] [AUBB-Server,,] tc.postgres:16                           : Container postgres:16 started in PT0.935054S
+2026-06-11T21:32:53.255+08:00  INFO 37028 --- [           main] [AUBB-Server,,] tc.postgres:16                           : Container is started (JDBC URL: jdbc:postgresql://localhost:51943/aubb?loggerLevel=OFF)
+ _ _   |_  _ _|_. ___ _ |    _
+| | |\/|_)(_| | |_\  |_)||_|_\
+     /               |
+                        3.5.15
+2026-06-11T21:32:53.348+08:00  INFO 37028 --- [           main] [AUBB-Server,,] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:51943/aubb?loggerLevel=OFF (PostgreSQL 16.14)
+2026-06-11T21:32:53.367+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-06-11T21:32:53.368+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbValidate     : Successfully validated 52 migrations (execution time 00:00.012s)
+2026-06-11T21:32:53.373+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-06-11T21:32:53.386+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-06-11T21:32:53.389+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - phase2 platform governance and iam"
+2026-06-11T21:32:53.411+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - user profile and membership extension"
+2026-06-11T21:32:53.424+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - course system first slice"
+2026-06-11T21:32:53.450+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - assignment first slice"
+2026-06-11T21:32:53.460+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - submission first slice"
+2026-06-11T21:32:53.470+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - submission artifact slice"
+2026-06-11T21:32:53.479+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - judge first slice"
+2026-06-11T21:32:53.489+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - judge go judge execution"
+2026-06-11T21:32:53.501+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "9 - structured assignment foundation"
+2026-06-11T21:32:53.521+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "10 - grading first slice"
+2026-06-11T21:32:53.529+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "11 - structured programming judge phase1"
+2026-06-11T21:32:53.536+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "12 - programming workspace and sample runs"
+2026-06-11T21:32:53.545+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "13 - programming workspace file tree phase1"
+2026-06-11T21:32:53.551+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "14 - question bank lifecycle phase2"
+2026-06-11T21:32:53.560+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "15 - question bank tags phase1"
+2026-06-11T21:32:53.569+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "16 - judge queue and reports phase1"
+2026-06-11T21:32:53.574+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "17 - online ide phase2"
+2026-06-11T21:32:53.583+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "18 - question bank categories phase2"
+2026-06-11T21:32:53.591+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "19 - judge environment profiles phase1"
+2026-06-11T21:32:53.599+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "20 - assignment grade weights phase1"
+2026-06-11T21:32:53.604+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "21 - grade appeals phase1"
+2026-06-11T21:32:53.613+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "22 - programming judge failed status"
+2026-06-11T21:32:53.619+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "23 - auth sessions refresh tokens"
+2026-06-11T21:32:53.627+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "24 - single school root guard"
+2026-06-11T21:32:53.633+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "25 - judge artifact object storage phase1"
+2026-06-11T21:32:53.639+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "26 - lab report mvp"
+2026-06-11T21:32:53.653+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "27 - notification center mvp"
+2026-06-11T21:32:53.663+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "28 - db paginated permission filter indexes"
+2026-06-11T21:32:53.671+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "29 - judge artifact tracking phase2"
+2026-06-11T21:32:53.677+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "30 - grade publish snapshots v1"
+2026-06-11T21:32:53.688+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "31 - course announcements mvp"
+2026-06-11T21:32:53.697+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "32 - course resources mvp"
+2026-06-11T21:32:53.705+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "33 - course discussions mvp"
+2026-06-11T21:32:53.717+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "34 - authz group rbac abac foundation"
+2026-06-11T21:32:53.734+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "35 - course member extended roles"
+2026-06-11T21:32:53.741+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "36 - submission and member perf indexes"
+2026-06-11T21:32:53.753+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "37 - permission system data layer foundation"
+2026-06-11T21:32:53.794+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "38 - class ta grade export compat"
+2026-06-11T21:32:53.801+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "39 - member status transferred compat"
+2026-06-11T21:32:53.809+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "40 - legacy role bindings backfill"
+2026-06-11T21:32:53.817+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "41 - course member transfer history support"
+2026-06-11T21:32:53.824+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "42 - discussion and lab permission compat"
+2026-06-11T21:32:53.831+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "43 - authz builtin role permission compat"
+2026-06-11T21:32:53.837+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "44 - offering teacher member manage compat"
+2026-06-11T21:32:53.842+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "45 - question bank manage role compat"
+2026-06-11T21:32:53.848+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "46 - legacy binding activation tolerance"
+2026-06-11T21:32:53.856+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "47 - expand legacy binding activation tolerance window"
+2026-06-11T21:32:53.863+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "48 - simplify gradebook remove weight snapshots appeals"
+2026-06-11T21:32:53.875+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "49 - fill blank question type"
+2026-06-11T21:32:53.882+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "50 - offering ta teacher side permissions"
+2026-06-11T21:32:53.889+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "51 - course resource description markdown"
+2026-06-11T21:32:53.895+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "52 - lab terminal environment foundation"
+2026-06-11T21:32:53.909+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Successfully applied 52 migrations to schema "public", now at version v52 (execution time 00:00.266s)
+2026-06-11T21:32:54.397+08:00  INFO 37028 --- [           main] [AUBB-Server,,] m.e.s.MybatisPlusApplicationContextAware : Register ApplicationContext instances org.springframework.web.context.support.GenericWebApplicationContext@587c276c
+2026-06-11T21:32:54.491+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-06-11T21:32:54.491+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-06-11T21:32:54.491+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-06-11T21:32:54.494+08:00  INFO 37028 --- [           main] [AUBB-Server,,] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-06-11T21:32:54.514+08:00  INFO 37028 --- [           main] [AUBB-Server,,] c.a.s.i.AuthzJwtSessionIntegrationTests  : Started AuthzJwtSessionIntegrationTests in 2.547 seconds (process running for 23.303)
+2026-06-11T21:32:54.518+08:00  INFO 37028 --- [           main] [AUBB-Server,,] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-06-11T21:32:54.528+08:00  INFO 37028 --- [           main] [AUBB-Server,,] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@27231437
+2026-06-11T21:32:54.528+08:00  INFO 37028 --- [           main] [AUBB-Server,,] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-06-11T21:32:55.390+08:00  INFO 37028 --- [           main] [AUBB-Server,d4ddd15cbd2aa2278837dfa45098deca,ac52f014df93e2f8] c.a.s.c.redis.RedisAvailabilityTracker   : Redis 增强链路恢复可用
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.811 s -- in com.aubb.server.integration.AuthzJwtSessionIntegrationTests
+[INFO] Running com.aubb.server.common.cache.RedisCacheServiceTests
+2026-06-11T21:32:59.956+08:00  WARN 37028 --- [           main] [AUBB-Server,,] c.a.s.c.redis.RedisAvailabilityTracker   : Redis 增强链路暂时不可用 operation=cache.get errorType=RuntimeException message=redis down
+2026-06-11T21:32:59.960+08:00  INFO 37028 --- [           main] [AUBB-Server,,] c.a.s.c.redis.RedisAvailabilityTracker   : Redis 增强链路恢复可用
+2026-06-11T21:32:59.964+08:00  INFO 37028 --- [           main] [AUBB-Server,,] c.a.s.c.redis.RedisAvailabilityTracker   : Redis 增强链路恢复可用
+2026-06-11T21:32:59.967+08:00  WARN 37028 --- [           main] [AUBB-Server,,] c.a.s.c.redis.RedisAvailabilityTracker   : Redis 增强链路暂时不可用 operation=cache.evict errorType=RuntimeException message=redis down
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.204 s -- in com.aubb.server.common.cache.RedisCacheServiceTests
+[INFO] Running com.aubb.server.modules.identityaccess.application.auth.AuthenticatedPrincipalLoaderTests
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.273 s -- in com.aubb.server.modules.identityaccess.application.auth.AuthenticatedPrincipalLoaderTests
+[INFO] Running com.aubb.server.modules.identityaccess.application.auth.AuthSessionApplicationServiceTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.168 s -- in com.aubb.server.modules.identityaccess.application.auth.AuthSessionApplicationServiceTests
+[INFO] Running com.aubb.server.modules.identityaccess.application.auth.AccessTokenSessionValidatorTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s -- in com.aubb.server.modules.identityaccess.application.auth.AccessTokenSessionValidatorTests
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  31.598 s
+[INFO] Finished at: 2026-06-11T21:33:01+08:00
+[INFO] ------------------------------------------------------------------------

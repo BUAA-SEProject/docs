@@ -1,0 +1,21 @@
+generatedAt=2026-06-11T13:32:16.881Z
+source=/Users/moorefoss/Code/AUBB/.aubb/run/logs/server.log
+windowStart=2026-06-11T21:20:09+08:00
+windowEnd=2026-06-11T21:28:15+08:00
+counts={"connectionTimeout":10802,"cannotCreateTransaction":10802,"unhandledException":10802,"hikariNotAdded":0,"housekeeperStats":0,"redisErrors":0,"redisAvailability":0,"authSessionActiveStack":0,"authenticatedPrincipalLoaderStack":0,"submissionServiceStack":2797,"gradebookStack":2843,"assignmentServiceStack":2725,"courseServiceStack":0,"notificationServiceStack":1302}
+maxWaiting=270
+maxWaitingLine=Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=47, idle=1, waiting=270)
+
+firstSamples:
+2026-06-11T21:22:04.364+08:00 ERROR 32864 --- [-18080-exec-167] [AUBB-Server,8434e51eab41a0a5dca17a09e8b1f23b,68672ea487046f4a] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=43, active=43, idle=0, waiting=95)
+2026-06-11T21:22:49.564+08:00 ERROR 32864 --- [o-18080-exec-64] [AUBB-Server,e707e2f1d8a6bcd2233e801a92bfdf3f,b1834483ace027a0] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+
+lastSamples:
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 503ms (total=48, active=48, idle=0, waiting=250)
+2026-06-11T21:28:02.576+08:00 ERROR 32864 --- [-18080-exec-129] [AUBB-Server,c2f93a50f5b097c0f094e1ec78e7f8ff,2f0297ca1a7c76fc] c.a.s.common.web.GlobalExceptionHandler  : Unhandled exception caught by global exception handler
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 501ms (total=48, active=48, idle=0, waiting=247)
