@@ -1,0 +1,670 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------< com.aubb:server >---------------------------
+[INFO] Building AUBB-Server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] >>> spring-boot:4.0.5:run (default-cli) > test-compile @ server >>>
+[INFO]
+[INFO] --- enforcer:3.6.2:enforce (enforce-java-version) @ server ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO]
+[INFO] --- spotless:3.2.1:check (spotless-check) @ server ---
+[INFO] Spotless.Java is keeping 571 files clean - 0 needs changes to be clean, 0 were already clean, 571 were skipped because caching determined they were already clean
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 52 resources from src/main/resources to target/classes
+[INFO]
+[INFO] --- compiler:3.14.1:compile (default-compile) @ server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ server ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO]
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO]
+[INFO] <<< spring-boot:4.0.5:run (default-cli) < test-compile @ server <<<
+[INFO]
+[INFO]
+[INFO] --- spring-boot:4.0.5:run (default-cli) @ server ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.5)
+
+2026-06-12T01:04:45.286+08:00  INFO 16457 --- [           main] [AUBB-Server,,] com.aubb.server.AubbServerApplication    : Starting AubbServerApplication using Java 25.0.3 with PID 16457 (/Users/moorefoss/Code/AUBB/server/target/classes started by moorefoss in /Users/moorefoss/Code/AUBB/server)
+2026-06-12T01:04:45.288+08:00  INFO 16457 --- [           main] [AUBB-Server,,] com.aubb.server.AubbServerApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-06-12T01:04:46.449+08:00  INFO 16457 --- [           main] [AUBB-Server,,] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 18080 (http)
+2026-06-12T01:04:46.456+08:00  INFO 16457 --- [           main] [AUBB-Server,,] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-12T01:04:46.456+08:00  INFO 16457 --- [           main] [AUBB-Server,,] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-06-12T01:04:46.486+08:00  INFO 16457 --- [           main] [AUBB-Server,,] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1166 ms
+2026-06-12T01:04:46.626+08:00  INFO 16457 --- [           main] [AUBB-Server,,] i.m.c.instrument.push.PushMeterRegistry  : Publishing metrics for OtlpMeterRegistry every 1m to http://localhost:4318/v1/metrics with resource attributes {service.name=AUBB-Server}
+ _ _   |_  _ _|_. ___ _ |    _
+| | |\/|_)(_| | |_\  |_)||_|_\
+     /               |
+                        3.5.15
+2026-06-12T01:04:46.889+08:00  INFO 16457 --- [           main] [AUBB-Server,,] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-12T01:04:46.981+08:00  INFO 16457 --- [           main] [AUBB-Server,,] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4daa53e0
+2026-06-12T01:04:46.982+08:00  INFO 16457 --- [           main] [AUBB-Server,,] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-12T01:04:46.997+08:00  INFO 16457 --- [           main] [AUBB-Server,,] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://127.0.0.1:5432/aubb (PostgreSQL 16.10)
+2026-06-12T01:04:47.047+08:00  INFO 16457 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbValidate     : Successfully validated 52 migrations (execution time 00:00.035s)
+2026-06-12T01:04:47.075+08:00  INFO 16457 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 52
+2026-06-12T01:04:47.077+08:00  INFO 16457 --- [           main] [AUBB-Server,,] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-06-12T01:04:47.361+08:00  WARN 16457 --- [           main] [AUBB-Server,,] i.n.r.d.DnsServerAddressStreamProviders  : Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+2026-06-12T01:04:48.883+08:00  INFO 16457 --- [           main] [AUBB-Server,,] m.e.s.MybatisPlusApplicationContextAware : Register ApplicationContext instances org.springframework.boot.web.server.servlet.context.AnnotationConfigServletWebServerApplicationContext@758a34ce
+2026-06-12T01:04:49.213+08:00  INFO 16457 --- [           main] [AUBB-Server,,] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2026-06-12T01:04:49.283+08:00  INFO 16457 --- [           main] [AUBB-Server,,] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18080 (http) with context path '/'
+2026-06-12T01:04:49.291+08:00  INFO 16457 --- [           main] [AUBB-Server,,] com.aubb.server.AubbServerApplication    : Started AubbServerApplication in 4.197 seconds (process running for 4.393)
+2026-06-12T01:04:49.471+08:00  INFO 16457 --- [           main] [AUBB-Server,,] c.a.s.c.PlatformBootstrapConfiguration   : Platform bootstrap completed schoolOrgUnitId=1 adminUserId=1 schoolCreated=false adminCreated=false schoolAdminRoleCreated=false academicProfileCreated=false platformConfigCreated=false
+2026-06-12T01:04:50.818+08:00  INFO 16457 --- [io-18080-exec-1] [AUBB-Server,,] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-12T01:04:50.818+08:00  INFO 16457 --- [io-18080-exec-1] [AUBB-Server,,] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-12T01:04:50.820+08:00  INFO 16457 --- [io-18080-exec-1] [AUBB-Server,,] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-06-12T01:04:51.115+08:00  INFO 16457 --- [io-18080-exec-1] [AUBB-Server,142c08188d966bf815f469ac63166729,85e2f014f7e328da] c.a.s.c.redis.RedisAvailabilityTracker   : Redis 增强链路恢复可用
+2026-06-12T01:05:00.422+08:00  INFO 16457 --- [io-18080-exec-4] [AUBB-Server,7762d75fa5217daf4483f7f92c9cd0de,65f2f6464bbba7b4] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 795 ms
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::arrayBaseOffset has been called by com.google.protobuf.UnsafeUtil (file:/Users/moorefoss/.m2/repository/com/google/protobuf/protobuf-java/4.34.1/protobuf-java-4.34.1.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.protobuf.UnsafeUtil
+WARNING: sun.misc.Unsafe::arrayBaseOffset will be removed in a future release
+2026-06-12T01:05:11.288+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:06:11.231+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:543) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:07:11.239+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:08:11.236+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:543) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:09:11.234+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:543) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:10:11.225+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:543) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:11:11.233+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:12:11.223+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:543) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:13:11.225+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:14:11.256+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:15:11.257+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:16:11.272+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:17:11.257+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:18:11.268+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:19:11.272+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:20:11.254+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:543) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted
+
+2026-06-12T01:21:11.256+08:00  WARN 16457 --- [trics-publisher] [AUBB-Server,,] i.m.registry.otlp.OtlpMeterRegistry      : Failed to publish metrics to OTLP receiver (context: url=http://localhost:4318/v1/metrics, resource-attributes={service.name=AUBB-Server})
+
+java.lang.Exception: java.net.ConnectException: Connection refused
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:61) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpMeterRegistry.publish(OtlpMeterRegistry.java:190) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafelyOrSkipIfInProgress(PushMeterRegistry.java:63) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:369) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:310) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:543) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:659) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1163) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1127) ~[na:na]
+	at io.micrometer.core.ipc.http.HttpUrlConnectionSender.send(HttpUrlConnectionSender.java:99) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.core.ipc.http.HttpSender$Request$Builder.send(HttpSender.java:306) ~[micrometer-core-1.16.4.jar:1.16.4]
+	at io.micrometer.registry.otlp.OtlpHttpMetricsSender.send(OtlpHttpMetricsSender.java:58) ~[micrometer-registry-otlp-1.16.4.jar:1.16.4]
+	... 8 common frames omitted

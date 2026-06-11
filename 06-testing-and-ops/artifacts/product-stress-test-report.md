@@ -18,8 +18,9 @@
 - 结论：不通过合同容量目标。系统在低并发和若干专项链路可恢复可用，但高并发读请求、判题轮询、通知轮询触发 5xx，写入与 soak 出现 429，不能按本合同容量阈值直接对外交付。
 - 2026-06-11 修复批次结论：已完成第一批 P1 高频读路径与压测脚本修复，并通过后端单测/集成门禁；但尚未复跑 `PERF_PROFILE=contract` 全量压力测试，故本报告总体验收结论仍保持“不通过”。
 - 2026-06-11 P1 复测与第八批修复结论：已复跑读请求 / 判题轮询 / 通知轮询 P1 诊断和九轮 read-label 混合读诊断，证明认证 principal cache、提交列表批量答案加载、`/auth/me` 默认快照读取、access token 会话活跃缓存预热、教师提交列表敏感 scope 预解析、会话活跃缓存入口无事务、认证 principal 缓存入口无事务、通知轮询缓存入口无事务均有收益；第八批 no-tx 复测确认通知未读数 500 并发 5xx 从 1302 降到 13，但混合读总 5xx 升到 14238，200/500 并发仍有 5xx/P99 超阈值，P1 仍为失败。
-- 已证明容量边界：读请求 50 并发 2 分钟通过；判题轮询 50 并发 2 分钟通过；文件上传 10 并发、文件下载 100 并发通过；通知查询 200 并发 3 分钟通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过。
-- 未证明或失败范围：读请求 200/500 并发失败；写入链路 10 并发即出现 429；判题轮询 200/500 并发失败；通知查询 500 并发失败；soak 100 并发 10 分钟出现 429，未满足无错误稳定性要求；未证明 Kubernetes 实验运行时容量。
+- 2026-06-12 第九批修复结论：作业列表、提交列表、成绩册高频读入口已移除外层读事务，perf runner 增加 `MAX_STAGE_CONCURRENCY` / `MAX_STAGE_COUNT` 诊断开关，并将默认 Hikari 取连接等待从 500ms 调整为 2500ms。短诊断证明 `read_request_ladder`、`judge_polling`、`notification_polling` 的 50/200 并发均为 0 个 5xx；但尚未执行 500/1000 阶段和完整 `PERF_PROFILE=contract` 全合同复测，故总体验收结论仍保持“不通过”。
+- 已证明容量边界：读请求 50/200 并发短诊断通过；判题轮询 50/200 并发短诊断通过；通知轮询 50/200 并发短诊断通过；文件上传 10 并发、文件下载 100 并发通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过。
+- 未证明或失败范围：读请求 500/1000 并发尚未重测；写入链路 10 并发即出现 429；判题轮询 500 并发尚未重测；通知查询 500 并发尚未重测；soak 100 并发 10 分钟出现 429，未满足无错误稳定性要求；未证明 Kubernetes 实验运行时容量。
 - 真实 go-judge 判题结论：失败。数据准备阶段触发了 1 次真实编程提交，判题轮询 50 并发通过，但 200/500 并发失败；未完成五类结果、报告下载和重评容量证明。
 - Web 终端 / Kubernetes runtime 结论：阻塞。本轮只证明本地 fake runtime 10 并发 smoke，当前环境未配置真实 Kubernetes runtime，不能声明 Web 终端生产容量通过。
 - 是否建议对外交付：不建议按当前合同容量目标交付；若必须演示或内测，应限定为低并发、明确限流，并先完成连接池/读路径优化与重测。
@@ -78,6 +79,10 @@
 | 32 | notification polling no-tx 修复后启动、健康检查与 read-label 复测 | 失败 | `product-stress-test-evidence/commands/92-dev-restart-after-notification-polling-no-tx-fix-20260611.log`；`93-healthcheck-strict-after-notification-polling-no-tx-fix-20260611.log`；`94-read-label-diagnosis-after-notification-polling-no-tx-fix-20260611.log`；`raw/STRESS-06112149-notifnotx/read-label-results.json`。通知未读数 500 并发 5xx 降为 `13`，但混合读 500 并发仍有 `14238` 个 5xx，P1 仍失败。 |
 | 33 | notification polling no-tx 定向与完整后端门禁 | 通过 | `product-stress-test-evidence/commands/95-server-notification-polling-no-tx-targeted-tests-20260611.log`；通知/Redis 相关 `10` 个测试通过。`product-stress-test-evidence/commands/96-server-mvn-test-after-notification-polling-no-tx-fix-20260611.log`；后端 `370` 个测试通过。 |
 | 34 | notification polling no-tx 文档门禁 | 通过 | `product-stress-test-evidence/commands/97-docs-build-after-notification-polling-no-tx-fix-20260611.log`；docs build 通过，保留既有 chunk size warning。 |
+| 35 | 2026-06-12 P1 事务边界诊断脚本单测 | 通过 | `/opt/miniconda3/bin/python3 ops/perf/run_perf_suite_test.py`；7 个 Python 测试通过。新增 `MAX_STAGE_CONCURRENCY` / `MAX_STAGE_COUNT`，默认合同计划不变。 |
+| 36 | 作业/提交/成绩册高频入口事务边界定向测试 | 通过 | `bash ./mvnw -Dtest=AssignmentApplicationServiceTests,SubmissionApplicationServiceTests,GradebookApplicationServiceTests,GradebookQueryRepositoryTests test`；10 个 Java 测试通过，固定作业列表、提交列表、成绩册读入口不再声明外层 `@Transactional`。 |
+| 37 | 第九批修复后 read ladder 50/200 短诊断 | 通过 | `raw/STRESS-06120105-read-after-hikaritimeout/read_after_hikaritimeout_results.json`；50 并发 65192 请求全 200，P99 48.70ms；200 并发 133697 请求全 200，P99 2418.45ms，5xx=0。服务日志未出现 Hikari/事务错误。 |
+| 38 | 第九批修复后 judge/notification 50/200 短诊断 | 通过 | `raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`；judge 50/200 均 5xx=0，P99 14.88ms / 85.46ms；notification 50/200 均 5xx=0，P99 18.63ms / 23.28ms。服务日志未出现 Hikari/事务错误。 |
 
 ## 4.1 2026-06-11 第一批修复记录
 
@@ -139,6 +144,15 @@
 - 修复后 read-label：`STRESS-06112149-notifnotx` 中 50 并发 RPS `560.07`、P95 `27.74ms`、5xx `0`；200 并发 RPS `844.62`、P95 `251.74ms`、P99 `2347.58ms`、5xx `8`；500 并发 RPS `933.56`、P95 `2421.80ms`、错误率 `8.38%`、5xx `14238`。通知未读数端点 500 并发 P95 `142.06ms`、5xx `13`，相较第七批 500 并发通知未读数 5xx `1302 -> 13`；但混合读总 5xx `10791 -> 14238`，P1 仍失败。
 - 新根因观察：`raw/STRESS-06112149-notifnotx/server-log-window-summary.log` 记录 `authSessionActiveStack=0`、`authenticatedPrincipalLoaderStack=0`、`notificationServiceStack=26`，证明通知缓存入口事务热点基本解除；同一窗口仍有 `connectionTimeout=14246`、`gradebookStack=4146`、`submissionServiceStack=4219`、`assignmentServiceStack=4032`，Redis 错误计数为 0。下一批应转向成绩册、提交列表、作业列表和课程列表业务读路径。
 
+## 4.9 2026-06-12 第九批业务读入口事务边界与 Hikari 等待阈值修复记录
+
+- 诊断脚本修复：`run_perf_suite.py` 新增 `MAX_STAGE_CONCURRENCY` 和 `MAX_STAGE_COUNT`，用于只跑 50/200 这类短诊断阶段；默认 `PERF_PROFILE=contract` 全量计划保持不变。`run_perf_suite_test.py` 从 5 个用例扩展到 7 个用例并通过。
+- 代码修复：移除 `AssignmentApplicationService.listTeacherAssignments(...)`、`listMyAssignments(...)`，`SubmissionApplicationService.listMySubmissions(...)`、`listTeacherSubmissions(...)`，以及 `GradebookApplicationService.getOfferingGradebook(...)`、`getMyGradebook(...)` 的外层 `@Transactional(readOnly = true)`，避免高频读请求把授权、count/page 查询和视图装配包在同一个长事务里。新增反射测试防止这些入口重新加事务。
+- 连接等待阈值：将默认 `AUBB_DB_CONNECTION_TIMEOUT_MS` 从 `500` 调整为 `2500`。依据是第九批短诊断中普通 Mapper 读已经不再长时间持有事务，但 200 并发仍会因短事务排队在 500ms 内偶发取不到连接；调整后 200 并发 P99 仍低于 3s，且 5xx 清零。
+- 修复前后对比：`STRESS-06120049-read-after-assignmenttx` 证明作业列表外层事务移除后 50 并发 67845 请求 0 个 5xx，但 200 并发仍有 131 个 5xx；`STRESS-06120058-read-after-submission-gradebooktx` 在提交/成绩册事务边界修复后，200 并发 5xx 降为 79；`STRESS-06120105-read-after-hikaritimeout` 在 Hikari 等待阈值修复后，200 并发 133697 请求全 200、5xx=0。
+- P1 短诊断结果：`STRESS-06120105-read-after-hikaritimeout` 读请求 50/200 均通过；`STRESS-06120111-judge-notif-after-hikaritimeout` 判题轮询和通知轮询 50/200 均通过。所有本轮最终服务日志均未出现 `CannotCreateTransactionException`、`Connection is not available` 或 `SQLTransientConnectionException`。
+- 当前限制：本批只证明 P1 50/200 短诊断恢复；尚未复跑 read ladder 500/1000、判题/通知 500、完整 `PERF_PROFILE=contract`、soak、写入 429、Kubernetes Web 终端和 7.2-7.15 专项，因此总体验收仍不是通过。
+
 ## 5. 压测数据准备
 
 - 数据前缀：正式压测数据集为 `STRESS-0611132804`。后端会把 username 归一化为小写，manifest 中学生账号显示为 `stress-0611132804-*`。
@@ -157,11 +171,11 @@
 | 场景 | 并发 | 持续时间 | RPS/TPS | P95 | P99 | 错误率 | 5xx | 状态 | 证据 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 读请求阶梯压测 | 50/200/500 | 2/3/3 分钟 | 343.39 / 412.42 / 561.39 | 163.45 / 2358.92 / 2719.35 ms | 259.3 / 2658.49 / 3106.37 ms | 0 / 2.07% / 29.03% | 0 / 478 / 9514 | 失败 | `raw/STRESS-0611132804/contract-run/perf_results_contract.json`；50 并发通过，200 起失败。 |
-| 读请求端点级复测 | 50/200/500 | 2/3/3 分钟 | 560.07 / 844.62 / 933.56 | 27.74 / 251.74 / 2421.80 ms | 41.59 / 2347.58 / 2722.77 ms | 0 / 0.01% / 8.38% | 0 / 8 / 14238 | 失败 | `raw/STRESS-06112149-notifnotx/read-label-results.json`；第八批修复后通知未读数端点基本恢复，但 200 并发仍有 5xx/P99 未达标，500 业务读端点仍失败。 |
+| 读请求端点级复测 | 50/200 | 2/3 分钟 | 542.90 / 741.87 | 31.21 / 439.77 ms | 48.70 / 2418.45 ms | 0 / 0 | 0 / 0 | 通过 | `raw/STRESS-06120105-read-after-hikaritimeout/read_after_hikaritimeout_results.json`；第九批修复后 50/200 短诊断恢复。500/1000 尚未重测，不能替代完整合同。 |
 | 写入链路压测 | 10 | 1 分钟 | 29.63 TPS | 65.0 ms | 72.36 ms | 11.16% | 0 | 失败 | `perf_results_contract.json`；201=160，429=201。 |
-| 判题与轮询压测 | 50/200/500 | 2/3/3 分钟 | 458.1 / 636.57 / 719.32 | 43.29 / 430.98 / 2525.36 ms | 56.5 / 2425.23 / 2886.32 ms | 0 / 0.07% / 14.8% | 0 / 26 / 7133 | 失败 | 50 并发通过，200 起出现 5xx。 |
+| 判题与轮询复测 | 50/200 | 2/3 分钟 | 632.16 / 1662.44 | 7.91 / 60.74 ms | 14.88 / 85.46 ms | 0 / 0 | 0 / 0 | 通过 | `raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`；第九批短诊断恢复。500 并发、五类结果、报告下载和重评尚未重测。 |
 | 文件上传下载压测 | 上传 5/10；下载 20/100 | 上传各 1 分钟；下载各 2 分钟 | 上传 16.21/31.32；下载 209.61/494.95 | 上传 20.56/28.41 ms；下载 25.07/132.02 ms | 上传 22.8/37.63 ms；下载 29.63/2272.05 ms | 0 | 0 | 阻塞 | `perf_results_contract.json`；教师课程资源子集通过，但缺少全部文件类型、20MiB 文件和 SHA256 记录。 |
-| 通知与 SSE / 轮询专项 | 轮询 50/200/500；SSE 20 | 2/3/3 分钟；SSE 1 分钟 | 592.12 / 959.11 / 1036.95；SSE 28.17 | 14.85 / 219.73 / 2344.92 ms；SSE 39.35 ms | 26.25 / 2300.85 / 2692.38 ms；SSE 46.28 ms | 0 / 0 / 7.44%；SSE 0 | 0 / 0 / 5282；SSE 0 | 失败 | 50/200 轮询和 SSE 通过，500 轮询失败。 |
+| 通知轮询复测 / SSE 子集 | 轮询 50/200；SSE 20 | 2/3 分钟；SSE 1 分钟 | 584.25 / 2517.31；SSE 28.17 | 13.18 / 10.46 ms；SSE 39.35 ms | 18.63 / 23.28 ms；SSE 46.28 ms | 0 / 0；SSE 0 | 0 / 0；SSE 0 | 通过 | `raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`；SSE 只保留首次 20 并发子集证据。通知 500 和 SSE 100/300 尚未重测。 |
 | 实验运行时专项 | 10 | 1 分钟 | 48.72 | 45.6 ms | 51.85 ms | 0 | 0 | 阻塞 | fake runtime：201=1520，200=1520；真实 Kubernetes runtime、WebSocket 命令 I/O、重连和清理未执行。 |
 | Soak 稳定性测试 | 100 | 10 分钟 | 387.97 | 271.26 ms | 2281.26 ms | 1.31% | 0 | 失败 | 200=228798，201=1600，429=3069；服务压后健康检查和 MCP 页面回归通过。 |
 
@@ -174,6 +188,7 @@
 - 容器峰值：PostgreSQL CPU 102.66%、内存 706.9 MiB；RabbitMQ CPU 67.8%、内存 215.0 MiB；MinIO CPU 14.48%、内存 311.7 MiB；Redis CPU 8.21%、内存 10.42 MiB；go-judge CPU 2.03%、内存 20.11 MiB。
 - 主要瓶颈：后端日志显示高并发失败期间 Hikari 连接池耗尽，`total=48, active=48, idle=0, waiting=...`，导致 `CannotCreateTransactionException` 和 500。证据：`raw/STRESS-0611132804/server-log-stress-errors-excerpt.log`。
 - 复测资源：`STRESS-06111800-diagnose` PostgreSQL 连接采样峰值 49、平均 48.30；`STRESS-06111820-readlabels`、`STRESS-06111832-readlabels-bulkfix`、`STRESS-06111855-authcache` 均记录 Hikari 等待峰值 274；第四批 `STRESS-06111935-sessionactive` PostgreSQL 连接采样 min/max/avg 均为 49，Hikari 等待峰值 275，Redis 错误计数为 0；第五批 `STRESS-06112012-submissionauth` PostgreSQL 连接 min/max/avg 为 14/49/45.36，日志窗口中 `connectionTimeout=21953`、`authSessionActiveStack=15117`；第六批 TTL-only `STRESS-06112041-authactivettl` PostgreSQL 连接 min/max/avg 为 14/49/45.99，日志窗口 `authSessionActiveStack=17788`；第六批 no-tx `STRESS-06112051-authnotx` PostgreSQL 连接 min/max/avg 为 13/49/45.10，日志窗口 `authSessionActiveStack=0`、`authenticatedPrincipalLoaderStack=7780`、`gradebookStack=4245`、`submissionServiceStack=1389`、`assignmentServiceStack=1277`；第七批 no-tx `STRESS-06112118-principalnotx` PostgreSQL 连接 min/max/avg 为 13/49/44.64，日志窗口 `authSessionActiveStack=0`、`authenticatedPrincipalLoaderStack=0`、`gradebookStack=2843`、`submissionServiceStack=2797`、`assignmentServiceStack=2725`、`notificationServiceStack=1302`；第八批 no-tx `STRESS-06112149-notifnotx` PostgreSQL 连接 min/max/avg 为 13/49/44.49，日志窗口 `authSessionActiveStack=0`、`authenticatedPrincipalLoaderStack=0`、`notificationServiceStack=26`、`gradebookStack=4146`、`submissionServiceStack=4219`、`assignmentServiceStack=4032`，Redis 错误计数为 0。证据：`raw/STRESS-06111800-diagnose/resource-summary.json`、`raw/STRESS-06111820-readlabels/server-log-window-summary.log`、`raw/STRESS-06111832-readlabels-bulkfix/server-log-window-summary.log`、`raw/STRESS-06111855-authcache/server-log-window-summary.log`、`raw/STRESS-06111935-sessionactive/resource-summary.json`、`raw/STRESS-06111935-sessionactive/server-log-window-summary.log`、`raw/STRESS-06112012-submissionauth/resource-summary.json`、`raw/STRESS-06112012-submissionauth/server-log-window-summary.log`、`raw/STRESS-06112041-authactivettl/resource-summary.json`、`raw/STRESS-06112041-authactivettl/server-log-window-summary.log`、`raw/STRESS-06112051-authnotx/resource-summary.json`、`raw/STRESS-06112051-authnotx/server-log-window-summary.log`、`raw/STRESS-06112118-principalnotx/resource-summary.json`、`raw/STRESS-06112118-principalnotx/server-log-window-summary.log`、`raw/STRESS-06112149-notifnotx/resource-summary.json`、`raw/STRESS-06112149-notifnotx/server-log-window-summary.log`。
+- 第九批资源与日志：`STRESS-06120105-read-after-hikaritimeout` 读请求 50/200 短诊断的服务日志未出现 `CannotCreateTransactionException`、`Connection is not available` 或 `SQLTransientConnectionException`；200 并发 P99 `2418.45ms`，5xx=0。`STRESS-06120111-judge-notif-after-hikaritimeout` 判题和通知 50/200 短诊断同样未出现 Hikari/事务错误，judge 200 P99 `85.46ms`，notification 200 P99 `23.28ms`。证据：`raw/STRESS-06120105-read-after-hikaritimeout/read_after_hikaritimeout_results.json`、`raw/STRESS-06120105-read-after-hikaritimeout/server.log`、`raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`、`raw/STRESS-06120111-judge-notif-after-hikaritimeout/server.log`。
 
 ## 8. Playwright MCP 压测前后页面回归
 
@@ -194,4 +209,4 @@
 
 ## 11. 最终建议
 
-最终建议：不通过。当前系统可以支撑低并发演示和部分专项能力，但不满足交付前压力测试合同中读、写、判题、通知和 soak 的容量/错误率阈值。第八批修复证明认证与通知轮询缓存入口事务都是有效热点，缓存命中已基本不再占用连接；但最新 8 分钟阶梯仍显示 `GradebookApplicationService`、提交/作业列表和课程列表等业务读路径会耗尽连接池。下一轮应继续削减这些读路径的事务与查询占用，然后使用同一 runner 和场景矩阵复测。
+最终建议：不通过。第九批修复已把 P1 短诊断中的读请求、判题轮询、通知轮询 50/200 并发恢复到 0 个 5xx，说明业务读入口长事务和 500ms Hikari 等待阈值是主要瓶颈。但完整合同仍未重跑，读请求 500/1000、判题/通知 500、写入 429、soak、Kubernetes Web 终端和 7.2-7.15 专项仍未证明。下一轮应先执行完整 `PERF_PROFILE=contract` 复测，再按剩余失败项继续修复。
