@@ -15,14 +15,15 @@
 
 ## 2. 总体结论
 
-- 结论：不通过合同容量目标。系统在低并发和若干专项链路可恢复可用，但高并发读请求、判题轮询、通知轮询触发 5xx，写入与 soak 出现 429，不能按本合同容量阈值直接对外交付。
+- 结论：不通过全平台合同容量目标。第十一批已修复核心 runner 中的高并发 5xx 和写路径 429，但 500/1000 读请求长尾仍超过 `goal-stress.md` 严格阈值，真实 Kubernetes Web 终端和多个专项覆盖仍未关闭。
 - 2026-06-11 修复批次结论：已完成第一批 P1 高频读路径与压测脚本修复，并通过后端单测/集成门禁；但尚未复跑 `PERF_PROFILE=contract` 全量压力测试，故本报告总体验收结论仍保持“不通过”。
 - 2026-06-11 P1 复测与第八批修复结论：已复跑读请求 / 判题轮询 / 通知轮询 P1 诊断和九轮 read-label 混合读诊断，证明认证 principal cache、提交列表批量答案加载、`/auth/me` 默认快照读取、access token 会话活跃缓存预热、教师提交列表敏感 scope 预解析、会话活跃缓存入口无事务、认证 principal 缓存入口无事务、通知轮询缓存入口无事务均有收益；第八批 no-tx 复测确认通知未读数 500 并发 5xx 从 1302 降到 13，但混合读总 5xx 升到 14238，200/500 并发仍有 5xx/P99 超阈值，P1 仍为失败。
 - 2026-06-12 第九批修复结论：作业列表、提交列表、成绩册高频读入口已移除外层读事务，perf runner 增加 `MAX_STAGE_CONCURRENCY` / `MAX_STAGE_COUNT` 诊断开关，并将默认 Hikari 取连接等待从 500ms 调整为 2500ms。短诊断证明 `read_request_ladder`、`judge_polling`、`notification_polling` 的 50/200 并发均为 0 个 5xx；但尚未执行 500/1000 阶段和完整 `PERF_PROFILE=contract` 全合同复测，故总体验收结论仍保持“不通过”。
 - 2026-06-12 第十批代码修复结论：`STRESS-06120151-read500-after-stage-timeout` 证明 500 阶段仍有 1 个 `teacher_gradebook` 500，服务日志定位到成绩册数据库查询等待 Hikari 连接超时。第十批已修复 perf runner stage 卡死风险，新增成绩册页短 TTL 缓存、班级成绩册 no-tx、Redis 前缀删除和成绩写后缓存失效；目标单测通过。修复后完整压力阶梯尚未执行，因此总体验收结论仍保持“不通过”。
-- 已证明容量边界：读请求 50/200 并发短诊断通过；判题轮询 50/200 并发短诊断通过；通知轮询 50/200 并发短诊断通过；文件上传 10 并发、文件下载 100 并发通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过。
-- 未证明或失败范围：读请求 500/1000 并发尚未重测；写入链路 10 并发即出现 429；判题轮询 500 并发尚未重测；通知查询 500 并发尚未重测；soak 100 并发 10 分钟出现 429，未满足无错误稳定性要求；未证明 Kubernetes 实验运行时容量。
-- 真实 go-judge 判题结论：失败。数据准备阶段触发了 1 次真实编程提交，判题轮询 50 并发通过，但 200/500 并发失败；未完成五类结果、报告下载和重评容量证明。
+- 2026-06-12 第十一批修复结论：`STRESS-0612022949/contract-run` 完整合同复测中 read ladder 500/1000 各有 1 个 5xx，write path 30/50 出现 429。第十一批新增我的提交列表 assignment/page 短 TTL 缓存和写后失效，将 `submission-create` 默认限流从 10/min 调整为 60/min。修复后 `cache-fix-targeted` 证明 read ladder 50/200/500/1000 与 write path 10/30/50/100 均 0 错误、0 个 5xx、写路径 0 个 429；`cache-fix-soak` 证明 100 并发 10 分钟 smoke soak 0 错误。
+- 已证明容量边界：读请求 50/200/500/1000 在修复后均 5xx=0；写路径 10/30/50/100 在修复后均 429=0、5xx=0；判题轮询 50/200/500 通过；通知轮询 50/200/500 通过；文件上传 10 并发、文件下载 100 并发通过；SSE 20 并发 1 分钟通过；fake runtime 实验会话 10 并发 1 分钟通过；100 并发 10 分钟 smoke soak 通过。
+- 未证明或失败范围：读请求 500/1000 长尾仍超过 P95 < 500ms、P99 < 1500ms 的严格阈值；登录风暴未执行；真实 go-judge 缺少 5 类结果、报告下载和重评容量；SSE 100/300 未执行；完整 30 分钟 soak 未执行；未证明 Kubernetes 实验运行时容量。
+- 真实 go-judge 判题结论：失败。数据准备阶段触发了 1 次真实编程提交，判题轮询 50/200/500 已通过，但未完成真实提交 5/10/20、五类结果、报告下载和重评容量证明。
 - Web 终端 / Kubernetes runtime 结论：阻塞。本轮只证明本地 fake runtime 10 并发 smoke，当前环境未配置真实 Kubernetes runtime，不能声明 Web 终端生产容量通过。
 - 是否建议对外交付：不建议按当前合同容量目标交付；若必须演示或内测，应限定为低并发、明确限流，并先完成连接池/读路径优化与重测。
 - 交付限制或建议：继续治理 JDBC 连接池耗尽；最新 8 分钟阶梯已确认认证与通知缓存入口基本不再在命中时打开事务，但成绩册、提交、作业和课程列表等业务读路径仍会在高并发阶段耗尽连接池。下一批应优先削减这些业务读端点的事务与查询占用。
@@ -85,6 +86,10 @@
 | 37 | 第九批修复后 read ladder 50/200 短诊断 | 通过 | `raw/STRESS-06120105-read-after-hikaritimeout/read_after_hikaritimeout_results.json`；50 并发 65192 请求全 200，P99 48.70ms；200 并发 133697 请求全 200，P99 2418.45ms，5xx=0。服务日志未出现 Hikari/事务错误。 |
 | 38 | 第九批修复后 judge/notification 50/200 短诊断 | 通过 | `raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`；judge 50/200 均 5xx=0，P99 14.88ms / 85.46ms；notification 50/200 均 5xx=0，P99 18.63ms / 23.28ms。服务日志未出现 Hikari/事务错误。 |
 | 39 | 第十批 runner 与成绩册热点修复目标单测 | 通过 | `bash ./mvnw -Dtest=GradebookApplicationServiceTests,RedisCacheServiceTests,GradingApplicationServiceTests test`；13 个 Java 测试通过。`/opt/miniconda3/bin/python3 -m unittest ops/perf/run_perf_suite_test.py`；9 个 Python 测试通过。 |
+| 40 | 第十一批我的提交缓存与提交限流目标测试 | 通过 | `bash ./mvnw -Dtest=SubmissionApplicationServiceTests,RedisProtectedEndpointRateLimitIntegrationTests test`；8 个测试通过。 |
+| 41 | 第十一批 read/write 失败场景复测 | 通过 | `raw/STRESS-0612022949/cache-fix-targeted/perf_results_cache_fix_targeted.json`；read ladder 50/200/500/1000 均 0 错误、5xx=0；write path 10/30/50/100 均 0 错误、5xx=0、429=0。 |
+| 42 | 第十一批 10 分钟 smoke soak 复测 | 通过 | `raw/STRESS-0612022949/cache-fix-soak/perf_results_cache_fix_soak.json`；100 并发 10 分钟，384751 请求，P95 20.36ms，错误率 0，5xx=0。 |
+| 43 | 第十一批修复后健康检查与敏感信息扫描 | 通过 | `commands/STRESS-0612022949/16-healthcheck-after-soak.log` 通过；`commands/STRESS-0612022949/17-sensitive-token-scan.log` 记录本轮 STRESS-0612022949 命令和 raw 证据目录无敏感 token 命中。 |
 
 ## 4.1 2026-06-11 第一批修复记录
 
@@ -164,6 +169,14 @@
 - 目标验证：`GradebookApplicationServiceTests`、`RedisCacheServiceTests`、`GradingApplicationServiceTests` 共 13 个 Java 测试通过；`run_perf_suite_test.py` 共 9 个 Python 测试通过。
 - 当前限制：本批尚未执行修复后 500/1000 压力阶梯，不能把 P1-STRESS-001/P1-STRESS-002 改为通过；完整合同仍需复测。
 
+## 4.11 2026-06-12 第十一批我的提交缓存与提交限流修复记录
+
+- 新增证据：`STRESS-0612022949/contract-run` 完整合同复测中，read ladder 500/1000 各有 1 个 5xx；服务日志定位到 `SubmissionApplicationService.requireAssignment -> AssignmentMapper.selectById` 等待 Hikari 连接超时。write path 30/50 并发出现 429，来源是 `submission-create` 默认 10/min 限流低于合同流量。
+- 代码修复：`SubmissionApplicationService.listMySubmissions(...)` 增加 `mySubmissionAssignment` 与 `mySubmissionPage` 短 TTL 缓存，TTL 默认为 `PT5S`；缓存 key 包含 assignment/user/page/pageSize，提交成功后按 assignment+user 前缀清理我的提交页缓存。提交创建、附件上传等写路径仍走实时 DB 校验，不使用缓存判断状态或开放时间。
+- 限流修复：`submission-create` 默认限流从 10/min 调整为 60/min，保留 `AUBB_REDIS_RATE_LIMIT_SUBMISSION_CREATE_LIMIT` 环境变量覆盖能力；集成测试继续用 1/min 覆写验证 429 语义。
+- 目标验证：`SubmissionApplicationServiceTests` 与 `RedisProtectedEndpointRateLimitIntegrationTests` 共 8 个测试通过；`STRESS-0612022949/cache-fix-targeted` 中 read ladder 50/200/500/1000 均 0 错误、5xx=0，write path 10/30/50/100 均 0 错误、5xx=0、429=0；`cache-fix-soak` 100 并发 10 分钟 384751 请求，错误率 0，5xx=0。
+- 当前限制：核心 5xx/429 缺陷已关闭；但 500/1000 读请求 P95/P99 仍超过 `goal-stress.md` 严格阈值，且真实 Kubernetes Web 终端、SSE 100/300、真实 go-judge 五类结果和多个专项仍未执行。
+
 ## 5. 压测数据准备
 
 - 数据前缀：正式压测数据集为 `STRESS-0611132804`。后端会把 username 归一化为小写，manifest 中学生账号显示为 `stress-0611132804-*`。
@@ -174,6 +187,7 @@
 - 数据规模：80 名学生、1 个教师、1 个开课、2 个教学班、客观题/写入题/编程题、1 个课程资源、1 个 fake runtime 终端实验。
 - 数据准备证据：失败首轮 `product-stress-test-evidence/commands/10-setup-perf-data.log`；修复红绿测试 `11-setup-perf-data-test-red.log`、`12-setup-perf-data-test-green.log`；正式数据准备 `17-setup-perf-data-contract.log`。
 - 完成审计补充：压测脚本单测在 `/opt/miniconda3/bin/python3` 下通过，证据为 `product-stress-test-evidence/commands/28-perf-script-tests-conda-completion-audit.log`。审计时默认 Homebrew Python 3.14 因本机未安装 `requests`/`aiohttp` 且受 PEP 668 管理，留下失败依赖检查日志 `25-perf-script-tests-completion-audit.log`、`29-python314-install-perf-deps.log`；该失败不改变正式压测结果和 runner 代码验证结论。
+- 最新复测数据集：`STRESS-0612022949`，80 名学生、1 个教师、1 个开课、客观题/写入题/编程题、课程资源和 fake runtime 终端实验。脱敏 manifest：`product-stress-test-evidence/raw/STRESS-0612022949/manifest.sanitized.json`；私有明文 manifest 仅保存在 `/tmp/aubb-STRESS-0612022949/manifest.json`，不提交。
 
 ## 6. 场景结果总览
 
@@ -181,14 +195,13 @@
 
 | 场景 | 并发 | 持续时间 | RPS/TPS | P95 | P99 | 错误率 | 5xx | 状态 | 证据 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 读请求阶梯压测 | 50/200/500 | 2/3/3 分钟 | 343.39 / 412.42 / 561.39 | 163.45 / 2358.92 / 2719.35 ms | 259.3 / 2658.49 / 3106.37 ms | 0 / 2.07% / 29.03% | 0 / 478 / 9514 | 失败 | `raw/STRESS-0611132804/contract-run/perf_results_contract.json`；50 并发通过，200 起失败。 |
-| 读请求端点级复测 | 50/200 | 2/3 分钟 | 542.90 / 741.87 | 31.21 / 439.77 ms | 48.70 / 2418.45 ms | 0 / 0 | 0 / 0 | 通过 | `raw/STRESS-06120105-read-after-hikaritimeout/read_after_hikaritimeout_results.json`；第九批修复后 50/200 短诊断恢复。500/1000 尚未重测，不能替代完整合同。 |
-| 写入链路压测 | 10 | 1 分钟 | 29.63 TPS | 65.0 ms | 72.36 ms | 11.16% | 0 | 失败 | `perf_results_contract.json`；201=160，429=201。 |
-| 判题与轮询复测 | 50/200 | 2/3 分钟 | 632.16 / 1662.44 | 7.91 / 60.74 ms | 14.88 / 85.46 ms | 0 / 0 | 0 / 0 | 通过 | `raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`；第九批短诊断恢复。500 并发、五类结果、报告下载和重评尚未重测。 |
-| 文件上传下载压测 | 上传 5/10；下载 20/100 | 上传各 1 分钟；下载各 2 分钟 | 上传 16.21/31.32；下载 209.61/494.95 | 上传 20.56/28.41 ms；下载 25.07/132.02 ms | 上传 22.8/37.63 ms；下载 29.63/2272.05 ms | 0 | 0 | 阻塞 | `perf_results_contract.json`；教师课程资源子集通过，但缺少全部文件类型、20MiB 文件和 SHA256 记录。 |
-| 通知轮询复测 / SSE 子集 | 轮询 50/200；SSE 20 | 2/3 分钟；SSE 1 分钟 | 584.25 / 2517.31；SSE 28.17 | 13.18 / 10.46 ms；SSE 39.35 ms | 18.63 / 23.28 ms；SSE 46.28 ms | 0 / 0；SSE 0 | 0 / 0；SSE 0 | 通过 | `raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`；SSE 只保留首次 20 并发子集证据。通知 500 和 SSE 100/300 尚未重测。 |
-| 实验运行时专项 | 10 | 1 分钟 | 48.72 | 45.6 ms | 51.85 ms | 0 | 0 | 阻塞 | fake runtime：201=1520，200=1520；真实 Kubernetes runtime、WebSocket 命令 I/O、重连和清理未执行。 |
-| Soak 稳定性测试 | 100 | 10 分钟 | 387.97 | 271.26 ms | 2281.26 ms | 1.31% | 0 | 失败 | 200=228798，201=1600，429=3069；服务压后健康检查和 MCP 页面回归通过。 |
+| 读请求阶梯复测 | 50/200/500/1000 | 2/3/3/3 分钟 | 591.95 / 1064.45 / 1073.78 / 1127.97 | 18.31 / 224.38 / 2346.07 / 2713.40 ms | 34.57 / 2283.08 / 2777.94 / 3160.52 ms | 0 / 0 / 0 / 0 | 0 / 0 / 0 / 0 | 失败 | `raw/STRESS-0612022949/cache-fix-targeted/perf_results_cache_fix_targeted.json`；5xx 已清零，但 500/1000 长尾超过严格阈值。 |
+| 写入链路复测 | 10/30/50/100 | 1/2/2/2 分钟 | 29.45 / 93.70 / 163.45 / 313.19 | 47.90 / 47.18 / 47.87 / 73.47 ms | 2223.22 / 63.04 / 67.07 / 137.34 ms | 0 / 0 / 0 / 0 | 0 / 0 / 0 / 0 | 通过 | `raw/STRESS-0612022949/cache-fix-targeted/perf_results_cache_fix_targeted.json`；429=0。 |
+| 判题与轮询 | 50/200/500 | 2/3/3 分钟 | 632.27 / 1667.85 / 1699.59 | 7.85 / 59.59 / 488.34 ms | 14.92 / 86.23 / 2485.08 ms | 0 / 0 / 0 | 0 / 0 / 0 | 失败 | `raw/STRESS-0612022949/contract-run/perf_results_contract.json`；轮询通过，但真实提交 5/10/20、五类结果、报告下载和重评未完成。 |
+| 文件上传下载压测 | 上传 5/10；下载 20/100 | 上传各 1 分钟；下载各 2 分钟 | 上传 16.86/31.93；下载 221.27/729.38 | 上传 17.53/21.53 ms；下载 19.16/68.41 ms | 上传 24.43/30.34 ms；下载 24.00/106.99 ms | 0 | 0 | 阻塞 | `raw/STRESS-0612022949/contract-run/perf_results_contract.json`；教师课程资源子集通过，但缺少全部文件类型、20MiB 文件和 SHA256 记录。 |
+| 通知轮询 / SSE 子集 | 轮询 50/200/500；SSE 20 | 2/3/3 分钟；SSE 1 分钟 | 592.43 / 2518.92 / 3580.69；SSE 27.24 | 12.11 / 9.83 / 71.38 ms；SSE 17.44 ms | 17.79 / 21.94 / 109.31 ms；SSE 29.29 ms | 0 | 0 | 阻塞 | `raw/STRESS-0612022949/contract-run/perf_results_contract.json`；通知轮询通过，SSE 100/300 未执行。 |
+| 实验运行时专项 | 10 | 1 分钟 | 50.46 | 39.01 ms | 46.52 ms | 0 | 0 | 阻塞 | fake runtime 子集通过；真实 Kubernetes runtime、WebSocket 命令 I/O、重连和清理未执行。 |
+| Soak 稳定性复测 | 100 | 10 分钟 | 640.96 | 20.36 ms | 54.17 ms | 0 | 0 | 阻塞 | `raw/STRESS-0612022949/cache-fix-soak/perf_results_cache_fix_soak.json`；10 分钟 smoke soak 通过，完整 30 分钟和 Kubernetes/WebSocket 混合未执行。 |
 
 ## 7. 资源采样与瓶颈分析
 
@@ -200,6 +213,7 @@
 - 主要瓶颈：后端日志显示高并发失败期间 Hikari 连接池耗尽，`total=48, active=48, idle=0, waiting=...`，导致 `CannotCreateTransactionException` 和 500。证据：`raw/STRESS-0611132804/server-log-stress-errors-excerpt.log`。
 - 复测资源：`STRESS-06111800-diagnose` PostgreSQL 连接采样峰值 49、平均 48.30；`STRESS-06111820-readlabels`、`STRESS-06111832-readlabels-bulkfix`、`STRESS-06111855-authcache` 均记录 Hikari 等待峰值 274；第四批 `STRESS-06111935-sessionactive` PostgreSQL 连接采样 min/max/avg 均为 49，Hikari 等待峰值 275，Redis 错误计数为 0；第五批 `STRESS-06112012-submissionauth` PostgreSQL 连接 min/max/avg 为 14/49/45.36，日志窗口中 `connectionTimeout=21953`、`authSessionActiveStack=15117`；第六批 TTL-only `STRESS-06112041-authactivettl` PostgreSQL 连接 min/max/avg 为 14/49/45.99，日志窗口 `authSessionActiveStack=17788`；第六批 no-tx `STRESS-06112051-authnotx` PostgreSQL 连接 min/max/avg 为 13/49/45.10，日志窗口 `authSessionActiveStack=0`、`authenticatedPrincipalLoaderStack=7780`、`gradebookStack=4245`、`submissionServiceStack=1389`、`assignmentServiceStack=1277`；第七批 no-tx `STRESS-06112118-principalnotx` PostgreSQL 连接 min/max/avg 为 13/49/44.64，日志窗口 `authSessionActiveStack=0`、`authenticatedPrincipalLoaderStack=0`、`gradebookStack=2843`、`submissionServiceStack=2797`、`assignmentServiceStack=2725`、`notificationServiceStack=1302`；第八批 no-tx `STRESS-06112149-notifnotx` PostgreSQL 连接 min/max/avg 为 13/49/44.49，日志窗口 `authSessionActiveStack=0`、`authenticatedPrincipalLoaderStack=0`、`notificationServiceStack=26`、`gradebookStack=4146`、`submissionServiceStack=4219`、`assignmentServiceStack=4032`，Redis 错误计数为 0。证据：`raw/STRESS-06111800-diagnose/resource-summary.json`、`raw/STRESS-06111820-readlabels/server-log-window-summary.log`、`raw/STRESS-06111832-readlabels-bulkfix/server-log-window-summary.log`、`raw/STRESS-06111855-authcache/server-log-window-summary.log`、`raw/STRESS-06111935-sessionactive/resource-summary.json`、`raw/STRESS-06111935-sessionactive/server-log-window-summary.log`、`raw/STRESS-06112012-submissionauth/resource-summary.json`、`raw/STRESS-06112012-submissionauth/server-log-window-summary.log`、`raw/STRESS-06112041-authactivettl/resource-summary.json`、`raw/STRESS-06112041-authactivettl/server-log-window-summary.log`、`raw/STRESS-06112051-authnotx/resource-summary.json`、`raw/STRESS-06112051-authnotx/server-log-window-summary.log`、`raw/STRESS-06112118-principalnotx/resource-summary.json`、`raw/STRESS-06112118-principalnotx/server-log-window-summary.log`、`raw/STRESS-06112149-notifnotx/resource-summary.json`、`raw/STRESS-06112149-notifnotx/server-log-window-summary.log`。
 - 第九批资源与日志：`STRESS-06120105-read-after-hikaritimeout` 读请求 50/200 短诊断的服务日志未出现 `CannotCreateTransactionException`、`Connection is not available` 或 `SQLTransientConnectionException`；200 并发 P99 `2418.45ms`，5xx=0。`STRESS-06120111-judge-notif-after-hikaritimeout` 判题和通知 50/200 短诊断同样未出现 Hikari/事务错误，judge 200 P99 `85.46ms`，notification 200 P99 `23.28ms`。证据：`raw/STRESS-06120105-read-after-hikaritimeout/read_after_hikaritimeout_results.json`、`raw/STRESS-06120105-read-after-hikaritimeout/server.log`、`raw/STRESS-06120111-judge-notif-after-hikaritimeout/judge_notif_after_hikaritimeout_results.json`、`raw/STRESS-06120111-judge-notif-after-hikaritimeout/server.log`。
+- 第十一批资源与日志：`STRESS-0612022949/cache-fix-targeted` PostgreSQL 连接 min/max/avg 为 14/49/46.49，PostgreSQL CPU max 87.56%；`STRESS-0612022949/cache-fix-soak` PostgreSQL 连接 min/max/avg 为 45/49/48.14，PostgreSQL CPU max 5.14%。修复后日志未出现 `CannotGetJdbcConnectionException`、`SQLTransientConnectionException`、`Connection is not available`、`RATE_LIMIT_EXCEEDED` 或 429。证据：`product-stress-test-evidence/resources/STRESS-0612022949/resource-summary-cache-fix.md`、`raw/STRESS-0612022949/cache-fix-targeted/resource_samples.json`、`raw/STRESS-0612022949/cache-fix-soak/resource_samples.json`。
 
 ## 8. Playwright MCP 压测前后页面回归
 
@@ -215,9 +229,11 @@
 - `STRESS-0611131857`：首轮数据准备失败，已创建的学院/教师等部分对象可能残留；失败证据见 `10-setup-perf-data.log`。
 - `STRESS-0611132135`：中间成功数据集，未用于正式合同压测，包含 80 名学生和课程/作业等对象。
 - `STRESS-0611132804`：正式压测数据集，包含 80 名学生、课程/班级、作业、编程提交、课程资源、fake runtime 终端实验，以及压测过程中产生的提交、资源上传、实验会话和通知读请求记录。
+- `STRESS-0612022949`：最新复测数据集，包含 80 名学生、课程/班级、作业、编程提交、课程资源、fake runtime 终端实验，以及第十一批 targeted/soak 复测产生的提交与读请求记录。
 - 私有 manifest：`/tmp/aubb-STRESS-0611132804/manifest.json`，含本地临时压测账号密码，仅供本机复跑；不提交。
-- 清理建议：以 `STRESS-0611131857`、`STRESS-0611132135`、`STRESS-0611132804` 前缀清理本地压测组织、账号、课程、作业、资源和实验数据；清理前保留当前 artifacts 作为失败证据。
+- 私有 manifest：`/tmp/aubb-STRESS-0612022949/manifest.json`，含本地临时压测账号密码，仅供本机复跑；不提交。
+- 清理建议：以 `STRESS-0611131857`、`STRESS-0611132135`、`STRESS-0611132804`、`STRESS-0612022949` 前缀清理本地压测组织、账号、课程、作业、资源和实验数据；清理前保留当前 artifacts 作为证据。
 
 ## 11. 最终建议
 
-最终建议：不通过。第九批修复已把 P1 短诊断中的读请求、判题轮询、通知轮询 50/200 并发恢复到 0 个 5xx，说明业务读入口长事务和 500ms Hikari 等待阈值是主要瓶颈。但完整合同仍未重跑，读请求 500/1000、判题/通知 500、写入 429、soak、Kubernetes Web 终端和 7.2-7.15 专项仍未证明。下一轮应先执行完整 `PERF_PROFILE=contract` 复测，再按剩余失败项继续修复。
+最终建议：不通过全平台合同容量。第十一批已经把核心 runner 中的高并发 5xx 和写路径 429 修复，并用 targeted read/write 与 10 分钟 smoke soak 证明；但 500/1000 读请求长尾仍超过严格阈值，真实 Kubernetes Web 终端、SSE 100/300、真实 go-judge 五类结果/重评/报告下载、30 分钟完整 soak 和 7.2-7.15 多个专项仍未关闭。下一轮应优先治理读请求长尾和真实执行链路专项，而不是继续只看 5xx。
