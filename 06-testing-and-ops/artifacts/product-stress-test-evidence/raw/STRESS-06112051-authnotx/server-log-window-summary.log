@@ -1,0 +1,21 @@
+generatedAt=2026-06-11T13:01:55.447Z
+source=/Users/moorefoss/Code/AUBB/.aubb/run/logs/server.log
+windowStart=2026-06-11T20:51:20+08:00
+windowEnd=2026-06-11T20:59:30+08:00
+counts={"connectionTimeout":12903,"cannotCreateTransaction":12903,"unhandledException":5123,"hikariNotAdded":0,"housekeeperStats":0,"redisErrors":0,"redisAvailability":0,"authSessionActiveStack":0,"authenticatedPrincipalLoaderStack":7780,"submissionServiceStack":1389,"gradebookStack":4245,"assignmentServiceStack":1277}
+maxWaiting=271
+maxWaitingLine=Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=271)
+
+firstSamples:
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 504ms (total=48, active=47, idle=1, waiting=101)
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 509ms (total=48, active=48, idle=0, waiting=110)
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+
+lastSamples:
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 503ms (total=48, active=47, idle=1, waiting=162)
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 500ms (total=48, active=48, idle=0, waiting=161)
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 507ms (total=48, active=48, idle=0, waiting=34)
