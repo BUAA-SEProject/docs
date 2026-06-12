@@ -1,0 +1,1331 @@
+[
+  {
+    "scenario": "file_upload",
+    "concurrency": 5,
+    "durationSeconds": 60,
+    "totalRequests": 15,
+    "rps": 0.25,
+    "avgMs": 41.61,
+    "p50Ms": 31.23,
+    "p95Ms": 75.36,
+    "p99Ms": 76.01,
+    "errorRate": 0.3333,
+    "fiveXx": 0,
+    "statuses": {
+      "201": 10,
+      "413": 5
+    },
+    "endpointStats": {
+      "file_upload_1048576_bytes": {
+        "totalRequests": 5,
+        "avgMs": 75.36,
+        "p50Ms": 75.32,
+        "p95Ms": 76.01,
+        "p99Ms": 76.01,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "201": 5
+        }
+      },
+      "file_upload_20971520_bytes": {
+        "totalRequests": 5,
+        "avgMs": 18.43,
+        "p50Ms": 18.3,
+        "p95Ms": 35.99,
+        "p99Ms": 35.99,
+        "errorRate": 1.0,
+        "fiveXx": 0,
+        "statuses": {
+          "413": 5
+        }
+      },
+      "file_upload_65536_bytes": {
+        "totalRequests": 5,
+        "avgMs": 31.05,
+        "p50Ms": 31.03,
+        "p95Ms": 31.92,
+        "p99Ms": 31.92,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "201": 5
+        }
+      }
+    },
+    "fileStats": {
+      "file_upload_1048576_bytes": {
+        "requests": 5,
+        "successes": 5,
+        "attemptedBytes": 5242880,
+        "bytes": 5242880,
+        "statuses": {
+          "201": 5
+        },
+        "contentTypes": {},
+        "sizes": {
+          "1048576": 5
+        },
+        "sha256": {
+          "eee6c414576b13288c5a5dbd137a5233f3348a4b811562426d253c8844a0c40d": 1,
+          "c9e6b5346342506e9e01159197c76a81f1905daa6ebe90d280504d67487194cf": 1,
+          "11e2cafccb8b395c9b930ab61878912a9879e8600f6570d7bf97b87d93ba011b": 1,
+          "3baba0854ca81737ebb1b4cb08a424cc7292aec403e65760057c3e69a2a2ada3": 1,
+          "eae3d238661ed6310fc05b3687ed69aaeba24ca265f8295547c0f8d6cc4eb016": 1
+        }
+      },
+      "file_upload_20971520_bytes": {
+        "requests": 5,
+        "successes": 0,
+        "attemptedBytes": 104857600,
+        "bytes": 0,
+        "statuses": {
+          "413": 5
+        },
+        "contentTypes": {},
+        "sizes": {
+          "20971520": 5
+        },
+        "sha256": {}
+      },
+      "file_upload_65536_bytes": {
+        "requests": 5,
+        "successes": 5,
+        "attemptedBytes": 327680,
+        "bytes": 327680,
+        "statuses": {
+          "201": 5
+        },
+        "contentTypes": {},
+        "sizes": {
+          "65536": 5
+        },
+        "sha256": {
+          "0da310c77a58cc01087de43880ef969e5e72c0454034b421abdbe8d85e7d79d0": 1,
+          "5fdbb80b565a2aabcbf546f981d1fa9c321433885504f824503c18e64c44fdde": 1,
+          "e60ef3485c6422197dfa0cd9c7424c0c191470b7a33342f2e7d5b2aba48aa9b0": 1,
+          "e642afe6edab811fc24e29e3ded169d11fba8bbc90806f54a576f7186ecaa412": 1,
+          "02d120cc76f1caff95bfab22f3c260146445509620c92c639f32b588c1362f62": 1
+        }
+      }
+    }
+  },
+  {
+    "scenario": "file_download",
+    "concurrency": 20,
+    "durationSeconds": 120,
+    "totalRequests": 24618,
+    "rps": 202.77,
+    "avgMs": 19.48,
+    "p50Ms": 10.14,
+    "p95Ms": 27.2,
+    "p99Ms": 36.63,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "200": 24618
+    },
+    "endpointStats": {
+      "course_resource_student": {
+        "totalRequests": 1894,
+        "avgMs": 12.29,
+        "p50Ms": 8.61,
+        "p95Ms": 14.44,
+        "p99Ms": 22.01,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1894
+        }
+      },
+      "course_resource_teacher": {
+        "totalRequests": 1894,
+        "avgMs": 10.45,
+        "p50Ms": 6.94,
+        "p95Ms": 11.65,
+        "p99Ms": 17.01,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1894
+        }
+      },
+      "judge_report_student": {
+        "totalRequests": 1894,
+        "avgMs": 8.01,
+        "p50Ms": 5.92,
+        "p95Ms": 10.68,
+        "p99Ms": 17.2,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1894
+        }
+      },
+      "judge_report_teacher": {
+        "totalRequests": 1894,
+        "avgMs": 9.71,
+        "p50Ms": 7.58,
+        "p95Ms": 12.82,
+        "p99Ms": 20.74,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1894
+        }
+      },
+      "lab_report_attachment_student": {
+        "totalRequests": 1893,
+        "avgMs": 14.82,
+        "p50Ms": 9.87,
+        "p95Ms": 14.44,
+        "p99Ms": 22.19,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1893
+        }
+      },
+      "lab_report_attachment_teacher": {
+        "totalRequests": 1893,
+        "avgMs": 14.54,
+        "p50Ms": 9.62,
+        "p95Ms": 14.05,
+        "p99Ms": 20.84,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1893
+        }
+      },
+      "student_gradebook_export": {
+        "totalRequests": 1894,
+        "avgMs": 20.43,
+        "p50Ms": 12.46,
+        "p95Ms": 18.87,
+        "p99Ms": 28.3,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1894
+        }
+      },
+      "submission_artifact_student": {
+        "totalRequests": 1893,
+        "avgMs": 12.0,
+        "p50Ms": 8.38,
+        "p95Ms": 13.66,
+        "p99Ms": 21.07,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1893
+        }
+      },
+      "submission_artifact_teacher": {
+        "totalRequests": 1893,
+        "avgMs": 16.22,
+        "p50Ms": 9.61,
+        "p95Ms": 15.93,
+        "p99Ms": 23.82,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1893
+        }
+      },
+      "teacher_class_gradebook_export": {
+        "totalRequests": 1894,
+        "avgMs": 37.22,
+        "p50Ms": 21.25,
+        "p95Ms": 31.42,
+        "p99Ms": 51.4,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1894
+        }
+      },
+      "teacher_class_gradebook_report": {
+        "totalRequests": 1894,
+        "avgMs": 20.36,
+        "p50Ms": 12.22,
+        "p95Ms": 17.82,
+        "p99Ms": 27.05,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1894
+        }
+      },
+      "teacher_gradebook_export": {
+        "totalRequests": 1894,
+        "avgMs": 45.8,
+        "p50Ms": 27.04,
+        "p95Ms": 37.34,
+        "p99Ms": 71.49,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1894
+        }
+      },
+      "teacher_gradebook_report": {
+        "totalRequests": 1894,
+        "avgMs": 31.33,
+        "p50Ms": 15.55,
+        "p95Ms": 23.74,
+        "p99Ms": 34.78,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 1894
+        }
+      }
+    },
+    "fileStats": {
+      "course_resource_student": {
+        "requests": 1894,
+        "successes": 1894,
+        "bytes": 5333504,
+        "statuses": {
+          "200": 1894
+        },
+        "contentTypes": {
+          "text/plain": 1894
+        },
+        "sizes": {
+          "2816": 1894
+        },
+        "sha256": {
+          "9a003256c30f4c0a983321daf9dca3cbdf8ed4d4aa0851be1166e6bfc3ec8772": 1894
+        }
+      },
+      "course_resource_teacher": {
+        "requests": 1894,
+        "successes": 1894,
+        "bytes": 5333504,
+        "statuses": {
+          "200": 1894
+        },
+        "contentTypes": {
+          "text/plain": 1894
+        },
+        "sizes": {
+          "2816": 1894
+        },
+        "sha256": {
+          "9a003256c30f4c0a983321daf9dca3cbdf8ed4d4aa0851be1166e6bfc3ec8772": 1894
+        }
+      },
+      "judge_report_student": {
+        "requests": 1894,
+        "successes": 1894,
+        "bytes": 5532374,
+        "statuses": {
+          "200": 1894
+        },
+        "contentTypes": {
+          "application/json": 1894
+        },
+        "sizes": {
+          "2921": 1894
+        },
+        "sha256": {
+          "554a9a4de620bca552c3b583f2c574908176f4b2852d9655f9e9e86a3d96cdec": 1894
+        }
+      },
+      "judge_report_teacher": {
+        "requests": 1894,
+        "successes": 1894,
+        "bytes": 5299412,
+        "statuses": {
+          "200": 1894
+        },
+        "contentTypes": {
+          "application/json": 1894
+        },
+        "sizes": {
+          "2798": 1894
+        },
+        "sha256": {
+          "018c1946ff319f6de339219d2a5a9647fb67ee0870e532ed4bd7b673d78f0277": 1894
+        }
+      },
+      "lab_report_attachment_student": {
+        "requests": 1893,
+        "successes": 1893,
+        "bytes": 124059648,
+        "statuses": {
+          "200": 1893
+        },
+        "contentTypes": {
+          "text/plain": 1893
+        },
+        "sizes": {
+          "65536": 1893
+        },
+        "sha256": {
+          "cf083df14f6d4d92d9fe03a996b5f6d6b957339ba01700a2a3a27554d7e6efed": 1893
+        }
+      },
+      "lab_report_attachment_teacher": {
+        "requests": 1893,
+        "successes": 1893,
+        "bytes": 124059648,
+        "statuses": {
+          "200": 1893
+        },
+        "contentTypes": {
+          "text/plain": 1893
+        },
+        "sizes": {
+          "65536": 1893
+        },
+        "sha256": {
+          "cf083df14f6d4d92d9fe03a996b5f6d6b957339ba01700a2a3a27554d7e6efed": 1893
+        }
+      },
+      "student_gradebook_export": {
+        "requests": 1894,
+        "successes": 1894,
+        "bytes": 1354210,
+        "statuses": {
+          "200": 1894
+        },
+        "contentTypes": {
+          "text/csv": 1894
+        },
+        "sizes": {
+          "715": 1894
+        },
+        "sha256": {
+          "7eff796bf1281164314c11e4aca69e3a45f11d87b43130cae68e5ba365b5d0a2": 1894
+        }
+      },
+      "submission_artifact_student": {
+        "requests": 1893,
+        "successes": 1893,
+        "bytes": 124059648,
+        "statuses": {
+          "200": 1893
+        },
+        "contentTypes": {
+          "text/plain": 1893
+        },
+        "sizes": {
+          "65536": 1893
+        },
+        "sha256": {
+          "09565470a6493d97bfcfe9d745291c3cfa15b69adcb5a0a70f8f6d21cd83015e": 1893
+        }
+      },
+      "submission_artifact_teacher": {
+        "requests": 1893,
+        "successes": 1893,
+        "bytes": 124059648,
+        "statuses": {
+          "200": 1893
+        },
+        "contentTypes": {
+          "text/plain": 1893
+        },
+        "sizes": {
+          "65536": 1893
+        },
+        "sha256": {
+          "09565470a6493d97bfcfe9d745291c3cfa15b69adcb5a0a70f8f6d21cd83015e": 1893
+        }
+      },
+      "teacher_class_gradebook_export": {
+        "requests": 1894,
+        "successes": 1894,
+        "bytes": 16896374,
+        "statuses": {
+          "200": 1894
+        },
+        "contentTypes": {
+          "text/csv": 1894
+        },
+        "sizes": {
+          "8921": 1894
+        },
+        "sha256": {
+          "90d6cb983535c78c1ebdf093f9f482a082fab41784e5894fb5ecebc03c032360": 1894
+        }
+      },
+      "teacher_class_gradebook_report": {
+        "requests": 1894,
+        "successes": 1894,
+        "bytes": 8032454,
+        "statuses": {
+          "200": 1894
+        },
+        "contentTypes": {
+          "application/json": 1894
+        },
+        "sizes": {
+          "4241": 1894
+        },
+        "sha256": {
+          "72ddc58972b891175aad90c05d943a5f4a01f61924eb86ee121530ee271e7883": 1894
+        }
+      },
+      "teacher_gradebook_export": {
+        "requests": 1894,
+        "successes": 1894,
+        "bytes": 31004780,
+        "statuses": {
+          "200": 1894
+        },
+        "contentTypes": {
+          "text/csv": 1894
+        },
+        "sizes": {
+          "16370": 1894
+        },
+        "sha256": {
+          "64449807d5551f0a4fce097ee841a87d5bd498c08761c73161a8c86fe09fad43": 1894
+        }
+      },
+      "teacher_gradebook_report": {
+        "requests": 1894,
+        "successes": 1894,
+        "bytes": 11949246,
+        "statuses": {
+          "200": 1894
+        },
+        "contentTypes": {
+          "application/json": 1894
+        },
+        "sizes": {
+          "6309": 1894
+        },
+        "sha256": {
+          "6039398513d7358f8a6def20d349a5e3c4fba291b17d93048eb905d085de1bff": 1894
+        }
+      }
+    }
+  },
+  {
+    "scenario": "file_download",
+    "concurrency": 100,
+    "durationSeconds": 120,
+    "totalRequests": 49343,
+    "rps": 410.67,
+    "avgMs": 159.22,
+    "p50Ms": 87.52,
+    "p95Ms": 249.84,
+    "p99Ms": 2879.7,
+    "errorRate": 0.0,
+    "fiveXx": 0,
+    "statuses": {
+      "200": 49343
+    },
+    "endpointStats": {
+      "course_resource_student": {
+        "totalRequests": 3796,
+        "avgMs": 129.4,
+        "p50Ms": 82.08,
+        "p95Ms": 132.53,
+        "p99Ms": 2857.76,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3796
+        }
+      },
+      "course_resource_teacher": {
+        "totalRequests": 3796,
+        "avgMs": 107.26,
+        "p50Ms": 68.24,
+        "p95Ms": 119.54,
+        "p99Ms": 2832.63,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3796
+        }
+      },
+      "judge_report_student": {
+        "totalRequests": 3796,
+        "avgMs": 111.93,
+        "p50Ms": 71.98,
+        "p95Ms": 122.44,
+        "p99Ms": 2834.51,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3796
+        }
+      },
+      "judge_report_teacher": {
+        "totalRequests": 3796,
+        "avgMs": 124.69,
+        "p50Ms": 80.23,
+        "p95Ms": 131.75,
+        "p99Ms": 2848.36,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3796
+        }
+      },
+      "lab_report_attachment_student": {
+        "totalRequests": 3795,
+        "avgMs": 125.55,
+        "p50Ms": 79.64,
+        "p95Ms": 133.17,
+        "p99Ms": 2855.13,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3795
+        }
+      },
+      "lab_report_attachment_teacher": {
+        "totalRequests": 3795,
+        "avgMs": 118.41,
+        "p50Ms": 75.41,
+        "p95Ms": 129.0,
+        "p99Ms": 2846.78,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3795
+        }
+      },
+      "student_gradebook_export": {
+        "totalRequests": 3796,
+        "avgMs": 154.74,
+        "p50Ms": 100.42,
+        "p95Ms": 157.48,
+        "p99Ms": 2872.31,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3796
+        }
+      },
+      "submission_artifact_student": {
+        "totalRequests": 3795,
+        "avgMs": 125.71,
+        "p50Ms": 78.88,
+        "p95Ms": 133.27,
+        "p99Ms": 2857.27,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3795
+        }
+      },
+      "submission_artifact_teacher": {
+        "totalRequests": 3795,
+        "avgMs": 167.14,
+        "p50Ms": 108.3,
+        "p95Ms": 191.54,
+        "p99Ms": 2872.21,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3795
+        }
+      },
+      "teacher_class_gradebook_export": {
+        "totalRequests": 3796,
+        "avgMs": 291.23,
+        "p50Ms": 191.19,
+        "p95Ms": 306.32,
+        "p99Ms": 2958.66,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3796
+        }
+      },
+      "teacher_class_gradebook_report": {
+        "totalRequests": 3795,
+        "avgMs": 129.27,
+        "p50Ms": 81.92,
+        "p95Ms": 136.82,
+        "p99Ms": 2854.82,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3795
+        }
+      },
+      "teacher_gradebook_export": {
+        "totalRequests": 3796,
+        "avgMs": 353.27,
+        "p50Ms": 235.1,
+        "p95Ms": 372.09,
+        "p99Ms": 2999.57,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3796
+        }
+      },
+      "teacher_gradebook_report": {
+        "totalRequests": 3796,
+        "avgMs": 131.2,
+        "p50Ms": 84.03,
+        "p95Ms": 138.79,
+        "p99Ms": 2853.77,
+        "errorRate": 0.0,
+        "fiveXx": 0,
+        "statuses": {
+          "200": 3796
+        }
+      }
+    },
+    "fileStats": {
+      "course_resource_student": {
+        "requests": 3796,
+        "successes": 3796,
+        "bytes": 10689536,
+        "statuses": {
+          "200": 3796
+        },
+        "contentTypes": {
+          "text/plain": 3796
+        },
+        "sizes": {
+          "2816": 3796
+        },
+        "sha256": {
+          "9a003256c30f4c0a983321daf9dca3cbdf8ed4d4aa0851be1166e6bfc3ec8772": 3796
+        }
+      },
+      "course_resource_teacher": {
+        "requests": 3796,
+        "successes": 3796,
+        "bytes": 10689536,
+        "statuses": {
+          "200": 3796
+        },
+        "contentTypes": {
+          "text/plain": 3796
+        },
+        "sizes": {
+          "2816": 3796
+        },
+        "sha256": {
+          "9a003256c30f4c0a983321daf9dca3cbdf8ed4d4aa0851be1166e6bfc3ec8772": 3796
+        }
+      },
+      "judge_report_student": {
+        "requests": 3796,
+        "successes": 3796,
+        "bytes": 11088116,
+        "statuses": {
+          "200": 3796
+        },
+        "contentTypes": {
+          "application/json": 3796
+        },
+        "sizes": {
+          "2921": 3796
+        },
+        "sha256": {
+          "554a9a4de620bca552c3b583f2c574908176f4b2852d9655f9e9e86a3d96cdec": 3796
+        }
+      },
+      "judge_report_teacher": {
+        "requests": 3796,
+        "successes": 3796,
+        "bytes": 10621208,
+        "statuses": {
+          "200": 3796
+        },
+        "contentTypes": {
+          "application/json": 3796
+        },
+        "sizes": {
+          "2798": 3796
+        },
+        "sha256": {
+          "018c1946ff319f6de339219d2a5a9647fb67ee0870e532ed4bd7b673d78f0277": 3796
+        }
+      },
+      "lab_report_attachment_student": {
+        "requests": 3795,
+        "successes": 3795,
+        "bytes": 248709120,
+        "statuses": {
+          "200": 3795
+        },
+        "contentTypes": {
+          "text/plain": 3795
+        },
+        "sizes": {
+          "65536": 3795
+        },
+        "sha256": {
+          "cf083df14f6d4d92d9fe03a996b5f6d6b957339ba01700a2a3a27554d7e6efed": 3795
+        }
+      },
+      "lab_report_attachment_teacher": {
+        "requests": 3795,
+        "successes": 3795,
+        "bytes": 248709120,
+        "statuses": {
+          "200": 3795
+        },
+        "contentTypes": {
+          "text/plain": 3795
+        },
+        "sizes": {
+          "65536": 3795
+        },
+        "sha256": {
+          "cf083df14f6d4d92d9fe03a996b5f6d6b957339ba01700a2a3a27554d7e6efed": 3795
+        }
+      },
+      "student_gradebook_export": {
+        "requests": 3796,
+        "successes": 3796,
+        "bytes": 2714140,
+        "statuses": {
+          "200": 3796
+        },
+        "contentTypes": {
+          "text/csv": 3796
+        },
+        "sizes": {
+          "715": 3796
+        },
+        "sha256": {
+          "7eff796bf1281164314c11e4aca69e3a45f11d87b43130cae68e5ba365b5d0a2": 3796
+        }
+      },
+      "submission_artifact_student": {
+        "requests": 3795,
+        "successes": 3795,
+        "bytes": 248709120,
+        "statuses": {
+          "200": 3795
+        },
+        "contentTypes": {
+          "text/plain": 3795
+        },
+        "sizes": {
+          "65536": 3795
+        },
+        "sha256": {
+          "09565470a6493d97bfcfe9d745291c3cfa15b69adcb5a0a70f8f6d21cd83015e": 3795
+        }
+      },
+      "submission_artifact_teacher": {
+        "requests": 3795,
+        "successes": 3795,
+        "bytes": 248709120,
+        "statuses": {
+          "200": 3795
+        },
+        "contentTypes": {
+          "text/plain": 3795
+        },
+        "sizes": {
+          "65536": 3795
+        },
+        "sha256": {
+          "09565470a6493d97bfcfe9d745291c3cfa15b69adcb5a0a70f8f6d21cd83015e": 3795
+        }
+      },
+      "teacher_class_gradebook_export": {
+        "requests": 3796,
+        "successes": 3796,
+        "bytes": 33864116,
+        "statuses": {
+          "200": 3796
+        },
+        "contentTypes": {
+          "text/csv": 3796
+        },
+        "sizes": {
+          "8921": 3796
+        },
+        "sha256": {
+          "90d6cb983535c78c1ebdf093f9f482a082fab41784e5894fb5ecebc03c032360": 3796
+        }
+      },
+      "teacher_class_gradebook_report": {
+        "requests": 3795,
+        "successes": 3795,
+        "bytes": 16094595,
+        "statuses": {
+          "200": 3795
+        },
+        "contentTypes": {
+          "application/json": 3795
+        },
+        "sizes": {
+          "4241": 3795
+        },
+        "sha256": {
+          "72ddc58972b891175aad90c05d943a5f4a01f61924eb86ee121530ee271e7883": 3795
+        }
+      },
+      "teacher_gradebook_export": {
+        "requests": 3796,
+        "successes": 3796,
+        "bytes": 62140520,
+        "statuses": {
+          "200": 3796
+        },
+        "contentTypes": {
+          "text/csv": 3796
+        },
+        "sizes": {
+          "16370": 3796
+        },
+        "sha256": {
+          "64449807d5551f0a4fce097ee841a87d5bd498c08761c73161a8c86fe09fad43": 3796
+        }
+      },
+      "teacher_gradebook_report": {
+        "requests": 3796,
+        "successes": 3796,
+        "bytes": 23948964,
+        "statuses": {
+          "200": 3796
+        },
+        "contentTypes": {
+          "application/json": 3796
+        },
+        "sizes": {
+          "6309": 3796
+        },
+        "sha256": {
+          "6039398513d7358f8a6def20d349a5e3c4fba291b17d93048eb905d085de1bff": 3796
+        }
+      }
+    }
+  },
+  {
+    "scenario": "file_download",
+    "concurrency": 300,
+    "durationSeconds": 120,
+    "totalRequests": 13802,
+    "rps": 113.13,
+    "avgMs": 2599.25,
+    "p50Ms": 2528.22,
+    "p95Ms": 5057.56,
+    "p99Ms": 7405.87,
+    "errorRate": 0.2363,
+    "fiveXx": 3262,
+    "statuses": {
+      "200": 10540,
+      "500": 3262
+    },
+    "endpointStats": {
+      "course_resource_student": {
+        "totalRequests": 1062,
+        "avgMs": 2235.51,
+        "p50Ms": 2508.58,
+        "p95Ms": 4938.86,
+        "p99Ms": 5076.46,
+        "errorRate": 0.2156,
+        "fiveXx": 229,
+        "statuses": {
+          "200": 833,
+          "500": 229
+        }
+      },
+      "course_resource_teacher": {
+        "totalRequests": 1062,
+        "avgMs": 2235.2,
+        "p50Ms": 2505.36,
+        "p95Ms": 4937.78,
+        "p99Ms": 5078.78,
+        "errorRate": 0.2213,
+        "fiveXx": 235,
+        "statuses": {
+          "200": 827,
+          "500": 235
+        }
+      },
+      "judge_report_student": {
+        "totalRequests": 1062,
+        "avgMs": 2107.41,
+        "p50Ms": 2490.78,
+        "p95Ms": 4920.17,
+        "p99Ms": 5099.82,
+        "errorRate": 0.193,
+        "fiveXx": 205,
+        "statuses": {
+          "200": 857,
+          "500": 205
+        }
+      },
+      "judge_report_teacher": {
+        "totalRequests": 1062,
+        "avgMs": 2205.19,
+        "p50Ms": 2506.11,
+        "p95Ms": 4933.45,
+        "p99Ms": 5106.45,
+        "errorRate": 0.2137,
+        "fiveXx": 227,
+        "statuses": {
+          "200": 835,
+          "500": 227
+        }
+      },
+      "lab_report_attachment_student": {
+        "totalRequests": 1061,
+        "avgMs": 2265.18,
+        "p50Ms": 2509.93,
+        "p95Ms": 4938.55,
+        "p99Ms": 5141.21,
+        "errorRate": 0.2281,
+        "fiveXx": 242,
+        "statuses": {
+          "200": 819,
+          "500": 242
+        }
+      },
+      "lab_report_attachment_teacher": {
+        "totalRequests": 1061,
+        "avgMs": 2180.67,
+        "p50Ms": 2505.13,
+        "p95Ms": 4922.52,
+        "p99Ms": 5055.27,
+        "errorRate": 0.2139,
+        "fiveXx": 227,
+        "statuses": {
+          "200": 834,
+          "500": 227
+        }
+      },
+      "student_gradebook_export": {
+        "totalRequests": 1062,
+        "avgMs": 2200.73,
+        "p50Ms": 2509.16,
+        "p95Ms": 4938.65,
+        "p99Ms": 5103.91,
+        "errorRate": 0.2043,
+        "fiveXx": 217,
+        "statuses": {
+          "200": 845,
+          "500": 217
+        }
+      },
+      "submission_artifact_student": {
+        "totalRequests": 1061,
+        "avgMs": 2238.52,
+        "p50Ms": 2508.5,
+        "p95Ms": 4936.49,
+        "p99Ms": 5100.43,
+        "errorRate": 0.2328,
+        "fiveXx": 247,
+        "statuses": {
+          "200": 814,
+          "500": 247
+        }
+      },
+      "submission_artifact_teacher": {
+        "totalRequests": 1061,
+        "avgMs": 3818.39,
+        "p50Ms": 4504.87,
+        "p95Ms": 7349.46,
+        "p99Ms": 7507.88,
+        "errorRate": 0.328,
+        "fiveXx": 348,
+        "statuses": {
+          "200": 713,
+          "500": 348
+        }
+      },
+      "teacher_class_gradebook_export": {
+        "totalRequests": 1062,
+        "avgMs": 3886.66,
+        "p50Ms": 4542.76,
+        "p95Ms": 7371.72,
+        "p99Ms": 7518.05,
+        "errorRate": 0.3136,
+        "fiveXx": 333,
+        "statuses": {
+          "200": 729,
+          "500": 333
+        }
+      },
+      "teacher_class_gradebook_report": {
+        "totalRequests": 1062,
+        "avgMs": 2185.0,
+        "p50Ms": 2506.66,
+        "p95Ms": 4930.56,
+        "p99Ms": 5102.35,
+        "errorRate": 0.2081,
+        "fiveXx": 221,
+        "statuses": {
+          "200": 841,
+          "500": 221
+        }
+      },
+      "teacher_gradebook_export": {
+        "totalRequests": 1062,
+        "avgMs": 4055.73,
+        "p50Ms": 4596.66,
+        "p95Ms": 7412.6,
+        "p99Ms": 7563.26,
+        "errorRate": 0.3023,
+        "fiveXx": 321,
+        "statuses": {
+          "200": 741,
+          "500": 321
+        }
+      },
+      "teacher_gradebook_report": {
+        "totalRequests": 1062,
+        "avgMs": 2176.16,
+        "p50Ms": 2508.78,
+        "p95Ms": 4919.34,
+        "p99Ms": 5045.55,
+        "errorRate": 0.1977,
+        "fiveXx": 210,
+        "statuses": {
+          "200": 852,
+          "500": 210
+        }
+      }
+    },
+    "fileStats": {
+      "course_resource_student": {
+        "requests": 1062,
+        "successes": 833,
+        "bytes": 2345728,
+        "statuses": {
+          "200": 833,
+          "500": 229
+        },
+        "contentTypes": {
+          "text/plain": 833
+        },
+        "sizes": {
+          "2816": 833
+        },
+        "sha256": {
+          "9a003256c30f4c0a983321daf9dca3cbdf8ed4d4aa0851be1166e6bfc3ec8772": 833
+        }
+      },
+      "course_resource_teacher": {
+        "requests": 1062,
+        "successes": 827,
+        "bytes": 2328832,
+        "statuses": {
+          "200": 827,
+          "500": 235
+        },
+        "contentTypes": {
+          "text/plain": 827
+        },
+        "sizes": {
+          "2816": 827
+        },
+        "sha256": {
+          "9a003256c30f4c0a983321daf9dca3cbdf8ed4d4aa0851be1166e6bfc3ec8772": 827
+        }
+      },
+      "judge_report_student": {
+        "requests": 1062,
+        "successes": 857,
+        "bytes": 2503297,
+        "statuses": {
+          "200": 857,
+          "500": 205
+        },
+        "contentTypes": {
+          "application/json": 857
+        },
+        "sizes": {
+          "2921": 857
+        },
+        "sha256": {
+          "554a9a4de620bca552c3b583f2c574908176f4b2852d9655f9e9e86a3d96cdec": 857
+        }
+      },
+      "judge_report_teacher": {
+        "requests": 1062,
+        "successes": 835,
+        "bytes": 2336330,
+        "statuses": {
+          "200": 835,
+          "500": 227
+        },
+        "contentTypes": {
+          "application/json": 835
+        },
+        "sizes": {
+          "2798": 835
+        },
+        "sha256": {
+          "018c1946ff319f6de339219d2a5a9647fb67ee0870e532ed4bd7b673d78f0277": 835
+        }
+      },
+      "lab_report_attachment_student": {
+        "requests": 1061,
+        "successes": 819,
+        "bytes": 53673984,
+        "statuses": {
+          "200": 819,
+          "500": 242
+        },
+        "contentTypes": {
+          "text/plain": 819
+        },
+        "sizes": {
+          "65536": 819
+        },
+        "sha256": {
+          "cf083df14f6d4d92d9fe03a996b5f6d6b957339ba01700a2a3a27554d7e6efed": 819
+        }
+      },
+      "lab_report_attachment_teacher": {
+        "requests": 1061,
+        "successes": 834,
+        "bytes": 54657024,
+        "statuses": {
+          "200": 834,
+          "500": 227
+        },
+        "contentTypes": {
+          "text/plain": 834
+        },
+        "sizes": {
+          "65536": 834
+        },
+        "sha256": {
+          "cf083df14f6d4d92d9fe03a996b5f6d6b957339ba01700a2a3a27554d7e6efed": 834
+        }
+      },
+      "student_gradebook_export": {
+        "requests": 1062,
+        "successes": 845,
+        "bytes": 604175,
+        "statuses": {
+          "200": 845,
+          "500": 217
+        },
+        "contentTypes": {
+          "text/csv": 845
+        },
+        "sizes": {
+          "715": 845
+        },
+        "sha256": {
+          "7eff796bf1281164314c11e4aca69e3a45f11d87b43130cae68e5ba365b5d0a2": 845
+        }
+      },
+      "submission_artifact_student": {
+        "requests": 1061,
+        "successes": 814,
+        "bytes": 53346304,
+        "statuses": {
+          "200": 814,
+          "500": 247
+        },
+        "contentTypes": {
+          "text/plain": 814
+        },
+        "sizes": {
+          "65536": 814
+        },
+        "sha256": {
+          "09565470a6493d97bfcfe9d745291c3cfa15b69adcb5a0a70f8f6d21cd83015e": 814
+        }
+      },
+      "submission_artifact_teacher": {
+        "requests": 1061,
+        "successes": 713,
+        "bytes": 46727168,
+        "statuses": {
+          "200": 713,
+          "500": 348
+        },
+        "contentTypes": {
+          "text/plain": 713
+        },
+        "sizes": {
+          "65536": 713
+        },
+        "sha256": {
+          "09565470a6493d97bfcfe9d745291c3cfa15b69adcb5a0a70f8f6d21cd83015e": 713
+        }
+      },
+      "teacher_class_gradebook_export": {
+        "requests": 1062,
+        "successes": 729,
+        "bytes": 6503409,
+        "statuses": {
+          "200": 729,
+          "500": 333
+        },
+        "contentTypes": {
+          "text/csv": 729
+        },
+        "sizes": {
+          "8921": 729
+        },
+        "sha256": {
+          "90d6cb983535c78c1ebdf093f9f482a082fab41784e5894fb5ecebc03c032360": 729
+        }
+      },
+      "teacher_class_gradebook_report": {
+        "requests": 1062,
+        "successes": 841,
+        "bytes": 3566681,
+        "statuses": {
+          "200": 841,
+          "500": 221
+        },
+        "contentTypes": {
+          "application/json": 841
+        },
+        "sizes": {
+          "4241": 841
+        },
+        "sha256": {
+          "72ddc58972b891175aad90c05d943a5f4a01f61924eb86ee121530ee271e7883": 841
+        }
+      },
+      "teacher_gradebook_export": {
+        "requests": 1062,
+        "successes": 741,
+        "bytes": 12130170,
+        "statuses": {
+          "200": 741,
+          "500": 321
+        },
+        "contentTypes": {
+          "text/csv": 741
+        },
+        "sizes": {
+          "16370": 741
+        },
+        "sha256": {
+          "64449807d5551f0a4fce097ee841a87d5bd498c08761c73161a8c86fe09fad43": 741
+        }
+      },
+      "teacher_gradebook_report": {
+        "requests": 1062,
+        "successes": 852,
+        "bytes": 5375268,
+        "statuses": {
+          "200": 852,
+          "500": 210
+        },
+        "contentTypes": {
+          "application/json": 852
+        },
+        "sizes": {
+          "6309": 852
+        },
+        "sha256": {
+          "6039398513d7358f8a6def20d349a5e3c4fba291b17d93048eb905d085de1bff": 852
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "runId": "STRESS-06120804-filematrix",
+  "students": 80,
+  "hasSubmissionArtifactId": true,
+  "hasLabReportAttachmentId": true,
+  "hasCourseResourceId": true,
+  "hasJudgeJobId": true,
+  "classCount": 2
+}

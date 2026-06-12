@@ -1,0 +1,56 @@
+{
+  "file_upload_1048576_bytes": {
+    "requests": 5,
+    "successes": 5,
+    "attemptedBytes": 5242880,
+    "bytes": 5242880,
+    "statuses": {
+      "201": 5
+    },
+    "contentTypes": {},
+    "sizes": {
+      "1048576": 5
+    },
+    "sha256": {
+      "eee6c414576b13288c5a5dbd137a5233f3348a4b811562426d253c8844a0c40d": 1,
+      "c9e6b5346342506e9e01159197c76a81f1905daa6ebe90d280504d67487194cf": 1,
+      "11e2cafccb8b395c9b930ab61878912a9879e8600f6570d7bf97b87d93ba011b": 1,
+      "3baba0854ca81737ebb1b4cb08a424cc7292aec403e65760057c3e69a2a2ada3": 1,
+      "eae3d238661ed6310fc05b3687ed69aaeba24ca265f8295547c0f8d6cc4eb016": 1
+    }
+  },
+  "file_upload_20971520_bytes": {
+    "requests": 5,
+    "successes": 0,
+    "attemptedBytes": 104857600,
+    "bytes": 0,
+    "statuses": {
+      "413": 5
+    },
+    "contentTypes": {},
+    "sizes": {
+      "20971520": 5
+    },
+    "sha256": {}
+  },
+  "file_upload_65536_bytes": {
+    "requests": 5,
+    "successes": 5,
+    "attemptedBytes": 327680,
+    "bytes": 327680,
+    "statuses": {
+      "201": 5
+    },
+    "contentTypes": {},
+    "sizes": {
+      "65536": 5
+    },
+    "sha256": {
+      "0da310c77a58cc01087de43880ef969e5e72c0454034b421abdbe8d85e7d79d0": 1,
+      "5fdbb80b565a2aabcbf546f981d1fa9c321433885504f824503c18e64c44fdde": 1,
+      "e60ef3485c6422197dfa0cd9c7424c0c191470b7a33342f2e7d5b2aba48aa9b0": 1,
+      "e642afe6edab811fc24e29e3ded169d11fba8bbc90806f54a576f7186ecaa412": 1,
+      "02d120cc76f1caff95bfab22f3c260146445509620c92c639f32b588c1362f62": 1
+    }
+  }
+}

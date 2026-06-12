@@ -1,0 +1,224 @@
+{
+  "course_resource_student": {
+    "requests": 3410,
+    "successes": 3410,
+    "bytes": 9602560,
+    "statuses": {
+      "200": 3410
+    },
+    "contentTypes": {
+      "text/plain": 3410
+    },
+    "sizes": {
+      "2816": 3410
+    },
+    "sha256": {
+      "9a003256c30f4c0a983321daf9dca3cbdf8ed4d4aa0851be1166e6bfc3ec8772": 3410
+    }
+  },
+  "course_resource_teacher": {
+    "requests": 3410,
+    "successes": 3410,
+    "bytes": 9602560,
+    "statuses": {
+      "200": 3410
+    },
+    "contentTypes": {
+      "text/plain": 3410
+    },
+    "sizes": {
+      "2816": 3410
+    },
+    "sha256": {
+      "9a003256c30f4c0a983321daf9dca3cbdf8ed4d4aa0851be1166e6bfc3ec8772": 3410
+    }
+  },
+  "judge_report_student": {
+    "requests": 3410,
+    "successes": 3409,
+    "bytes": 9957689,
+    "statuses": {
+      "200": 3409,
+      "500": 1
+    },
+    "contentTypes": {
+      "application/json": 3409
+    },
+    "sizes": {
+      "2921": 3409
+    },
+    "sha256": {
+      "554a9a4de620bca552c3b583f2c574908176f4b2852d9655f9e9e86a3d96cdec": 3409
+    }
+  },
+  "judge_report_teacher": {
+    "requests": 3410,
+    "successes": 3410,
+    "bytes": 9541180,
+    "statuses": {
+      "200": 3410
+    },
+    "contentTypes": {
+      "application/json": 3410
+    },
+    "sizes": {
+      "2798": 3410
+    },
+    "sha256": {
+      "018c1946ff319f6de339219d2a5a9647fb67ee0870e532ed4bd7b673d78f0277": 3410
+    }
+  },
+  "lab_report_attachment_student": {
+    "requests": 3409,
+    "successes": 3409,
+    "bytes": 223412224,
+    "statuses": {
+      "200": 3409
+    },
+    "contentTypes": {
+      "text/plain": 3409
+    },
+    "sizes": {
+      "65536": 3409
+    },
+    "sha256": {
+      "cf083df14f6d4d92d9fe03a996b5f6d6b957339ba01700a2a3a27554d7e6efed": 3409
+    }
+  },
+  "lab_report_attachment_teacher": {
+    "requests": 3410,
+    "successes": 3410,
+    "bytes": 223477760,
+    "statuses": {
+      "200": 3410
+    },
+    "contentTypes": {
+      "text/plain": 3410
+    },
+    "sizes": {
+      "65536": 3410
+    },
+    "sha256": {
+      "cf083df14f6d4d92d9fe03a996b5f6d6b957339ba01700a2a3a27554d7e6efed": 3410
+    }
+  },
+  "student_gradebook_export": {
+    "requests": 3410,
+    "successes": 3410,
+    "bytes": 2438150,
+    "statuses": {
+      "200": 3410
+    },
+    "contentTypes": {
+      "text/csv": 3410
+    },
+    "sizes": {
+      "715": 3410
+    },
+    "sha256": {
+      "7eff796bf1281164314c11e4aca69e3a45f11d87b43130cae68e5ba365b5d0a2": 3410
+    }
+  },
+  "submission_artifact_student": {
+    "requests": 3409,
+    "successes": 3409,
+    "bytes": 223412224,
+    "statuses": {
+      "200": 3409
+    },
+    "contentTypes": {
+      "text/plain": 3409
+    },
+    "sizes": {
+      "65536": 3409
+    },
+    "sha256": {
+      "09565470a6493d97bfcfe9d745291c3cfa15b69adcb5a0a70f8f6d21cd83015e": 3409
+    }
+  },
+  "submission_artifact_teacher": {
+    "requests": 3409,
+    "successes": 3409,
+    "bytes": 223412224,
+    "statuses": {
+      "200": 3409
+    },
+    "contentTypes": {
+      "text/plain": 3409
+    },
+    "sizes": {
+      "65536": 3409
+    },
+    "sha256": {
+      "09565470a6493d97bfcfe9d745291c3cfa15b69adcb5a0a70f8f6d21cd83015e": 3409
+    }
+  },
+  "teacher_class_gradebook_export": {
+    "requests": 3410,
+    "successes": 3410,
+    "bytes": 30420610,
+    "statuses": {
+      "200": 3410
+    },
+    "contentTypes": {
+      "text/csv": 3410
+    },
+    "sizes": {
+      "8921": 3410
+    },
+    "sha256": {
+      "90d6cb983535c78c1ebdf093f9f482a082fab41784e5894fb5ecebc03c032360": 3410
+    }
+  },
+  "teacher_class_gradebook_report": {
+    "requests": 3410,
+    "successes": 3410,
+    "bytes": 14461810,
+    "statuses": {
+      "200": 3410
+    },
+    "contentTypes": {
+      "application/json": 3410
+    },
+    "sizes": {
+      "4241": 3410
+    },
+    "sha256": {
+      "72ddc58972b891175aad90c05d943a5f4a01f61924eb86ee121530ee271e7883": 3410
+    }
+  },
+  "teacher_gradebook_export": {
+    "requests": 3410,
+    "successes": 3410,
+    "bytes": 55821700,
+    "statuses": {
+      "200": 3410
+    },
+    "contentTypes": {
+      "text/csv": 3410
+    },
+    "sizes": {
+      "16370": 3410
+    },
+    "sha256": {
+      "64449807d5551f0a4fce097ee841a87d5bd498c08761c73161a8c86fe09fad43": 3410
+    }
+  },
+  "teacher_gradebook_report": {
+    "requests": 3410,
+    "successes": 3410,
+    "bytes": 21513690,
+    "statuses": {
+      "200": 3410
+    },
+    "contentTypes": {
+      "application/json": 3410
+    },
+    "sizes": {
+      "6309": 3410
+    },
+    "sha256": {
+      "6039398513d7358f8a6def20d349a5e3c4fba291b17d93048eb905d085de1bff": 3410
+    }
+  }
+}

@@ -1,0 +1,447 @@
+{
+  "baseUrl": "http://127.0.0.1:18080",
+  "runId": "STRESS-06120804-filematrix",
+  "artifactDir": "/tmp/aubb-STRESS-06120804-filematrix",
+  "admin": {
+    "username": "U-SA1",
+    "password": "[REDACTED]"
+  },
+  "teacher": {
+    "username": "STRESS-06120804-filematrix-teacher",
+    "password": "[REDACTED]",
+    "userId": 1245
+  },
+  "students": [
+    {
+      "username": "stress-06120804-filematrix-stu-001",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-002",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-003",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-004",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-005",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-006",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-007",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-008",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-009",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-010",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-011",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-012",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-013",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-014",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-015",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-016",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-017",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-018",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-019",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-020",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-021",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-022",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-023",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-024",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-025",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-026",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-027",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-028",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-029",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-030",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-031",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-032",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-033",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-034",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-035",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-036",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-037",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-038",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-039",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-040",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-041",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-042",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-043",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-044",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-045",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-046",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-047",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-048",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-049",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-050",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-051",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-052",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-053",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-054",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-055",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-056",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-057",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-058",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-059",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-060",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-061",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-062",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-063",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-064",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-065",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-066",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-067",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-068",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-069",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-070",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-071",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-072",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-073",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-074",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-075",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-076",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-077",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-078",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-079",
+      "password": "[REDACTED]"
+    },
+    {
+      "username": "stress-06120804-filematrix-stu-080",
+      "password": "[REDACTED]"
+    }
+  ],
+  "offeringId": 66,
+  "classIds": [
+    404,
+    405
+  ],
+  "objectiveAssignmentId": 438,
+  "objectiveQuestionId": 916,
+  "writeAssignmentId": 439,
+  "writeQuestionId": 917,
+  "judgeAssignmentId": 440,
+  "judgeQuestionId": 918,
+  "judgeSubmissionId": 39770,
+  "judgeAnswerId": 39941,
+  "judgeJobId": 5722,
+  "courseResourceId": 5942,
+  "submissionArtifactId": 38,
+  "submissionArtifactSubmissionId": 39749,
+  "labReportAttachmentId": 19,
+  "terminalLabId": 89,
+  "labEnvironmentProfileId": 1,
+  "labStudentUsernames": [
+    "stress-06120804-filematrix-stu-001",
+    "stress-06120804-filematrix-stu-003",
+    "stress-06120804-filematrix-stu-005",
+    "stress-06120804-filematrix-stu-007",
+    "stress-06120804-filematrix-stu-009",
+    "stress-06120804-filematrix-stu-011",
+    "stress-06120804-filematrix-stu-013",
+    "stress-06120804-filematrix-stu-015",
+    "stress-06120804-filematrix-stu-017",
+    "stress-06120804-filematrix-stu-019",
+    "stress-06120804-filematrix-stu-021",
+    "stress-06120804-filematrix-stu-023",
+    "stress-06120804-filematrix-stu-025",
+    "stress-06120804-filematrix-stu-027",
+    "stress-06120804-filematrix-stu-029",
+    "stress-06120804-filematrix-stu-031",
+    "stress-06120804-filematrix-stu-033",
+    "stress-06120804-filematrix-stu-035",
+    "stress-06120804-filematrix-stu-037",
+    "stress-06120804-filematrix-stu-039",
+    "stress-06120804-filematrix-stu-041",
+    "stress-06120804-filematrix-stu-043",
+    "stress-06120804-filematrix-stu-045",
+    "stress-06120804-filematrix-stu-047",
+    "stress-06120804-filematrix-stu-049",
+    "stress-06120804-filematrix-stu-051",
+    "stress-06120804-filematrix-stu-053",
+    "stress-06120804-filematrix-stu-055",
+    "stress-06120804-filematrix-stu-057",
+    "stress-06120804-filematrix-stu-059",
+    "stress-06120804-filematrix-stu-061",
+    "stress-06120804-filematrix-stu-063",
+    "stress-06120804-filematrix-stu-065",
+    "stress-06120804-filematrix-stu-067",
+    "stress-06120804-filematrix-stu-069",
+    "stress-06120804-filematrix-stu-071",
+    "stress-06120804-filematrix-stu-073",
+    "stress-06120804-filematrix-stu-075",
+    "stress-06120804-filematrix-stu-077",
+    "stress-06120804-filematrix-stu-079"
+  ],
+  "judgeStudentUsernames": [
+    "stress-06120804-filematrix-stu-001",
+    "stress-06120804-filematrix-stu-003",
+    "stress-06120804-filematrix-stu-005",
+    "stress-06120804-filematrix-stu-007",
+    "stress-06120804-filematrix-stu-009",
+    "stress-06120804-filematrix-stu-011",
+    "stress-06120804-filematrix-stu-013",
+    "stress-06120804-filematrix-stu-015",
+    "stress-06120804-filematrix-stu-017",
+    "stress-06120804-filematrix-stu-019",
+    "stress-06120804-filematrix-stu-021",
+    "stress-06120804-filematrix-stu-023",
+    "stress-06120804-filematrix-stu-025",
+    "stress-06120804-filematrix-stu-027",
+    "stress-06120804-filematrix-stu-029",
+    "stress-06120804-filematrix-stu-031",
+    "stress-06120804-filematrix-stu-033",
+    "stress-06120804-filematrix-stu-035",
+    "stress-06120804-filematrix-stu-037",
+    "stress-06120804-filematrix-stu-039",
+    "stress-06120804-filematrix-stu-041",
+    "stress-06120804-filematrix-stu-043",
+    "stress-06120804-filematrix-stu-045",
+    "stress-06120804-filematrix-stu-047",
+    "stress-06120804-filematrix-stu-049",
+    "stress-06120804-filematrix-stu-051",
+    "stress-06120804-filematrix-stu-053",
+    "stress-06120804-filematrix-stu-055",
+    "stress-06120804-filematrix-stu-057",
+    "stress-06120804-filematrix-stu-059",
+    "stress-06120804-filematrix-stu-061",
+    "stress-06120804-filematrix-stu-063",
+    "stress-06120804-filematrix-stu-065",
+    "stress-06120804-filematrix-stu-067",
+    "stress-06120804-filematrix-stu-069",
+    "stress-06120804-filematrix-stu-071",
+    "stress-06120804-filematrix-stu-073",
+    "stress-06120804-filematrix-stu-075",
+    "stress-06120804-filematrix-stu-077",
+    "stress-06120804-filematrix-stu-079"
+  ],
+  "studentGradebookSummary": {
+    "assignmentCount": 3,
+    "submittedCount": 2,
+    "gradedCount": 2,
+    "totalFinalScore": 10,
+    "totalMaxScore": 120
+  }
+}
