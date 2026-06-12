@@ -34,17 +34,17 @@ updated: "2026-05-24"
 | 运行环境 | 现代 Web 浏览器、Next.js 前端服务、Spring Boot 后端服务、PostgreSQL、MinIO、RabbitMQ、Redis、go-judge |
 | 开发阶段 | 开发前详细设计阶段 |
 
-系统拟采用模块化单体后端与角色分区前端。后端以 `modules.<module>` 为业务边界，模块内部按 `api / application / domain / infrastructure` 分层；前端基于 Next.js App Router 按 `admin / teacher / student / auth` 路由组组织页面，并在业务域目录中封装 API、Hooks、Model 与组件。
+系统拟采用模块化单体后端与角色分区前端。后端按业务能力划分身份、课程、作业、提交、评测、成绩、实验、通知和审计等模块；前端按管理员、教师/助教、学员三类使用场景组织入口，并通过课程上下文导航串联教学活动。
 
 ### 1.3 术语表
 
 | 术语 | 定义 |
 | --- | --- |
 | AUBB | Academic Unified Builder Bench，本系统正式名称 |
-| App Router | Next.js 16 的应用路由模型，用于组织页面、布局和加载状态 |
-| Application Service | 后端应用服务层，负责事务、授权、领域服务编排和审计协同 |
-| Domain | 领域层，承载状态、规则、策略与枚举 |
-| DTO / View | 接口入参对象与响应视图对象，禁止直接暴露数据库 Entity |
+| 角色分区 | 按管理员、教师/助教、学员区分导航、页面和操作权限 |
+| 应用服务 | 后端业务编排单元，负责事务、授权、领域服务编排和审计协同 |
+| 领域规则 | 约束状态、权限、评分、评测和实验生命周期的业务规则 |
+| 接口数据对象 | 页面与后端之间交换的结构化数据，避免直接暴露持久化细节 |
 | OrgUnit | 平台组织节点，覆盖 `SCHOOL / COLLEGE / COURSE` 等治理层级，开课和班级作为课程域作用域参与授权 |
 | Scope Role | 平台治理身份，如 `SCHOOL_ADMIN`、`COLLEGE_ADMIN`、`COURSE_ADMIN` |
 | Course Member | 课程域成员关系，如 `INSTRUCTOR`、`OFFERING_TA`、`TA`、`STUDENT`、`OBSERVER` |
@@ -72,15 +72,15 @@ flowchart LR
     Student["学员界面"]
   end
 
-  subgraph Web["前端应用: Next.js 16 / React 19"]
-    Routes["App Router 路由组"]
-    Features["features 业务域"]
-    Shared["shared API/UI/路由权限"]
+  subgraph Web["前端应用"]
+    Routes["角色入口与上下文导航"]
+    Features["业务页面与表单"]
+    Shared["通用请求 / UI / 权限能力"]
   end
 
-  subgraph Server["后端服务: Spring Boot 4 / Java 25"]
-    Api["接口适配"]
-    App["应用服务"]
+  subgraph Server["后端服务"]
+    Api["接口适配层"]
+    App["业务编排层"]
     Domain["领域规则 / 状态"]
     Infra["持久化 / 存储 / 队列适配"]
   end
@@ -105,16 +105,16 @@ flowchart LR
   App --> Judge
 ```
 
-### 2.2 工程结构设计
+### 2.2 结构设计
 
-| 逻辑目录 | 责任 | 关键结构 |
+| 设计层 | 责任 | 关键内容 |
 | --- | --- | --- |
 | 前端路由层 | 页面、布局、路由分组 | 认证区、管理员区、教师区、学员区 |
 | 前端业务域层 | 前端业务域封装 | 认证、平台治理、课程、作业、提交、评测、成绩、实验、通知 |
-| 前端共享层 | 前端共享能力 | API client、OpenAPI 类型、路由权限、通用 UI、Hooks、配置 |
+| 前端共享层 | 前端共享能力 | 请求封装、类型约束、路由权限、通用 UI、配置 |
 | 后端业务模块层 | 后端业务模块 | 身份认证、组织、平台配置、课程、作业、提交、评测、成绩、实验、通知、审计 |
 | 后端共享层 | 后端共享能力 | 错误模型、分页、对象存储、限流、缓存、请求上下文 |
-| 后端配置层 | 后端框架配置 | Security、JWT、MyBatis、MinIO、go-judge、RabbitMQ、异步执行 |
+| 后端配置层 | 后端运行配置 | 认证、安全、数据访问、对象存储、go-judge、RabbitMQ、异步执行 |
 | 数据库迁移层 | 数据库迁移 | Flyway 版本化迁移脚本 |
 | 过程文档层 | 项目过程文档 | 计划、需求、概要设计、详细设计、测试、部署、用户手册 |
 
@@ -122,20 +122,20 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-  Controller["接口层: 请求 / 响应 / 协议适配"]
-  Application["应用层: 事务编排 / 授权 / 审计 / 视图组装"]
+  Interface["接口层: 请求 / 响应 / 协议适配"]
+  Application["应用层: 事务编排 / 授权 / 审计 / 输出组装"]
   Domain["领域层: 枚举 / 策略 / 生命周期规则"]
   Infrastructure["基础设施层: 持久化 / 存储 / 外部适配"]
-  Common["common/config: 共享横切能力"]
+  Common["共享横切能力"]
   Database[(PostgreSQL)]
   External["MinIO / RabbitMQ / Redis / go-judge"]
 
-  Controller --> Application
+  Interface --> Application
   Application --> Domain
   Application --> Infrastructure
   Infrastructure --> Database
   Infrastructure --> External
-  Controller --> Common
+  Interface --> Common
   Application --> Common
 ```
 
@@ -188,7 +188,7 @@ sequenceDiagram
   S->>S: 校验账号状态与密码策略
   S->>DB: 写入 auth_sessions
   S->>JWT: 签发 access token
-  S-->>A: LoginResultView
+  S-->>A: 登录结果和当前身份
   A-->>W: accessToken + refreshToken + user
 ```
 
@@ -285,7 +285,7 @@ sequenceDiagram
   W->>C: PUT /api/v1/teacher/assignments/{id}/paper
   C->>S: savePaper(assignmentId, paperInput)
   S->>DB: 删除旧试卷快照/写入 sections/questions/options
-  S-->>C: AssignmentPaperView
+  S-->>C: 试卷结构
   C-->>W: 最新试卷结构
 ```
 
@@ -320,7 +320,7 @@ sequenceDiagram
   W->>C: GET /api/v1/me/assignments/{id}/programming-questions/{qid}/workspace
   C->>AS: getOrCreateWorkspace()
   AS->>DB: 查询作业、题目、成员、工作区
-  AS-->>C: ProgrammingWorkspaceView
+  AS-->>C: 工作区文件树和版本
   C-->>W: 文件树和版本
   S->>W: 保存文件
   W->>C: PUT /workspace
@@ -394,7 +394,7 @@ sequenceDiagram
   W->>C: POST /api/v1/teacher/submissions/{sid}/answers/{aid}/grade
   C->>S: gradeAnswer(command, principal)
   S->>DB: 校验课程权限并写入评分
-  S-->>W: ManualGradeResultView
+  S-->>W: 人工评分结果
   T->>W: 发布作业成绩
   W->>C: POST /api/v1/teacher/assignments/{id}/grades/publish
   S->>DB: 写入发布快照
@@ -432,7 +432,7 @@ sequenceDiagram
   C->>A: uploadAttachment(file, principal)
   A->>Obj: store(file)
   A->>DB: 写入 lab_report_attachments
-  A-->>C: LabReportAttachmentView
+  A-->>C: 实验附件记录
   C-->>W: 附件元数据
 ```
 
@@ -462,7 +462,7 @@ sequenceDiagram
   N->>DB: 写入 notifications / receipts
   W->>API: GET /api/v1/me/notifications/unread-count
   API->>DB: 查询未读数
-  API-->>W: NotificationUnreadCountView
+  API-->>W: 未读数
   W->>API: POST /api/v1/me/notifications/{id}/read
   API->>DB: 标记已读
 ```
@@ -492,7 +492,7 @@ sequenceDiagram
   W->>C: GET /api/v1/admin/audit-logs
   C->>S: page(query)
   S->>DB: 分页查询 audit_logs
-  S-->>C: PageResponse<AuditLogView>
+  S-->>C: 审计日志分页结果
   C-->>W: 审计列表
 ```
 
@@ -502,40 +502,40 @@ sequenceDiagram
 
 | 模块编号 | 模块名称 | 输入 | 处理 | 算法描述 | 输出 |
 | --- | --- | --- | --- | --- | --- |
-| M01 | 登录认证 | 用户名、密码、客户端上下文 | 校验账号状态、密码哈希、限流、创建会话 | 查询 `users` 与画像，失败递增计数，成功写 `auth_sessions` 并签发 JWT | `LoginResultView`、审计记录 |
+| M01 | 登录认证 | 用户名、密码、客户端上下文 | 校验账号状态、密码哈希、限流、创建会话 | 查询用户与画像，失败递增计数，成功写会话并签发访问凭证 | 登录结果、当前身份、审计记录 |
 | M02 | Token 刷新 | refresh token | 校验 token hash、会话状态、账号状态 | opaque token 只存 hash，刷新时轮换 access token | 新 access token |
-| M03 | 当前用户装配 | JWT `sid`、用户 ID | 回查会话、用户、画像、组织身份和权限 | 以 `sid` 作为会话即时失效锚点 | `AuthenticatedUserView` |
-| M04 | 平台配置 | 平台名称、Logo、主题、模块开关 | 单份配置更新、即时生效、审计 | 读取当前配置；更新时覆盖字段并记录操作者 | `PlatformConfigView` |
-| M05 | 组织树 | OrgUnit 编码、名称、类型、父节点 | 校验四层组织结构、唯一编码、父子类型 | `SCHOOL -> COLLEGE -> COURSE -> CLASS` 固定层级校验 | `OrgUnitTreeNode` |
-| M06 | 用户治理 | 用户基础资料、画像、组织成员、作用域身份 | 创建、导入、查询、状态变更、会话撤销 | 批量导入逐行校验，局部成功返回错误列表 | `UserView`、导入结果 |
-| M07 | 权限解释 | 用户、权限码、资源 ID | 计算角色、权限、作用域、资源归属 | RBAC 权限集合与 ABAC 资源路径结合 | `AuthzExplainView` |
-| M08 | 学期管理 | 学期编码、时间、状态 | 创建/更新/分页查询 | 编码大小写不敏感唯一，时间区间一致性校验 | `AcademicTermView` |
-| M09 | 课程目录 | 课程编码、学院、学分、类型 | 创建/更新课程模板 | 课程目录归属学院并与开课实例解耦 | `CourseCatalogView` |
-| M10 | 开课实例 | 课程目录、学期、主/协同学院、容量 | 创建开课并维护 COURSE 组织节点 | 跨学院映射写入 `course_offering_college_maps` | `CourseOfferingView` |
-| M11 | 教学班 | 开课实例、班级编码、功能开关 | 创建班级、更新公告/资源/讨论/实验/作业开关 | 班级创建时同步 CLASS 组织节点 | `TeachingClassView` |
-| M12 | 课程成员 | 用户、角色、班级、来源 | 批量添加、导入、状态变更、转班 | INSTRUCTOR/TA/STUDENT 角色按班级绑定规则校验 | `CourseMemberView`、批处理结果 |
+| M03 | 当前用户装配 | 会话标识、用户 ID | 回查会话、用户、画像、组织身份和权限 | 以会话标识作为即时失效锚点 | 当前用户、角色和权限摘要 |
+| M04 | 平台配置 | 平台名称、Logo、主题、模块开关 | 单份配置更新、即时生效、审计 | 读取当前配置；更新时覆盖字段并记录操作者 | 平台配置和变更审计 |
+| M05 | 组织树 | 组织编码、名称、类型、父节点 | 校验四层组织结构、唯一编码、父子类型 | 学校、学院、课程、班级固定层级校验 | 组织树 |
+| M06 | 用户治理 | 用户基础资料、画像、组织成员、作用域身份 | 创建、导入、查询、状态变更、会话撤销 | 批量导入逐行校验，局部成功返回错误列表 | 用户列表、详情、导入结果 |
+| M07 | 权限解释 | 用户、权限码、资源 ID | 计算角色、权限、作用域、资源归属 | RBAC 权限集合与 ABAC 资源路径结合 | 允许/拒绝结论和解释 |
+| M08 | 学期管理 | 学期编码、时间、状态 | 创建/更新/分页查询 | 编码大小写不敏感唯一，时间区间一致性校验 | 学期列表和详情 |
+| M09 | 课程目录 | 课程编码、学院、学分、类型 | 创建/更新课程模板 | 课程目录归属学院并与开课实例解耦 | 课程目录列表和详情 |
+| M10 | 开课实例 | 课程目录、学期、主/协同学院、容量 | 创建开课并维护课程组织节点 | 跨学院映射保存到课程关系数据 | 开课列表和详情 |
+| M11 | 教学班 | 开课实例、班级编码、功能开关 | 创建班级、更新公告/资源/讨论/实验/作业开关 | 班级创建时同步班级组织节点 | 教学班列表和详情 |
+| M12 | 课程成员 | 用户、角色、班级、来源 | 批量添加、导入、状态变更、转班 | 教师、助教、学员角色按班级绑定规则校验 | 成员列表和批处理结果 |
 | M13 | 课程公告 | 标题、内容、发布范围 | 教师创建/编辑/删除，学员查询 | 以开课和教学班成员作为可见性边界 | 公告列表/详情 |
 | M14 | 课程资源 | 文件、标题、可见范围 | 上传 MinIO、写资源元数据、鉴权下载 | 数据库保存对象引用，下载时校验成员关系 | 资源列表、下载响应 |
 | M15 | 课程讨论 | 主题、回复、锁定状态 | 创建主题、回复、教师锁定 | 讨论开关与课程成员身份共同控制访问 | 讨论列表/详情 |
-| M16 | 题库题目 | 题型、内容、选项、标签、编程配置 | 创建/更新/归档、分类与标签查询 | 题型驱动配置 JSON 校验；归档不物理删除 | `QuestionBankQuestionView` |
-| M17 | 作业基础信息 | 标题、开放/截止时间、状态、规则 | 创建/更新/发布/关闭 | 发布前校验时间、题目、评分与编程环境完整性 | `AssignmentView` |
-| M18 | 试卷编辑 | 大题、题目、选项、分值 | 保存结构化试卷快照 | 先校验总分和题型配置，再替换当前试卷结构 | `AssignmentPaperView` |
-| M19 | 编程工作区 | 作业 ID、题目 ID、文件树、保存类型 | 初始化、保存、文件操作、恢复修订、重置模板 | revision 追加记录，支持 `AUTO_SAVE`、`MANUAL_SAVE`、`FILE_OPERATION` | `ProgrammingWorkspaceView`、修订列表 |
-| M20 | 附件上传 | 作业 ID、问题 ID、文件 | 限流、大小校验、对象存储、元数据落库 | 文件先存储后记录 artifact；失败时不关联提交 | `SubmissionArtifactView` |
-| M21 | 正式提交 | 作业 ID、分题答案、附件引用、工作区内容 | 校验成员、状态、题型答案，写提交和答案 | `submissions` 追加，初始状态为 `SUBMITTED`；编程题触发评测事件 | `SubmissionView` |
+| M16 | 题库题目 | 题型、内容、选项、标签、编程配置 | 创建/更新/归档、分类与标签查询 | 题型驱动配置校验；归档不物理删除 | 题目列表和详情 |
+| M17 | 作业基础信息 | 标题、开放/截止时间、状态、规则 | 创建/更新/发布/关闭 | 发布前校验时间、题目、评分与编程环境完整性 | 作业列表和详情 |
+| M18 | 试卷编辑 | 大题、题目、选项、分值 | 保存结构化试卷快照 | 先校验总分和题型配置，再替换当前试卷结构 | 试卷结构 |
+| M19 | 编程工作区 | 作业 ID、题目 ID、文件树、保存类型 | 初始化、保存、文件操作、恢复修订、重置模板 | 追加修订记录，区分自动保存、手动保存和文件操作 | 工作区内容和修订列表 |
+| M20 | 附件上传 | 作业 ID、问题 ID、文件 | 限流、大小校验、对象存储、元数据落库 | 文件先存储后记录附件元数据；失败时不关联提交 | 附件记录 |
+| M21 | 正式提交 | 作业 ID、分题答案、附件引用、工作区内容 | 校验成员、状态、题型答案，写提交和答案 | 提交追加记录，初始状态为 `SUBMITTED`；编程题触发评测事件 | 提交记录和评测触发结果 |
 | M22 | 提交查询 | 提交 ID、作业 ID、分页参数 | 学员/教师按作用域查询详情和列表 | 查询时按学员本人或教师课程范围过滤 | 提交列表/详情 |
-| M23 | 样例运行 | 工作区、语言、输入模式、自定义 stdin | 创建 `ProgrammingSampleRun` 并执行 | 状态 `RUNNING -> SUCCEEDED/FAILED`，不参与成绩 | `ProgrammingSampleRunView` |
-| M24 | 评测环境配置 | 语言、镜像/命令、资源限制 | 教师创建/更新/归档环境 Profile | 归档保留历史引用，新题只选活动环境 | `JudgeEnvironmentProfileView` |
+| M23 | 样例运行 | 工作区、语言、输入模式、自定义 stdin | 创建样例运行记录并执行 | 状态 `RUNNING -> SUCCEEDED/FAILED`，不参与成绩 | 样例运行结果 |
+| M24 | 评测环境配置 | 语言、镜像/命令、资源限制 | 教师创建/更新/归档环境配置 | 归档保留历史引用，新题只选活动环境 | 评测环境配置 |
 | M25 | 评测队列发布 | Judge job ID、触发类型 | 发送 RabbitMQ 或本地异步执行 | 队列启用时发送 `aubb.judge.jobs`，配置 DLQ 和重试 | 队列消息/本地任务 |
-| M26 | 评测执行 | Judge job、提交、测试点、环境 | 编译、运行、判定、存储报告、回写状态 | go-judge 状态映射为平台 `JudgeVerdict`，总分按测试点权重累计 | `JudgeJobView`、报告 |
+| M26 | 评测执行 | 评测任务、提交、测试点、环境 | 编译、运行、判定、存储报告、回写状态 | go-judge 状态映射为平台评测结论，总分按测试点权重累计 | 评测任务状态和报告 |
 | M27 | 评测报告下载 | Judge job ID、当前用户 | 校验所有权/教师权限、读取对象存储 | 报告和源码快照按 object key 取回 | 下载响应 |
-| M28 | 人工评分 | 提交答案、分数、评语 | 保存人工分、更新提交分题评分状态 | 教师/助教作用域控制；分数范围与题目分值一致 | `ManualGradeResultView` |
-| M29 | 成绩批量调整 | 作业 ID、学生成绩列表 | 批量校验、局部成功、返回行级结果 | 使用事务批量写入，失败行不影响有效行 | `BatchManualGradeResultView` |
-| M30 | 成绩发布 | 作业 ID | 校验可发布状态，写入发布状态并通知 | 首次发布时间不因重新发布重置，重新发布记录操作者和通知语义 | `AssignmentGradePublicationView` |
-| M31 | 成绩册 | 开课/班级/学生 ID、筛选条件 | 汇总作业列、学生行、统计与导出 | 分页查询学生行，按作业列组装分数单元格 | `GradebookPageView`、导出文件 |
-| M32 | 实验管理 | 实验标题、内容、类型、环境模板、截止时间、附件 | 教师创建/发布/关闭，学员提交报告或启动终端会话 | 报告状态 `DRAFT -> SUBMITTED -> REVIEWED -> PUBLISHED`；终端会话独立流转 | `LabView`、`LabReportView`、`LabSessionView` |
-| M33 | 通知中心 | 业务事件、收件人、通知类型 | 写通知、写收件状态、未读数查询、已读 | 站内通知同步入库，SSE/轮询用于前端更新 | `NotificationView`、未读数 |
-| M34 | 审计日志 | 操作人、动作、目标、结果、元数据 | 关键操作统一记录、分页查询 | requestId 串联请求日志与审计记录 | `AuditLogView` |
+| M28 | 人工评分 | 提交答案、分数、评语 | 保存人工分、更新提交分题评分状态 | 教师/助教作用域控制；分数范围与题目分值一致 | 人工评分结果 |
+| M29 | 成绩批量调整 | 作业 ID、学生成绩列表 | 批量校验、局部成功、返回行级结果 | 使用事务批量写入，失败行不影响有效行 | 批量处理结果 |
+| M30 | 成绩发布 | 作业 ID | 校验可发布状态，写入发布状态并通知 | 首次发布时间不因重新发布重置，重新发布记录操作者和通知语义 | 成绩发布状态 |
+| M31 | 成绩册 | 开课/班级/学生 ID、筛选条件 | 汇总作业列、学生行、统计与导出 | 分页查询学生行，按作业列组装分数单元格 | 成绩册页面和导出文件 |
+| M32 | 实验管理 | 实验标题、内容、类型、环境模板、截止时间、附件 | 教师创建/发布/关闭，学员提交报告或启动终端会话 | 报告状态 `DRAFT -> SUBMITTED -> REVIEWED -> PUBLISHED`；终端会话独立流转 | 实验、报告和会话状态 |
+| M33 | 通知中心 | 业务事件、收件人、通知类型 | 写通知、写收件状态、未读数查询、已读 | 站内通知同步入库，SSE/轮询用于前端更新 | 通知列表和未读数 |
+| M34 | 审计日志 | 操作人、动作、目标、结果、元数据 | 关键操作统一记录、分页查询 | requestId 串联请求日志与审计记录 | 审计查询结果 |
 
 ### 3.2 关键算法与处理规则
 
@@ -544,7 +544,7 @@ sequenceDiagram
 ```text
 1. 用户登录成功后，服务端签发 access token，并创建 auth_sessions。
 2. 前端启动时调用 /api/v1/auth/me，得到当前用户、作用域身份和权限摘要。
-3. route-access 根据 pathname 判断目标区域：admin / teacher / student。
+3. 路由权限规则根据目标区域判断管理员、教师/助教或学员是否可访问。
 4. role-guard 根据当前用户身份判断是否允许进入区域。
 5. 后端所有受保护接口再次通过 Spring Security 与应用层作用域授权校验。
 6. logout、revoke、账号停用或管理员强制失效后，后端按 sid 回查会话并拒绝旧 token。
@@ -792,55 +792,55 @@ erDiagram
 
 ### 4.2 内部界面设计
 
-#### 4.2.1 前端内部调用关系
+#### 4.2.1 前端页面协作关系
 
 ```mermaid
 flowchart TD
-  Page["角色路由页面"] --> Hook["业务 Hooks"]
+  Page["角色页面"] --> Operation["页面操作"]
   Page --> Component["业务组件"]
-  Hook --> Api["业务 API 封装"]
-  Component --> Model["业务模型"]
-  Api --> Client["shared/api/client"]
-  Client --> Generated["shared/api/generated/openapi"]
-  Page --> Layout["shared/ui/layout"]
-  Layout --> RouteAccess["shared/routing/route-access"]
+  Operation --> Request["接口请求"]
+  Component --> State["页面状态"]
+  Request --> Auth["认证与错误处理"]
+  Auth --> Server["后端接口"]
+  Page --> Layout["统一布局"]
+  Layout --> Permission["角色与作用域校验"]
 ```
 
 前端内部接口规则：
 
-| 接口 | 规则 |
+| 协作点 | 规则 |
 | --- | --- |
-| `apiClient` | 所有 HTTP 请求统一经过 Axios client，负责 baseUrl、token、错误拦截 |
-| `queryKeys` | TanStack Query key 按业务域组织，列表包含分页参数，详情包含实体 ID |
-| `useApiMutation` | 写操作统一处理进行中、错误、成功回调与缓存失效 |
-| `route-access` | 根据 pathname 和当前用户身份判断角色区可访问性 |
-| `nav-config` | 管理员、教师、学员侧导航统一配置，避免页面内硬编码 |
-| `notification-stream` | SSE 可用时订阅通知，否则降级到查询接口 |
+| 接口请求 | 所有 HTTP 请求统一处理认证、错误、超时和重试提示 |
+| 页面状态 | 列表、详情、提交中、空态和错误态在同类页面保持一致 |
+| 写操作 | 统一处理进行中状态、成功提示、失败提示和数据刷新 |
+| 角色校验 | 根据当前用户身份和课程作用域决定页面可访问性 |
+| 导航配置 | 管理员、教师、学员侧导航统一维护，避免页面内硬编码入口 |
+| 通知更新 | SSE 可用时实时更新，断线或不可用时降级为轮询 |
 
 #### 4.2.2 后端内部调用关系
 
 ```mermaid
 flowchart TD
-  Controller["接口适配"]
-  Request["请求模型"]
-  AppService["应用服务"]
+  Interface["接口适配"]
+  Request["请求数据"]
+  Business["业务编排"]
   Policy["领域策略 / 授权服务"]
   Mapper["持久化访问"]
-  Entity["数据实体"]
-  View["响应视图"]
+  Data["业务数据"]
+  Output["响应数据"]
   Audit["审计服务"]
   Queue["队列发布"]
   Storage["对象存储服务"]
 
-  Controller --> Request
-  Controller --> AppService
-  AppService --> Policy
-  AppService --> Mapper
-  Mapper --> Entity
-  AppService --> View
-  AppService --> Audit
-  AppService --> Queue
-  AppService --> Storage
+  Interface --> Request
+  Interface --> Business
+  Business --> Policy
+  Business --> Mapper
+  Mapper --> Data
+  Business --> Output
+  Business --> Audit
+  Business --> Queue
+  Business --> Storage
 ```
 
 后端内部接口规则：
@@ -935,7 +935,7 @@ flowchart LR
 | `400` 请求参数错误 | Bean Validation 或业务校验返回字段级/业务错误 | 表单字段错误或页面 Toast |
 | `401` 未认证/会话失效 | JWT 验签失败、`sid` 无效、refresh 失败 | 尝试一次 refresh，失败后清空会话并跳转登录 |
 | `403` 无权限 | Spring Security 或应用层作用域拒绝 | 跳转无权限页或展示按钮禁用原因 |
-| `404` 资源不存在 | Application Service 未找到资源 | 详情页展示不存在或已删除 |
+| `404` 资源不存在 | 业务服务未找到资源 | 详情页展示不存在或已删除 |
 | `409` 状态冲突 | 作业已关闭、成绩已发布、重复编码等 | 展示当前状态与下一步建议 |
 | `413` 文件过大 | 上传大小限制或业务大小限制 | 文件控件提示大小上限 |
 | `429` 限流 | 登录、样例运行、提交、上传等策略触发 | 倒计时或稍后重试提示 |
@@ -1005,10 +1005,10 @@ flowchart TD
 | --- | --- |
 | 认证 | JWT Bearer access token + opaque refresh token；refresh token 只保存 hash |
 | 会话撤销 | access token 除验签外回查 `auth_sessions.sid`，支持即时失效 |
-| 授权 | Spring Security 粗拦截 + Application Service 数据作用域校验 |
+| 授权 | 基础安全拦截 + 业务服务数据作用域校验 |
 | 角色隔离 | 平台治理身份与课程成员角色分离建模 |
 | 路由保护 | 前端 `role-guard` 控制角色区入口，后端仍作为最终权限来源 |
-| 输入校验 | Request DTO 使用 Bean Validation；业务服务二次校验状态和作用域 |
+| 输入校验 | 请求数据对象执行基础校验；业务服务二次校验状态和作用域 |
 | 文件安全 | 上传限制大小和类型，下载前校验所有权或课程权限 |
 | 沙箱隔离 | 浏览器不直接访问 go-judge；执行资源受 CPU、内存、时间、输出大小限制 |
 | 限流 | 登录、刷新、样例运行、提交、附件上传、实验附件上传配置限流策略 |
