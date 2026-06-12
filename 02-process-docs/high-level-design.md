@@ -8,28 +8,28 @@ status: current
 ## 1. 文档信息
 
 - 文档名称：AUBB（Academic Unified Builder Bench）软件概要设计说明书
-- 版本：v1.3
+- 版本：v1.4
 - 状态：设计基线
-- 更新日期：2026-04-15
-- 编写依据：SRS v4.4、软件开发计划书 v2.0、课程大作业要求
+- 更新日期：2026-06-12
+- 编写依据：SRS、软件开发计划书、课程大作业要求、稳定 API 清单
 - 参考标准：ISO/IEC/IEEE 42010、IEEE 1016-2009
 
 ## 2. 设计目标与约束
 
 ### 2.1 设计目标
 
-1. 支撑“平台初始化 -> 建课 -> 发任务 -> 学员在线 IDE 编辑 / 运行 / 提交 -> 自动评测 -> 人工批改 -> 成绩发布”的完整教学主链路。
-2. 在课程项目复杂度可控前提下，明确模块边界、接口边界、数据边界和部署边界。
-3. 通过复用成熟开源组件，降低在线 IDE、判题沙箱、统一认证和运维观测的自研成本。
-4. 以后端稳定性、事务一致性、权限治理和可维护性为优先，形成适合教学管理系统的 Spring 技术栈基线。
+1. 支撑“平台初始化 -> 建课建班 -> 发布作业或实验 -> 学员在线完成 -> 自动评测或教师评阅 -> 成绩发布 -> 学员查看反馈”的教学闭环。
+2. 在课程项目复杂度可控的前提下，明确 Web 前端、后端业务服务、评测执行、对象存储、消息队列和实验运行时之间的职责边界。
+3. 以稳定 API、角色权限、数据留痕和可复验部署为核心，保证演示、答辩和后续维护的一致性。
 
 ### 2.2 关键约束
 
-- 系统主入口为 Web 浏览器，不建设原生客户端。
-- 编程任务必须支持浏览器内在线 IDE 编辑、运行和正式提交。
-- 代码运行与正式评测必须隔离于业务主服务之外。
-- 首版优先采用模块化单体 + Worker，不采用分布式事务和远程开发容器集群。
-- `go-judge` 生产部署以 Linux 为前提，Windows / macOS 仅用于本地研究或演示验证。
+- 系统主入口为现代 Web 浏览器，不建设原生客户端。
+- 编程作业必须支持浏览器内在线 IDE 编辑、保存、试运行和整份作业提交。
+- 在线 IDE 不提供通用终端；环境型实验通过独立 Web 终端能力承载。
+- 代码试运行、正式评测和终端实验运行时必须与业务主服务隔离。
+- 首版采用模块化单体后端，评测任务通过消息队列解耦；不引入分布式事务。
+- `go-judge` 与 Kubernetes 实验运行时以 Linux 环境为主要部署前提。
 
 ## 3. 系统上下文
 
@@ -37,259 +37,242 @@ status: current
 
 | 外部实体 | 作用 | 与本系统交互内容 |
 | --- | --- | --- |
-| 浏览器 | 用户操作入口 | 页面访问、表单提交、在线 IDE 编辑、运行结果查看 |
-| go-judge 沙箱服务 | 执行试运行与正式评测 | 代码 / 文件快照、运行参数、资源限制、执行结果 |
-| 文件存储服务 | 存储课程资源、模板工程、提交快照和导出文件 | 文件上传、下载、生命周期管理 |
-| 消息通道 | 邮件、短信、企业 IM 等扩展通知 | 通知发送请求和回执 |
-| 统一认证 | 可选 SSO 来源 | 用户身份信息与登录态 |
+| 浏览器 | 用户操作入口 | 页面访问、表单提交、在线 IDE、Web 终端、通知查看 |
+| go-judge | 编程题试运行与正式评测 | 源码快照、运行参数、资源限制、执行结果 |
+| Kubernetes 实验运行时 | 环境型实验会话 | 实验 Pod、WebSocket 终端、会话停止与重置 |
+| S3 兼容对象存储 | 文件与报告保存 | 课程资源、提交附件、评测报告、实验附件 |
+| 统一认证服务 | 可选身份源 | 用户身份信息、单点登录状态 |
 
 ### 3.2 系统上下文图
 
-```text
-Teacher / Student / Admin
-          |
-       Browser
-          |
-     platform-web
-          |
-      platform-api
-   /   |      |       |          \
-DB  Redis  S3 Store  Stream MQ  Auth Adapter
-                   |                |
-               judge-worker     Keycloak(optional)
-                   |
-          go-judge cluster (Linux)
+```mermaid
+flowchart TB
+  User["管理员 / 教师 / 助教 / 学员"] --> Browser["Web 浏览器"]
+  Browser --> Web["AUBB Web<br/>Next.js / React"]
+  Web --> Api["AUBB Server<br/>Spring Boot API"]
+  Api --> DB[(PostgreSQL)]
+  Api --> MinIO[(MinIO / S3)]
+  Api --> Redis[(Redis 可选增强)]
+  Api --> Rabbit[(RabbitMQ)]
+  Rabbit --> Worker["Judge Consumer"]
+  Worker --> Judge["go-judge"]
+  Api --> K8s["Kubernetes Lab Runtime"]
+  Browser -. WebSocket .-> Api
+  Api -. OIDC 可选 .-> IdP["统一认证服务"]
 ```
 
 ## 4. 总体技术选型
 
-### 4.1 推荐技术栈
-
 | 层次 | 技术 / 产品 | 选型说明 |
 | --- | --- | --- |
-| Web 前端 | Vue 3、TypeScript、Vite、Vue Router、Pinia | 组件化开发效率高，适合课程项目交付 |
-| 在线 IDE | Monaco Editor、标准输入输出面板 | 复用成熟编辑器，提供标准输入、运行输出和执行状态展示，不提供终端 |
-| UI 与图表 | Element Plus、ECharts | 快速构建后台与统计页面 |
-| 后端 API | Spring Boot 4、Java 25、Spring MVC | 生态成熟，适合事务型后台、权限治理和分层设计 |
-| 安全与认证 | Spring Security、JWT Resource Server | 适合 API 化访问，可平滑扩展 OIDC |
-| 数据访问 | MyBatis-Plus + MyBatis XML、Flyway | 简单 CRUD 效率高，复杂查询可控，数据库变更可版本化 |
-| 数据层 | PostgreSQL、Redis | PostgreSQL 承担核心事务模型，Redis 承担缓存和消息流 |
-| 异步任务 | Redis Stream + Spring Scheduler | 复用已有 Redis，降低中间件数量，足够覆盖运行、评测、通知任务 |
-| 对象存储 | S3 兼容存储 | 开发 / 答辩环境默认 MinIO；私有化可替换 Ceph RGW 或云对象存储 |
-| 判题沙箱 | `criyle/go-judge` | 提供 REST / WebSocket / gRPC 接口、容器池、cgroup / namespace 隔离和文件缓存能力 |
-| 统一认证 | Keycloak（可选） | 后续需要 OIDC / SAML / LDAP 时可直接接入 |
-| 运维观测 | Nginx、Docker Compose、Prometheus、Grafana、Loki | 支撑本地演示、课程答辩和基础观测 |
-
-### 4.2 开源组件复用策略
-
-| 能力 | 推荐开源项目 | 采用策略 | 说明 |
-| --- | --- | --- | --- |
-| 浏览器代码编辑 | Monaco Editor | 直接采用 | 具备模型管理、多语言支持和大文件编辑能力 |
-| 运行输出面板 | React + Monaco 周边组件 | 直接采用 | 用于承载标准输入、stdout / stderr、退出状态和资源摘要展示 |
-| 判题与沙箱 | `go-judge` | 直接采用 | 提供统一 API、容器池、资源限制、缓存文件 `fileId` 和 `pipeMapping` 能力 |
-| 数据库迁移 | Flyway | 直接采用 | 便于版本化维护表结构和初始化脚本 |
-| 统一认证 | Keycloak | 可选接入 | 若后续需要统一认证，可通过 OIDC 适配层接入 |
-| 队列观测 | Redis Insight / 自定义管理页 | 按需接入 | 观察 Stream 队列堆积、消费组和失败消息 |
-
-### 4.3 不采用的方案
-
-- V1 不采用 NestJS / Prisma / BullMQ 方案，原因是该项目以后台治理、事务和权限控制为核心，Spring Boot 在教学管理系统场景下更稳。
-- V1 不直接引入 `code-server`、Eclipse Theia 等完整远程开发环境。
-- 原因是这类方案更适合长期持久化远程工作区，会显著增加容器编排、资源隔离和运维成本。
+| Web 前端 | Next.js 16、React 19、TypeScript、Tailwind CSS 4 | 支撑角色化后台、复杂表单和页面级路由组织 |
+| 在线 IDE | Monaco Editor、标准输入输出面板 | 满足编程题编辑、保存、试运行和结果查看，不承载通用终端 |
+| Web 终端 | xterm.js、WebSocket | 仅用于环境型实验会话连接 |
+| 后端 API | Spring Boot 4、Java 25、Spring Security | 支撑事务型后台、权限治理、审计和稳定 REST API |
+| 数据访问 | MyBatis-Plus、Flyway | 保持数据访问可控，数据库变更可版本化 |
+| 数据层 | PostgreSQL | 承担课程、作业、提交、评测、成绩、实验、通知和审计事实数据 |
+| 异步队列 | RabbitMQ | 解耦提交受理和评测执行，支持重试、DLQ 和独立消费 |
+| 缓存 / 限流 | Redis 可选增强 | 提供短 TTL 缓存、未读数缓存和限流增强；不可用时应降级 |
+| 对象存储 | MinIO / S3 兼容服务 | 保存大文件、源码快照、评测报告和导出文件 |
+| 评测沙箱 | `criyle/go-judge` | 提供隔离编译、运行、资源限制和结果回传 |
+| 实验运行时 | Fake Runtime / Kubernetes Runtime | Fake 用于本地演示，Kubernetes 用于真实 Web 终端实验 |
+| 运维观测 | Actuator、Prometheus、结构化日志 | 支撑健康检查、指标采集和问题追踪 |
 
 ## 5. 架构风格与分层
 
-### 5.1 架构风格
+系统采用“前后端分离 + 模块化单体 + 外部执行运行时”的架构。后端以稳定 REST API 为主，对外隐藏内部模块组织；评测、对象存储、Web 终端和通知推送通过明确的适配边界接入。
 
-- 业务层采用模块化单体，降低首版实现和运维复杂度。
-- 运行与评测采用独立 Worker 调度，避免长耗时任务阻塞 Web 请求。
-- 在线 IDE 工作区与正式提交解耦，保证“运行”与“评测 / 成绩”边界清晰。
-- 文件、运行、评测和通知统一走事件与消息流机制，增强可恢复性。
-
-### 5.2 分层结构
-
-| 层次 | 组件 | 职责 |
-| --- | --- | --- |
-| 表现层 | `platform-web` | 路由、页面、在线 IDE、表单校验、图表展示 |
-| 接口层 | `platform-api` | Controller、鉴权、请求校验、响应封装 |
-| 应用层 | Application Service | 业务编排、事务协调、幂等控制、事件发布 |
-| 领域层 | 平台治理、课程、任务、IDE 工作区、提交、评测、批改、通知模块 | 核心业务规则与状态流转 |
-| 基础设施层 | PostgreSQL、Redis、S3 兼容存储、`go-judge`、日志与监控 | 存储、缓存、消息流、执行、观测 |
+```mermaid
+flowchart LR
+  subgraph Client["表现层"]
+    WebPage["角色路由 / 页面"]
+    IDE["在线 IDE"]
+    Terminal["实验 Web 终端"]
+  end
+  subgraph ApiLayer["接口层"]
+    REST["REST API"]
+    WS["WebSocket Endpoint"]
+    Error["统一错误模型"]
+  end
+  subgraph Domain["应用与领域层"]
+    Governance["平台治理"]
+    Course["课程与成员"]
+    Assignment["作业与题库"]
+    Submission["提交与工作区"]
+    JudgeDomain["评测"]
+    Grading["批改与成绩"]
+    Lab["实验"]
+    Notification["通知与审计"]
+  end
+  subgraph Infra["基础设施层"]
+    DB[(PostgreSQL)]
+    Storage[(S3)]
+    MQ[(RabbitMQ)]
+    Cache[(Redis)]
+    Sandbox["go-judge"]
+    Runtime["Kubernetes"]
+  end
+  Client --> ApiLayer
+  ApiLayer --> Domain
+  Domain --> Infra
+```
 
 ## 6. 逻辑模块划分
 
 | 模块 | 核心职责 | 主要用户 |
 | --- | --- | --- |
-| 平台治理 | 平台配置、学校/学院/课程/班级组织、用户、作用域身份、用户查询、审计、平台概览 | 分层管理员 |
-| 身份认证 | 登录、退出、JWT、权限检查、账号状态管理 | 全角色 |
-| 课程管理 | 课程、成员、资源、章节结构 | 教师、整课助教、学员 |
-| 任务管理 | 任务说明、语言配置、模板工程、提交规则、评分规则 | 教师 |
-| IDE 工作区 | 在线编辑、多文件工程、草稿自动保存、试运行、控制台展示 | 学员 |
-| 提交中心 | 正式提交受理、快照固化、提交历史、下载与对比 | 学员、教师 |
-| 判题中心 | 评测排队、编译缓存、用例执行、结果归一化、重评 | 系统、教师 |
-| 批改与成绩 | 人工评分、成绩生成、发布、重新发布 | 教师、整课助教、班级助教、学员 |
-| 通知中心 | 站内通知、公告、多渠道通知扩展 | 全角色 |
-| 运营概览 | 课程概览、平台概览、异常与审计检索 | 管理员、运维 |
-
-用户系统边界说明：
-
-- 平台治理阶段只实现用户基础资料与平台治理身份。
-- 教师、助教、学员等课程成员角色保留给课程域独立建模，不与平台治理身份混用。
+| 平台治理与 IAM | 平台配置、组织、用户、作用域身份、权限解释、审计 | 管理员 |
+| 课程与成员 | 学期、课程目录、开课、教学班、成员、公告、资源、讨论 | 管理员、教师、助教、学员 |
+| 作业与题库 | 作业基础信息、结构化试卷、题库、编程题环境配置 | 教师、助教 |
+| 提交与工作区 | 编程题工作区、附件、整份作业提交、提交详情 | 学员、教师 |
+| 评测 | 样例运行、正式评测、go-judge 适配、评测报告、重排队 | 学员、教师、系统 |
+| 批改与成绩 | 人工评分、批量调整、成绩发布、成绩册、导入导出 | 教师、助教、学员 |
+| 实验 | 报告型实验、环境型实验、附件、评阅、Web 终端会话 | 教师、助教、学员 |
+| 通知与观测 | 站内通知、SSE 增量、未读数、健康检查、指标 | 全角色、运维 |
 
 ## 7. 核心业务流程
 
 ### 7.1 教学主链路
 
-```text
-管理员初始化平台
-  -> 教师创建课程与任务
-  -> 学员进入在线 IDE
-  -> 学员运行代码验证样例
-  -> 学员正式提交代码快照
-  -> 系统异步发起评测
-  -> 教师查看评测并人工批改
-  -> 系统生成并发布成绩
-  -> 学员查看反馈与成绩
+```mermaid
+stateDiagram-v2
+  [*] --> PlatformReady: 平台初始化
+  PlatformReady --> CourseReady: 建课 / 建班 / 加成员
+  CourseReady --> AssignmentPublished: 发布作业或实验
+  AssignmentPublished --> StudentWork: 学员完成作业或实验
+  StudentWork --> AutoJudge: 编程题评测
+  StudentWork --> ManualReview: 报告或主观题评阅
+  AutoJudge --> ManualReview: 教师查看结果
+  ManualReview --> GradePublished: 发布成绩或评语
+  GradePublished --> [*]: 学员查看反馈
 ```
 
-### 7.2 关键时序一：在线 IDE 试运行
+### 7.2 编程题评测时序
 
-```text
-Student -> Web: 打开任务 IDE
-Web -> API: 拉取任务模板与个人工作区
-Student -> Web: 编辑代码并点击运行
-Web -> API: 创建 run session
-API -> Redis Stream: 写入 sandbox.run 事件
-judge-worker -> go-judge: 执行样例 / 自定义输入
-go-judge -> judge-worker: 返回 stdout/stderr/资源指标
-judge-worker -> DB: 写入 sandbox_runs
-Student -> API: 轮询运行结果
+```mermaid
+sequenceDiagram
+  actor Student as 学员
+  participant Web as Web 前端
+  participant API as 后端 API
+  participant MQ as RabbitMQ
+  participant Worker as 评测 Consumer
+  participant GJ as go-judge
+  participant Store as 对象存储
+
+  Student->>Web: 保存编程题并提交整份作业
+  Web->>API: 创建正式提交
+  API->>API: 固化提交与源码快照
+  API->>MQ: 发布评测任务
+  MQ->>Worker: 投递评测任务
+  Worker->>GJ: 编译 / 运行测试点
+  GJ-->>Worker: 返回执行结果
+  Worker->>Store: 保存报告和源码快照
+  Worker->>API: 回写评测状态与摘要
+  Web->>API: 查询提交详情和报告
 ```
 
-### 7.3 关键时序二：正式提交与自动评测
+### 7.3 环境型实验时序
 
-```text
-Student -> Web: 点击正式提交
-Web -> API: 发送工作区快照引用
-API -> Postgres: 写入 submission / snapshot
-API -> Redis Stream: 写入 submission.accepted 事件
-judge-worker -> go-judge: 编译并缓存产物
-judge-worker -> go-judge: 逐个隐藏用例执行
-go-judge -> judge-worker: 返回结构化结果
-judge-worker -> DB: 写入 judge_runs 并更新 submission 状态
-API -> Notification: 发送评测完成事件
-```
+```mermaid
+sequenceDiagram
+  actor Student as 学员
+  participant Web as Web 前端
+  participant API as 后端 API
+  participant Runtime as 实验运行时
 
-### 7.4 关键时序三：人工批改与成绩发布
-
-```text
-Teacher -> API: 打开提交详情
-Teacher -> API: 保存评语 / 人工分
-API -> DB: 写入 review_record
-API -> DB: 计算 grade
-Teacher -> API: 发布成绩
-API -> Notification: 发布成绩通知
-Student -> API: 查看成绩与评语
+  Student->>Web: 打开 TERMINAL 实验
+  Web->>API: 启动或查询实验会话
+  API->>Runtime: 创建或复用隔离环境
+  Runtime-->>API: 返回会话状态
+  Web->>API: 申请短期连接 token
+  Web-->>API: WebSocket 连接终端
+  API-->>Runtime: 绑定终端流
+  Student->>Web: 停止或重置会话
+  Web->>API: 停止 / 重置环境
 ```
 
 ## 8. 数据设计总览
 
-### 8.1 核心实体
-
-- 平台治理：`platform_configs`、`org_units`、`users`
-- 课程域：`courses`、`course_members`、`course_resources`
-- 任务域：`tasks`、`task_language_profiles`、`task_testcases`、`task_starter_files`
-- IDE 与运行：`ide_workspaces`、`ide_workspace_files`、`workspace_snapshots`、`sandbox_runs`
-- 提交与评测：`submissions`、`submission_files`、`judge_runs`
-- 批改与成绩：`review_records`、`grades`、`grade_publish_records`
-- 消息与审计：`notifications`、`announcements`、`audit_logs`
-
-### 8.2 数据原则
-
-- 所有关键对象必须具备状态字段、创建时间、更新时间和操作者留痕。
-- 工作区数据是可变草稿，正式提交与正式评测数据必须采用不可变快照。
-- 提交、评测、成绩等关键结果采用“追加历史 + 当前有效引用”策略，不做无痕覆盖。
-- 文件实体与业务实体解耦，数据库保存对象存储引用与元数据。
+| 数据域 | 代表对象 | 设计原则 |
+| --- | --- | --- |
+| 平台治理 | 平台配置、组织、用户、身份、审计 | 组织层级和治理身份独立于课程成员角色 |
+| 课程域 | 课程目录、开课、教学班、成员、公告、资源、讨论 | 以开课和教学班作为教学作用域边界 |
+| 作业域 | 作业、试卷、题库题目、编程配置 | 草稿、发布和关闭状态清晰分离 |
+| 提交域 | 工作区、修订、附件、正式提交、分题答案 | 工作区可变，正式提交不可变 |
+| 评测域 | 样例运行、评测任务、评测报告 | 试运行不影响成绩，正式评测可追踪到提交 |
+| 成绩域 | 人工分、调整记录、成绩发布状态、成绩册 | 发布前后可见性不同，修改必须可追踪 |
+| 实验域 | 实验定义、报告、附件、环境模板、会话 | 报告型实验与终端实验共享实验定义但运行时分离 |
+| 通知域 | 通知、收件状态、未读数 | 站内通知持久化，SSE 只做增量增强 |
 
 ## 9. 接口设计总览
 
-### 9.1 API 风格
+对外接口以 `/api/v1/**` 为业务基线，运行时 OpenAPI `/v3/api-docs` 是接口事实来源。概要设计只划分接口域，不展开每个路径字段。
 
-- 基础路径：`/api/v1`
-- 数据格式：JSON，文件上传使用 `multipart/form-data`
-- 认证方式：Spring Security + JWT Bearer Token，可扩展到 OIDC
-- 错误模型：统一错误码、消息、请求 ID
-
-### 9.2 API 分组
-
-| 分组 | 说明 |
+| 接口域 | 说明 |
 | --- | --- |
-| `/auth/*` | 登录、退出、当前用户、统一认证回调 |
-| `/admin/*` | 平台配置、组织、用户、平台级概览、审计 |
-| `/courses/*` | 课程、成员、资源 |
-| `/tasks/*` | 任务、语言配置、模板工程、测试用例、题型配置 |
-| `/ide/*` | 工作区拉取、文件保存、试运行、运行结果查询 |
-| `/submissions/*` | 正式提交创建、提交详情、提交历史、评测状态 |
-| `/grades/*` | 批改记录、成绩发布、重新发布、成绩导出 |
-| `/notifications/*` | 站内通知、公告、已读状态 |
+| 认证与当前用户 | 登录、刷新、退出、当前用户、会话撤销 |
+| 平台治理 | 平台配置、组织树、用户治理、权限解释、审计日志 |
+| 课程教学 | 学期、课程目录、开课、教学班、成员、公告、资源、讨论 |
+| 作业题库 | 作业、试卷、题库题目、发布和关闭 |
+| 提交评测 | 工作区、附件、正式提交、样例运行、评测报告、重排队 |
+| 批改成绩 | 人工评分、批量调整、成绩发布、成绩册、导入导出 |
+| 实验 | 实验定义、实验报告、附件、环境会话、终端连接 token |
+| 通知 | 通知列表、未读数、SSE 增量、已读状态 |
 
 ## 10. 部署视图
 
-### 10.1 最小可运行拓扑
+```mermaid
+flowchart TB
+  Browser["Browser"] --> Front["Web 服务 :3000 / 静态站点"]
+  Front --> Api["Server API :18080"]
+  Api --> DB[(PostgreSQL)]
+  Api --> MQ[(RabbitMQ)]
+  Api --> MinIO[(MinIO)]
+  Api --> Redis[(Redis)]
+  MQ --> Worker["同应用评测 Consumer"]
+  Worker --> Judge["go-judge"]
+  Api --> LabRuntime["Fake / Kubernetes Lab Runtime"]
+```
 
-| 节点 | 服务 |
+部署层面保留两类模式：
+
+| 模式 | 说明 |
 | --- | --- |
-| Web 节点 | Nginx + `platform-web` |
-| API 节点 | `platform-api`（Spring Boot） |
-| Worker 节点 | `judge-worker`（Spring Boot） |
-| 沙箱节点 | `go-judge` + 编译器 / 运行时环境 |
-| 数据节点 | PostgreSQL、Redis、S3 兼容存储 |
-| 观测节点 | Prometheus、Grafana、Loki |
-
-### 10.2 部署特性
-
-- API 与 Worker 可水平扩展。
-- `go-judge` 节点可按课程高峰期独立扩容，Worker 通过负载均衡访问。
-- 沙箱节点必须运行在具备 Linux namespace / cgroup 能力的宿主环境。
-- Redis 当前承担缓存和消息流，部署时应配置持久化与内存水位。
+| 本地开发 / 演示 | 使用 `just dev-up` 启动依赖、后端 `18080` 和前端 `3000` |
+| 容器化交付 | 使用 `server/compose.yaml` 管理 PostgreSQL、RabbitMQ、MinIO、Redis、go-judge 和后端镜像 |
 
 ## 11. 安全、可靠性与可观测性设计
 
-### 11.1 安全
-
-- 所有受保护接口必须由 Spring Security 统一拦截，课程级权限在业务层二次校验。
-- 在线运行与正式评测均通过 `go-judge` 执行，默认禁用外网访问，限制 CPU、内存、运行时间、输出大小和文件系统权限。
-- 审计日志记录登录、平台配置更新、导入、任务发布、成绩发布、权限调整、导出和重评行为。
-
-### 11.2 可靠性
-
-- 正式提交采用“先固化快照、再落库、后发消息”的模式，保证受理成功即不丢失。
-- 试运行失败不影响工作区保存；评测失败不影响课程浏览、历史提交与成绩查询。
-- Flyway 负责数据库迁移，降低手工改表风险。
-
-### 11.3 可观测性
-
-- 输出结构化日志，带 `requestId`、`userId`、`courseId`、`taskId`、`submissionId` 等上下文。
-- 核心指标包括 API 延迟、运行队列深度、评测队列深度、评测失败率、工作区保存失败率、成绩发布量。
-- 提供教师课程概览和管理员平台概览双层仪表盘。
+| 关注点 | 概要设计 |
+| --- | --- |
+| 认证 | JWT access token + opaque refresh token，会话可撤销 |
+| 授权 | Spring Security 粗拦截，应用服务按组织、课程、教学班和资源状态二次校验 |
+| 执行隔离 | 浏览器不直接访问 go-judge 或实验运行时，运行资源受控 |
+| 文件安全 | 上传大小和类型受限，下载前校验所有权或课程作用域 |
+| 可靠性 | 提交先固化事实数据，再发布评测任务；RabbitMQ 支持重试与 DLQ |
+| 降级 | Redis、SSE 或评测服务异常时，核心课程浏览、提交记录和历史结果查询不应失效 |
+| 可观测性 | Actuator 暴露 health/info/prometheus，日志和审计使用 requestId 串联 |
 
 ## 12. 设计取舍
 
 | 设计点 | 选择 | 原因 |
 | --- | --- | --- |
-| 后端框架 | Spring Boot 3 + Java 21 | 更适合事务型后台、权限治理、批处理和审计类系统 |
-| 数据访问 | MyBatis-Plus + MyBatis XML | 兼顾开发效率与复杂查询可控性 |
-| 异步方案 | Redis Stream + Worker | 复用 Redis，组件更少，满足课程项目场景 |
-| 在线 IDE 方案 | Monaco Editor + 自定义工作区 | 满足作业编辑 / 运行 / 提交场景，明显轻于完整远程 IDE |
-| 判题方案 | `go-judge` + 自定义 `judge-worker` | 支持沙箱隔离、编译缓存、统一结果归一化，适合教学平台接入 |
+| 前端框架 | Next.js + React | 更适合角色化路由、服务端/客户端组合渲染和工程化交付 |
+| 后端框架 | Spring Boot 4 + Java 25 | 更适合事务型后台、权限治理、批处理和审计类系统 |
+| 后端形态 | 模块化单体 | 满足课程项目交付复杂度，避免过早拆分微服务 |
+| 评测异步 | RabbitMQ + Consumer | 评测任务天然耗时，需要与提交受理解耦并具备重试能力 |
+| 在线 IDE | Monaco + 自定义工作区 | 满足作业编辑、运行、保存和提交，轻于完整远程 IDE |
+| Web 终端 | 独立实验运行时 | 避免把通用终端混入在线 IDE，保持作业和实验边界清晰 |
+| 通知实时性 | 持久化站内通知 + SSE 增量 | 先保证通知可查，再提供实时增强 |
 
 ## 13. 追踪关系
 
 | 设计元素 | 对应 SRS |
 | --- | --- |
-| 平台治理模块 | FR-CFG-*、FR-IAM-*、FR-OPS-* |
-| 课程与任务模块 | FR-CRS-*、FR-TSK-* |
-| 在线 IDE 与提交模块 | FR-SUB-* |
-| 判题与沙箱模块 | FR-JDG-* |
-| 批改与成绩模块 | FR-REV-* |
-| 可观测与安全设计 | NFR-SEC-*、NFR-REL-*、NFR-OBS-* |
+| 平台治理与 IAM | FR-CFG-*、FR-IAM-*、FR-OPS-* |
+| 课程、成员和课程内容 | FR-CRS-*、FR-NTF-* |
+| 作业、在线 IDE 与提交 | FR-TSK-*、FR-SUB-* |
+| 自动评测与评测报告 | FR-JDG-* |
+| 批改、成绩发布和成绩册 | FR-REV-* |
+| 实验报告与环境型实验 | FR-TSK-*、FR-SUB-*、NFR-EXT-* |
+| 安全、可靠性与可观测性 | NFR-SEC-*、NFR-REL-*、NFR-OBS-* |

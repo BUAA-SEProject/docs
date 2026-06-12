@@ -8,105 +8,163 @@ status: current
 ## 1. 文档信息
 
 - 文档名称：AUBB（Academic Unified Builder Bench）部署文档
-- 版本：v1.2
+- 版本：v1.3
 - 状态：正式基线
-- 更新日期：2026-04-14
+- 更新日期：2026-06-12
 - 适用范围：本地开发、演示环境、课程答辩环境
 
-## 2. 部署目标与环境说明
+## 2. 部署目标与边界
 
-本文档定义一套可复现的最小可运行部署方式，保证团队可以在全新机器上完成：
+本文档定义可复验的最小部署路径，回答“怎样把系统跑起来并完成验收冒烟”。详细 API、数据库表结构和测试用例分别由稳定接口清单、数据库文档和测试报告负责。
 
-1. 启动 Web、API、Worker、数据库、缓存、对象存储和沙箱服务。
-2. 完成数据库迁移、初始化数据导入与管理员账号创建。
-3. 验证“登录 -> 建课 -> 发任务 -> 在线 IDE 编辑 / 运行 / 提交 -> 评测 -> 批改 -> 出成绩”主链路。
+部署后至少应验证：
 
-## 3. 运行依赖
+1. Web 前端可访问，后端健康检查通过。
+2. PostgreSQL、RabbitMQ、MinIO、Redis、go-judge 等依赖可连接。
+3. 管理员、教师、学员三类角色能够完成核心教学主链路。
+4. 编程题试运行、正式评测、成绩发布、通知和实验入口可按配置工作。
 
-- 宿主机：Linux（用于 `go-judge` 正式运行）
-- 运行时：Java 21、Maven 3.9+、Docker 27+、Docker Compose v2
-- 数据库：PostgreSQL 16
-- 存储服务：S3 兼容对象存储（开发 / 演示默认 MinIO）
-- 缓存 / 消息流：Redis 7
-- 判题服务：`criyle/go-judge`
+## 3. 部署拓扑
 
-### 3.1 核心环境变量
+```mermaid
+flowchart TB
+  Browser["Browser"]
+  Web["AUBB Web :3000"]
+  API["AUBB Server :18080"]
+  DB[(PostgreSQL 16)]
+  MQ[(RabbitMQ)]
+  S3[(MinIO)]
+  Redis[(Redis)]
+  Judge["go-judge :5050"]
+  Lab["Fake / Kubernetes Lab Runtime"]
+
+  Browser --> Web
+  Web --> API
+  API --> DB
+  API --> MQ
+  API --> S3
+  API --> Redis
+  MQ --> API
+  API --> Judge
+  API --> Lab
+```
+
+## 4. 运行依赖
+
+| 类别 | 基线 |
+| --- | --- |
+| 后端运行时 | Java 25、Maven Wrapper、Spring Boot 4 |
+| 前端运行时 | Node.js、npm、Next.js 16、React 19 |
+| 数据库 | PostgreSQL 16 |
+| 消息队列 | RabbitMQ，评测队列和 DLQ |
+| 对象存储 | MinIO 或 S3 兼容服务 |
+| 缓存 / 限流 | Redis 7，可按配置启用 |
+| 判题服务 | `criyle/go-judge`，Linux 环境优先 |
+| 实验运行时 | 本地可用 Fake Runtime；真实 Web 终端实验使用 Kubernetes Runtime |
+
+## 5. 核心配置
 
 | 变量 | 说明 | 示例 |
 | --- | --- | --- |
-| `SPRING_PROFILES_ACTIVE` | Spring Profile | `dev` |
-| `SERVER_PORT` | API 端口 | `8080` |
-| `SPRING_DATASOURCE_URL` | PostgreSQL 连接串 | `jdbc:postgresql://postgres:5432/otp` |
-| `SPRING_DATASOURCE_USERNAME` | 数据库用户名 | `app` |
+| `SERVER_PORT` | 后端 API 端口 | `18080` |
+| `SPRING_DATASOURCE_URL` | PostgreSQL 连接串 | `jdbc:postgresql://localhost:5432/aubb` |
+| `SPRING_DATASOURCE_USERNAME` | 数据库用户名 | `aubb` |
 | `SPRING_DATASOURCE_PASSWORD` | 数据库密码 | `change-me` |
-| `SPRING_DATA_REDIS_HOST` | Redis 地址 | `redis` |
-| `STORAGE_ENDPOINT` | S3 兼容对象存储地址 | `http://minio:9000` |
-| `SPRING_SESSION_REDIS_NAMESPACE` | Session 命名空间 | `otp:session` |
-| `GO_JUDGE_URL` | `go-judge` API 地址 | `http://go-judge:5050` |
-| `GO_JUDGE_TOKEN` | `go-judge` 访问令牌 | `change-me` |
+| `SPRING_RABBITMQ_HOST` | RabbitMQ 地址 | `localhost` |
+| `SPRING_RABBITMQ_USERNAME` | RabbitMQ 用户 | `aubb` |
+| `SPRING_RABBITMQ_PASSWORD` | RabbitMQ 密码 | `change-me` |
+| `AUBB_JWT_SECRET` | JWT 签名密钥 | 至少 32 字节随机值 |
+| `AUBB_MINIO_ENDPOINT` | MinIO / S3 地址 | `http://localhost:9000` |
+| `AUBB_MINIO_ACCESS_KEY` | 对象存储访问键 | `aubbminio` |
+| `AUBB_MINIO_SECRET_KEY` | 对象存储密钥 | `change-me` |
+| `AUBB_GO_JUDGE_ENABLED` | 是否启用真实 go-judge | `true` |
+| `AUBB_GO_JUDGE_BASE_URL` | go-judge 地址 | `http://localhost:5050` |
+| `AUBB_REDIS_ENABLED` | 是否启用 Redis 增强 | `true` / `false` |
+| `AUBB_LAB_RUNTIME_MODE` | 实验运行时模式 | `fake` / `kubernetes` |
 
-## 4. 部署步骤
+真实凭据只允许写入本地环境文件或部署环境变量，不提交到仓库。
 
-### 4.1 启动基础设施
+## 6. 本地开发 / 演示部署
 
-```bash
-docker compose up -d postgres redis minio go-judge
-```
-
-### 4.2 数据库迁移
-
-数据库迁移由 Flyway 管理，首次部署执行：
-
-```bash
-cd backend/platform-api
-./mvnw flyway:migrate
-```
-
-### 4.3 初始化种子数据
-
-开发 / 答辩环境可执行：
+工作区根目录提供统一入口，优先使用以下命令：
 
 ```bash
-psql "$SPRING_DATASOURCE_URL" -f ../../infra/sql/seed-dev.sql
+just healthcheck
+just dev-up
 ```
 
-### 4.4 启动应用
+`just dev-up` 会启动本地 Docker 依赖、后端 `127.0.0.1:18080` 和前端 `127.0.0.1:3000`。如果需要停止本轮启动的服务：
 
 ```bash
-docker compose up -d platform-api judge-worker platform-web
+just dev-down
 ```
 
-## 5. 初始化与验证
+启动后检查：
 
-建议初始化以下数据：
+```bash
+curl -fsS http://127.0.0.1:18080/actuator/health/readiness
+curl -fsS http://127.0.0.1:3000
+```
+
+## 7. 容器依赖单独启动
+
+需要只启动后端依赖时，在 `server/` 仓库执行：
+
+```bash
+cd server
+docker compose -f compose.yaml up -d postgres rabbitmq minio redis go-judge
+```
+
+后端数据库迁移由应用启动时的 Flyway 管理。若进行发布演练，应先完成环境变量检查，再启动应用镜像或本地服务。
+
+## 8. 初始化与验收冒烟
+
+建议准备以下演示数据：
 
 - 1 个平台管理员账号
 - 2 个教师账号
 - 4 个学员账号
-- 1 门演示课程
-- 2 个演示任务：1 个编程任务（含模板工程）、1 个文档任务
+- 1 门演示课程和 1 个教学班
+- 1 个结构化编程作业
+- 1 个报告型实验或终端实验
 
-验收前冒烟检查：
+冒烟检查清单：
 
-- 管理员可登录并进入平台概览
-- 教师可创建课程并发布任务
-- 学员可进入在线 IDE、编辑代码并完成试运行
-- 学员可正式提交代码并获得评测结果
-- 教师可批改并发布成绩
+| 检查项 | 期望结果 |
+| --- | --- |
+| 管理员登录 | 能进入平台配置、组织、用户、审计等入口 |
+| 教师课程链路 | 能创建课程、教学班、成员、公告、资源、讨论和作业 |
+| 学员作业链路 | 能查看作业、进入在线 IDE、保存、试运行并提交整份作业 |
+| 评测链路 | go-judge 返回评测结果，提交详情可查看报告 |
+| 批改成绩链路 | 教师能批改、发布成绩，学员能查看已发布成绩 |
+| 实验链路 | 报告型实验可提交报告；终端实验可按运行时配置启动会话 |
+| 通知链路 | 关键事件产生站内通知，通知列表和未读数可刷新 |
 
-## 6. 常见问题与排障
+## 9. 验证命令
+
+| 目标 | 命令 |
+| --- | --- |
+| 三仓库状态检查 | `just status` |
+| 快速非浏览器门禁 | `just verify` |
+| 完整非浏览器门禁 | `just verify-full` |
+| 真实本地 E2E | `just e2e-real` |
+| 文档站构建 | `cd docs && npm run docs:build` |
+
+## 10. 常见问题与排障
 
 | 现象 | 排查方向 |
 | --- | --- |
-| 登录成功但页面空白 | 检查前端环境变量和 API 基地址 |
-| Session 登录不稳定 | 检查 Redis、Cookie 域和 Spring Session 配置 |
-| IDE 一直提示保存失败 | 检查 API 日志、数据库写权限和任务开放状态 |
-| 试运行或评测一直不结束 | 检查 Redis Stream、Worker 日志和 `go-judge` 状态 |
-| Flyway 迁移失败 | 检查数据库版本、脚本顺序和历史表 `flyway_schema_history` |
-| 成绩发布后学生看不到结果 | 检查权限、成绩状态和通知事件 |
+| 登录成功但页面空白 | 检查前端 API 基地址、后端端口和浏览器网络请求 |
+| 后端 readiness 失败 | 检查 PostgreSQL、MinIO、go-judge、RabbitMQ 和 Redis 配置 |
+| IDE 保存失败 | 检查作业状态、成员关系、工作区修订冲突和 API 日志 |
+| 评测一直不结束 | 检查 RabbitMQ 队列、Consumer、DLQ 和 go-judge 状态 |
+| 报告无法下载 | 检查 MinIO 连接、对象 key 和下载权限 |
+| 终端实验无法连接 | 检查 `AUBB_LAB_RUNTIME_MODE`、会话状态、连接 token 和 WebSocket 请求 |
+| 成绩发布后学员看不到结果 | 检查成绩发布状态、学员课程成员关系、作业范围和通知事件 |
 
-## 7. 回滚方案
+## 11. 回滚方案
 
-- 代码版本回滚：回退到上一个已验证镜像标签。
-- 数据库回滚：优先使用备份恢复，不做危险的手工表级回滚。
-- 配置回滚：恢复上一版环境变量与平台配置版本。
+- 应用版本回滚：回退到上一个已验证镜像或源码提交。
+- 数据库回滚：优先使用发布前备份恢复，不做危险的手工表级回滚。
+- 对象存储回滚：按对象 key 和业务记录核对，不直接删除未知对象。
+- 配置回滚：恢复上一版环境变量与平台配置，重新执行健康检查。

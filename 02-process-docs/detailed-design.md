@@ -90,10 +90,10 @@ flowchart LR
   end
 
   subgraph Server["后端服务: Spring Boot 4 / Java 25"]
-    Api["Controller API"]
-    App["Application Service"]
-    Domain["Domain Policy / State"]
-    Infra["Mapper / Storage / Queue Adapter"]
+    Api["接口适配"]
+    App["应用服务"]
+    Domain["领域规则 / 状态"]
+    Infra["持久化 / 存储 / 队列适配"]
   end
 
   DB[(PostgreSQL)]
@@ -133,10 +133,10 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-  Controller["api: Controller / Request / Response"]
-  Application["application: 事务编排 / 授权 / 审计 / View 组装"]
-  Domain["domain: 枚举 / 策略 / 生命周期规则"]
-  Infrastructure["infrastructure: Entity / Mapper / 外部适配"]
+  Controller["接口层: 请求 / 响应 / 协议适配"]
+  Application["应用层: 事务编排 / 授权 / 审计 / 视图组装"]
+  Domain["领域层: 枚举 / 策略 / 生命周期规则"]
+  Infrastructure["基础设施层: 持久化 / 存储 / 外部适配"]
   Common["common/config: 共享横切能力"]
   Database[(PostgreSQL)]
   External["MinIO / RabbitMQ / Redis / go-judge"]
@@ -152,18 +152,18 @@ flowchart TB
 
 ### 2.3 子系统划分
 
-| 子系统编号 | 子系统 | 后端模块 | 前端业务域/页面 | 核心职责 |
+| 子系统编号 | 子系统 | 后端设计边界 | 前端设计边界 | 核心职责 |
 | --- | --- | --- | --- | --- |
-| S01 | 身份认证与授权 | `identityaccess`、`config.SecurityConfig` | `features/auth`、`(auth)`、`role-guard` | 登录、刷新、退出、当前用户、会话撤销、路由权限 |
-| S02 | 平台治理与组织 | `platformconfig`、`organization`、`identityaccess.user`、`audit` | `features/admin`、`/admin/*` | 平台配置、组织树、用户、作用域身份、审计 |
-| S03 | 课程与成员 | `course` | `features/course`、管理员/教师/学员课程页面 | 学期、课程目录、开课、教学班、成员、公告、资源、讨论 |
-| S04 | 作业与题库 | `assignment` | `features/assignment` | 作业生命周期、试卷结构、题库、编程题配置 |
-| S05 | 提交与在线工作区 | `submission` | `features/submission` | 工作区文件树、修订、附件、正式提交、提交详情 |
-| S06 | 判题与样例运行 | `judge` | `features/judge` | 样例运行、正式评测、go-judge 适配、报告、重排队 |
-| S07 | 批改与成绩 | `grading` | `features/grading` | 人工批改、成绩调整、导入导出、成绩发布、成绩册 |
-| S08 | 实验与附件 | `lab`、`common.storage` | `features/lab` | 实验发布、实验报告、附件上传下载、评阅发布 |
-| S09 | 通知与公告 | `notification`、`course` 公告 | `features/notification`、通知页 | 站内通知、未读数、SSE 流、公告触达 |
-| S10 | 审计与运维观测 | `audit`、`common`、`management` | `/admin/audit-logs`、运维文档 | 请求追踪、关键操作审计、健康检查、指标 |
+| S01 | 身份认证与授权 | 会话、JWT、当前用户和权限校验 | 登录页、当前用户装配、角色路由保护 | 登录、刷新、退出、当前用户、会话撤销、路由权限 |
+| S02 | 平台治理与组织 | 平台配置、组织、用户、治理身份和审计 | 管理员治理页面 | 平台配置、组织树、用户、作用域身份、审计 |
+| S03 | 课程与成员 | 课程主数据、教学班、成员和课程内容 | 管理员/教师/学员课程页面 | 学期、课程目录、开课、教学班、成员、公告、资源、讨论 |
+| S04 | 作业与题库 | 作业生命周期、结构化试卷和题库 | 作业、试卷编辑和题库页面 | 作业生命周期、试卷结构、题库、编程题配置 |
+| S05 | 提交与在线工作区 | 工作区、修订、附件和正式提交 | 学员作业、在线工作区和提交详情 | 工作区文件树、修订、附件、正式提交、提交详情 |
+| S06 | 判题与样例运行 | 样例运行、正式评测、队列和报告 | 评测状态、报告展示和重排队入口 | 样例运行、正式评测、go-judge 适配、报告、重排队 |
+| S07 | 批改与成绩 | 人工评分、成绩发布、成绩册和导出 | 批改、成绩册和学员成绩页 | 人工批改、成绩调整、导入导出、成绩发布、成绩册 |
+| S08 | 实验与附件 | 实验定义、报告、附件、环境模板和会话 | 教师实验管理、学员实验和 Web 终端 | 报告型实验、终端实验、附件上传下载、评阅发布 |
+| S09 | 通知与公告 | 站内通知、收件状态和课程公告触发 | 通知页、未读数和增量刷新 | 站内通知、未读数、SSE 流、公告触达 |
+| S10 | 审计与运维观测 | 审计、健康检查、指标和请求追踪 | 审计日志页面和运维文档 | 请求追踪、关键操作审计、健康检查、指标 |
 
 ### 2.4 子系统活动图与顺序图
 
@@ -187,10 +187,10 @@ flowchart TD
 sequenceDiagram
   actor U as 用户
   participant W as Web LoginForm
-  participant A as AuthController
-  participant S as AuthenticationApplicationService
+  participant A as 认证接口
+  participant S as 认证服务
   participant DB as PostgreSQL
-  participant JWT as JwtTokenService
+  participant JWT as Token 服务
 
   U->>W: 输入凭据
   W->>A: POST /api/v1/auth/login
@@ -222,11 +222,11 @@ flowchart TD
 sequenceDiagram
   actor Admin as 平台管理员
   participant W as Admin Page
-  participant C as OrganizationAdminController
-  participant S as OrganizationApplicationService
+  participant C as 组织治理接口
+  participant S as 组织治理服务
   participant P as OrganizationPolicy
   participant DB as PostgreSQL
-  participant Audit as AuditLogApplicationService
+  participant Audit as 审计服务
 
   Admin->>W: 新增学院/课程/班级节点
   W->>C: POST/PUT /api/v1/admin/org-units
@@ -256,9 +256,9 @@ flowchart TD
 sequenceDiagram
   actor T as 教师
   participant W as Teacher Course Page
-  participant C as CourseTeachingController
-  participant S as CourseTeachingApplicationService
-  participant Authz as CourseAuthorizationService
+  participant C as 课程教学接口
+  participant S as 课程教学服务
+  participant Authz as 课程授权服务
   participant DB as PostgreSQL
 
   T->>W: 创建教学班或导入成员
@@ -288,8 +288,8 @@ flowchart TD
 sequenceDiagram
   actor T as 教师
   participant W as PaperEditor
-  participant C as AssignmentTeacherController
-  participant S as AssignmentPaperApplicationService
+  participant C as 作业接口
+  participant S as 试卷编辑服务
   participant DB as PostgreSQL
 
   T->>W: 编辑大题、题目、分值和编程题配置
@@ -320,8 +320,8 @@ flowchart TD
 sequenceDiagram
   actor S as 学员
   participant W as Workspace Page
-  participant C as MyProgrammingWorkspaceController
-  participant AS as ProgrammingWorkspaceApplicationService
+  participant C as 工作区接口
+  participant AS as 工作区服务
   participant DB as PostgreSQL
 
   S->>W: 打开 /student/assignments/{id}/workspace/{questionId}
@@ -355,11 +355,11 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
-  participant Sub as SubmissionApplicationService
+  participant Sub as 提交服务
   participant Pub as JudgeExecutionQueuePublisher
   participant MQ as RabbitMQ
   participant Cons as JudgeExecutionQueueConsumer
-  participant Exec as JudgeExecutionService
+  participant Exec as 评测执行服务
   participant GJ as go-judge
   participant DB as PostgreSQL
   participant Obj as MinIO
@@ -393,10 +393,10 @@ flowchart TD
 sequenceDiagram
   actor T as 教师/助教
   participant W as Grading Page
-  participant C as TeacherGradingController
-  participant S as GradingApplicationService
+  participant C as 批改接口
+  participant S as 批改成绩服务
   participant DB as PostgreSQL
-  participant N as NotificationDispatchService
+  participant N as 通知分发服务
 
   T->>W: 保存某题人工评分
   W->>C: POST /api/v1/teacher/submissions/{sid}/answers/{aid}/grade
@@ -413,21 +413,26 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-  A["教师创建实验"] --> B["发布实验"]
-  B --> C["学员填写实验报告草稿"]
+  A["教师创建实验"] --> B{"实验类型"}
+  B -- REPORT --> C["学员填写实验报告草稿"]
   C --> D["上传附件到 MinIO"]
   D --> E["提交报告"]
   E --> F["教师评阅"]
   F --> G["发布评阅结果"]
+  B -- TERMINAL --> H["绑定环境模板并发布"]
+  H --> I["学员启动个人实验会话"]
+  I --> J["申请短期连接 token"]
+  J --> K["WebSocket 连接终端"]
+  K --> L["停止或重置会话"]
 ```
 
 ```mermaid
 sequenceDiagram
   actor S as 学员
   participant W as Lab Page
-  participant C as MyLabController
-  participant A as LabApplicationService
-  participant Obj as ObjectStorageService
+  participant C as 实验接口
+  participant A as 实验服务
+  participant Obj as 对象存储服务
   participant DB as PostgreSQL
 
   S->>W: 上传实验附件
@@ -438,6 +443,8 @@ sequenceDiagram
   A-->>C: LabReportAttachmentView
   C-->>W: 附件元数据
 ```
+
+环境型实验会话独立于实验报告保存。报告正文、附件和评语仍走报告模型；终端连接只使用短期 token 建立 WebSocket 会话，不把长效登录凭证直接暴露给运行时。
 
 #### S09 通知与公告
 
@@ -454,9 +461,9 @@ flowchart TD
 ```mermaid
 sequenceDiagram
   participant Biz as 业务服务
-  participant N as NotificationDispatchService
+  participant N as 通知分发服务
   participant DB as PostgreSQL
-  participant API as MyNotificationController
+  participant API as 通知接口
   participant W as NotificationInbox
 
   Biz->>N: dispatch(event, recipients)
@@ -473,9 +480,9 @@ sequenceDiagram
 ```mermaid
 flowchart TD
   A["请求进入后端"] --> B["RequestIdFilter 注入 requestId"]
-  B --> C["Controller/Application 执行业务"]
+  B --> C["接口层和应用层执行业务"]
   C --> D{"关键治理动作"}
-  D -- 是 --> E["AuditLogApplicationService 写审计"]
+  D -- 是 --> E["审计服务写入记录"]
   D -- 否 --> F["仅写结构化日志"]
   E --> G["管理员审计页查询"]
   F --> H["健康检查/Prometheus 指标"]
@@ -485,8 +492,8 @@ flowchart TD
 sequenceDiagram
   actor Admin as 管理员
   participant W as Audit Page
-  participant C as AuditLogAdminController
-  participant S as AuditLogApplicationService
+  participant C as 审计查询接口
+  participant S as 审计服务
   participant DB as PostgreSQL
 
   Admin->>W: 输入筛选条件
@@ -532,9 +539,9 @@ sequenceDiagram
 | M27 | 评测报告下载 | Judge job ID、当前用户 | 校验所有权/教师权限、读取对象存储 | 报告和源码快照按 object key 取回 | 下载响应 |
 | M28 | 人工评分 | 提交答案、分数、评语 | 保存人工分、更新提交分题评分状态 | 教师/助教作用域控制；分数范围与题目分值一致 | `ManualGradeResultView` |
 | M29 | 成绩批量调整 | 作业 ID、学生成绩列表 | 批量校验、局部成功、返回行级结果 | 使用事务批量写入，失败行不影响有效行 | `BatchManualGradeResultView` |
-| M30 | 成绩发布 | 作业 ID | 校验可发布状态，生成发布快照并通知 | 发布后学生侧可见，保留发布记录 | `AssignmentGradePublicationView` |
+| M30 | 成绩发布 | 作业 ID | 校验可发布状态，写入发布状态并通知 | 首次发布时间不因重新发布重置，重新发布记录操作者和通知语义 | `AssignmentGradePublicationView` |
 | M31 | 成绩册 | 开课/班级/学生 ID、筛选条件 | 汇总作业列、学生行、统计与导出 | 分页查询学生行，按作业列组装分数单元格 | `GradebookPageView`、导出文件 |
-| M32 | 实验管理 | 实验标题、内容、截止时间、附件 | 教师创建/发布/关闭，学员提交报告 | 报告状态 `DRAFT -> SUBMITTED -> REVIEWED -> PUBLISHED` | `LabView`、`LabReportView` |
+| M32 | 实验管理 | 实验标题、内容、类型、环境模板、截止时间、附件 | 教师创建/发布/关闭，学员提交报告或启动终端会话 | 报告状态 `DRAFT -> SUBMITTED -> REVIEWED -> PUBLISHED`；终端会话独立流转 | `LabView`、`LabReportView`、`LabSessionView` |
 | M33 | 通知中心 | 业务事件、收件人、通知类型 | 写通知、写收件状态、未读数查询、已读 | 站内通知同步入库，SSE/轮询用于前端更新 | `NotificationView`、未读数 |
 | M34 | 审计日志 | 操作人、动作、目标、结果、元数据 | 关键操作统一记录、分页查询 | requestId 串联请求日志与审计记录 | `AuditLogView` |
 
@@ -558,8 +565,8 @@ flowchart TD
   C --> D{"会话有效且账号 ACTIVE"}
   D -- 否 --> E["401 / 清空前端会话"]
   D -- 是 --> F["装配 AuthenticatedUserPrincipal"]
-  F --> G["Controller 粗粒度权限"]
-  G --> H["Application Service 数据作用域校验"]
+  F --> G["接口层粗粒度权限"]
+  G --> H["应用层数据作用域校验"]
 ```
 
 #### 3.2.2 课程作用域授权算法
@@ -594,7 +601,7 @@ flowchart TD
 #### 3.2.4 评测执行与结果归一化算法
 
 ```text
-1. JudgeExecutionService 根据 jobId 加载提交、答案、编程题配置、用例和执行环境。
+1. 评测执行服务根据 jobId 加载提交、答案、编程题配置、用例和执行环境。
 2. 对编译型语言先向 go-judge 发起编译请求，编译失败直接归一化为 SYSTEM_ERROR 或 RUNTIME_ERROR 类结果。
 3. 对每个测试点独立构造运行请求，注入 stdin、资源限制和待执行文件。
 4. 将 go-judge 返回状态映射到 JudgeVerdict：
@@ -615,8 +622,8 @@ flowchart TD
 2. 系统校验教师/助教是否具有该开课或班级成绩发布权限。
 3. 系统扫描提交答案、人工分、自动评测分和批量调整结果，生成最终分数。
 4. 不满足发布前置条件的记录返回行级问题。
-5. 满足条件后写入发布快照，学生侧成绩册开始可见。
-6. 发布事件进入通知中心，向相关学员生成站内通知。
+5. 满足条件后更新作业成绩发布状态，学生侧成绩册开始按发布规则可见。
+6. 发布或重新发布事件进入通知中心，向相关学员生成站内通知。
 ```
 
 ### 3.3 状态机设计
@@ -758,33 +765,34 @@ erDiagram
 
 #### 4.1.2 外部 API 分组
 
-| API 分组 | Controller | 主要接口 |
+| API 分组 | 接口边界 | 主要接口 |
 | --- | --- | --- |
-| 认证 | `AuthController` | `/api/v1/auth/login`、`/refresh`、`/logout`、`/revoke`、`/me` |
-| 平台配置 | `PlatformConfigAdminController` | `/api/v1/admin/platform-config/current` |
-| 组织 | `OrganizationAdminController` | `/api/v1/admin/org-units` |
-| 用户 | `UserAdminController` | `/api/v1/admin/users`、`/import`、`/{id}/status`、`/{id}/sessions/revoke` |
-| 权限解释 | `AuthzGroupAdminController` | `/api/v1/admin/auth/groups`、`/explain` |
-| 课程治理 | `AcademicTermAdminController`、`CourseCatalogAdminController`、`CourseOfferingAdminController` | 学期、课程目录、开课 CRUD |
-| 教学管理 | `CourseTeachingController` | 班级、成员、成员导入、转班、功能开关 |
-| 课程内容 | `CourseAnnouncement*`、`CourseResource*`、`CourseDiscussion*` | 公告、资源、讨论 |
-| 作业题库 | `AssignmentTeacherController`、`QuestionBankTeacherController`、`MyAssignmentsController` | 作业、试卷、题库、学员作业查询 |
-| 工作区提交 | `MyProgrammingWorkspaceController`、`MySubmissionController`、`TeacherSubmissionController` | 工作区、附件、提交、提交详情 |
-| 判题 | `MyProgrammingSampleRunController`、`MyJudgeController`、`TeacherJudgeController`、`TeacherJudgeEnvironmentProfileController` | 样例运行、评测报告、重排队、环境配置 |
-| 批改成绩 | `TeacherGradingController`、`TeacherGradebookController`、`MyGradebookController` | 人工评分、成绩发布、成绩册、导出 |
-| 实验 | `LabTeacherController`、`MyLabController` | 实验、报告、附件、评阅 |
-| 通知 | `MyNotificationController` | 通知分页、未读数、SSE、已读 |
-| 审计 | `AuditLogAdminController` | 审计日志分页查询 |
+| 认证 | 统一认证入口 | `/api/v1/auth/login`、`/refresh`、`/logout`、`/revoke`、`/me` |
+| 平台配置 | 管理员平台配置入口 | `/api/v1/admin/platform-config/current` |
+| 组织 | 管理员组织治理入口 | `/api/v1/admin/org-units` |
+| 用户 | 管理员用户治理入口 | `/api/v1/admin/users`、`/import`、`/{id}/status`、`/{id}/sessions/revoke` |
+| 权限解释 | 管理员权限解释入口 | `/api/v1/admin/auth/groups`、`/explain` |
+| 课程治理 | 管理员学期、课程目录和开课入口 | 学期、课程目录、开课 CRUD |
+| 教学管理 | 教师课程运营入口 | 班级、成员、成员导入、转班、功能开关 |
+| 课程内容 | 课程公告、资源和讨论入口 | 公告、资源、讨论 |
+| 作业题库 | 教师作业、试卷和题库入口 | 作业、试卷、题库、学员作业查询 |
+| 工作区提交 | 学员提交与教师提交查询入口 | 工作区、附件、提交、提交详情 |
+| 判题 | 样例运行、评测报告和环境配置入口 | 样例运行、评测报告、重排队、环境配置 |
+| 批改成绩 | 教师批改、成绩册和学员成绩入口 | 人工评分、成绩发布、成绩册、导出 |
+| 实验 | 教师和学员实验入口 | 实验、报告、附件、评阅、环境模板、会话、连接 token |
+| 通知 | 个人通知入口 | 通知分页、未读数、SSE、已读 |
+| 审计 | 管理员审计查询入口 | 审计日志分页查询 |
 
 #### 4.1.3 外部依赖接口
 
 | 外部系统 | 使用方式 | 失败策略 |
 | --- | --- | --- |
 | PostgreSQL | Hikari 连接池、MyBatis-Plus、Flyway | 数据库不可用时健康检查失败，业务接口返回系统错误 |
-| MinIO | `ObjectStorageService` 统一适配 | 上传失败回滚业务关联，下载失败返回可重试错误 |
+| MinIO | 通过对象存储服务统一适配 | 上传失败回滚业务关联，下载失败返回可重试错误 |
 | RabbitMQ | `JudgeExecutionQueuePublisher/Consumer`，队列 `aubb.judge.jobs`，DLQ `aubb.judge.jobs.dlq` | 队列关闭时可回退本地异步执行；消费失败按配置重试后进入 DLQ |
 | Redis | 可选缓存、限流、健康增强 | Redis 不可用时按降级策略回退内存/无缓存能力 |
 | go-judge | REST 客户端调用 `/run` 与 `/version` | 执行失败归一化为评测失败，保留原始报告用于排查 |
+| 实验运行时 | Fake Runtime 或 Kubernetes Runtime | Fake 用于本地演示；Kubernetes 用于真实隔离终端实验，启动失败返回会话错误 |
 
 ### 4.2 内部界面设计
 
@@ -792,10 +800,10 @@ erDiagram
 
 ```mermaid
 flowchart TD
-  Page["app 路由页面"] --> Hook["features/*/hooks"]
-  Page --> Component["features/*/components"]
-  Hook --> Api["features/*/api"]
-  Component --> Model["features/*/model"]
+  Page["角色路由页面"] --> Hook["业务 Hooks"]
+  Page --> Component["业务组件"]
+  Hook --> Api["业务 API 封装"]
+  Component --> Model["业务模型"]
   Api --> Client["shared/api/client"]
   Client --> Generated["shared/api/generated/openapi"]
   Page --> Layout["shared/ui/layout"]
@@ -817,16 +825,16 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  Controller["Controller"]
-  Request["Request DTO"]
-  AppService["Application Service"]
-  Policy["Domain Policy / Authz Service"]
-  Mapper["Mapper"]
-  Entity["Entity"]
-  View["View"]
-  Audit["AuditLogApplicationService"]
-  Queue["Queue Publisher"]
-  Storage["ObjectStorageService"]
+  Controller["接口适配"]
+  Request["请求模型"]
+  AppService["应用服务"]
+  Policy["领域策略 / 授权服务"]
+  Mapper["持久化访问"]
+  Entity["数据实体"]
+  View["响应视图"]
+  Audit["审计服务"]
+  Queue["队列发布"]
+  Storage["对象存储服务"]
 
   Controller --> Request
   Controller --> AppService
@@ -843,12 +851,12 @@ flowchart TD
 
 | 调用边界 | 设计约束 |
 | --- | --- |
-| Controller -> Application Service | Controller 只做协议适配、参数校验和认证主体传递 |
-| Application Service -> Domain | 状态流转、密码策略、组织规则、课程授权等通过领域策略或授权服务封装 |
-| Application Service -> Mapper | Mapper 只负责持久化；复杂业务判断不得写在 Mapper 中 |
-| Application Service -> Audit | 关键治理、提交、重评、成绩发布等动作写审计 |
-| Application Service -> Queue | 评测任务通过事件/Publisher 解耦，避免 Controller 直接操作队列 |
-| Application Service -> Storage | 文件和报告统一走 `ObjectStorageService`，业务模块不得直接操作本地磁盘 |
+| 接口层 -> 应用层 | 接口层只做协议适配、参数校验和认证主体传递 |
+| 应用层 -> 领域层 | 状态流转、密码策略、组织规则、课程授权等通过领域策略或授权服务封装 |
+| 应用层 -> 持久化访问 | 持久化访问只负责数据读写；复杂业务判断不得下沉到 SQL 拼接 |
+| 应用层 -> 审计服务 | 关键治理、提交、重评、成绩发布等动作写审计 |
+| 应用层 -> 队列 | 评测任务通过事件和队列发布解耦，避免接口层直接操作队列 |
+| 应用层 -> 对象存储 | 文件和报告统一走对象存储服务，业务模块不得直接操作本地磁盘 |
 
 ### 4.3 用户界面设计
 
@@ -1080,7 +1088,7 @@ flowchart TD
 flowchart TD
   Unit["单元测试"] --> Domain["领域策略/状态机"]
   Unit --> FrontShared["前端共享工具"]
-  Integration["集成测试"] --> API["Controller + Service + DB"]
+  Integration["集成测试"] --> API["接口层 + 应用层 + 数据库"]
   Integration --> Queue["RabbitMQ / go-judge / MinIO"]
   E2E["端到端测试"] --> Browser["真实浏览器角色流程"]
   Security["安全测试"] --> Authz["401/403/作用域隔离"]
