@@ -15,7 +15,7 @@ status: current
 
 ## 2. 部署目标与边界
 
-本文档定义可复验的最小部署路径，回答“怎样把系统跑起来并完成验收冒烟”。详细 API、数据库表结构和测试用例分别由稳定接口清单、数据库文档和测试报告负责。
+本文档定义可复验的最小部署路径，回答“怎样把系统跑起来并完成验收冒烟”。本文直接给出课程验收所需的部署拓扑、关键配置、启动步骤和成功判据，不要求评审人员另读其他文档才能完成复验。
 
 部署后至少应验证：
 
@@ -30,7 +30,8 @@ status: current
 flowchart TB
   Browser["Browser"]
   Web["AUBB Web :3000"]
-  API["AUBB Server :18080"]
+  API["AUBB Server API<br/>本地 :18080 / 容器 :8080"]
+  Worker["Judge Worker<br/>同镜像独立消费进程"]
   DB[(PostgreSQL 16)]
   MQ[(RabbitMQ)]
   S3[(MinIO)]
@@ -44,7 +45,8 @@ flowchart TB
   API --> MQ
   API --> S3
   API --> Redis
-  MQ --> API
+  MQ --> Worker
+  Worker --> Judge
   API --> Judge
   API --> Lab
 ```
@@ -67,6 +69,7 @@ flowchart TB
 | 变量 | 说明 | 示例 |
 | --- | --- | --- |
 | `SERVER_PORT` | 后端 API 端口 | `18080` |
+| `AUBB_APP_PORT` | 容器化部署时宿主机映射端口；容器内应用端口为 `8080` | `8080` |
 | `SPRING_DATASOURCE_URL` | PostgreSQL 连接串 | `jdbc:postgresql://localhost:5432/aubb` |
 | `SPRING_DATASOURCE_USERNAME` | 数据库用户名 | `aubb` |
 | `SPRING_DATASOURCE_PASSWORD` | 数据库密码 | `change-me` |
@@ -93,7 +96,7 @@ just healthcheck
 just dev-up
 ```
 
-`just dev-up` 会启动本地 Docker 依赖、后端 `127.0.0.1:18080` 和前端 `127.0.0.1:3000`。如果需要停止本轮启动的服务：
+`just dev-up` 会启动本地 Docker 依赖、后端 `127.0.0.1:18080` 和前端 `127.0.0.1:3000`。这是工作区演示端口；容器化应用镜像默认在容器内监听 `8080`，可通过 `AUBB_APP_PORT` 映射到宿主机端口。如果需要停止本轮启动的服务：
 
 ```bash
 just dev-down
@@ -138,6 +141,7 @@ docker compose -f compose.yaml up -d postgres rabbitmq minio redis go-judge
 | 评测链路 | go-judge 返回评测结果，提交详情可查看报告 |
 | 批改成绩链路 | 教师能批改、发布成绩，学员能查看已发布成绩 |
 | 实验链路 | 报告型实验可提交报告；终端实验可按运行时配置启动会话 |
+| 压力口径 | 本地演示只要求低并发主链路稳定；不得把演示冒烟通过表述为全平台高并发容量通过 |
 | 通知链路 | 关键事件产生站内通知，通知列表和未读数可刷新 |
 
 ## 9. 验证命令

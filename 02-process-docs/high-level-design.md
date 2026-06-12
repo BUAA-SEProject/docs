@@ -11,8 +11,8 @@ status: current
 - 版本：v1.4
 - 状态：设计基线
 - 更新日期：2026-06-12
-- 编写依据：SRS、软件开发计划书、课程大作业要求、稳定 API 清单
-- 参考标准：ISO/IEC/IEEE 42010、IEEE 1016-2009
+- 编写依据摘要：课程大作业要求、AUBB V1 需求基线、当前系统架构事实
+- 独立性说明：本文直接说明架构边界、模块关系和运行视图，不要求评审人员另读接口或数据库文档才能理解设计结论
 
 ## 2. 设计目标与约束
 
@@ -85,7 +85,8 @@ flowchart TB
 ```mermaid
 flowchart LR
   subgraph Client["表现层"]
-    WebPage["角色路由 / 页面"]
+    WebPage["角色全局导航"]
+    ContextNav["课程 / 教学班上下文导航"]
     IDE["在线 IDE"]
     Terminal["实验 Web 终端"]
   end
@@ -112,6 +113,7 @@ flowchart LR
     Sandbox["go-judge"]
     Runtime["Kubernetes"]
   end
+  WebPage --> ContextNav
   Client --> ApiLayer
   ApiLayer --> Domain
   Domain --> Infra
@@ -229,7 +231,7 @@ flowchart TB
   Api --> MQ[(RabbitMQ)]
   Api --> MinIO[(MinIO)]
   Api --> Redis[(Redis)]
-  MQ --> Worker["同应用评测 Consumer"]
+  MQ --> Worker["Judge Worker<br/>同镜像独立消费进程"]
   Worker --> Judge["go-judge"]
   Api --> LabRuntime["Fake / Kubernetes Lab Runtime"]
 ```
@@ -239,7 +241,7 @@ flowchart TB
 | 模式 | 说明 |
 | --- | --- |
 | 本地开发 / 演示 | 使用 `just dev-up` 启动依赖、后端 `18080` 和前端 `3000` |
-| 容器化交付 | 使用 `server/compose.yaml` 管理 PostgreSQL、RabbitMQ、MinIO、Redis、go-judge 和后端镜像 |
+| 容器化交付 | 使用容器编排管理 PostgreSQL、RabbitMQ、MinIO、Redis、go-judge、API 进程和 Judge Worker 进程；API 与 Worker 同代码基线但运行职责不同 |
 
 ## 11. 安全、可靠性与可观测性设计
 
