@@ -1,0 +1,26 @@
+# Local build output and submission archives
+/dist/
+*.zip
+
+# Historical generation and review workspaces
+/.audit/
+/.seminar_*/
+
+# Python and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Office lock files, editor state and OS metadata
+~$*
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/

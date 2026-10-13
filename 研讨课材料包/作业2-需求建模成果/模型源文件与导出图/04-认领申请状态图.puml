@@ -1,0 +1,41 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam lineThickness 1.2
+skinparam roundcorner 8
+skinparam usecaseBackgroundColor #F1F5F9
+skinparam usecaseBorderColor #64748B
+skinparam stateBackgroundColor #F1F5F9
+skinparam stateBorderColor #64748B
+skinparam activityBackgroundColor #F1F5F9
+skinparam activityBorderColor #64748B
+skinparam noteBackgroundColor #FFFFFF
+skinparam noteBorderColor #94A3B8
+hide empty description
+state "已提交" as Submitted
+state "验证中" as Verifying
+state "待补充" as NeedMore
+state "待审核" as Reviewing
+state "已通过" as Approved
+state "已驳回" as Rejected
+state "已撤回" as Withdrawn
+[*] --> Submitted : 提交合法申请
+Submitted --> Verifying : 开始验证
+Verifying --> Reviewing : 证据完整\n控制验证通过
+Verifying --> NeedMore : 证据不足或可补正
+NeedMore --> Verifying : 补充材料
+Reviewing --> NeedMore : 要求补充
+Reviewing --> Approved : 通过且版本有效\n门户空闲\n同事务绑定
+Reviewing --> Rejected : 驳回或绑定冲突\n记录原因
+Submitted --> Withdrawn : 撤回
+Verifying --> Withdrawn : 撤回
+NeedMore --> Withdrawn : 撤回
+Reviewing --> Withdrawn : 撤回
+Approved --> [*]
+Rejected --> [*]
+Withdrawn --> [*]
+
+@enduml

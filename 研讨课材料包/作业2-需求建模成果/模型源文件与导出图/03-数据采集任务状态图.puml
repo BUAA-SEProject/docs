@@ -1,0 +1,37 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam lineThickness 1.2
+skinparam roundcorner 8
+skinparam usecaseBackgroundColor #F1F5F9
+skinparam usecaseBorderColor #64748B
+skinparam stateBackgroundColor #F1F5F9
+skinparam stateBorderColor #64748B
+skinparam activityBackgroundColor #F1F5F9
+skinparam activityBorderColor #64748B
+skinparam noteBackgroundColor #FFFFFF
+skinparam noteBorderColor #94A3B8
+hide empty description
+state "待执行" as Pending
+state "运行中" as Running
+state "重试" as Retrying
+state "成功" as Succeeded
+state "失败" as Failed
+state "已停止" as Stopped
+[*] --> Pending : 创建\n重试数为0
+Pending --> Running : 调度\n租约有效
+Running --> Succeeded : 所有页处理完成
+Running --> Retrying : 临时错误\n重试数小于3\n重试数加1
+Retrying --> Running : 等待结束\n租约有效
+Running --> Failed : 永久错误\n或重试耗尽
+Pending --> Stopped : 停止
+Retrying --> Stopped : 停止
+Running --> Stopped : 停止\n阻断迟到提交
+Succeeded --> [*]
+Failed --> [*]
+Stopped --> [*]
+
+@enduml

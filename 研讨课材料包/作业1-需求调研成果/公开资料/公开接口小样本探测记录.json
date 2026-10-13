@@ -1,0 +1,52 @@
+[
+  {
+    "id": "openalex_sample",
+    "url": "https://api.openalex.org/works?search=software%20engineering&per_page=3&select=id,doi,title,publication_year,type",
+    "observed_at": "2026-10-12T23:38:31.464076+08:00",
+    "method": "one unauthenticated public GET; no retry",
+    "maximum_records": 3,
+    "status": 200,
+    "content_type": "application/json",
+    "sha256": "acdfa98775799c60b06cb7a8d9a5ac625ac72fd9ebf1d715252e6afed93b636d",
+    "sample_count": 3,
+    "records": [
+      {
+        "id": "https://openalex.org/W4234822591",
+        "doi": "https://doi.org/10.1109/tc.1976.1674590",
+        "title": "Software Engineering",
+        "publication_year": 1976,
+        "type": "article"
+      },
+      {
+        "id": "https://openalex.org/W1717525145",
+        "doi": null,
+        "title": "Software engineering with Ada",
+        "publication_year": 1983,
+        "type": "article"
+      },
+      {
+        "id": "https://openalex.org/W1530366124",
+        "doi": "https://doi.org/10.1002/0471028959",
+        "title": "Encyclopedia of Software Engineering",
+        "publication_year": 2002,
+        "type": "reference-entry"
+      }
+    ],
+    "outcome": "public JSON parsed; batch stability and authorization not tested",
+    "elapsed_seconds": 1.219
+  },
+  {
+    "id": "dblp_sample",
+    "url": "https://dblp.org/search/publ/api?q=software%20engineering&format=json&h=3",
+    "observed_at": "2026-10-12T23:38:32.673241+08:00",
+    "method": "one unauthenticated public GET; no retry",
+    "maximum_records": 3,
+    "status": null,
+    "content_type": "text/html; charset=utf-8",
+    "sha256": "9494b81b5483002724772615f97fe7fe643bd018739645b5a6ba76025ba56df3",
+    "outcome": "HTTP response received but body was not parseable as JSON",
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "elapsed_seconds": 0.438,
+    "http_status_note": "HTTP response received; status was not preserved by the first probe exception handler."
+  }
+]

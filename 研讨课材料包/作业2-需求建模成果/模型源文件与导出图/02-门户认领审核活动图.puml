@@ -1,0 +1,55 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam lineThickness 1.2
+skinparam roundcorner 8
+skinparam usecaseBackgroundColor #F1F5F9
+skinparam usecaseBorderColor #64748B
+skinparam stateBackgroundColor #F1F5F9
+skinparam stateBorderColor #64748B
+skinparam activityBackgroundColor #F1F5F9
+skinparam activityBorderColor #64748B
+skinparam noteBackgroundColor #FFFFFF
+skinparam noteBorderColor #94A3B8
+|科研人员|
+start
+:登录并选择本人门户;
+:提交公开关联与控制验证材料;
+|系统|
+:校验必填项并建立已提交申请;
+repeat
+  :进入验证中并检查证据;
+  if (证据完整且\n控制验证通过?) then (是)
+    :进入待审核;
+    |管理员|
+    :检查证据\n不得审核本人;
+    :给出通过 驳回\n或补充意见;
+  else (否)
+    |系统|
+    :标记需要补充;
+  endif
+  |系统|
+  if (本轮需要补充?) then (是)
+    :进入待补充并说明缺项;
+    |科研人员|
+    :提交补充材料;
+  endif
+  |系统|
+repeat while (本轮需要补充?) is (是) not (否)
+if (管理员决定通过?) then (是)
+  :事务内校验版本与所有权\n有效则原子批准并绑定\n冲突按SP04返回明确结果;
+else (否)
+  :校验版本并记录\n已驳回及理由;
+endif
+:保存审计并返回当前结果;
+stop
+note right
+任一未决状态均可撤回
+迟到操作需校验版本
+详见认领申请状态图
+end note
+
+@enduml

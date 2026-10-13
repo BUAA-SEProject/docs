@@ -1,0 +1,64 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam lineThickness 1.2
+skinparam roundcorner 8
+skinparam usecaseBackgroundColor #F1F5F9
+skinparam usecaseBorderColor #64748B
+skinparam stateBackgroundColor #F1F5F9
+skinparam stateBorderColor #64748B
+skinparam activityBackgroundColor #F1F5F9
+skinparam activityBorderColor #64748B
+skinparam noteBackgroundColor #FFFFFF
+skinparam noteBorderColor #94A3B8
+left to right direction
+skinparam nodesep 12
+skinparam ranksep 20
+actor "普通用户\n含访客" as Visitor
+actor "科研人员\n登录后申请认领" as Scholar
+actor "已认领科研人员" as Owner
+actor "管理员" as Admin
+actor "外部数据源" as Source
+Scholar --|> Visitor
+Owner --|> Scholar
+rectangle "学术成果分享平台" {
+  usecase "UC01\n注册与登录" as UC01
+  usecase "UC04\n检索成果与学者" as UC04
+  usecase "UC05\n查看成果详情" as UC05
+  usecase "UC06\n查看学者门户" as UC06
+  usecase "UC10\n查看统计与基础关系" as UC10
+  usecase "UC11\n探索合作路径" as UC11
+  usecase "UC07\n申请门户认领" as UC07
+  usecase "UC09\n维护本人成果与门户" as UC09
+  usecase "UC02\n管理采集与更新任务" as UC02
+  usecase "UC03\n治理分类与数据冲突" as UC03
+  usecase "UC08\n审核认领申请" as UC08
+  usecase "UC12\n查询操作审计" as UC12
+}
+Visitor -- UC01
+Visitor -- UC04
+Visitor -- UC05
+Visitor -- UC06
+Visitor -- UC10
+Visitor -- UC11
+Scholar -- UC07
+Owner -- UC09
+UC02 -- Admin
+UC03 -- Admin
+UC08 -- Admin
+UC12 -- Admin
+UC01 -- Admin
+UC02 -- Source
+note bottom of UC09
+只修改本人门户展示
+全局归属更正转交UC03复核
+end note
+note bottom of UC08
+不得自审
+绑定时检查门户所有权
+end note
+
+@enduml
