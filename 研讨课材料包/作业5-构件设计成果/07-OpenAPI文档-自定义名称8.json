@@ -1,0 +1,4303 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SHARE 学术成果分享平台 API",
+    "version": "1.0.0",
+    "description": "01 组 自定义名称8 构件设计接口契约。示例为合成测试数据；浏览器原型自行模拟，实际联调需要部署业务 API 并加载验收数据。"
+  },
+  "servers": [
+    {
+      "url": "/api/v1",
+      "description": "部署后使用同源 API 前缀。"
+    }
+  ],
+  "tags": [
+    {
+      "name": "成果检索"
+    },
+    {
+      "name": "学者门户"
+    },
+    {
+      "name": "认领审核"
+    },
+    {
+      "name": "数据采集"
+    },
+    {
+      "name": "统计分析"
+    }
+  ],
+  "paths": {
+    "/works": {
+      "get": {
+        "tags": [
+          "成果检索"
+        ],
+        "summary": "搜索公开成果",
+        "operationId": "searchWorks",
+        "description": "q 缺省时浏览全部公开成果。不同过滤项取交集，起始年份不大于结束年份。page × pageSize 不得超过 10000。搜索候选与分面来自同一次索引查询，返回列表经数据库公开状态复核。分页期间索引版本可能改变，total 为索引的匹配数；短页仍可根据 hasNext 继续。公开状态变更尚未同步且无法安全返回分面时，返回 503 INDEX_SYNC_PENDING。",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "搜索结果，零条时 items 为空数组。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchPage"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "workId": "101",
+                      "title": "面向开放数据的学术成果检索研究",
+                      "type": "PAPER",
+                      "year": 2025,
+                      "authors": [
+                        {
+                          "scholarId": "201",
+                          "name": "李研"
+                        }
+                      ],
+                      "fieldIds": [
+                        "31"
+                      ],
+                      "displayDate": "2025-06-11",
+                      "researchFields": [
+                        {
+                          "fieldId": "31",
+                          "name": "计算机科学"
+                        }
+                      ]
+                    }
+                  ],
+                  "page": 1,
+                  "pageSize": 20,
+                  "total": 1,
+                  "hasNext": false,
+                  "facets": {
+                    "types": [
+                      {
+                        "value": "PAPER",
+                        "label": "论文",
+                        "count": 1
+                      }
+                    ],
+                    "years": [
+                      {
+                        "value": "2025",
+                        "label": "2025",
+                        "count": 1
+                      }
+                    ],
+                    "fields": [
+                      {
+                        "value": "31",
+                        "label": "计算机科学",
+                        "count": 1
+                      }
+                    ],
+                    "institutions": [
+                      {
+                        "value": "11",
+                        "label": "开放数据研究院",
+                        "count": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest.searchWorks"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable.searchWorks"
+          }
+        },
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "关键词，去除首尾空白。",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "description": "成果类型过滤。",
+            "schema": {
+              "$ref": "#/components/schemas/WorkType"
+            }
+          },
+          {
+            "name": "yearFrom",
+            "in": "query",
+            "required": false,
+            "description": "起始年份，含边界。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1500,
+              "maximum": 9999
+            }
+          },
+          {
+            "name": "yearTo",
+            "in": "query",
+            "required": false,
+            "description": "结束年份，含边界。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1500,
+              "maximum": 9999
+            }
+          },
+          {
+            "name": "fieldId",
+            "in": "query",
+            "required": false,
+            "description": "领域标识。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "institutionId",
+            "in": "query",
+            "required": false,
+            "description": "机构标识。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "description": "RELEVANCE 按相关性排序，无关键词时使用 NEWEST。NEWEST 先按年份降序，同年按成果类型日期、标题拼音与标识稳定排序。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "RELEVANCE",
+                "NEWEST"
+              ],
+              "default": "RELEVANCE"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "从 1 开始的页码。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页条数。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ]
+      }
+    },
+    "/works/{workId}": {
+      "get": {
+        "tags": [
+          "成果检索"
+        ],
+        "summary": "查询公开成果详情",
+        "operationId": "getWork",
+        "description": "按主库当前公开状态查询成果详情。",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成果详情。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkDetail"
+                },
+                "example": {
+                  "workId": "101",
+                  "title": "面向开放数据的学术成果检索研究",
+                  "type": "PAPER",
+                  "year": 2025,
+                  "authors": [
+                    {
+                      "scholarId": "201",
+                      "name": "李研"
+                    }
+                  ],
+                  "fieldIds": [
+                    "31"
+                  ],
+                  "displayDate": "2025-06-11",
+                  "abstract": "研究开放元数据的检索与消歧方法。",
+                  "doi": "10.99999/demo.101",
+                  "sourceUrl": "https://example.org/works/101",
+                  "venue": "开放学术研究",
+                  "keywords": [
+                    "学术检索",
+                    "开放数据"
+                  ],
+                  "citationCount": 12,
+                  "typeDetails": {
+                    "publicationDate": "2025-06-11"
+                  },
+                  "sourceName": "开放示例数据",
+                  "updatedAt": "2026-11-22T09:00:00+08:00",
+                  "researchFields": [
+                    {
+                      "fieldId": "31",
+                      "name": "计算机科学"
+                    }
+                  ],
+                  "institutions": [
+                    {
+                      "institutionId": "11",
+                      "name": "开放数据研究院"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "parameters": [
+          {
+            "name": "workId",
+            "in": "path",
+            "required": true,
+            "description": "资源标识。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/scholars/{scholarId}/portal": {
+      "get": {
+        "tags": [
+          "学者门户"
+        ],
+        "summary": "查询学者门户",
+        "operationId": "getScholarPortal",
+        "description": "返回公开学者信息和分页成果。成果按各类型日期或年份降序，再按标题拼音和标识升序。未记录日期或年份的成果置后。workTotal 与 workTypeCounts 在同一权威快照按所有公开成果计算，不受当前 type、page 或 pageSize 影响；没有匹配成果的类别返回 0，works.total 仅对应本次类型筛选。",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "公开学者门户。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScholarPortal"
+                },
+                "example": {
+                  "scholarId": "201",
+                  "name": "李研",
+                  "institutionId": "11",
+                  "institutionName": "开放数据研究院",
+                  "bio": "研究开放学术数据。",
+                  "isClaimed": false,
+                  "researchFields": [
+                    {
+                      "fieldId": "31",
+                      "name": "计算机科学"
+                    }
+                  ],
+                  "works": {
+                    "items": [
+                      {
+                        "workId": "101",
+                        "title": "面向开放数据的学术成果检索研究",
+                        "type": "PAPER",
+                        "year": 2025,
+                        "authors": [
+                          {
+                            "scholarId": "201",
+                            "name": "李研"
+                          }
+                        ],
+                        "fieldIds": [
+                          "31"
+                        ],
+                        "displayDate": "2025-06-11",
+                        "researchFields": [
+                          {
+                            "fieldId": "31",
+                            "name": "计算机科学"
+                          }
+                        ]
+                      }
+                    ],
+                    "page": 1,
+                    "pageSize": 20,
+                    "total": 1,
+                    "hasNext": false
+                  },
+                  "workTotal": 1,
+                  "workTypeCounts": {
+                    "PAPER": 1,
+                    "PATENT": 0,
+                    "PROJECT": 0,
+                    "AWARD": 0
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "parameters": [
+          {
+            "name": "scholarId",
+            "in": "path",
+            "required": true,
+            "description": "资源标识。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "description": "成果类型过滤。",
+            "schema": {
+              "$ref": "#/components/schemas/WorkType"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "从 1 开始的页码。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页条数。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ]
+      }
+    },
+    "/claim-evidence": {
+      "post": {
+        "tags": [
+          "认领审核"
+        ],
+        "summary": "上传认领证明",
+        "operationId": "uploadClaimEvidence",
+        "description": "一次上传一个文件，校验大小、文件签名和 MIME。通过校验后存入私有对象存储。待绑定证明仅能由上传账号使用，有效期 24 小时。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "证明文件已存储。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceReceipt"
+                },
+                "example": {
+                  "evidenceId": "fa9ed22c-07d8-46df-b3c7-3e00575c3e29",
+                  "expiresAt": "2026-11-24T09:00:00+08:00"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-required-permission": "claim:write",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/EvidenceUpload"
+              },
+              "encoding": {
+                "file": {
+                  "contentType": "application/pdf, image/jpeg, image/png"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/claim-applications": {
+      "post": {
+        "tags": [
+          "认领审核"
+        ],
+        "summary": "提交认领申请",
+        "operationId": "createClaimApplication",
+        "description": "申请人从令牌提取，须为已验证的有效账号。目标是 scholarId 对应的公开门户；证明必须由该账号上传、仍有效且未绑定。需要至少两份独立证明。申请、证明绑定与审计同事务写入。同一申请人对同一门户最多有一个待审申请。相同账号、键及正文重发返回 200 和同一申请的当前表示，重复键匹配先于证明状态检查。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "认领申请已创建。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Location": {
+                "description": "资源或状态查询路径，包含 /api/v1 前缀。",
+                "schema": {
+                  "type": "string",
+                  "format": "uri-reference"
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewClaimApplication"
+                },
+                "example": {
+                  "claimId": "501",
+                  "scholarId": "201",
+                  "reason": "本人为该门户对应学者，附件含机构证明。",
+                  "evidenceIds": [
+                    "fa9ed22c-07d8-46df-b3c7-3e00575c3e29",
+                    "87a6b389-0871-4c9c-879f-79a2070d2a20"
+                  ],
+                  "status": "PENDING",
+                  "createdAt": "2026-11-23T09:00:00+08:00",
+                  "reviewComment": null,
+                  "reviewedAt": null
+                }
+              }
+            },
+            "links": {
+              "followStatus": {
+                "operationId": "getClaimApplication",
+                "parameters": {
+                  "claimId": "$response.body#/claimId"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden.createClaimApplication"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict.createClaimApplication"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "200": {
+            "description": "幂等重放，返回同一申请的当前表示。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Location": {
+                "description": "资源或状态查询路径，包含 /api/v1 前缀。",
+                "schema": {
+                  "type": "string",
+                  "format": "uri-reference"
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimApplication"
+                },
+                "example": {
+                  "claimId": "501",
+                  "scholarId": "201",
+                  "reason": "本人为该门户对应学者，附件含机构证明。",
+                  "evidenceIds": [
+                    "fa9ed22c-07d8-46df-b3c7-3e00575c3e29",
+                    "87a6b389-0871-4c9c-879f-79a2070d2a20"
+                  ],
+                  "status": "APPROVED",
+                  "createdAt": "2026-11-23T09:00:00+08:00",
+                  "reviewComment": "证据与署名一致。",
+                  "reviewedAt": "2026-11-23T09:10:00+08:00"
+                }
+              }
+            },
+            "links": {
+              "followStatus": {
+                "operationId": "getClaimApplication",
+                "parameters": {
+                  "claimId": "$response.body#/claimId"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": "claim:write",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "同一请求重试使用同一键，服务端按操作和账号串行化并随目标资源保留该键。",
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9._-]+$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimApplicationCreate"
+              },
+              "example": {
+                "scholarId": "201",
+                "reason": "本人为该门户对应学者，附件含机构证明。",
+                "evidenceIds": [
+                  "fa9ed22c-07d8-46df-b3c7-3e00575c3e29",
+                  "87a6b389-0871-4c9c-879f-79a2070d2a20"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "认领审核"
+        ],
+        "summary": "查询本人认领列表",
+        "operationId": "listMyClaimApplications",
+        "description": "仅返回当前账号的认领记录，按创建时间及标识降序。指定学者或状态时执行过滤，无匹配返回空页。包括审批历史，支持恢复申请编号。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "本人认领申请列表。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimPage"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "claimId": "501",
+                      "scholarId": "201",
+                      "reason": "本人为该门户对应学者，附件含机构证明。",
+                      "evidenceIds": [
+                        "fa9ed22c-07d8-46df-b3c7-3e00575c3e29",
+                        "87a6b389-0871-4c9c-879f-79a2070d2a20"
+                      ],
+                      "status": "APPROVED",
+                      "createdAt": "2026-11-23T09:00:00+08:00",
+                      "reviewComment": "证据与署名一致。",
+                      "reviewedAt": "2026-11-23T09:10:00+08:00"
+                    }
+                  ],
+                  "page": 1,
+                  "pageSize": 20,
+                  "total": 1,
+                  "hasNext": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-required-permission": "claim:read:self",
+        "parameters": [
+          {
+            "name": "scholarId",
+            "in": "query",
+            "required": false,
+            "description": "学者标识。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "可选的申请状态。",
+            "schema": {
+              "$ref": "#/components/schemas/ClaimStatus"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "从 1 开始的页码。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页条数。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ]
+      }
+    },
+    "/claim-applications/{claimId}": {
+      "get": {
+        "tags": [
+          "认领审核"
+        ],
+        "summary": "查询本人认领进度",
+        "operationId": "getClaimApplication",
+        "description": "申请人查询自身申请和审核意见。越权访问按 404 返回。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "本人认领申请。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimApplication"
+                },
+                "example": {
+                  "claimId": "501",
+                  "scholarId": "201",
+                  "reason": "本人为该门户对应学者，附件含机构证明。",
+                  "evidenceIds": [
+                    "fa9ed22c-07d8-46df-b3c7-3e00575c3e29",
+                    "87a6b389-0871-4c9c-879f-79a2070d2a20"
+                  ],
+                  "status": "APPROVED",
+                  "createdAt": "2026-11-23T09:00:00+08:00",
+                  "reviewComment": "证据与署名一致。",
+                  "reviewedAt": "2026-11-23T09:10:00+08:00"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-required-permission": "claim:read:self",
+        "parameters": [
+          {
+            "name": "claimId",
+            "in": "path",
+            "required": true,
+            "description": "资源标识。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/claim-applications": {
+      "get": {
+        "tags": [
+          "认领审核"
+        ],
+        "summary": "查询后台认领列表",
+        "operationId": "listAdminClaimApplications",
+        "description": "默认查看待审核记录，按创建时间及标识降序，status=ALL 可查看各状态。申请行使用 scholarName 标识目标学者，申请人按 applicantAccountId 显示。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "认领待审或历史列表。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminClaimPage"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "claimId": "501",
+                      "scholarId": "201",
+                      "reason": "本人为该门户对应学者，附件含机构证明。",
+                      "evidenceIds": [
+                        "fa9ed22c-07d8-46df-b3c7-3e00575c3e29",
+                        "87a6b389-0871-4c9c-879f-79a2070d2a20"
+                      ],
+                      "status": "PENDING",
+                      "createdAt": "2026-11-23T09:00:00+08:00",
+                      "reviewComment": null,
+                      "reviewedAt": null,
+                      "applicantAccountId": "901",
+                      "scholarName": "李研"
+                    }
+                  ],
+                  "page": 1,
+                  "pageSize": 20,
+                  "total": 1,
+                  "hasNext": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-required-permission": "claim:review",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "审核状态；ALL 表示全部。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "APPROVED",
+                "REJECTED",
+                "ALL"
+              ],
+              "default": "PENDING"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "从 1 开始的页码。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页条数。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ]
+      }
+    },
+    "/admin/claim-applications/{claimId}/evidence/{evidenceId}": {
+      "get": {
+        "tags": [
+          "认领审核"
+        ],
+        "summary": "下载申请证明",
+        "operationId": "downloadClaimEvidence",
+        "description": "校验审核角色及证明和申请的绑定关系，记录访问审计。通过服务端安全下载响应提供数据，私有对象路径不会出现在 API 响应中。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "证明文件。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Content-Disposition": {
+                "description": "attachment 下载头。",
+                "schema": {
+                  "type": "string"
+                },
+                "required": false
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-required-permission": "claim:review",
+        "parameters": [
+          {
+            "name": "claimId",
+            "in": "path",
+            "required": true,
+            "description": "资源标识。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "evidenceId",
+            "in": "path",
+            "required": true,
+            "description": "资源标识。",
+            "schema": {
+              "$ref": "#/components/schemas/EvidenceId"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/claim-applications/{claimId}/reviews": {
+      "post": {
+        "tags": [
+          "认领审核"
+        ],
+        "summary": "审核认领申请",
+        "operationId": "reviewClaimApplication",
+        "description": "审核员依据证明核对申请人和目标学者身份，拒绝时填写审核意见。PENDING 状态更新、审核审计、通过时的门户绑定和外盒事件同事务提交。同一审核员重发相同决定及意见时返回已有结果。不同的并发决策或门户绑定冲突返回 409，审核员不得审核本人申请。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "已返回审核后的申请。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimApplication"
+                },
+                "example": {
+                  "claimId": "501",
+                  "scholarId": "201",
+                  "reason": "本人为该门户对应学者，附件含机构证明。",
+                  "evidenceIds": [
+                    "fa9ed22c-07d8-46df-b3c7-3e00575c3e29",
+                    "87a6b389-0871-4c9c-879f-79a2070d2a20"
+                  ],
+                  "status": "APPROVED",
+                  "createdAt": "2026-11-23T09:00:00+08:00",
+                  "reviewComment": "证据与署名一致。",
+                  "reviewedAt": "2026-11-23T09:10:00+08:00"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden.reviewClaimApplication"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict.reviewClaimApplication"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-required-permission": "claim:review",
+        "parameters": [
+          {
+            "name": "claimId",
+            "in": "path",
+            "required": true,
+            "description": "资源标识。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewCreate"
+              },
+              "example": {
+                "decision": "APPROVE",
+                "comment": "证据与署名一致。"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/collection-sources": {
+      "get": {
+        "tags": [
+          "数据采集"
+        ],
+        "summary": "查询可用的采集来源",
+        "operationId": "listCollectionSources",
+        "description": "返回已启用来源的选项，按 sourceId 升序。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "已启用来源。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionSources"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "sourceId": "701",
+                      "code": "OPENALEX",
+                      "name": "OpenAlex"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-required-permission": "collection:manage"
+      }
+    },
+    "/admin/collection-tasks": {
+      "get": {
+        "tags": [
+          "数据采集"
+        ],
+        "summary": "查询采集任务列表",
+        "operationId": "listCollectionTasks",
+        "description": "按触发时间及标识降序，支持来源和任务状态过滤。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "采集任务列表。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionTaskPage"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "taskId": "801",
+                      "sourceId": "701",
+                      "mode": "INCREMENTAL",
+                      "status": "QUEUED",
+                      "progress": null,
+                      "processedCount": 0,
+                      "importedCount": 0,
+                      "errorCount": 0,
+                      "createdAt": "2026-11-23T09:20:00+08:00",
+                      "startedAt": null,
+                      "finishedAt": null,
+                      "failureCode": null,
+                      "failureMessage": null,
+                      "totalCount": null,
+                      "checkpointAt": null
+                    }
+                  ],
+                  "page": 1,
+                  "pageSize": 20,
+                  "total": 1,
+                  "hasNext": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-required-permission": "collection:manage",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "任务状态。",
+            "schema": {
+              "$ref": "#/components/schemas/TaskStatus"
+            }
+          },
+          {
+            "name": "sourceId",
+            "in": "query",
+            "required": false,
+            "description": "数据来源。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "从 1 开始的页码。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页条数。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "数据采集"
+        ],
+        "summary": "提交采集任务",
+        "operationId": "createCollectionTask",
+        "description": "仅接收预先注册且已启用的授权数据源。在事务中创建任务与审计，提交后由独立工作进程领取。202 表示资源已接受，最终结果以轮询为准。同一来源同时只运行一个排队或执行中的任务。相同账号、键及正文重发返回 200 和同一任务的当前表示。在来源状态和活动任务校验前查找幂等记录。出现 SOURCE_TASK_ACTIVE 时，按 sourceId 分别查询 QUEUED 与 RUNNING，并打开返回的活动任务进度；任务刚结束时刷新该来源任务列表。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "新采集任务已接受。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Location": {
+                "description": "资源或状态查询路径，包含 /api/v1 前缀。",
+                "schema": {
+                  "type": "string",
+                  "format": "uri-reference"
+                },
+                "required": true
+              },
+              "Retry-After": {
+                "description": "客户端重试前应等待的秒数。",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedCollectionTask"
+                },
+                "example": {
+                  "taskId": "801",
+                  "sourceId": "701",
+                  "mode": "INCREMENTAL",
+                  "status": "QUEUED",
+                  "progress": null,
+                  "processedCount": 0,
+                  "importedCount": 0,
+                  "errorCount": 0,
+                  "createdAt": "2026-11-23T09:20:00+08:00",
+                  "startedAt": null,
+                  "finishedAt": null,
+                  "failureCode": null,
+                  "failureMessage": null,
+                  "totalCount": null,
+                  "checkpointAt": null
+                }
+              }
+            },
+            "links": {
+              "followStatus": {
+                "operationId": "getCollectionTask",
+                "parameters": {
+                  "taskId": "$response.body#/taskId"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict.createCollectionTask"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "200": {
+            "description": "幂等重放，返回同一任务的当前表示。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Location": {
+                "description": "资源或状态查询路径，包含 /api/v1 前缀。",
+                "schema": {
+                  "type": "string",
+                  "format": "uri-reference"
+                },
+                "required": true
+              },
+              "Retry-After": {
+                "description": "非终态响应下次轮询的建议秒数，终态省略。",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "required": false
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionTask"
+                },
+                "example": {
+                  "taskId": "801",
+                  "sourceId": "701",
+                  "mode": "INCREMENTAL",
+                  "status": "RUNNING",
+                  "progress": 30,
+                  "processedCount": 300,
+                  "importedCount": 291,
+                  "errorCount": 9,
+                  "createdAt": "2026-11-23T09:20:00+08:00",
+                  "startedAt": "2026-11-23T09:21:00+08:00",
+                  "finishedAt": null,
+                  "failureCode": null,
+                  "failureMessage": null,
+                  "totalCount": 1000,
+                  "checkpointAt": "2026-11-23T09:22:00+08:00"
+                }
+              }
+            },
+            "links": {
+              "followStatus": {
+                "operationId": "getCollectionTask",
+                "parameters": {
+                  "taskId": "$response.body#/taskId"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": "collection:manage",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "同一请求重试使用同一键，服务端按操作和账号串行化并随目标资源保留该键。",
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9._-]+$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CollectionTaskCreate"
+              },
+              "example": {
+                "sourceId": "701",
+                "mode": "INCREMENTAL"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/collection-tasks/{taskId}": {
+      "get": {
+        "tags": [
+          "数据采集"
+        ],
+        "summary": "查询采集任务进度",
+        "operationId": "getCollectionTask",
+        "description": "QUEUED 或 RUNNING 时按 Retry-After 轮询。未能确定总量时 totalCount 和运行中 progress 返回 null。checkpointAt 为最近确认的检查点提交时间。成功时 progress 为 100，终态为 SUCCEEDED 或 FAILED。失败信息已脱敏。",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "采集任务当前状态。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Retry-After": {
+                "description": "非终态响应下次轮询的建议秒数，终态省略。",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "required": false
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionTask"
+                },
+                "example": {
+                  "taskId": "801",
+                  "sourceId": "701",
+                  "mode": "INCREMENTAL",
+                  "status": "RUNNING",
+                  "progress": 30,
+                  "processedCount": 300,
+                  "importedCount": 291,
+                  "errorCount": 9,
+                  "createdAt": "2026-11-23T09:20:00+08:00",
+                  "startedAt": "2026-11-23T09:21:00+08:00",
+                  "finishedAt": null,
+                  "failureCode": null,
+                  "failureMessage": null,
+                  "totalCount": 1000,
+                  "checkpointAt": "2026-11-23T09:22:00+08:00"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-required-permission": "collection:manage",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "description": "资源标识。",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/statistics/works": {
+      "get": {
+        "tags": [
+          "统计分析"
+        ],
+        "summary": "查询公开成果统计",
+        "operationId": "getWorkStatistics",
+        "description": "按年份及类型输出有效的公开成果预聚合快照。asOf 为快照时间，默认最近五个自然年（含当前年）。仅设置 yearFrom 时结束年份取当前年；仅设置 yearTo 时起始年份取该年往前四年，最低 1500。最大跨度为 100 个自然年，起始不得晚于结束。未知年份未纳入年度桶，缺失年份或类型组合按零处理。条目按年份升序、类型字典序。",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "公开成果统计快照。",
+            "headers": {
+              "X-Request-Id": {
+                "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+                "schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "required": true
+              },
+              "Cache-Control": {
+                "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ],
+                  "example": "no-store"
+                },
+                "required": true
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Statistics"
+                },
+                "example": {
+                  "asOf": "2026-11-23T09:15:00+08:00",
+                  "items": [
+                    {
+                      "year": 2025,
+                      "type": "PAPER",
+                      "count": 42
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest.getWorkStatistics"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "description": "成果类型过滤。",
+            "schema": {
+              "$ref": "#/components/schemas/WorkType"
+            }
+          },
+          {
+            "name": "yearFrom",
+            "in": "query",
+            "required": false,
+            "description": "起始年份，含边界。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1500,
+              "maximum": 9999
+            }
+          },
+          {
+            "name": "yearTo",
+            "in": "query",
+            "required": false,
+            "description": "结束年份，含边界。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1500,
+              "maximum": 9999
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "pattern": "^[1-9][0-9]{0,18}$",
+        "description": "十进制正整数串，值不超过 PostgreSQL BIGINT 上限。",
+        "example": "101"
+      },
+      "EvidenceId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "不可推导对象存储键的证明文件标识。",
+        "example": "fa9ed22c-07d8-46df-b3c7-3e00575c3e29"
+      },
+      "WorkType": {
+        "type": "string",
+        "enum": [
+          "PAPER",
+          "PATENT",
+          "PROJECT",
+          "AWARD"
+        ]
+      },
+      "ClaimStatus": {
+        "type": "string",
+        "enum": [
+          "PENDING",
+          "APPROVED",
+          "REJECTED"
+        ]
+      },
+      "TaskStatus": {
+        "type": "string",
+        "enum": [
+          "QUEUED",
+          "RUNNING",
+          "SUCCEEDED",
+          "FAILED"
+        ]
+      },
+      "CollectionMode": {
+        "type": "string",
+        "enum": [
+          "FULL",
+          "INCREMENTAL"
+        ]
+      },
+      "Author": {
+        "type": "object",
+        "properties": {
+          "scholarId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "scholarId",
+          "name"
+        ]
+      },
+      "ResearchField": {
+        "type": "object",
+        "properties": {
+          "fieldId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "fieldId",
+          "name"
+        ]
+      },
+      "WorkSummary": {
+        "type": "object",
+        "properties": {
+          "workId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "$ref": "#/components/schemas/WorkType"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1500,
+            "maximum": 9999,
+            "nullable": true
+          },
+          "displayDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "成果类型对应的完整公开日期，只有年份或缺失时为空。"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Author"
+            }
+          },
+          "fieldIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "researchFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResearchField"
+            },
+            "description": "与 fieldIds 同序、同集合的公开领域 ID 和名称，空集合返回空数组。"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "workId",
+          "title",
+          "type",
+          "year",
+          "displayDate",
+          "authors",
+          "fieldIds",
+          "researchFields"
+        ]
+      },
+      "WorkDetail": {
+        "type": "object",
+        "properties": {
+          "workId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "$ref": "#/components/schemas/WorkType"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1500,
+            "maximum": 9999,
+            "nullable": true
+          },
+          "displayDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "成果类型对应的完整公开日期，只有年份或缺失时为空。"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Author"
+            }
+          },
+          "fieldIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "abstract": {
+            "type": "string",
+            "nullable": true
+          },
+          "doi": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "venue": {
+            "type": "string",
+            "nullable": true
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "citationCount": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true
+          },
+          "typeDetails": {
+            "$ref": "#/components/schemas/WorkTypeDetails"
+          },
+          "sourceName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "researchFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResearchField"
+            },
+            "description": "与 fieldIds 同序、同集合的公开领域 ID 和名称，空集合返回空数组。"
+          },
+          "institutions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/components/schemas/InstitutionSummary"
+            },
+            "description": "从 work_scholars.affiliation_id 关联机构表，按机构 ID 去重并升序返回。无署名机构时为空数组。"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "workId",
+          "title",
+          "type",
+          "year",
+          "displayDate",
+          "authors",
+          "fieldIds",
+          "abstract",
+          "doi",
+          "sourceUrl",
+          "venue",
+          "keywords",
+          "citationCount",
+          "typeDetails",
+          "sourceName",
+          "updatedAt",
+          "researchFields",
+          "institutions"
+        ]
+      },
+      "WorkTypeDetails": {
+        "type": "object",
+        "properties": {
+          "publicationDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "grantDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "awardDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "patentNumber": {
+            "type": "string"
+          },
+          "projectNumber": {
+            "type": "string"
+          },
+          "awardNumber": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "description": "按 type 返回相应的已知公开字段。PAPER 的 DOI 另见 doi 字段。"
+      },
+      "FacetBucket": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value",
+          "label",
+          "count"
+        ]
+      },
+      "Facets": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacetBucket"
+            }
+          },
+          "years": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacetBucket"
+            }
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacetBucket"
+            }
+          },
+          "institutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacetBucket"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "types",
+          "years",
+          "fields",
+          "institutions"
+        ]
+      },
+      "SearchPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkSummary"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "facets": {
+            "$ref": "#/components/schemas/Facets"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total",
+          "hasNext",
+          "facets"
+        ]
+      },
+      "WorkPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkSummary"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "hasNext": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total",
+          "hasNext"
+        ]
+      },
+      "ScholarPortal": {
+        "type": "object",
+        "properties": {
+          "scholarId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "institutionId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,18}$",
+            "nullable": true
+          },
+          "institutionName": {
+            "type": "string",
+            "nullable": true
+          },
+          "bio": {
+            "type": "string",
+            "nullable": true
+          },
+          "researchFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResearchField"
+            }
+          },
+          "isClaimed": {
+            "type": "boolean"
+          },
+          "works": {
+            "$ref": "#/components/schemas/WorkPage"
+          },
+          "workTotal": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "description": "四类公开成果规范 ID 去重总数，与当前 type 和分页无关。"
+          },
+          "workTypeCounts": {
+            "$ref": "#/components/schemas/WorkTypeCounts"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "scholarId",
+          "name",
+          "institutionId",
+          "institutionName",
+          "bio",
+          "researchFields",
+          "isClaimed",
+          "works",
+          "workTotal",
+          "workTypeCounts"
+        ]
+      },
+      "ClaimApplicationCreate": {
+        "type": "object",
+        "properties": {
+          "scholarId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "pattern": "\\S"
+          },
+          "evidenceIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvidenceId"
+            },
+            "minItems": 2,
+            "maxItems": 5,
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "scholarId",
+          "reason",
+          "evidenceIds"
+        ]
+      },
+      "ClaimApplication": {
+        "type": "object",
+        "properties": {
+          "claimId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "scholarId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "pattern": "\\S"
+          },
+          "evidenceIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvidenceId"
+            },
+            "minItems": 2,
+            "maxItems": 5,
+            "uniqueItems": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ClaimStatus"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewComment": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 1000
+          },
+          "reviewedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "claimId",
+          "scholarId",
+          "reason",
+          "evidenceIds",
+          "status",
+          "createdAt",
+          "reviewComment",
+          "reviewedAt"
+        ]
+      },
+      "NewClaimApplication": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ClaimApplication"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "PENDING"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ClaimPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClaimApplication"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "hasNext": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total",
+          "hasNext"
+        ]
+      },
+      "AdminClaimApplication": {
+        "type": "object",
+        "properties": {
+          "claimId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "scholarId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "pattern": "\\S"
+          },
+          "evidenceIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvidenceId"
+            },
+            "minItems": 2,
+            "maxItems": 5,
+            "uniqueItems": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ClaimStatus"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewComment": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 1000
+          },
+          "reviewedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "applicantAccountId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "scholarName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "目标学者名称，来自权威学者记录。申请人以 applicantAccountId 展示。"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "claimId",
+          "scholarId",
+          "reason",
+          "evidenceIds",
+          "status",
+          "createdAt",
+          "reviewComment",
+          "reviewedAt",
+          "applicantAccountId",
+          "scholarName"
+        ]
+      },
+      "AdminClaimPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminClaimApplication"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "hasNext": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total",
+          "hasNext"
+        ]
+      },
+      "ReviewCreate": {
+        "description": "REJECT 时必须提交有效、去空白后非空的 comment。",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "decision": {
+                "type": "string",
+                "enum": [
+                  "APPROVE"
+                ]
+              },
+              "comment": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000,
+                "pattern": "\\S"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "decision"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "decision": {
+                "type": "string",
+                "enum": [
+                  "REJECT"
+                ]
+              },
+              "comment": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000,
+                "pattern": "\\S"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "decision",
+              "comment"
+            ]
+          }
+        ]
+      },
+      "EvidenceUpload": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "description": "单个 PDF、JPEG 或 PNG，大小不超过 10 MiB。"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "file"
+        ]
+      },
+      "EvidenceReceipt": {
+        "type": "object",
+        "properties": {
+          "evidenceId": {
+            "$ref": "#/components/schemas/EvidenceId"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "evidenceId",
+          "expiresAt"
+        ]
+      },
+      "CollectionTaskCreate": {
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/CollectionMode"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "sourceId",
+          "mode"
+        ]
+      },
+      "CollectionTask": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sourceId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/CollectionMode"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TaskStatus"
+          },
+          "progress": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "nullable": true
+          },
+          "processedCount": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "importedCount": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "errorCount": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "failureCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "failureMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "nullable": true,
+            "description": "该轮估计总数，未知时为空。"
+          },
+          "checkpointAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "最近确认的检查点提交时间。"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "taskId",
+          "sourceId",
+          "mode",
+          "status",
+          "progress",
+          "processedCount",
+          "importedCount",
+          "errorCount",
+          "createdAt",
+          "startedAt",
+          "finishedAt",
+          "failureCode",
+          "failureMessage",
+          "totalCount",
+          "checkpointAt"
+        ]
+      },
+      "AcceptedCollectionTask": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CollectionTask"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "QUEUED"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "CollectionTaskPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CollectionTask"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "hasNext": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total",
+          "hasNext"
+        ]
+      },
+      "CollectionSource": {
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "sourceId",
+          "code",
+          "name"
+        ]
+      },
+      "CollectionSources": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CollectionSource"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "items"
+        ]
+      },
+      "StatBucket": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "minimum": 1500,
+            "maximum": 9999
+          },
+          "type": {
+            "$ref": "#/components/schemas/WorkType"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "year",
+          "type",
+          "count"
+        ]
+      },
+      "Statistics": {
+        "type": "object",
+        "properties": {
+          "asOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatBucket"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "asOf",
+          "items"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "description": "稳定错误代码、用户可读反馈和请求追踪号。",
+        "required": [
+          "code",
+          "message",
+          "requestId"
+        ]
+      },
+      "WorkTypeCounts": {
+        "type": "object",
+        "description": "公开学者门户的四类成果计数，缺项填 0。",
+        "properties": {
+          "PAPER": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "PATENT": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "PROJECT": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "AWARD": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "PAPER",
+          "PATENT",
+          "PROJECT",
+          "AWARD"
+        ],
+        "additionalProperties": false
+      },
+      "InstitutionSummary": {
+        "type": "object",
+        "properties": {
+          "institutionId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "institutionId",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "responses": {
+      "InvalidRequest": {
+        "description": "请求参数或请求体校验失败。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "INVALID_REQUEST"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "INVALID_REQUEST": {
+                "summary": "请求参数或请求体校验失败。",
+                "value": {
+                  "code": "INVALID_REQUEST",
+                  "message": "请求参数或请求体校验失败。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthenticated": {
+        "description": "登录凭据缺失、失效或校验失败。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          },
+          "WWW-Authenticate": {
+            "description": "Bearer 认证质询。",
+            "schema": {
+              "type": "string",
+              "example": "Bearer"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "UNAUTHENTICATED"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "UNAUTHENTICATED": {
+                "summary": "登录凭据缺失、失效或校验失败。",
+                "value": {
+                  "code": "UNAUTHENTICATED",
+                  "message": "登录凭据缺失、失效或校验失败。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "当前账号无权执行此操作。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "FORBIDDEN"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "FORBIDDEN": {
+                "summary": "当前账号无权执行此操作。",
+                "value": {
+                  "code": "FORBIDDEN",
+                  "message": "当前账号无权执行此操作。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "资源不可访问或不存在。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "NOT_FOUND"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "NOT_FOUND": {
+                "summary": "资源不可访问或不存在。",
+                "value": {
+                  "code": "NOT_FOUND",
+                  "message": "资源不可访问或不存在。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "资源状态冲突或幂等键重复使用。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "CONFLICT"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "CONFLICT": {
+                "summary": "资源状态冲突或幂等键重复使用。",
+                "value": {
+                  "code": "CONFLICT",
+                  "message": "资源状态冲突或幂等键重复使用。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "PayloadTooLarge": {
+        "description": "证明文件超过 10 MiB。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "PAYLOAD_TOO_LARGE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "PAYLOAD_TOO_LARGE": {
+                "summary": "证明文件超过 10 MiB。",
+                "value": {
+                  "code": "PAYLOAD_TOO_LARGE",
+                  "message": "证明文件超过 10 MiB。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnsupportedMediaType": {
+        "description": "媒体类型或证明文件格式不受支持。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "UNSUPPORTED_MEDIA_TYPE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "UNSUPPORTED_MEDIA_TYPE": {
+                "summary": "媒体类型或证明文件格式不受支持。",
+                "value": {
+                  "code": "UNSUPPORTED_MEDIA_TYPE",
+                  "message": "媒体类型或证明文件格式不受支持。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "请求过于频繁。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          },
+          "Retry-After": {
+            "description": "客户端重试前应等待的秒数。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "RATE_LIMITED"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "RATE_LIMITED": {
+                "summary": "请求过于频繁。",
+                "value": {
+                  "code": "RATE_LIMITED",
+                  "message": "请求过于频繁。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "服务暂时出现错误。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "INTERNAL_ERROR"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "INTERNAL_ERROR": {
+                "summary": "服务暂时出现错误。",
+                "value": {
+                  "code": "INTERNAL_ERROR",
+                  "message": "服务暂时出现错误。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServiceUnavailable": {
+        "description": "依赖暂时不可用，请稍后重试。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          },
+          "Retry-After": {
+            "description": "客户端重试前应等待的秒数。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "SERVICE_UNAVAILABLE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "SERVICE_UNAVAILABLE": {
+                "summary": "依赖暂时不可用，请稍后重试。",
+                "value": {
+                  "code": "SERVICE_UNAVAILABLE",
+                  "message": "依赖暂时不可用，请稍后重试。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "InvalidRequest.searchWorks": {
+        "description": "请求参数或请求体校验失败。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "INVALID_REQUEST",
+                        "SEARCH_WINDOW_EXCEEDED",
+                        "INVALID_YEAR_RANGE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "INVALID_REQUEST": {
+                "summary": "请求参数或请求体校验失败。",
+                "value": {
+                  "code": "INVALID_REQUEST",
+                  "message": "请求参数或请求体校验失败。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "SEARCH_WINDOW_EXCEEDED": {
+                "summary": "页码与每页条数的乘积超过 10000，请缩小检索范围。",
+                "value": {
+                  "code": "SEARCH_WINDOW_EXCEEDED",
+                  "message": "页码与每页条数的乘积超过 10000，请缩小检索范围。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "INVALID_YEAR_RANGE": {
+                "summary": "起始年份晚于结束年份，或统计区间超过 100 年。",
+                "value": {
+                  "code": "INVALID_YEAR_RANGE",
+                  "message": "起始年份晚于结束年份，或统计区间超过 100 年。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServiceUnavailable.searchWorks": {
+        "description": "依赖暂时不可用，请稍后重试。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          },
+          "Retry-After": {
+            "description": "客户端重试前应等待的秒数。",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "SERVICE_UNAVAILABLE",
+                        "INDEX_SYNC_PENDING"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "SERVICE_UNAVAILABLE": {
+                "summary": "依赖暂时不可用，请稍后重试。",
+                "value": {
+                  "code": "SERVICE_UNAVAILABLE",
+                  "message": "依赖暂时不可用，请稍后重试。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "INDEX_SYNC_PENDING": {
+                "summary": "公开状态变更正在同步，请稍后重试。",
+                "value": {
+                  "code": "INDEX_SYNC_PENDING",
+                  "message": "公开状态变更正在同步，请稍后重试。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Forbidden.createClaimApplication": {
+        "description": "当前账号无权执行此操作。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "FORBIDDEN",
+                        "ACCOUNT_NOT_VERIFIED"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "FORBIDDEN": {
+                "summary": "当前账号无权执行此操作。",
+                "value": {
+                  "code": "FORBIDDEN",
+                  "message": "当前账号无权执行此操作。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "ACCOUNT_NOT_VERIFIED": {
+                "summary": "账号需完成验证后方可认领。",
+                "value": {
+                  "code": "ACCOUNT_NOT_VERIFIED",
+                  "message": "账号需完成验证后方可认领。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Conflict.createClaimApplication": {
+        "description": "资源状态冲突或幂等键重复使用。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "CONFLICT",
+                        "CLAIM_ALREADY_PENDING",
+                        "PORTAL_ALREADY_BOUND",
+                        "EVIDENCE_EXPIRED",
+                        "EVIDENCE_ALREADY_BOUND",
+                        "IDEMPOTENCY_KEY_REUSED"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "CONFLICT": {
+                "summary": "资源状态冲突或幂等键重复使用。",
+                "value": {
+                  "code": "CONFLICT",
+                  "message": "资源状态冲突或幂等键重复使用。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "CLAIM_ALREADY_PENDING": {
+                "summary": "你已提交该门户的待审核申请。",
+                "value": {
+                  "code": "CLAIM_ALREADY_PENDING",
+                  "message": "你已提交该门户的待审核申请。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "PORTAL_ALREADY_BOUND": {
+                "summary": "该门户已有有效绑定。",
+                "value": {
+                  "code": "PORTAL_ALREADY_BOUND",
+                  "message": "该门户已有有效绑定。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "EVIDENCE_EXPIRED": {
+                "summary": "证明文件已过期，请重新上传。",
+                "value": {
+                  "code": "EVIDENCE_EXPIRED",
+                  "message": "证明文件已过期，请重新上传。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "EVIDENCE_ALREADY_BOUND": {
+                "summary": "至少一份证明已绑定到其他申请，请重新选择文件。",
+                "value": {
+                  "code": "EVIDENCE_ALREADY_BOUND",
+                  "message": "至少一份证明已绑定到其他申请，请重新选择文件。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "IDEMPOTENCY_KEY_REUSED": {
+                "summary": "该幂等键已用于其他请求内容。",
+                "value": {
+                  "code": "IDEMPOTENCY_KEY_REUSED",
+                  "message": "该幂等键已用于其他请求内容。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Forbidden.reviewClaimApplication": {
+        "description": "当前账号无权执行此操作。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "FORBIDDEN",
+                        "CLAIM_SELF_REVIEW_FORBIDDEN"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "FORBIDDEN": {
+                "summary": "当前账号无权执行此操作。",
+                "value": {
+                  "code": "FORBIDDEN",
+                  "message": "当前账号无权执行此操作。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "CLAIM_SELF_REVIEW_FORBIDDEN": {
+                "summary": "审核员不能审核本人提交的申请。",
+                "value": {
+                  "code": "CLAIM_SELF_REVIEW_FORBIDDEN",
+                  "message": "审核员不能审核本人提交的申请。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Conflict.reviewClaimApplication": {
+        "description": "资源状态冲突或幂等键重复使用。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "CONFLICT",
+                        "CLAIM_ALREADY_REVIEWED",
+                        "PORTAL_ALREADY_BOUND"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "CONFLICT": {
+                "summary": "资源状态冲突或幂等键重复使用。",
+                "value": {
+                  "code": "CONFLICT",
+                  "message": "资源状态冲突或幂等键重复使用。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "CLAIM_ALREADY_REVIEWED": {
+                "summary": "该申请已审结，请刷新审核列表。",
+                "value": {
+                  "code": "CLAIM_ALREADY_REVIEWED",
+                  "message": "该申请已审结，请刷新审核列表。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "PORTAL_ALREADY_BOUND": {
+                "summary": "该门户已有有效绑定。",
+                "value": {
+                  "code": "PORTAL_ALREADY_BOUND",
+                  "message": "该门户已有有效绑定。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Conflict.createCollectionTask": {
+        "description": "资源状态冲突或幂等键重复使用。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "CONFLICT",
+                        "SOURCE_TASK_ACTIVE",
+                        "SOURCE_DISABLED",
+                        "IDEMPOTENCY_KEY_REUSED"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "CONFLICT": {
+                "summary": "资源状态冲突或幂等键重复使用。",
+                "value": {
+                  "code": "CONFLICT",
+                  "message": "资源状态冲突或幂等键重复使用。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "SOURCE_TASK_ACTIVE": {
+                "summary": "该来源已有待执行或运行中的任务。",
+                "value": {
+                  "code": "SOURCE_TASK_ACTIVE",
+                  "message": "该来源已有待执行或运行中的任务，请查看该来源的活动任务。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "SOURCE_DISABLED": {
+                "summary": "该采集来源已停用，请重新选择。",
+                "value": {
+                  "code": "SOURCE_DISABLED",
+                  "message": "该采集来源已停用，请重新选择。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "IDEMPOTENCY_KEY_REUSED": {
+                "summary": "该幂等键已用于其他请求内容。",
+                "value": {
+                  "code": "IDEMPOTENCY_KEY_REUSED",
+                  "message": "该幂等键已用于其他请求内容。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      },
+      "InvalidRequest.getWorkStatistics": {
+        "description": "请求参数或请求体校验失败。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "服务端请求追踪号，与错误响应 requestId 一致。",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true
+          },
+          "Cache-Control": {
+            "description": "查询必须回到服务端，禁止 HTTP 中间缓存保存结果。",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "no-store"
+              ],
+              "example": "no-store"
+            },
+            "required": true
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Error"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "INVALID_REQUEST",
+                        "INVALID_YEAR_RANGE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "INVALID_REQUEST": {
+                "summary": "请求参数或请求体校验失败。",
+                "value": {
+                  "code": "INVALID_REQUEST",
+                  "message": "请求参数或请求体校验失败。",
+                  "requestId": "req-demo-01"
+                }
+              },
+              "INVALID_YEAR_RANGE": {
+                "summary": "起始年份晚于结束年份，或统计区间超过 100 年。",
+                "value": {
+                  "code": "INVALID_YEAR_RANGE",
+                  "message": "起始年份晚于结束年份，或统计区间超过 100 年。",
+                  "requestId": "req-demo-01"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "通过 Authorization 请求头携带 Bearer 访问令牌。以服务端权限判定为准。"
+      }
+    }
+  }
+}

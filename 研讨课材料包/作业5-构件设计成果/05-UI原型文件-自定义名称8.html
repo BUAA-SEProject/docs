@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHARE 学术成果分享平台 · 交互原型</title>
+<style>
+:root{--navy:#162341;--navy2:#223963;--ink:#162540;--muted:#546379;--page:#f3f5f9;--line:#e2e7ef;--surface:#fff;--blue:#264ec2;--blue-soft:#edf2ff;--green:#1b6b51;--radius:12px;--focus:#f2a643}
+*{box-sizing:border-box}body{margin:0;font:15px/1.6 "Microsoft YaHei","PingFang SC","Noto Sans CJK SC",Arial,sans-serif;color:var(--ink);background:var(--page)}a{color:var(--blue);text-decoration:none}button,input,select,textarea{font:inherit}button{cursor:pointer}a:hover{text-decoration:underline}button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}[hidden]{display:none!important}
+h1,h2,h3,p{margin:0}h1{font-size:37px;line-height:1.24;letter-spacing:.01em}h2{font-size:21px;line-height:1.4}h3{font-size:16px;line-height:1.4}small,.small{font-size:13px}.muted{color:var(--muted)}.muted:not(p){font-size:13px}.shell{width:min(1152px,calc(100% - 48px));margin:auto}.skip{position:fixed;left:10px;top:-100px;padding:12px;background:#fff;z-index:5}.skip:focus{top:8px}.top{background:var(--surface);border-bottom:1px solid var(--line)}.top-inner{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{display:inline-flex;align-items:center;gap:11px;color:var(--navy);font-size:19px;font-weight:800;white-space:nowrap;letter-spacing:.015em}.brand:hover{text-decoration:none}.brand mark{display:grid;place-items:center;background:var(--navy);color:white;border-radius:8px;width:34px;height:34px;font:800 21px/1 Georgia,serif}.brand span{font-size:13px;font-weight:600;color:var(--muted)}nav.primary{display:flex;align-items:center;gap:2px;flex-wrap:wrap}nav.primary a{color:var(--ink);font-size:14px;border-radius:7px;padding:8px 13px;white-space:nowrap}nav.primary a[aria-current]{background:var(--blue-soft);color:var(--blue);font-weight:700}nav.primary a:hover{text-decoration:none;background:var(--page)}.role{display:flex;align-items:center;gap:7px;white-space:nowrap;font-size:13px;color:var(--muted)}.role select{width:auto;padding:5px 8px;font-size:13px;border-radius:7px}
+main{min-height:calc(100vh - 145px)}.space{padding-block:25px 40px}.hero{background:radial-gradient(ellipse at 95% -25%,#39598d 0%,transparent 50%),linear-gradient(115deg,var(--navy),var(--navy2));color:#fff;padding:31px 0 43px}.eyebrow{font-size:12px;letter-spacing:.1em;font-weight:700;color:#becff8;margin-bottom:8px}.hero p{color:#d9e4ff;margin-top:9px}.searchbar{display:grid;grid-template-columns:1fr auto;gap:10px;max-width:780px;margin-top:23px}.searchbar input{background:#fff;font-size:16px;padding:10px 15px}.searchbar .btn{background:#f6b85a;color:#231c1d;border-color:#f6b85a;min-width:86px}.searchbar .btn:hover{background:#ffd187}.searchbar .btn:active{transform:translateY(1px)}.quick{display:flex;align-items:center;gap:9px;margin-top:13px;color:#c4d3f1;font-size:13px;flex-wrap:wrap}.quick a{color:white;border:1px solid #6478a3;border-radius:999px;padding:2px 10px}.quick a:hover{background:#344d78;text-decoration:none}
+.grid{display:grid;grid-template-columns:245px minmax(0,1fr);gap:20px;align-items:start}.side,.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}.side,.pad{padding:18px 20px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.section-head p{margin-top:3px}.side form{display:grid;gap:13px}.side form>.btn{width:100%}.side .section-head{margin-bottom:14px}.group{display:grid;gap:4px;min-width:0}.group label,.group legend{font-size:13px;font-weight:700;color:var(--ink)}input,select,textarea{min-width:0;width:100%;border:1px solid #cbd4e2;background:white;color:var(--ink);border-radius:7px;padding:8px 10px}textarea{resize:vertical;min-height:84px}fieldset{border:0;margin:0;padding:0}label.check{display:flex;align-items:center;gap:8px;font-weight:400;font-size:14px}input[type=checkbox]{width:16px;height:16px;accent-color:var(--blue)}.year-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:41px;padding:7px 14px;border:1px solid var(--blue);border-radius:8px;background:var(--blue);color:#fff;font-weight:700;text-align:center;white-space:nowrap}.btn:hover{background:#193a9c;text-decoration:none}.btn.secondary{background:white;color:var(--blue);border-color:#b8c7e9}.btn.secondary:hover{background:var(--blue-soft)}.btn.subtle,.text-button{padding:0;background:transparent;border:0;color:var(--blue);font-weight:700;min-height:30px}.btn.subtle:hover,.text-button:hover{text-decoration:underline}.btn.danger{background:#a73642;border-color:#a73642}.btn.danger:hover{background:#812533}.chips,.actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.chip{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:5px;background:var(--blue-soft);color:#274a92;font-size:12px;font-weight:700;white-space:nowrap}.chip.paper{background:#edf1ff;color:#3250a3}.chip.patent{background:#ecf7f3;color:#1b6b51}.chip.project{background:#f6effc;color:#62428f}.chip.award{background:#fff3e1;color:#85520e}.chip.ok{background:#e5f5ed;color:#125d43}.chip.bad{background:#fdecef;color:#a42d45}.chip.wait{background:#fff1d8;color:#835510}.chip.neutral{background:#edf0f5;color:#465776}.result-tools{display:flex;gap:8px;align-items:center}.result-tools select{width:auto}.results{display:grid;gap:9px}.result-card{padding:14px 17px}.result-card .line{display:flex;align-items:center;gap:8px}.result-card h3{font-size:17px;margin-top:4px}.result-card p{font-size:13px;margin-top:4px}.result-card .summary{color:#435370}.pagination{display:flex;gap:7px;align-items:center;margin-top:13px;flex-wrap:wrap}.pagination button{min-height:32px;min-width:36px;padding:3px 9px}.blank{padding:30px 24px}.blank p{margin-top:7px}.breadcrumb{display:flex;align-items:center;gap:9px;margin-bottom:17px;color:var(--muted);font-size:13px;flex-wrap:wrap}.page-title{margin-bottom:17px}.page-title p{margin-top:4px}.subgrid{display:grid;grid-template-columns:minmax(0,2.15fr) minmax(260px,1fr);gap:19px;align-items:start}.stack{display:grid;gap:14px}.ident{display:flex;gap:17px;align-items:flex-start}.avatar{flex:none;display:grid;place-items:center;width:58px;height:58px;border-radius:12px;background:#e4ebff;color:#2547a2;font-size:24px;font-weight:700}.ident h1{margin-bottom:4px}.ident p,.content p{margin:6px 0}.content p:last-child{margin-bottom:0}.info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:13px}.info{background:#f3f6fc;border-radius:8px;padding:9px 12px}.info strong{display:block;font-size:20px}.detail-title h1{font-size:31px;margin:8px 0 7px}.detail-title .actions{margin-top:12px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:9px 16px;margin:4px 0 0}.meta div{border-bottom:1px solid var(--line);padding:4px 0}.meta dt{font-size:12px;color:var(--muted)}.meta dd{margin:1px 0 0;overflow-wrap:anywhere}.form{display:grid;gap:13px}.form .actions{margin-top:4px}.note{background:#edf3ff;border:1px solid #d5e2ff;color:#32496f;padding:10px 13px;border-radius:8px}.warning{background:#fff5e7;border-color:#eedab8;color:#714b1e}.error{background:#fff0f1;border-color:#ebc8cd;color:#922d3d}.success{background:#eaf7ee;border-color:#c6e4d2;color:#185b3c}.form-error{margin-top:2px}.timeline{padding-left:21px;margin:9px 0}.timeline li{margin:6px 0}.footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px}.footer .shell{display:flex;justify-content:space-between;gap:12px;padding-block:16px;flex-wrap:wrap}.admin{display:grid;grid-template-columns:188px minmax(0,1fr);gap:17px;align-items:start}.admin-nav{padding:11px;background:var(--navy);color:#fff;border-radius:var(--radius)}.admin-nav h2{font-size:14px;color:#c4d1ee;padding:10px 9px}.admin-nav a{display:block;color:#fff;padding:8px 9px;border-radius:7px;margin:3px 0}.admin-nav a[aria-current],.admin-nav a:hover{background:#344d77;text-decoration:none}.table-scroll{overflow:auto}.table{border-collapse:collapse;width:100%;white-space:nowrap;font-size:13px}.table th{background:#f2f5fa;color:#3d4e68;font-weight:700;text-align:left}.table td,.table th{padding:10px 9px;border-bottom:1px solid var(--line)}.table tbody tr:last-child td{border-bottom:0}.table tbody tr.selected{background:#f0f4ff}.table td small{display:block}.metric-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.meter{accent-color:var(--blue);width:100%;height:14px}.toast{position:fixed;right:20px;bottom:20px;max-width:min(460px,calc(100vw - 40px));background:var(--navy);color:#fff;border-radius:9px;padding:10px 16px;box-shadow:0 8px 17px #16234138;z-index:8}.form:invalid button[type=submit]{cursor:pointer}
+@media(max-width:920px){.top-inner{gap:12px}.brand span{display:none}.grid{grid-template-columns:210px minmax(0,1fr);gap:13px}.admin{grid-template-columns:145px minmax(0,1fr)}nav.primary a{padding-inline:8px}.shell{width:calc(100% - 32px)}}
+@media(max-width:660px){h1{font-size:29px}.detail-title h1{font-size:24px}.hero{padding:22px 0 28px}.top-inner{padding-block:8px;flex-wrap:wrap;gap:4px 12px}.top-inner nav{order:3;flex-basis:100%}.shell{width:calc(100% - 22px)}.grid,.subgrid,.admin{grid-template-columns:1fr}.side form{grid-template-columns:1fr 1fr}.side form .btn,.side .form-error{grid-column:1/-1}.admin-nav h2{display:none}.admin-nav{display:flex;gap:7px}.searchbar{margin-top:15px}.searchbar input{font-size:14px}.searchbar .btn{min-width:58px}.quick{margin-top:8px}.metric-strip{grid-template-columns:1fr 1fr}.side,.pad{padding:15px}.admin .section-head{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}}
+
+.hero-head{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.hero-stat{display:flex;align-items:center;gap:14px;min-height:54px;padding:9px 14px;border-radius:10px;border:1px solid #7d91b7;background:#ffffff0d;color:white;text-align:left;white-space:nowrap}
+.hero-stat:hover{background:#ffffff20}.hero-stat strong,.hero-stat small{display:block}.hero-stat small{font-size:12px;color:#e3ebff}.stat-icon{display:inline-flex;align-items:flex-end;gap:3px;height:23px}.stat-icon i{width:4px;background:#f6b85a;border-radius:1px}.stat-icon i:nth-child(1){height:8px}.stat-icon i:nth-child(2){height:15px}.stat-icon i:nth-child(3){height:22px}
+.results-title[tabindex],.panel-title[tabindex]{outline-offset:4px}.table-scroll:focus-visible{outline-offset:-2px}.form-error:focus{outline-offset:2px}[aria-invalid="true"]{border-color:#a73642}
+.modal{width:min(640px,calc(100% - 26px));max-height:calc(100% - 36px);border:1px solid var(--line);border-radius:14px;padding:21px;color:var(--ink);box-shadow:0 24px 70px #09172a6b}.modal::backdrop{background:#0c1b38a3}.modal .section-head{align-items:flex-start}.modal .section-head h2{margin:1px 0 4px}.modal .table-scroll{margin-top:12px;max-height:275px}.modal .table-scroll:focus-visible{border-radius:4px}.modal .table th{position:sticky;top:0}.stats-form{display:grid;grid-template-columns:1fr 1fr 1.2fr auto;gap:10px;align-items:end}.stats-charts{display:grid;gap:8px;margin-top:15px}.stats-chart{display:grid;grid-template-columns:46px minmax(0,1fr) 26px;align-items:center;gap:8px;font-variant-numeric:tabular-nums}.bar-track{height:15px;background:#edf1f7;display:flex;border-radius:4px;overflow:hidden}.bar-track span{display:block}.bar-track .paper,.stats-legend .paper{background:#3153b8}.bar-track .patent,.stats-legend .patent{background:#278570}.bar-track .project,.stats-legend .project{background:#8053a1}.bar-track .award,.stats-legend .award{background:#b87e1b}.stats-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;margin:7px 0 0}.stats-legend span{display:inline-flex;gap:5px;align-items:center}.stats-legend i{width:9px;height:9px;border-radius:2px}.stats-caption{margin:10px 0 0}.stats-form .form-error{grid-column:1/-1}.stats-details{margin-top:10px}.stats-details summary{cursor:pointer;font-weight:700;color:var(--blue)}.evidence-files{list-style:none;padding:0;display:grid;gap:6px;margin:6px 0}.evidence-files button{white-space:normal;text-align:left;overflow-wrap:anywhere}.history{margin-top:5px}.history ol{margin:8px 0 0;padding-left:21px}.history li + li{margin-top:7px}.progress-copy{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+@media(max-width:660px){.hero-head{align-items:flex-start;flex-direction:column;gap:10px}.hero-stat{min-height:36px;padding:4px 9px}.hero-stat small{display:none}.hero-stat .stat-icon{height:16px}.hero-stat .stat-icon i:nth-child(3){height:16px}.stats-form{grid-template-columns:1fr 1fr}.modal{padding:15px}.stats-chart{grid-template-columns:36px minmax(0,1fr) 25px}}
+.filter-chips{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 11px}
+.filter-chips .btn{font-size:13px;font-weight:600;min-height:31px;padding:3px 9px;background:#eef3ff;color:#234494;border-color:#ccd9f3;white-space:normal;overflow-wrap:anywhere}
+.filter-chips .btn:hover{background:#e1eafe}.filter-chips .cross{font-size:17px;line-height:1;color:#425982}
+.filter-chips .btn.subtle{background:transparent;border:0}.category-nav{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.category-nav .btn{min-height:35px;padding:4px 10px;font-size:13px;gap:7px}.category-nav .btn small{font-size:12px;opacity:.85}.panel-visibility{margin-top:8px}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">跳到主要内容</a>
+<header class="top"><div class="shell top-inner">
+<a class="brand" href="#search" aria-label="SHARE 成果检索"><mark aria-hidden="true">S</mark> SHARE <span>学术成果分享平台</span></a>
+<nav class="primary" aria-label="主导航" id="nav"></nav>
+<label class="role" for="role">模拟角色 <select id="role"><option value="visitor">访客</option><option value="member">已登录用户</option><option value="admin">管理员</option></select></label>
+</div></header>
+<main id="content" tabindex="-1"></main>
+<footer class="footer"><div class="shell"><span>SHARE 学术成果分享平台</span><span>课程交互原型 · 页面数据均为演示示例</span></div></footer>
+<div id="toast" class="toast" role="status" hidden></div>
+<dialog class="modal" id="stats-dialog" aria-labelledby="stats-title">
+ <header class="section-head"><div><h2 id="stats-title">公开成果统计</h2><p class="muted">按自然年和成果类型汇总示例数据</p></div><form method="dialog"><button class="btn secondary" aria-label="关闭成果统计">关闭</button></form></header>
+ <form id="stats-form" class="stats-form">
+  <label class="group">起始年份<input name="yearFrom" type="number" min="1500" max="9999" required></label>
+  <label class="group">结束年份<input name="yearTo" type="number" min="1500" max="9999" required></label>
+  <label class="group">成果类型<select name="type"></select></label>
+  <button class="btn" type="submit">更新统计</button>
+  <p class="note error form-error" role="alert" tabindex="-1" hidden></p>
+ </form>
+ <div id="stats-result"></div>
+</dialog>
+<dialog class="modal" id="evidence-dialog" aria-labelledby="evidence-title">
+ <header class="section-head"><div><h2 id="evidence-title">证明材料预览</h2><p class="muted">审核员受限访问</p></div><form method="dialog"><button class="btn secondary" aria-label="关闭证明预览">关闭</button></form></header>
+ <div id="evidence-result"></div>
+</dialog>
+<script>
+'use strict';
+const workTypes={PAPER:'论文',PATENT:'专利',PROJECT:'科研项目',AWARD:'获奖'};
+const typeField={PAPER:'发表日期',PATENT:'授权日期',PROJECT:'立项日期',AWARD:'获奖日期'};
+const work=(id,type,title,date,field,org,people,summary,extra)=>({
+ id,type,title,displayDate:date?.length===10?date:null,year:date?Number(date.slice(0,4)):null,field,org,people,summary,extra
+});
+const fieldOptions=[['401','信息检索'],['402','知识图谱'],['403','数据治理']];
+const orgOptions=[['501','北辰理工大学'],['502','海岚研究院'],['503','岑河大学']];
+const pinyin=new Intl.Collator('zh-CN-u-co-pinyin');
+const titleOrder=(a,b)=>pinyin.compare(a.title,b.title)||a.id.length-b.id.length||a.id.localeCompare(b.id);
+const dateOrder=(a,b)=>(b.displayDate??(b.year?String(b.year):'')).localeCompare(a.displayDate??(a.year?String(a.year):''))||titleOrder(a,b);
+const searchSortDate=w=>w.type==='PAPER'?'':(w.displayDate??'');
+const newestOrder=(a,b)=>(b.year??0)-(a.year??0)||searchSortDate(b).localeCompare(searchSortDate(a))||titleOrder(a,b);
+const allWorks=[
+ work('1001','PAPER','面向中文学术检索的混合排序与可信索引','2026-06-18','信息检索','北辰理工大学','林予知、顾远','设计了一套结合语义召回与可追溯索引的检索流程，并使用公开学术元数据评估排序效果。','SHARE-DEM-2026-01'),
+ work('1002','PATENT','一种多来源成果标识归一和溯源方法','2025-11-04','数据治理','北辰理工大学','林予知、许知行','面向多来源成果标识，提供可重复执行的归一和来源追踪策略。','DEMO-P-02534'),
+ work('1003','PROJECT','面向科研合作的多机构知识图谱构建','2025-05-16','知识图谱','海岚研究院','林予知、苏澄','围绕科研成果、参与人员和新兴主题构建图谱和分析工具。','DEMO-NS-2025-32'),
+ work('1004','AWARD','可信学术数据治理工具实践奖','2024','数据治理','岑河大学','夏远舟、林予知','面向学术平台的重复成果合并和可追溯更新示范项目。','DEMO-A-009'),
+ work('1005','PAPER','基于合作图的学者关系发现与路径查询','2026-03-10','知识图谱','海岚研究院','苏澄、林予知','以公开论文合作者为边构建关系图，比较不同路径搜索策略。','SHARE-DEM-2026-05'),
+ work('1006','PAPER','异构学术元数据的增量清洗与质量评估','2025-08-01','数据治理','岑河大学','夏远舟、许知行','探索稳定检查点与字段级版本对数据清洗可重放性的影响。','SHARE-DEM-2025-06'),
+ work('1007','PAPER','面向开放科研记录的中文机构名称归一','2024-11-17','数据治理','岑河大学','夏远舟、顾远','研究别名词典与上下文对机构归一的影响。','SHARE-DEM-2024-07'),
+ work('1008','PROJECT','开放文献元数据检索评测与服务原型','2024-03-27','信息检索','北辰理工大学','林予知、许知行','建立语料与评测查询集合，评估可解释排序。','DEMO-NS-2024-18'),
+ work('1009','PATENT','一种合作网络的可见性过滤与检索方法','2023-12-02','知识图谱','海岚研究院','苏澄、顾远','设计关系图的过滤算法以支持可公开的关系发现。','DEMO-P-01833'),
+ work('1010','PAPER','主题趋势看板的时间窗口和聚合误差','2023-07-24','信息检索','北辰理工大学','林予知、顾远','比较基于不同时间窗口的趋势估计和增量计算。','SHARE-DEM-2023-10'),
+ work('1011','AWARD','科研关系数据可解释建模试点奖','2023-06-10','知识图谱','海岚研究院','苏澄、许知行','对研究主题和机构协作图中的可解释映射进行试点。','DEMO-A-011'),
+ work('1012','PAPER','基于授权元数据的学术资源质量监测',null,'数据治理','岑河大学','夏远舟、顾远','建立对缺字段和重复记录的可持续监测指标。','SHARE-DEM-2022-12')
+];
+const statuses={PENDING:['待审核','wait'],APPROVED:['已通过','ok'],REJECTED:['已驳回','bad'],QUEUED:['待执行','neutral'],RUNNING:['运行中','wait'],SUCCEEDED:['成功','ok'],FAILED:['失败','bad']};
+const claimRows=[{id:'7301',scholar:'顾远',applicantAccountId:'4201',status:'PENDING',when:'2026-11-23 10:20',version:1,evidence:['机构主页截图.png','学院证明.pdf'],owner:false},{id:'7302',scholar:'夏远舟',applicantAccountId:'4202',status:'APPROVED',when:'2026-11-22 15:05',version:2,evidence:['机构主页截图.png','公开成果署名.pdf'],owner:false},{id:'7303',scholar:'苏澄',applicantAccountId:'4203',status:'REJECTED',when:'2026-11-21 13:42',version:2,evidence:['学者简介.pdf','演示.png'],reason:'请补充可核验的机构主页链接。',owner:false}];
+const sourceOptions=[['201','OpenAlex 公开 API'],['202','DBLP 授权快照'],['203','公开专利授权样例']];
+const taskRows=[{id:'5201',source:'201',status:'RUNNING',done:640,total:1000,checkpointAt:'2026-11-23 09:53',mode:'INCREMENTAL',when:'2026-11-23 09:42'},{id:'5202',source:'202',status:'SUCCEEDED',done:800,total:800,checkpointAt:'2026-11-22 17:49',mode:'INCREMENTAL',when:'2026-11-22 17:36'},{id:'5203',source:'203',status:'FAILED',done:120,total:500,checkpointAt:'2026-11-22 14:23',failureCode:'SOURCE_TIMEOUT',mode:'INCREMENTAL',when:'2026-11-22 14:12',error:'授权数据源请求超时，已保存最后成功检查点。'},{id:'5204',source:'203',status:'QUEUED',done:0,total:null,checkpointAt:null,mode:'FULL',when:'2026-11-22 13:00'}];
+const pages={search:'成果检索',portal:'学者门户',detail:'成果详情',claim:'认领申请',tasks:'采集任务管理',review:'认领审核'};
+const searchDefaults={q:'',type:'',fieldId:'',institutionId:'',yearFrom:'',yearTo:'',sort:'RELEVANCE',page:1};
+const statsAsOf='2026-11-23 09:15 UTC+08:00';
+const statsYear=Number(statsAsOf.slice(0,4));
+const state={role:'visitor',search:{...searchDefaults},portalType:'',myClaim:null,selectedTask:'5201',taskForm:false,taskFilter:'',selectedClaim:'7301',reviewFilter:'',reviewDecision:'APPROVE'};
+const pageSize=4;
+const main=document.getElementById('content');
+const nav=document.getElementById('nav');
+const role=document.getElementById('role');
+const toast=document.getElementById('toast');
+const statsDialog=document.getElementById('stats-dialog');
+const statsForm=document.getElementById('stats-form');
+const statsResult=document.getElementById('stats-result');
+const evidenceDialog=document.getElementById('evidence-dialog');
+const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const option=(value,label,selected)=>'<option value="'+esc(value)+'"'+(String(value)===String(selected)?' selected':'')+'>'+esc(label)+'</option>';
+const badge=status=>'<span class="chip '+statuses[status][1]+'">'+statuses[status][0]+'</span>';
+const typeChip=type=>'<span class="chip '+type.toLowerCase()+'">'+workTypes[type]+'</span>';
+const button=(label,action,cls='secondary',extra='')=>'<button type="button" class="btn '+cls+'" data-action="'+action+'" '+extra+'>'+label+'</button>';
+const link=(label,href,cls='secondary')=>'<a class="btn '+cls+'" href="#'+href+'">'+label+'</a>';
+const heading=(title,desc='')=>'<header class="page-title"><h1>'+title+'</h1>'+(desc?'<p class="muted">'+desc+'</p>':'')+'</header>';
+const crumb=(current,trail='')=>'<nav class="breadcrumb" aria-label="面包屑"><a href="#search">成果检索</a><span aria-hidden="true">›</span>'+trail+'<span aria-current="page">'+current+'</span></nav>';
+const blank=(title,detail,action='')=>'<div class="card blank"><h2>'+title+'</h2><p class="muted">'+detail+'</p>'+action+'</div>';
+const evidenceInfo='证明材料仅向申请人和有权限的审核人员开放。原型只保存演示文件名，不会上传文件。';
+let timeout;
+function alertUser(message){toast.textContent=message;toast.hidden=false;clearTimeout(timeout);timeout=setTimeout(()=>{toast.hidden=true;},3000);}
+function currentPage(){const hash=location.hash.slice(1).split('/');return{page:Object.hasOwn(pages,hash[0])?hash[0]:'search',id:hash[1]};}
+function goto(page){if(location.hash==='#'+page){render();return;}location.hash=page;}
+function sourceName(id){return sourceOptions.find(([value])=>value===id)?.[1]??'未知来源';}
+function resultCard(w){
+ const year=w.year??'年份未标注';
+ return '<article class="card result-card"><div class="line">'+typeChip(w.type)+'<span class="muted">'+esc(w.field)+'</span><span class="muted">'+esc(year)+'</span></div><h3><a href="#detail/'+w.id+'">'+esc(w.title)+'</a></h3><p>'+esc(w.people)+'</p></article>';
+}
+function dictionaryLabel(options,id){return options.find(([value])=>value===id)?.[1]??'';}
+function matchesWork(w,f){
+ const q=f.q.toLocaleLowerCase().trim();
+ const from=f.yearFrom?Number(f.yearFrom):null;
+ const to=f.yearTo?Number(f.yearTo):null;
+ return (!q||[w.title,w.people,w.field,w.summary].join(' ').toLocaleLowerCase().includes(q))&&(!f.type||w.type===f.type)&&(!f.institutionId||w.org===dictionaryLabel(orgOptions,f.institutionId))&&(!f.fieldId||w.field===dictionaryLabel(fieldOptions,f.fieldId))&&(!from||(w.year!==null&&w.year>=from))&&(!to||(w.year!==null&&w.year<=to));
+}
+function yearField(name,label,value,id=''){
+ return '<input '+(id?'id="'+id+'" ':'')+'aria-label="'+label+'" name="'+name+'" type="number" min="1500" max="9999" placeholder="'+label+'" value="'+esc(value)+'">';
+}
+function yearRangeValid(from,to){return !from||!to||Number(from)<=Number(to);}
+function activeFilters(f){
+ const conditions=[
+  ['q',f.q?'关键词 '+f.q:''],
+  ['type',f.type?'类型 '+workTypes[f.type]:''],
+  ['fieldId',f.fieldId?'领域 '+dictionaryLabel(fieldOptions,f.fieldId):''],
+  ['institutionId',f.institutionId?'机构 '+dictionaryLabel(orgOptions,f.institutionId):''],
+  ['years',f.yearFrom||f.yearTo?'年份 '+(f.yearFrom||'不限')+'–'+(f.yearTo||'不限'):'']
+ ].filter(([,label])=>label);
+ if(!conditions.length)return '';
+ const chips=conditions.map(([key,label])=>button(esc(label)+' <span class="cross" aria-hidden="true">×</span>','remove-filter','secondary','data-value="'+key+'" aria-label="'+esc('移除条件 '+label)+'"')).join('');
+ return '<div class="filter-chips" role="group" aria-label="已选检索条件">'+chips+(conditions.length>1?button('清除全部','clear-search','subtle'):'')+'</div>';
+}
+function searchView(){
+ const f=state.search;
+ const results=allWorks.filter(w=>matchesWork(w,f));
+ if(f.sort==='NEWEST'||!f.q.trim())results.sort(newestOrder);
+ const maxPage=Math.max(1,Math.ceil(results.length/pageSize));
+ const page=Math.min(f.page,maxPage);
+ f.page=page;
+ const opt=(set,selected)=>option('','不限',selected)+set.map(([value,label])=>option(value,label,selected)).join('');
+ const filt='<aside class="side"><div class="section-head"><h2>筛选条件</h2>'+button('重置','reset-search','subtle')+'</div><form id="filter-form"><label class="group">成果类型<select name="type">'+option('','全部类型',f.type)+Object.entries(workTypes).map(([value,label])=>option(value,label,f.type)).join('')+'</select></label><label class="group">学术领域<select name="fieldId">'+opt(fieldOptions,f.fieldId)+'</select></label><label class="group">机构<select name="institutionId">'+opt(orgOptions,f.institutionId)+'</select></label><fieldset class="group"><legend>年份区间</legend><div class="year-grid">'+yearField('yearFrom','起始年份',f.yearFrom)+yearField('yearTo','结束年份',f.yearTo)+'</div></fieldset><p class="note error form-error" role="alert" tabindex="-1" hidden></p><button class="btn" type="submit">应用筛选</button></form></aside>';
+ const list=results.length?'<div class="results">'+results.slice((page-1)*pageSize,page*pageSize).map(resultCard).join('')+'</div>':blank('未找到符合条件的成果','试着缩短关键词，或调整成果类型、机构和年份。',button('清除全部条件','clear-search','subtle'));
+ const pagination=results.length&&maxPage>1?'<nav class="pagination" aria-label="检索结果分页">'+button('上一页','search-page','secondary','data-value="'+(page-1)+'" '+(page===1?'disabled':''))+Array.from({length:maxPage},(_,i)=>button(String(i+1),'search-page',page===i+1?'':'secondary','data-value="'+(i+1)+'" aria-label="第 '+(i+1)+' 页" '+(page===i+1?'aria-current="page"':''))).join('')+button('下一页','search-page','secondary','data-value="'+(page+1)+'" '+(page===maxPage?'disabled':''))+'</nav>':'';
+ return '<section class="hero"><div class="shell"><div class="hero-head"><div><h1>学术成果检索</h1><p>查找论文、专利、科研项目与获奖成果，进一步了解学者和研究领域。</p></div><button type="button" class="hero-stat" data-action="open-stats" aria-haspopup="dialog"><span class="stat-icon" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>成果统计</strong><small>按年份和类型查看</small></span></button></div><form class="searchbar" id="search-form"><input type="search" name="q" aria-label="成果关键词" maxlength="200" placeholder="输入成果标题、关键词或学者" value="'+esc(f.q)+'"><button class="btn" type="submit">检索</button></form><div class="quick"><span>试试</span><a href="#search" data-action="keyword" data-value="学术检索">学术检索</a><a href="#search" data-action="keyword" data-value="知识图谱">知识图谱</a><a href="#search" data-action="keyword" data-value="林予知">林予知</a></div></div></section><section class="shell space grid">'+filt+'<div><div class="section-head"><div><h2 id="results-title" tabindex="-1" class="results-title">检索结果</h2><p class="muted" role="status">共 '+results.length+' 条</p></div><label class="result-tools small">排序 <select id="sort">'+option('RELEVANCE','相关度',f.sort)+option('NEWEST','日期倒序',f.sort)+'</select></label></div>'+activeFilters(f)+list+pagination+'</div></section>';
+}
+function openStatistics(){
+ statsForm.elements.yearFrom.value=statsYear-4;
+ statsForm.elements.yearTo.value=statsYear;
+ statsForm.elements.type.innerHTML=option('','全部类型','')+Object.entries(workTypes).map(([value,label])=>option(value,label,'')).join('');
+ clearFormError(statsForm);
+ drawStatistics(statsYear-4,statsYear,'');
+ statsDialog.showModal();
+ statsForm.elements.yearFrom.focus();
+}
+function drawStatistics(from,to,chosenType){
+ const types=Object.keys(workTypes).filter(type=>!chosenType||type===chosenType);
+ const rows=Array.from({length:to-from+1},(_,i)=>({year:from+i,counts:Object.fromEntries(types.map(type=>[type,0])),total:0}));
+ allWorks.forEach(w=>{
+  if(w.year!==null&&w.year>=from&&w.year<=to&&types.includes(w.type)){
+   rows[w.year-from].counts[w.type]+=1;
+   rows[w.year-from].total+=1;
+  }
+ });
+ const total=rows.reduce((n,row)=>n+row.total,0);
+ const max=Math.max(1,...rows.map(row=>row.total));
+ const title='<p class="stats-caption small" role="status">'+from+'–'+to+' 年 · 共 '+total+' 项 · 快照 '+statsAsOf+'</p>';
+ const legend='<div class="stats-legend" aria-hidden="true">'+types.map(type=>'<span><i class="'+type.toLowerCase()+'"></i>'+workTypes[type]+'</span>').join('')+'</div>';
+ const chart=rows.length<=10&&total?'<div class="stats-charts" aria-hidden="true">'+rows.map(row=>'<div class="stats-chart"><span>'+row.year+'</span><div class="bar-track">'+types.map(type=>'<span class="'+type.toLowerCase()+'" style="width:'+row.counts[type]*100/max+'%"></span>').join('')+'</div><strong>'+row.total+'</strong></div>').join('')+'</div>'+legend:'';
+ const cells=rows.map(row=>'<tr><th scope="row">'+row.year+'</th>'+types.map(type=>'<td>'+row.counts[type]+'</td>').join('')+'<td>'+row.total+'</td></tr>').join('');
+ const table='<details class="stats-details"'+(chart?'':' open')+'><summary>年度统计数据表</summary><div class="table-scroll" role="region" aria-label="年度统计数据表" tabindex="0"><table class="table"><thead><tr><th scope="col">年份</th>'+types.map(type=>'<th scope="col">'+workTypes[type]+'</th>').join('')+'<th scope="col">合计</th></tr></thead><tbody>'+cells+'</tbody></table></div></details>';
+ statsResult.innerHTML=title+(!total?'<p class="note" style="margin-top:8px">该区间没有可计入年度的公开成果。</p>':'')+chart+table;
+}
+statsForm.addEventListener('submit',event=>{
+ event.preventDefault();
+ const from=Number(statsForm.elements.yearFrom.value);
+ const to=Number(statsForm.elements.yearTo.value);
+ if(!yearRangeValid(from,to)){formError(statsForm,'起始年份应小于或等于结束年份。','yearTo');return;}
+ if(to-from+1>100){formError(statsForm,'年度区间最多包含 100 个自然年。','yearTo');return;}
+ clearFormError(statsForm);
+ drawStatistics(from,to,statsForm.elements.type.value);
+});
+
+function portalView(id){
+ if(id&&id!=='3001')return '<section class="shell space">'+crumb('学者门户')+blank('学者门户不可用','本原型展示林予知的公开门户。',link('返回示例门户','portal/3001'))+'</section>';
+ const mine=state.myClaim;
+ const isBound=mine?.status==='APPROVED';
+ const ownStatus=state.role==='member'?mine:null;
+ const works=allWorks.filter(w=>w.people.includes('林予知')).sort(dateOrder);
+ const filtered=works.filter(w=>!state.portalType||w.type===state.portalType);
+ const types=Object.entries(workTypes);
+ const categoryCounts=types.map(([type,label])=>[type,label,works.filter(w=>w.type===type).length]);
+ const categoryButtons=[['','全部',works.length],...categoryCounts].map(([type,label,count])=>button(label+' <small>'+count+'</small>','portal-filter',type===state.portalType?'':'secondary','data-value="'+type+'" aria-pressed="'+(type===state.portalType)+'" aria-label="'+label+' '+count+' 项"')).join('');
+ return '<section class="shell space">'+crumb('学者门户')+'<div class="subgrid"><div class="stack"><article class="card pad ident"><div class="avatar" aria-hidden="true">林</div><div><h1>林予知</h1><p>北辰理工大学 · 信息科学研究院</p><div class="chips"><span class="chip">信息检索</span><span class="chip">数据治理</span>'+badge(isBound?'APPROVED':'QUEUED').replace(isBound?'已通过':'待执行',isBound?'已认领':'未认领')+'</div></div></article><section class="card pad content"><h2>研究简介</h2><p>关注中文学术检索、异构元数据质量和科研关系图谱。门户汇集了与本人关联的公开成果。</p><div class="info-grid"><div class="info"><strong>'+works.length+'</strong>公开成果</div><div class="info"><strong>'+works.filter(w=>w.type==='PAPER').length+'</strong>论文</div><div class="info"><strong>'+categoryCounts.filter(([, ,count])=>count>0).length+'</strong>成果类型</div></div></section><section><div class="section-head"><div><h2>公开学术成果</h2><p class="muted" role="status">当前展示 '+filtered.length+' 项公开成果</p></div></div><div class="category-nav" role="group" aria-label="按成果类型筛选">'+categoryButtons+'</div>'+(filtered.length?'<div class="results">'+filtered.map(resultCard).join('')+'</div>':blank('暂无该类型的公开成果','可以切换类别查看其他成果。'))+'</section></div><aside class="stack"><section class="card pad content"><h2>门户认领</h2><p class="muted">本人可提交获授权证明。审核完成后，申请人可查看处理结果。</p>'+(ownStatus?link('查看认领进度','claim/3001',''):isBound?'<p class="muted">该门户已经认领。</p>':link('申请认领','claim/3001',''))+'</section><section class="card pad content"><h2>学者信息</h2><dl class="meta"><div><dt>学者编号</dt><dd>3001</dd></div><div><dt>信息来源</dt><dd>课程示例数据</dd></div></dl><p class="muted panel-visibility">公开范围：学者公开档案与已公开成果。</p></section></aside></div></section>';
+}
+function detailView(id){
+ const w=allWorks.find(workItem=>workItem.id===(id||'1001'));
+ if(!w)return '<section class="shell space">'+crumb('成果详情')+blank('成果不可用','成果可能未公开或编号不存在。',link('返回检索','search'))+'</section>';
+ const extraLabel={PAPER:'论文标识',PATENT:'专利标识',PROJECT:'项目编号',AWARD:'获奖编号'}[w.type];
+ const display=w.displayDate??(w.year?String(w.year)+' 年':'未标注');
+ const scholar=w.people.includes('林予知')?esc(w.people).replace('林予知','<a href="#portal/3001">林予知</a>'):esc(w.people);
+ return '<section class="shell space">'+crumb('成果详情')+'<div class="subgrid"><div class="stack"><article class="card pad detail-title">'+typeChip(w.type)+'<h1>'+esc(w.title)+'</h1><p>'+scholar+' · '+esc(w.org)+'</p><div class="actions">'+link('返回检索结果','search')+(w.people.includes('林予知')?link('查看学者门户','portal/3001',''):'')+'</div></article><section class="card pad content"><h2>成果摘要</h2><p>'+esc(w.summary)+'</p></section><section class="card pad content"><h2>关联信息</h2><p>学术领域 '+esc(w.field)+'</p><p class="muted">公开成果信息按类型展示，关联学者名称可进入已公开门户。</p></section></div><aside class="stack"><section class="card pad"><h2>成果元数据</h2><dl class="meta"><div><dt>成果编号</dt><dd>'+w.id+'</dd></div><div><dt>'+typeField[w.type]+'</dt><dd>'+esc(display)+'</dd></div><div><dt>'+extraLabel+'</dt><dd>'+esc(w.extra)+'</dd></div><div><dt>公开状态</dt><dd>公开</dd></div></dl></section><section class="card pad content"><h2>来源与更新时间</h2><p>课程构造的公开元数据示例</p><p class="muted">2026-11-22 17:36</p></section></aside></div></section>';
+}
+function claimView(id){
+ if(id&&id!=='3001')return '<section class="shell space">'+crumb('认领申请')+blank('学者门户不可用','请从公开门户发起认领。',link('查看示例门户','portal/3001'))+'</section>';
+ const editable=state.role==='member';
+ const mine=state.myClaim;
+ const claimStatus=mine?'<section class="card pad content"><div class="section-head"><h2 id="claim-progress" class="panel-title" tabindex="-1">我的认领进度</h2>'+badge(mine.status)+'</div><dl class="meta"><div><dt>申请编号</dt><dd>'+mine.id+'</dd></div><div><dt>申请学者</dt><dd>'+mine.scholar+'</dd></div></dl><ol class="timeline"><li>申请已提交</li><li>'+(mine.status==='PENDING'?'等待管理员审核':mine.status==='APPROVED'?'审核通过，已绑定门户':'审核驳回')+'</li></ol>'+(mine.reason?'<p class="note warning">'+esc(mine.reason)+'</p>':'')+'</section>':'';
+ const oldClaims=claimRows.filter(item=>item.owner&&item!==mine);
+ const history=oldClaims.length?'<details class="card pad history"><summary>历史申请 '+oldClaims.length+' 条</summary><ol>'+oldClaims.map(item=>'<li>'+item.id+' · '+badge(item.status)+(item.reason?' · '+esc(item.reason):'')+'</li>').join('')+'</ol></details>':'';
+ let form='';
+ if(!editable)form=blank('请以已登录用户身份提交','可用导航右侧的模拟角色切换器体验申请人的操作。',button('切换为已登录用户','set-role','secondary','data-value="member"'));
+ else if(!mine||mine.status==='REJECTED')form='<section class="card pad"><form id="claim-form" class="form"><label class="group">认领学者<input value="林予知 · 北辰理工大学" readonly></label><label class="group">证明文件（PDF、PNG 或 JPG，2–5 个，每个不超过 10 MiB）<input type="file" name="evidence" accept=".pdf,.png,.jpg,.jpeg" multiple required></label><label class="group">申请说明<textarea name="reason" maxlength="1000" required placeholder="说明与申请门户的关系，可附机构主页链接"></textarea></label><label class="check"><input type="checkbox" name="consent" required> 我确认提交的证明真实并同意用于本次审核。</label><p class="note error form-error" role="alert" tabindex="-1" hidden></p><div class="actions"><button class="btn" type="submit">提交认领</button>'+link('返回门户','portal/3001')+'</div></form></section>';
+ return '<section class="shell space">'+crumb('认领申请','<a href="#portal/3001">学者门户</a><span aria-hidden="true">›</span>')+heading('认领学者门户','申请对象为林予知 · 北辰理工大学')+'<div class="subgrid"><div class="stack">'+(editable?claimStatus+history:'')+form+'</div><aside class="stack"><section class="card pad content"><h2>证明材料</h2><p>请提供至少两份已获授权的证明文件，并在申请说明中解释本人和学者门户的关系。</p><p class="muted">'+evidenceInfo+'</p></section><section class="card pad content"><h2>审核结果</h2><p>请回到本页查看进度。通过后将绑定门户，驳回时会显示补充建议。</p></section></aside></div></section>';
+}
+function adminPage(page,body){
+ const isTasks=page==='tasks';
+ const sidebar='<nav class="admin-nav" aria-label="管理后台导航"><h2>管理后台</h2><a href="#tasks"'+(isTasks?' aria-current="page"':'')+'>采集任务管理</a><a href="#review"'+(!isTasks?' aria-current="page"':'')+'>认领审核</a></nav>';
+ const content=state.role==='admin'?body:blank('需要管理员权限','普通用户只能访问公开页面和自己的申请。',button('切换为管理员','set-role','secondary','data-value="admin"'));
+ return '<section class="shell space">'+crumb(pages[page],'<span>管理后台</span><span aria-hidden="true">›</span>')+'<div class="admin">'+sidebar+'<div class="stack">'+content+'</div></div></section>';
+}
+function accessibleTable(label,content){
+ return '<div class="table-scroll" role="region" aria-label="'+label+'" tabindex="0">'+content+'</div>';
+}
+function statStrip(items){return '<div class="metric-strip">'+items.map(([label,qty])=>'<div class="info"><strong>'+qty+'</strong>'+label+'</div>').join('')+'</div>';}
+function taskCounting(task){
+ return task.total===null?task.done+' 条 / 总量待确认':task.done+' / '+task.total+' 条';
+}
+function tasksView(){
+ const rows=taskRows.filter(row=>!state.taskFilter||row.status===state.taskFilter);
+ const current=rows.find(row=>row.id===state.selectedTask)||rows[0];
+ const select='<label class="result-tools small">状态 <select id="task-filter">'+option('','全部',state.taskFilter)+['QUEUED','RUNNING','SUCCEEDED','FAILED'].map(s=>option(s,statuses[s][0],state.taskFilter)).join('')+'</select></label>';
+ const table='<div class="card pad"><div class="section-head"><h2>任务列表</h2>'+select+'</div>'+(rows.length?accessibleTable('采集任务列表','<table class="table"><thead><tr><th scope="col">编号 / 创建时间</th><th scope="col">来源</th><th scope="col">模式</th><th scope="col">状态</th><th scope="col">处理量</th><th scope="col">操作</th></tr></thead><tbody>'+rows.map(t=>'<tr'+(t===current?' class="selected"':'')+'><td>'+t.id+'<small class="muted">'+t.when+'</small></td><td>'+sourceName(t.source)+'</td><td>'+(t.mode==='INCREMENTAL'?'增量':'全量')+'</td><td>'+badge(t.status)+'</td><td>'+taskCounting(t)+'</td><td>'+button('查看进度','select-task','subtle','data-value="'+t.id+'" aria-label="查看任务 '+t.id+' 进度"')+'</td></tr>').join('')+'</tbody></table>'):'<p class="muted">没有符合条件的任务。</p>')+'</div>';
+ const active=current&&['QUEUED','RUNNING'].includes(current.status);
+ const taskDetail=current?'<section class="card pad stack"><div class="section-head"><div><h2 id="task-progress" class="panel-title" tabindex="-1">任务 '+current.id+' 进度</h2><p class="muted">'+sourceName(current.source)+' · 检查点 '+esc(current.checkpointAt??'待确认')+'</p></div>'+(active?button('刷新演示进度','refresh-task','secondary','data-value="'+current.id+'"'):'')+'</div><progress class="meter"'+(current.total===null?'':' max="'+current.total+'" value="'+current.done+'"')+' aria-label="采集任务处理进度"></progress><p class="progress-copy">'+taskCounting(current)+' · '+badge(current.status)+'</p>'+(current.error?'<p class="note error">'+esc(current.failureCode)+' · '+esc(current.error)+'</p>':'')+'</section>':'';
+ const taskForm=state.taskForm?'<section class="card pad"><h2>创建采集任务</h2><p class="muted">提交后显示任务编号，可以在列表中查询状态。</p><form id="task-form" class="form"><label class="group">已启用数据源<select name="sourceId" required>'+sourceOptions.map(([value,label])=>option(value,label,'201')).join('')+'</select></label><label class="group">采集模式<select name="mode">'+option('INCREMENTAL','按检查点增量采集','INCREMENTAL')+option('FULL','首批全量采集','INCREMENTAL')+'</select></label><p class="note error form-error" role="alert" tabindex="-1" hidden></p><div class="actions"><button class="btn" type="submit">提交任务</button>'+button('取消','toggle-task-form')+'</div></form></section>':'';
+ return adminPage('tasks','<div class="section-head"><div>'+heading('采集任务管理','查看已授权来源的异步采集、最近检查点与失败原因。')+'</div>'+button('创建采集任务','toggle-task-form','',state.taskForm?'aria-expanded="true"':'aria-expanded="false"')+'</div>'+statStrip(['QUEUED','RUNNING','SUCCEEDED','FAILED'].map(s=>[statuses[s][0],taskRows.filter(t=>t.status===s).length]))+taskForm+table+taskDetail);
+}
+
+function reviewView(){
+ const rows=claimRows.filter(row=>!state.reviewFilter||row.status===state.reviewFilter);
+ const current=rows.find(row=>row.id===state.selectedClaim)||rows[0];
+ const select='<label class="result-tools small">状态 <select id="review-filter">'+option('','全部',state.reviewFilter)+['PENDING','APPROVED','REJECTED'].map(s=>option(s,statuses[s][0],state.reviewFilter)).join('')+'</select></label>';
+ const table='<section class="card pad"><div class="section-head"><h2>认领申请列表</h2>'+select+'</div>'+(rows.length?accessibleTable('认领申请列表','<table class="table"><thead><tr><th scope="col">申请编号</th><th scope="col">申请学者</th><th scope="col">申请人账号</th><th scope="col">提交时间</th><th scope="col">状态</th><th scope="col">操作</th></tr></thead><tbody>'+rows.map(c=>'<tr'+(c===current?' class="selected"':'')+'><td>'+c.id+'</td><td>'+c.scholar+'</td><td>'+esc(c.applicantAccountId)+'</td><td>'+c.when+'</td><td>'+badge(c.status)+'</td><td>'+button('查看申请','select-claim','subtle','data-value="'+c.id+'" aria-label="查看申请 '+c.id+'"')+'</td></tr>').join('')+'</tbody></table>'):'<p class="muted">没有符合条件的申请。</p>')+'</section>';
+ const reviewForm=current?.status==='PENDING'?'<form class="form" id="review-form"><input type="hidden" name="claimId" value="'+current.id+'"><input type="hidden" name="version" value="'+current.version+'"><label class="group">审核决定<select name="decision" id="decision">'+option('APPROVE','通过并绑定门户',state.reviewDecision)+option('REJECT','驳回并告知申请人',state.reviewDecision)+'</select></label><label class="group">审核意见（最多 1000 字）<textarea id="review-reason" name="comment" maxlength="1000" '+(state.reviewDecision==='REJECT'?'required':'')+' placeholder="驳回时必填，请说明申请人可以补充的材料。"></textarea></label><p class="note error form-error" role="alert" tabindex="-1" hidden></p><div class="actions"><button class="btn" type="submit">确认审核决定</button></div></form>':'';
+ const panel=current?'<section class="card pad stack"><div class="section-head"><h2 id="review-detail" class="panel-title" tabindex="-1">审核详情 · '+current.id+'</h2>'+badge(current.status)+'</div><div><p>申请学者 '+current.scholar+' · 证明材料 '+current.evidence.length+' 份</p><ul class="evidence-files">'+current.evidence.map((name,index)=>'<li>'+button(esc(name),'preview-evidence','subtle','data-value="'+current.id+'/'+index+'" aria-haspopup="dialog"')+'</li>').join('')+'</ul></div>'+(current.statement?'<p>申请说明 '+esc(current.statement)+'</p>':'')+(current.reason?'<p class="note">'+esc(current.reason)+'</p>':'')+reviewForm+'</section>':'';
+ return adminPage('review',heading('认领审核','核验申请材料，记录决定并向申请人反馈。')+table+panel);
+}
+function render(){
+ const {page,id}=currentPage();
+ const navPage=page==='detail'?'search':['tasks','review'].includes(page)?'tasks':page;
+ nav.innerHTML=[['search','成果检索'],['portal/3001','学者门户'],['claim/3001','认领申请'],['tasks','管理后台']].map(([route,label])=>'<a href="#'+route+'"'+(navPage===route.split('/')[0]?' aria-current="page"':'')+'>'+label+'</a>').join('');
+ role.value=state.role;
+ document.title=pages[page]+' · SHARE 学术成果分享平台';
+ main.innerHTML={search:searchView,portal:portalView,detail:detailView,claim:claimView,tasks:tasksView,review:reviewView}[page](id);
+}
+function clearFormError(form){
+ const region=form.querySelector('.form-error');
+ if(!region)return;
+ region.hidden=true;
+ form.querySelectorAll('[aria-invalid]').forEach(field=>field.removeAttribute('aria-invalid'));
+}
+function formError(form,message,field){
+ clearFormError(form);
+ const region=form.querySelector('.form-error');
+ region.textContent=message;
+ region.hidden=false;
+ if(field)form.elements[field].setAttribute('aria-invalid','true');
+ region.focus();
+}
+function focusPanel(id){document.getElementById(id)?.focus();}
+function previewEvidence(value){
+ if(state.role!=='admin')return;
+ const [claimId,index]=value.split('/');
+ const claim=claimRows.find(row=>row.id===claimId);
+ const fileName=claim?.evidence[Number(index)];
+ if(!fileName)return;
+ document.getElementById('evidence-result').innerHTML='<dl class="meta"><div><dt>申请编号</dt><dd>'+claimId+'</dd></div><div><dt>文件名</dt><dd>'+esc(fileName)+'</dd></div></dl><p class="note stats-caption">原型提供材料登记信息。实际审核通过受控接口读取文件内容。</p>';
+ evidenceDialog.showModal();
+}
+function nowLabel(){return new Date().toLocaleString('sv-SE',{timeZone:'Asia/Shanghai',hour12:false}).slice(0,16);}
+function changeRole(value){state.role=value;state.taskForm=false;render();}
+main.addEventListener('submit',event=>{
+ event.preventDefault();
+ const form=event.target;
+ const values=new FormData(form);
+ let focusAfter;
+ switch(form.id){
+  case 'search-form':
+   state.search={...state.search,q:String(values.get('q')).trim(),page:1};focusAfter='results-title';break;
+  case 'filter-form': {
+   const next=Object.fromEntries(values);
+   if(!yearRangeValid(next.yearFrom,next.yearTo)){formError(form,'起始年份应小于或等于结束年份。','yearTo');return;}
+   state.search={...state.search,...next,page:1};focusAfter='results-title';break;
+  }
+  case 'claim-form': {
+   if(state.role!=='member')return;
+   if(state.myClaim?.status==='PENDING'||state.myClaim?.status==='APPROVED'){formError(form,'该门户已有待处理或已通过的申请。');return;}
+   const reason=String(values.get('reason')).trim();
+   const files=values.getAll('evidence').filter(file=>file.name);
+   if(!reason){formError(form,'请填写申请说明。','reason');return;}
+   if(files.length<2||files.length>5){formError(form,'请选择 2 至 5 份证明文件。','evidence');return;}
+   if(files.some(file=>!/\.(pdf|png|jpe?g)$/i.test(file.name)||file.size>10*1024*1024)){formError(form,'请提交不超过 10 MiB 的 PDF、PNG 或 JPG 文件。','evidence');return;}
+   const item={id:String(7301+claimRows.length),scholar:'林予知',applicantAccountId:'4204',status:'PENDING',when:nowLabel(),version:1,evidence:files.map(file=>file.name),owner:true,statement:reason};
+   claimRows.unshift(item);state.myClaim=item;state.selectedClaim=item.id;state.reviewFilter='';alertUser('认领申请已提交。');focusAfter='claim-progress';break;
+  }
+  case 'task-form': {
+   if(state.role!=='admin')return;
+   const source=String(values.get('sourceId'));
+   const activeTask=taskRows.find(task=>task.source===source&&['QUEUED','RUNNING'].includes(task.status));
+   if(activeTask){formError(form,'该来源已有活动任务 '+activeTask.id+'，可更换来源或查看现有任务。','sourceId');return;}
+   const item={id:String(5201+taskRows.length),source,mode:String(values.get('mode')),status:'QUEUED',done:0,total:null,checkpointAt:null,when:nowLabel()};
+   taskRows.unshift(item);state.selectedTask=item.id;state.taskFilter='';state.taskForm=false;alertUser('已受理采集任务 '+item.id+'。');focusAfter='task-progress';break;
+  }
+  case 'review-form': {
+   if(state.role!=='admin')return;
+   const item=claimRows.find(c=>c.id===String(values.get('claimId')));
+   if(!item||item.status!=='PENDING'||item.version!==Number(values.get('version'))){formError(form,'申请状态已经变化，请重新打开该申请。');return;}
+   const reason=String(values.get('comment')).trim();
+   if(state.reviewDecision==='REJECT'&&!reason){formError(form,'请填写驳回理由。','comment');return;}
+   if(state.reviewDecision==='APPROVE'&&claimRows.some(c=>c!==item&&c.scholar===item.scholar&&c.status==='APPROVED')){formError(form,'门户已经绑定，请核实后处理。');return;}
+   item.status=state.reviewDecision==='APPROVE'?'APPROVED':'REJECTED';item.version+=1;item.reason=reason;state.reviewFilter='';alertUser('审核决定已保存。');focusAfter='review-detail';break;
+  }
+  default:return;
+ }
+ render();
+ if(focusAfter)focusPanel(focusAfter);
+});
+main.addEventListener('change',event=>{
+ const field=event.target;
+ switch(field.id){
+  case 'sort':state.search.sort=field.value;state.search.page=1;break;
+  case 'task-filter':state.taskFilter=field.value;break;
+  case 'review-filter':state.reviewFilter=field.value;break;
+  case 'decision':
+   state.reviewDecision=field.value;document.getElementById('review-reason').required=field.value==='REJECT';return;
+  default:return;
+ }
+ render();
+ document.getElementById(field.id)?.focus();
+});
+main.addEventListener('click',event=>{
+ const control=event.target.closest('[data-action]');
+ if(!control)return;
+ event.preventDefault();
+ const value=control.dataset.value;
+ switch(control.dataset.action){
+  case 'open-stats':openStatistics();return;
+  case 'preview-evidence':previewEvidence(value);return;
+  case 'keyword':state.search={...searchDefaults,q:value};goto('search');focusPanel('results-title');return;
+  case 'reset-search':state.search={...searchDefaults,q:state.search.q};break;
+  case 'clear-search':state.search={...searchDefaults};render();focusPanel('results-title');return;
+  case 'remove-filter':
+   if(value==='years'){state.search.yearFrom='';state.search.yearTo='';}
+   else if(['q','type','fieldId','institutionId'].includes(value)){state.search[value]='';}
+   state.search.page=1;render();focusPanel('results-title');return;
+  case 'portal-filter':state.portalType=value;break;
+  case 'search-page':state.search.page=Number(value);break;
+  case 'set-role':changeRole(value);role.focus();return;
+  case 'toggle-task-form':state.taskForm=!state.taskForm;break;
+  case 'select-task':state.selectedTask=value;render();focusPanel('task-progress');return;
+  case 'select-claim':state.selectedClaim=value;state.reviewDecision='APPROVE';render();focusPanel('review-detail');return;
+  case 'refresh-task': {
+   const task=taskRows.find(row=>row.id===value);
+   if(!task)return;
+   if(task.status==='QUEUED'){task.status='RUNNING';}
+   else if(task.status==='RUNNING'){
+    task.total=task.total??1000;
+    task.done=Math.min(task.done+170,task.total);
+    task.checkpointAt=nowLabel();
+    if(task.done>=task.total)task.status='SUCCEEDED';
+   }
+   alertUser('任务状态已刷新。');break;
+  }
+  default:return;
+ }
+ render();
+ if(control.dataset.action==='toggle-task-form'&&state.taskForm)document.querySelector('#task-form select')?.focus();
+ else Array.from(main.querySelectorAll('[data-action]')).find(item=>item.dataset.action===control.dataset.action&&item.dataset.value===value&&!item.disabled)?.focus();
+});
+role.addEventListener('change',()=>changeRole(role.value));
+document.querySelector('.skip').addEventListener('click',event=>{event.preventDefault();main.focus();});
+window.addEventListener('hashchange',()=>{if(statsDialog.open)statsDialog.close();if(evidenceDialog.open)evidenceDialog.close();toast.hidden=true;clearTimeout(timeout);render();window.scrollTo(0,0);main.focus({preventScroll:true});});
+render();
+</script>
+</body>
+</html>
