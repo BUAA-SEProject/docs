@@ -13,25 +13,34 @@ MATERIALS = ROOT / "研讨课材料包"
 OUTPUT = ROOT / "dist"
 PREFIX = "01组-自定义名称8"
 CATEGORIES = ("作业1-需求调研成果", "作业2-需求建模成果")
+COMPONENT_DESIGN = MATERIALS / "作业5-构件设计成果"
 SHARED = ("通用材料", "汇报PPT", "课程参考原文")
 EXTENSIONS = {".md", ".docx", ".pptx", ".pdf", ".puml", ".png", ".json"}
+COMPONENT_EXTENSIONS = {".docx", ".png", ".json", ".html", ".sql", ".drawio"}
 
 
 def source_files() -> list[Path]:
-    for category in CATEGORIES + SHARED:
+    categories = CATEGORIES + (COMPONENT_DESIGN.name,) + SHARED
+    for category in categories:
         if not (MATERIALS / category).is_dir():
             raise FileNotFoundError(f"Missing material directory: {category}")
     files = sorted(
         path for path in MATERIALS.rglob("*")
         if path.is_file()
         and not path.is_symlink()
-        and path.suffix.lower() in EXTENSIONS
+        and (
+            path.suffix.lower() in EXTENSIONS
+            or (
+                path.is_relative_to(COMPONENT_DESIGN)
+                and path.suffix.lower() in COMPONENT_EXTENSIONS
+            )
+        )
         and not any(
             part.startswith((".", "~$"))
             for part in path.relative_to(MATERIALS).parts
         )
     )
-    for category in CATEGORIES + SHARED:
+    for category in categories:
         if not any(path.relative_to(MATERIALS).parts[0] == category for path in files):
             raise ValueError(f"Empty material directory: {category}")
     for path in files:
@@ -44,16 +53,15 @@ def source_files() -> list[Path]:
 
 
 def write_archive(
-    filename: str, files: list[Path], *, full: bool = False, label: str = ""
+    filename: str, files: list[Path], *, archive_root: Path = MATERIALS, label: str = ""
 ) -> dict:
     target = OUTPUT / filename
     temporary = target.with_suffix(".zip.tmp")
     try:
         with ZipFile(temporary, "w", ZIP_DEFLATED) as archive:
             for path in files:
-                relative = path.relative_to(MATERIALS).as_posix()
-                archive.write(path, f"研讨课材料包/{relative}" if full else relative)
-            if not full:
+                archive.write(path, path.relative_to(archive_root).as_posix())
+            if label:
                 archive.writestr(
                     "00-提交说明.md",
                     f"# {PREFIX} {label}\n\n"
@@ -67,8 +75,7 @@ def write_archive(
             if bad:
                 raise ValueError(f"Damaged archive: {filename}: {bad}")
             for path in files:
-                relative = path.relative_to(MATERIALS).as_posix()
-                member = f"研讨课材料包/{relative}" if full else relative
+                member = path.relative_to(archive_root).as_posix()
                 if archive.read(member) != path.read_bytes():
                     raise ValueError(f"Archive content mismatch: {member}")
             count = len(archive.namelist())
@@ -93,7 +100,16 @@ def main() -> None:
             if path.relative_to(MATERIALS).parts[0] in (category,) + SHARED
         ]
         checksums.append(write_archive(f"{PREFIX}-{label}.zip", selected, label=label))
-    checksums.append(write_archive(f"{PREFIX}-研讨课完整材料.zip", files, full=True))
+    component_files = [
+        path for path in files
+        if path.parent == COMPONENT_DESIGN and path.suffix.lower() in COMPONENT_EXTENSIONS
+    ]
+    if not component_files:
+        raise ValueError(f"No deliverable files in {COMPONENT_DESIGN.name}")
+    checksums.append(write_archive(
+        f"{PREFIX}-构件设计成果.zip", component_files, archive_root=COMPONENT_DESIGN
+    ))
+    checksums.append(write_archive(f"{PREFIX}-研讨课完整材料.zip", files, archive_root=ROOT))
     (OUTPUT / "checksums.json").write_text(
         json.dumps(checksums, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )

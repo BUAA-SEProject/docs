@@ -1,0 +1,464 @@
+{
+  "说明": "课程模拟数据。先用配套索引映射创建独立测试索引，然后按 workId 用 PUT /索引/_doc/{workId} 写入 documents，调用 POST /索引/_refresh 后运行 searchRequest。检查 expected。样例索引不连接平台或第三方数据。",
+  "indexMappingFile": "02-检索索引映射-自定义名称8.json",
+  "testIndex": "share_works_design_fixture",
+  "apiExample": "/api/v1/works?q=知识图谱&type=PAPER&yearFrom=2024&yearTo=2026&fieldId=21&institutionId=31&sort=NEWEST&page=1&pageSize=20",
+  "documents": [
+    {
+      "workId": "2",
+      "workIdNumber": "2",
+      "type": "PAPER",
+      "year": 2025,
+      "title": "知识图谱推理",
+      "titleSort": "zhi shi tu pu tui li",
+      "fieldIds": [
+        "21",
+        "22"
+      ],
+      "institutionIds": [
+        "31"
+      ],
+      "visible": true,
+      "sourceVersion": 1
+    },
+    {
+      "workId": "10",
+      "workIdNumber": "10",
+      "type": "PAPER",
+      "year": 2025,
+      "title": "知识图谱推理",
+      "titleSort": "zhi shi tu pu tui li",
+      "fieldIds": [
+        "21"
+      ],
+      "institutionIds": [
+        "31"
+      ],
+      "visible": true,
+      "sourceVersion": 1
+    },
+    {
+      "workId": "9007199254740993",
+      "workIdNumber": "9007199254740993",
+      "type": "PAPER",
+      "year": 2024,
+      "title": "知识图谱推理",
+      "titleSort": "zhi shi tu pu tui li",
+      "fieldIds": [
+        "21"
+      ],
+      "institutionIds": [
+        "31"
+      ],
+      "visible": true,
+      "sourceVersion": 1
+    },
+    {
+      "workId": "9007199254740995",
+      "workIdNumber": "9007199254740995",
+      "type": "PAPER",
+      "year": 2024,
+      "title": "知识图谱推理",
+      "titleSort": "zhi shi tu pu tui li",
+      "fieldIds": [
+        "21"
+      ],
+      "institutionIds": [
+        "31"
+      ],
+      "visible": true,
+      "sourceVersion": 1
+    },
+    {
+      "workId": "4",
+      "workIdNumber": "4",
+      "type": "PATENT",
+      "year": 2026,
+      "title": "知识图谱推理",
+      "titleSort": "zhi shi tu pu tui li",
+      "fieldIds": [
+        "21"
+      ],
+      "institutionIds": [
+        "31"
+      ],
+      "visible": true,
+      "sourceVersion": 1,
+      "eventDate": "2026-04-12",
+      "sortDate": "2026-04-12"
+    },
+    {
+      "workId": "5",
+      "workIdNumber": "5",
+      "type": "PAPER",
+      "year": 2022,
+      "title": "知识图谱推理",
+      "titleSort": "zhi shi tu pu tui li",
+      "fieldIds": [
+        "21"
+      ],
+      "institutionIds": [
+        "31"
+      ],
+      "visible": true,
+      "sourceVersion": 1
+    },
+    {
+      "workId": "6",
+      "workIdNumber": "6",
+      "type": "PAPER",
+      "year": 2025,
+      "title": "知识图谱推理",
+      "titleSort": "zhi shi tu pu tui li",
+      "fieldIds": [
+        "22"
+      ],
+      "institutionIds": [
+        "31"
+      ],
+      "visible": true,
+      "sourceVersion": 1
+    },
+    {
+      "workId": "7",
+      "workIdNumber": "7",
+      "type": "PAPER",
+      "year": 2025,
+      "title": "知识图谱推理",
+      "titleSort": "zhi shi tu pu tui li",
+      "fieldIds": [
+        "21"
+      ],
+      "institutionIds": [
+        "32"
+      ],
+      "visible": true,
+      "sourceVersion": 1
+    },
+    {
+      "workId": "8",
+      "workIdNumber": "8",
+      "type": "PAPER",
+      "year": 2026,
+      "title": "知识图谱推理",
+      "titleSort": "zhi shi tu pu tui li",
+      "fieldIds": [
+        "21"
+      ],
+      "institutionIds": [
+        "31"
+      ],
+      "visible": false,
+      "sourceVersion": 1
+    },
+    {
+      "workId": "11",
+      "workIdNumber": "11",
+      "type": "PAPER",
+      "year": 2026,
+      "title": "三角几何",
+      "titleSort": "san jiao ji he",
+      "fieldIds": [
+        "21"
+      ],
+      "institutionIds": [
+        "31"
+      ],
+      "visible": true,
+      "sourceVersion": 1
+    }
+  ],
+  "analyzeRequest": {
+    "method": "POST",
+    "path": "/share_works_design_fixture/_analyze",
+    "body": {
+      "analyzer": "share_cjk",
+      "text": "知识图谱 ＳＨＡＲＥ"
+    }
+  },
+  "searchRequest": {
+    "method": "GET",
+    "path": "/share_works_design_fixture/_search",
+    "body": {
+      "from": 0,
+      "size": 20,
+      "track_total_hits": true,
+      "query": {
+        "bool": {
+          "filter": [
+            {
+              "term": {
+                "visible": true
+              }
+            }
+          ],
+          "must": [
+            {
+              "multi_match": {
+                "query": "知识图谱",
+                "fields": [
+                  "title^4",
+                  "keywords^2",
+                  "authorNames^2",
+                  "abstract"
+                ],
+                "operator": "and"
+              }
+            }
+          ]
+        }
+      },
+      "post_filter": {
+        "bool": {
+          "filter": [
+            {
+              "term": {
+                "type": "PAPER"
+              }
+            },
+            {
+              "range": {
+                "year": {
+                  "gte": 2024,
+                  "lte": 2026
+                }
+              }
+            },
+            {
+              "term": {
+                "fieldIds": "21"
+              }
+            },
+            {
+              "term": {
+                "institutionIds": "31"
+              }
+            }
+          ]
+        }
+      },
+      "sort": [
+        {
+          "year": {
+            "order": "desc",
+            "missing": "_last"
+          }
+        },
+        {
+          "sortDate": {
+            "order": "desc",
+            "missing": "_last"
+          }
+        },
+        {
+          "titleSort": {
+            "order": "asc",
+            "missing": "_last"
+          }
+        },
+        {
+          "workIdNumber": {
+            "order": "asc"
+          }
+        }
+      ],
+      "aggs": {
+        "type": {
+          "filter": {
+            "bool": {
+              "filter": [
+                {
+                  "range": {
+                    "year": {
+                      "gte": 2024,
+                      "lte": 2026
+                    }
+                  }
+                },
+                {
+                  "term": {
+                    "fieldIds": "21"
+                  }
+                },
+                {
+                  "term": {
+                    "institutionIds": "31"
+                  }
+                }
+              ]
+            }
+          },
+          "aggs": {
+            "options": {
+              "filters": {
+                "filters": {
+                  "PAPER": {
+                    "term": {
+                      "type": "PAPER"
+                    }
+                  },
+                  "PATENT": {
+                    "term": {
+                      "type": "PATENT"
+                    }
+                  },
+                  "PROJECT": {
+                    "term": {
+                      "type": "PROJECT"
+                    }
+                  },
+                  "AWARD": {
+                    "term": {
+                      "type": "AWARD"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "year": {
+          "filter": {
+            "bool": {
+              "filter": [
+                {
+                  "term": {
+                    "type": "PAPER"
+                  }
+                },
+                {
+                  "term": {
+                    "fieldIds": "21"
+                  }
+                },
+                {
+                  "term": {
+                    "institutionIds": "31"
+                  }
+                }
+              ]
+            }
+          },
+          "aggs": {
+            "options": {
+              "terms": {
+                "field": "year",
+                "size": 50,
+                "order": {
+                  "_key": "desc"
+                }
+              }
+            }
+          }
+        },
+        "field": {
+          "filter": {
+            "bool": {
+              "filter": [
+                {
+                  "term": {
+                    "type": "PAPER"
+                  }
+                },
+                {
+                  "range": {
+                    "year": {
+                      "gte": 2024,
+                      "lte": 2026
+                    }
+                  }
+                },
+                {
+                  "term": {
+                    "institutionIds": "31"
+                  }
+                }
+              ]
+            }
+          },
+          "aggs": {
+            "options": {
+              "terms": {
+                "field": "fieldIds",
+                "size": 20,
+                "show_term_doc_count_error": true
+              }
+            }
+          }
+        },
+        "institution": {
+          "filter": {
+            "bool": {
+              "filter": [
+                {
+                  "term": {
+                    "type": "PAPER"
+                  }
+                },
+                {
+                  "range": {
+                    "year": {
+                      "gte": 2024,
+                      "lte": 2026
+                    }
+                  }
+                },
+                {
+                  "term": {
+                    "fieldIds": "21"
+                  }
+                }
+              ]
+            }
+          },
+          "aggs": {
+            "options": {
+              "terms": {
+                "field": "institutionIds",
+                "size": 20,
+                "show_term_doc_count_error": true
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "expected": {
+    "analyzerContains": [
+      "知",
+      "知识",
+      "识图",
+      "图谱",
+      "share"
+    ],
+    "hitsTotal": 4,
+    "orderedWorkIds": [
+      "2",
+      "10",
+      "9007199254740993",
+      "9007199254740995"
+    ],
+    "facetCounts": {
+      "type": {
+        "PAPER": 4,
+        "PATENT": 1,
+        "PROJECT": 0,
+        "AWARD": 0
+      },
+      "year": {
+        "2025": 2,
+        "2024": 2,
+        "2022": 1
+      },
+      "field": {
+        "21": 4,
+        "22": 2
+      },
+      "institution": {
+        "31": 4,
+        "32": 1
+      }
+    }
+  }
+}

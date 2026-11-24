@@ -1,0 +1,58 @@
+{
+  "settings": {
+    "index.max_result_window": 10000,
+    "analysis": {
+      "filter": {
+        "share_cjk_pairs": {
+          "type": "cjk_bigram",
+          "output_unigrams": true
+        }
+      },
+      "normalizer": {
+        "share_lower": {
+          "type": "custom",
+          "filter": ["lowercase", "trim"]
+        }
+      },
+      "analyzer": {
+        "share_cjk": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["cjk_width", "lowercase", "share_cjk_pairs"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "workId": { "type": "keyword" },
+      "workIdNumber": { "type": "long", "coerce": true, "index": false },
+      "type": { "type": "keyword" },
+      "year": { "type": "short" },
+      "eventDate": { "type": "date", "format": "strict_date" },
+      "sortDate": { "type": "date", "format": "strict_date", "index": false },
+      "title": {
+        "type": "text",
+        "analyzer": "share_cjk",
+        "fields": { "raw": { "type": "keyword", "normalizer": "share_lower", "ignore_above": 1000 } }
+      },
+      "titleSort": { "type": "keyword", "normalizer": "share_lower", "ignore_above": 2048 },
+      "abstract": { "type": "text", "analyzer": "share_cjk" },
+      "keywords": {
+        "type": "text",
+        "analyzer": "share_cjk",
+        "fields": { "raw": { "type": "keyword", "normalizer": "share_lower", "ignore_above": 256 } }
+      },
+      "authorNames": { "type": "text", "analyzer": "share_cjk" },
+      "scholarIds": { "type": "keyword" },
+      "institutionIds": { "type": "keyword" },
+      "fieldIds": { "type": "keyword" },
+      "doi": { "type": "keyword", "normalizer": "share_lower", "ignore_above": 255 },
+      "citationCount": { "type": "integer" },
+      "visible": { "type": "boolean" },
+      "sourceVersion": { "type": "long" },
+      "updatedAt": { "type": "date" }
+    }
+  }
+}
